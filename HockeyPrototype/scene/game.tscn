@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=4 uid="uid://dqh2m1tcbosaq"]
+
+[ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
+[ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
+[ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="4_qpk70"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
+texture = ExtResource("4_qpk70")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dbls1"]
+texture = ExtResource("2_p1ry8")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_dbls1"]
+tile_size = Vector2i(64, 64)
+custom_data_layer_0/name = "index"
+custom_data_layer_0/type = 2
+sources/0 = SubResource("TileSetAtlasSource_5kiuu")
+sources/1 = SubResource("TileSetAtlasSource_dbls1")
+
+[node name="game" type="Node2D"]
+
+[node name="IceMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAADAAMAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_dbls1")
+script = ExtResource("3_xwcet")
