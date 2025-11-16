@@ -6,6 +6,9 @@ var current_cell: Vector2i           # position actuelle du pion
 var is_dragging := false
 var drag_start_cell: Vector2i
 
+const ALT_NORMAL := 0
+const ALT_BLOCKED := 1
+
 @onready var pawn := $"../Pawn"      # adapte le chemin si besoin
 
 func _ready() -> void:
@@ -53,6 +56,8 @@ func _on_mouse_down(global_pos: Vector2) -> void:
 		is_dragging = true
 		drag_start_cell = current_cell
 		# (optionnel) tu peux mettre un petit offset visuel ou animation ici
+		
+	_highlight_unreachable_from(drag_start_cell)	
 
 
 func _on_mouse_drag(global_pos: Vector2) -> void:
@@ -82,3 +87,34 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 	else:
 		# trop loin / diagonale → retour à la case de départ
 		_place_pawn_on_cell(drag_start_cell)
+		
+	_clear_highlight()
+	
+func _highlight_unreachable_from(origin: Vector2i) -> void:
+	for cell in get_used_cells():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+
+		# 1) Si la case n'est pas dans cell_info, on la considère comme non accessible
+		if not cell_info.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+			continue
+
+		# 2) Case bloquée dans ta logique → alternative
+		if cell_info[cell]["blocked"]:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+			continue
+
+		# 3) Case non adjacente → alternative
+		if not _is_adjacent(origin, cell):
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+		else:
+			# Case accessible : rester en normal
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)		
+		
+		
+func _clear_highlight() -> void:
+	for cell in get_used_cells():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+		set_cell(cell, src_id, atlas_coords, ALT_NORMAL)		
