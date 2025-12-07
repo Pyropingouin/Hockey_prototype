@@ -1,5 +1,3 @@
-
-
 extends TileMapLayer
 
 var cell_info: Dictionary = {}
@@ -13,10 +11,10 @@ var active_pawn: Node2D = null
 const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
 
-
+#Signal
 signal pawn_selected(pawn)
 
-
+#OnReady
 @onready var players_container := $"../PlayersContainer"
 
 func _ready() -> void:
