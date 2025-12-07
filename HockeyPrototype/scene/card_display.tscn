@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://cli8otel0gk0i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3nyei"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.0011974465, 0.001197445, 0.0011974436, 1)
+
+[node name="CardDisplay" type="Node2D"]
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 670.0
+offset_top = 5.0
+offset_right = 1156.0
+offset_bottom = 630.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3nyei")
+
+[node name="CardDisplaySprite" type="Sprite2D" parent="."]
+position = Vector2(909, 285)

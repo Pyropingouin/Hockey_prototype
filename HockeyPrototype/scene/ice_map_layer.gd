@@ -13,6 +13,10 @@ var active_pawn: Node2D = null
 const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
 
+
+signal pawn_selected(pawn)
+
+
 @onready var players_container := $"../PlayersContainer"
 
 func _ready() -> void:
@@ -63,6 +67,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_mouse_down(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
 	var cell := local_to_map(mouse_local)
+	
+	
+	
 
 	active_pawn = null
 
@@ -76,6 +83,12 @@ func _on_mouse_down(global_pos: Vector2) -> void:
 		is_dragging = true
 		drag_start_cell = active_pawn.current_cell
 		_highlight_unreachable_from(drag_start_cell)
+		
+		emit_signal("pawn_selected", active_pawn)
+
+		
+		
+		
 
 
 func _on_mouse_drag(global_pos: Vector2) -> void:
