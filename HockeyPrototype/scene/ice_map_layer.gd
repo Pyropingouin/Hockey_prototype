@@ -114,12 +114,12 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 		active_pawn = null
 		return
 
-	# On vérifie la portée et le blocage
-	if _is_in_range(drag_start_cell, target_cell) and not cell_info[target_cell]["blocked"]:
+	var can_move: bool = _is_in_range(drag_start_cell, target_cell) and not cell_info[target_cell]["blocked"] and not _is_cell_occupied(target_cell, active_pawn)
+
+	if can_move:
 		active_pawn.current_cell = target_cell
 		_place_pawn_on_cell(active_pawn, active_pawn.current_cell)
 	else:
-		# trop loin / non autorisé → retour à la case de départ
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
 
 	_clear_highlight()
@@ -154,3 +154,12 @@ func _clear_highlight() -> void:
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 		set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+
+
+func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
+	for p in pawns:
+		if p == ignore_pawn:
+			continue
+		if p.current_cell == cell:
+			return true
+	return false
