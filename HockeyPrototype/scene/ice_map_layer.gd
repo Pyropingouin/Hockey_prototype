@@ -1,7 +1,5 @@
 extends TileMapLayer
 
-var cell_info: Dictionary = {}
-
 var is_dragging := false
 var drag_start_cell: Vector2i
 
@@ -10,20 +8,21 @@ var active_pawn: Node2D = null
 
 const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
+const LAYER_TYPE   := 0
+const LAYER_COST   := 1
+const LAYER_BLOCKED := 2
+
 
 #Signal
 signal pawn_selected(pawn)
 
 #OnReady
 @onready var players_container := $"../PlayersContainer"
+@onready var ts: TileSet = tile_set
+
 
 func _ready() -> void:
-	for cell in get_used_cells():
-		cell_info[cell] = {
-			"type": "ice",
-			"cost": 1,
-			"blocked": false,
-		}
+	
 
 	# Initialiser les pawns
 	for p in players_container.get_children():
@@ -34,7 +33,7 @@ func _ready() -> void:
 		_place_pawn_on_cell(p, p.current_cell)
 
 
-# 👉 maintenant la fonction prend le pawn en paramètre
+#  maintenant la fonction prend le pawn en paramètre
 func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
@@ -105,7 +104,7 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 	var target_cell := local_to_map(mouse_local)
 
 	# On vérifie que la case est dans la grille connue
-	if not cell_info.has(target_cell):
+	if get_cell_source_id(target_cell) == -1:
 		# en dehors de la zone → retour à la case de départ
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
 		_clear_highlight()
@@ -113,15 +112,27 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 		return
 
 	# On vérifie la portée et le blocage
-	if _is_in_range(drag_start_cell, target_cell) and not cell_info[target_cell]["blocked"]:
+	if _is_in_range(drag_start_cell, target_cell) and not _is_blocked(target_cell) and not _is_cell_occupied(target_cell, active_pawn):
 		active_pawn.current_cell = target_cell
 		_place_pawn_on_cell(active_pawn, active_pawn.current_cell)
 	else:
-		# trop loin / non autorisé → retour à la case de départ
+		# trop loin / bloqué / occupé → retour à la case de départ
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
+
 
 	_clear_highlight()
 	active_pawn = null
+	
+	
+	
+	
+func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
+	for p in pawns:
+		if p == ignore_pawn:
+			continue
+		if p.current_cell == cell:
+			return true
+	return false	
 
 
 func _highlight_unreachable_from(origin: Vector2i) -> void:
@@ -129,13 +140,13 @@ func _highlight_unreachable_from(origin: Vector2i) -> void:
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 
-		# 1) Si la case n'est pas dans cell_info, on la considère comme non accessible
-		if not cell_info.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
-			continue
+		## 1) Si la case n'est pas dans cell_info, on la considère comme non accessible
+		#if not cell_info.has(cell):
+			#set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+			#continue
 
 		# 2) Case bloquée dans ta logique → alternative
-		if cell_info[cell]["blocked"]:
+		if _is_blocked(cell):
 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
 			continue
 
@@ -152,3 +163,24 @@ func _clear_highlight() -> void:
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 		set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		
+		
+func _get_custom(cell: Vector2i, layer_name: String):
+	var tile_data = get_cell_tile_data(cell)
+	if tile_data == null:
+		return null
+	return tile_data.get_custom_data(layer_name)
+
+
+func _get_type(cell: Vector2i) -> String:
+	return str(_get_custom(cell, "type"))
+
+func _get_cost(cell: Vector2i) -> int:
+	return int(_get_custom(cell, "cost"))
+
+func _is_blocked(cell: Vector2i) -> bool:
+	return bool(_get_custom(cell, "blocked"))
+
+
+
+	
