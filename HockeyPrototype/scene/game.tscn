@@ -48,6 +48,8 @@ tile_map_data = PackedByteArray("AAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAA
 tile_set = SubResource("TileSet_dbls1")
 script = ExtResource("3_xwcet")
 
+[node name="CostOverlay" type="Node2D" parent="IceMapLayer"]
+
 [node name="PlayersContainer" type="Node" parent="."]
 
 [node name="Pawn" parent="PlayersContainer" instance=ExtResource("4_xwcet")]

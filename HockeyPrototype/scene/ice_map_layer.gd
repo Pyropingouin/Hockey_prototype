@@ -39,6 +39,8 @@ signal pawn_selected(pawn)
 #OnReady
 @onready var players_container := $"../PlayersContainer"
 @onready var ts: TileSet = tile_set
+@onready var cost_overlay: Node2D = $CostOverlay
+
 
 
 func _ready() -> void:
@@ -194,6 +196,7 @@ func _highlight_unreachable_from(origin: Vector2i) -> void:
 		else:
 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
 
+	_show_costs(reachable)
 
 
 func _clear_highlight() -> void:
@@ -201,6 +204,9 @@ func _clear_highlight() -> void:
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 		set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		
+	_clear_cost_overlay()
+	
 		
 		
 		
@@ -253,6 +259,30 @@ func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
 	return reachable
 		
 		
+func _clear_cost_overlay() -> void:
+	for child in cost_overlay.get_children():
+		child.queue_free()
+
+func _show_costs(reachable: Dictionary) -> void:
+	_clear_cost_overlay()
+
+	for cell in reachable.keys():
+		var dist: int = int(reachable[cell])
+		if dist == 0:
+			continue # optionnel: ne pas afficher sur la case de départ
+
+		var label := Label.new()
+		label.text = str(dist)
+
+		# position au centre de la case
+		var local_pos: Vector2 = map_to_local(cell)
+		label.position = local_pos - label.size * 0.5  # petit centrage
+
+		cost_overlay.add_child(label)
+		
+		
+		
+		
 		
 func _get_custom(cell: Vector2i, layer_name: String):
 	var tile_data = get_cell_tile_data(cell)
@@ -294,6 +324,9 @@ func update_occupancy():
 		state.is_occupied = true
 		state.occupied_player_team = pawn.team_id
 		
+	
+	
+	
 	
 ###DEBUG
 func print_map_data():
