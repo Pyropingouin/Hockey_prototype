@@ -5,7 +5,7 @@ class CellState extends RefCounted:
 	var blocked:bool = false
 	var is_occupied: bool = false
 	var is_puck_here: bool = false
-	var occupied_player_team: int = 1
+	var occupied_player_team: int = -1
 	
 	
 	func _to_string() -> String:
@@ -183,26 +183,17 @@ func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
 
 
 func _highlight_unreachable_from(origin: Vector2i) -> void:
-	for cell in get_used_cells():
+	var reachable := _compute_reachable_cells(origin, active_pawn.move_range)
+
+	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 
-		## 1) Si la case n'est pas dans cell_info, on la considère comme non accessible
-		#if not cell_info.has(cell):
-			#set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
-			#continue
-
-		# 2) Case bloquée dans ta logique → alternative
-		if _is_blocked(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
-			continue
-
-		# 3) Case hors portée → alternative
-		if not _is_in_range(origin, cell):
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
-		else:
-			# Case accessible : rester en normal
+		if reachable.has(cell):
 			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+
 
 
 func _clear_highlight() -> void:
@@ -210,6 +201,57 @@ func _clear_highlight() -> void:
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 		set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		
+		
+		
+## Algo Breadth-First Search (BFS)
+func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
+	# Dictionary<Vector2i, int>  (cell -> distance)
+	var reachable: Dictionary = {} # Vector2i -> int
+	var queue: Array[Vector2i] = []
+
+	# Initialisation
+	reachable[origin] = 0
+	queue.append(origin)
+
+	var directions = [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN
+	]
+
+	while queue.size() > 0:
+		var current: Vector2i = queue.pop_front()
+		var current_dist: int = reachable[current]
+
+		for dir in directions:
+			var next: Vector2i = current + dir
+
+			# 1) La cellule doit exister dans la map
+			if not map_data.has(next):
+				continue
+
+			var state: CellState = map_data[next]
+
+			# 2) Mur logique = bloqué OU occupé
+			if state.blocked or state.is_occupied:
+				continue
+
+			# 3) Distance max
+			var next_dist := current_dist + 1
+			if next_dist > max_range:
+				continue
+
+			# 4) Déjà visité avec une meilleure distance
+			if reachable.has(next):
+				continue
+
+			reachable[next] = next_dist
+			queue.append(next)
+
+	return reachable
+		
 		
 		
 func _get_custom(cell: Vector2i, layer_name: String):
