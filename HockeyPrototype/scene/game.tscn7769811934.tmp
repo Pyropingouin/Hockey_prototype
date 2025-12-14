@@ -1,0 +1,66 @@
+[gd_scene load_steps=14 format=4 uid="uid://dqh2m1tcbosaq"]
+
+[ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
+[ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
+[ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="4_qpk70"]
+[ext_resource type="PackedScene" uid="uid://3k4vl80vnul2" path="res://scene/pawn.tscn" id="4_xwcet"]
+[ext_resource type="Texture2D" uid="uid://dwu2mi7ewnbqk" path="res://assets/Bubble_head/CarloMonferato_BubbleHead.png" id="5_xlg7c"]
+[ext_resource type="Texture2D" uid="uid://cbrjyq8posu4q" path="res://assets/personnage/CarloMonferato.png" id="6_ll5lq"]
+[ext_resource type="Texture2D" uid="uid://cjlhywugwo3ok" path="res://assets/Bubble_head/GarenGaspacini_BubbleHead.png" id="7_17rxn"]
+[ext_resource type="Texture2D" uid="uid://bu8bofc3b8wlq" path="res://assets/personnage/GarenGaspacini.png" id="8_yq8tf"]
+[ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="9_17rxn"]
+[ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="10_yq8tf"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
+texture = ExtResource("4_qpk70")
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 3
+0:0/0 = 0
+0:0/0/custom_data_0 = "ice"
+0:0/0/custom_data_1 = 1
+0:0/1 = 1
+0:0/1/modulate = Color(0.27752772, 0.27752772, 0.27752772, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dbls1"]
+texture = ExtResource("2_p1ry8")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/custom_data_0 = "border"
+0:0/0/custom_data_2 = true
+
+[sub_resource type="TileSet" id="TileSet_dbls1"]
+tile_size = Vector2i(64, 64)
+custom_data_layer_0/name = "type"
+custom_data_layer_0/type = 4
+custom_data_layer_1/name = "cost"
+custom_data_layer_1/type = 2
+custom_data_layer_2/name = "blocked"
+custom_data_layer_2/type = 1
+sources/0 = SubResource("TileSetAtlasSource_5kiuu")
+sources/1 = SubResource("TileSetAtlasSource_dbls1")
+
+[node name="game" type="Node2D"]
+
+[node name="IceMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAADAAMAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_dbls1")
+script = ExtResource("3_xwcet")
+
+[node name="PlayersContainer" type="Node" parent="."]
+
+[node name="Pawn" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
+bubbleHeadTexture = ExtResource("5_xlg7c")
+fullBodyTexture = ExtResource("6_ll5lq")
+start_cell = Vector2i(2, 0)
+
+[node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
+bubbleHeadTexture = ExtResource("7_17rxn")
+fullBodyTexture = ExtResource("8_yq8tf")
+
+[node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
+position = Vector2(1, 0)
+script = ExtResource("10_yq8tf")
+
+[connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]

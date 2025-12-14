@@ -1,10 +1,30 @@
 extends TileMapLayer
 
+
+class CellState extends RefCounted:
+	var blocked:bool = false
+	var is_occupied: bool = false
+	var is_puck_here: bool = false
+	var occupied_player_team: int = 1
+	
+	
+	func _to_string() -> String:
+		return "CellState(blocked=%s, is_occupied=%s, puck=%s, team=%d)" % [
+			str(blocked),
+			str(is_occupied),
+			str(is_puck_here),
+			occupied_player_team
+		]
+
 var is_dragging := false
 var drag_start_cell: Vector2i
 
 var pawns: Array = []
 var active_pawn: Node2D = null
+
+
+var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
+
 
 const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
@@ -22,21 +42,41 @@ signal pawn_selected(pawn)
 
 
 func _ready() -> void:
-	
+
+	for cell in get_used_cells():
+		var state := CellState.new()
+		
+
+		
+		var tile_data := get_cell_tile_data(cell)
+		if tile_data :
+			state.blocked = tile_data.get_custom_data("blocked")
+			state.is_occupied = false
+			state.occupied_player_team = -1
+			
+		
+		map_data[cell] = state	
+
+
 
 	# Initialiser les pawns
 	for p in players_container.get_children():
 		pawns.append(p)
 		# Pour l’instant tu mets tout le monde à (0,0)
 		# Plus tard tu pourras donner une case de départ différente à chaque pion
-		p.current_cell = p.start_cell
 		_place_pawn_on_cell(p, p.current_cell)
+		
+		
+	
+	update_occupancy()
+	print_map_data()	
 
 
 #  maintenant la fonction prend le pawn en paramètre
 func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
+
 
 
 func _is_in_range(a: Vector2i, b: Vector2i) -> bool:
@@ -123,16 +163,23 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 	_clear_highlight()
 	active_pawn = null
 	
-	
+	update_occupancy()
 	
 	
 func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
-	for p in pawns:
-		if p == ignore_pawn:
-			continue
-		if p.current_cell == cell:
-			return true
-	return false	
+	
+	if not map_data.has(cell):
+		return false
+
+	# Cas simple : aucune exception
+	if ignore_pawn == null:
+		return map_data[cell].is_occupied
+
+	if ignore_pawn.current_cell == cell:
+		return false
+	
+
+	return map_data[cell].is_occupied
 
 
 func _highlight_unreachable_from(origin: Vector2i) -> void:
@@ -182,5 +229,35 @@ func _is_blocked(cell: Vector2i) -> bool:
 	return bool(_get_custom(cell, "blocked"))
 
 
+func clear_occupancy():
+	for state in map_data.values():
+		state.is_occupied = false
+		state.occupied_player_team = -1
+		
+		
+		
+func update_occupancy():
+	clear_occupancy()
 
+	for pawn in players_container.get_children():
+		if not pawn.has_method("get_current_cell"):
+			continue
+
+		var cell: Vector2i = pawn.get_current_cell()
+
+		if not map_data.has(cell):
+			continue
+
+		var state: CellState = map_data[cell]
+		state.is_occupied = true
+		state.occupied_player_team = pawn.team_id
+		
 	
+###DEBUG
+func print_map_data():
+	print("=== MAP DATA DUMP ===")
+	print("Cell count:", map_data.size())
+
+	for cell in map_data.keys():
+		var state: CellState = map_data[cell]
+		print(cell, "=>", state)	
