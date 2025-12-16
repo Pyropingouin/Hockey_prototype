@@ -55,14 +55,38 @@ script = ExtResource("3_xwcet")
 [node name="Pawn" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("5_xlg7c")
 fullBodyTexture = ExtResource("6_ll5lq")
+move_range = 3
 start_cell = Vector2i(2, 0)
+team_id = 2
 
 [node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("7_17rxn")
 fullBodyTexture = ExtResource("8_yq8tf")
+team_id = 1
 
 [node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
 position = Vector2(1, 0)
 script = ExtResource("10_yq8tf")
+
+[node name="Move" type="Label" parent="CardDisplay"]
+offset_left = 698.0
+offset_top = 548.0
+offset_right = 745.0
+offset_bottom = 571.0
+text = "MOVE"
+
+[node name="Strength" type="Label" parent="CardDisplay"]
+offset_left = 852.0
+offset_top = 548.0
+offset_right = 935.0
+offset_bottom = 571.0
+text = "STRENGTH"
+
+[node name="Reflex" type="Label" parent="CardDisplay"]
+offset_left = 1026.0
+offset_top = 548.0
+offset_right = 1082.0
+offset_bottom = 571.0
+text = "REFLEX"
 
 [connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]
