@@ -38,8 +38,10 @@ signal pawn_selected(pawn)
 
 #OnReady
 @onready var players_container := $"../PlayersContainer"
+@onready var puck := $"../Puck"
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
+
 
 
 
@@ -66,9 +68,11 @@ func _ready() -> void:
 		pawns.append(p)
 		# Pour l’instant tu mets tout le monde à (0,0)
 		# Plus tard tu pourras donner une case de départ différente à chaque pion
+		print(p.name, p.current_cell, p.start_cell)
 		_place_pawn_on_cell(p, p.current_cell)
 		
-		
+	
+	_place_puck_on_cell(puck, puck.current_cell)	
 	
 	update_occupancy()
 	print_map_data()	
@@ -78,6 +82,12 @@ func _ready() -> void:
 func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
+	
+	
+func _place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
+	var local_pos = map_to_local(cell)
+	puck_node.global_position = to_global(local_pos)
+		
 
 
 
@@ -305,12 +315,14 @@ func clear_occupancy():
 	for state in map_data.values():
 		state.is_occupied = false
 		state.occupied_player_team = -1
+		state.is_puck_here = false
 		
 		
 		
 func update_occupancy():
 	clear_occupancy()
 
+   #Pawn
 	for pawn in players_container.get_children():
 		if not pawn.has_method("get_current_cell"):
 			continue
@@ -324,7 +336,11 @@ func update_occupancy():
 		state.is_occupied = true
 		state.occupied_player_team = pawn.team_id
 		
-	
+	#Puck
+	if puck != null and puck.has_method("get_current_cell"):
+		var puck_cell: Vector2i = puck.get_current_cell()
+		if map_data.has(puck_cell):
+			map_data[puck_cell].is_puck_here = true
 	
 	
 	

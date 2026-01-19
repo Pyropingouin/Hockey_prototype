@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
+@export var hasPuck: bool = false
 @export var start_cell: Vector2i = Vector2i(0, 0):
 	set(value):
 		start_cell = value
