@@ -49,5 +49,7 @@ func pick_up_puck(pawn) -> void:
 	
 	if hasPuck == true:
 		ring.modulate = Color.YELLOW
+		
+		
 	
 	
