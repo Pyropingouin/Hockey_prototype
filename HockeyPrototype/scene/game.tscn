@@ -93,5 +93,8 @@ text = "REFLEX"
 [node name="Puck" parent="." instance=ExtResource("11_ym5sv")]
 position = Vector2(1, 5)
 start_cell = Vector2i(2, 0)
+isPickedUp = false
+team_id = 0
 
 [connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]
+[connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]

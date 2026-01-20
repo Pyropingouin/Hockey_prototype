@@ -35,6 +35,8 @@ const LAYER_BLOCKED := 2
 
 #Signal
 signal pawn_selected(pawn)
+signal puck_is_picked_up(pawn)
+
 
 #OnReady
 @onready var players_container := $"../PlayersContainer"
@@ -172,6 +174,7 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
 
 
+	_check_for_puck_on_ice(target_cell, active_pawn)
 	_clear_highlight()
 	active_pawn = null
 	
@@ -343,7 +346,23 @@ func update_occupancy():
 			map_data[puck_cell].is_puck_here = true
 	
 	
+
+func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
+	if map_data[cell_to_check].is_puck_here:
+		print("puck here")
+		
+		emit_signal("puck_is_picked_up", pawn)
+		
+		
 	
+	
+		#pawn.hasPuck = true
+		
+	
+
+	
+	
+		
 ###DEBUG
 func print_map_data():
 	print("=== MAP DATA DUMP ===")
