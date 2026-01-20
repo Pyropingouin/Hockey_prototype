@@ -70,7 +70,13 @@ func _ready() -> void:
 		pawns.append(p)
 		# Pour l’instant tu mets tout le monde à (0,0)
 		# Plus tard tu pourras donner une case de départ différente à chaque pion
+		
 		print(p.name, p.current_cell, p.start_cell)
+		
+		# Connexion dynamique
+		if p.has_method("pick_up_puck"):
+			connect("puck_is_picked_up", Callable(p, "pick_up_puck"))
+		
 		_place_pawn_on_cell(p, p.current_cell)
 		
 	
@@ -348,21 +354,18 @@ func update_occupancy():
 	
 
 func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
+	if not map_data.has(cell_to_check):
+		return
+	
+	
 	if map_data[cell_to_check].is_puck_here:
 		print("puck here")
 		
 		emit_signal("puck_is_picked_up", pawn)
 		
+		map_data[cell_to_check].is_puck_here = false
 		
-	
-	
-		#pawn.hasPuck = true
-		
-	
 
-	
-	
-		
 ###DEBUG
 func print_map_data():
 	print("=== MAP DATA DUMP ===")

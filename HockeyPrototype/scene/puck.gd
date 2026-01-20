@@ -18,7 +18,5 @@ func get_current_cell() -> Vector2i:
 
 
 func _on_ice_map_layer_puck_is_picked_up(pawn: Variant) -> void:
-	
-	
 	isPickedUp = true
 	sprite.visible = false

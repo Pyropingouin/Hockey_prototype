@@ -39,4 +39,15 @@ func get_current_cell() -> Vector2i:
 	return current_cell
 	
 	
+func pick_up_puck(pawn) -> void:
+	if pawn != self:
+		return
+	
+	
+	hasPuck = true
+	print(name, " a ramassé la puck")	
+	
+	if hasPuck == true:
+		ring.modulate = Color.YELLOW
+	
 	
