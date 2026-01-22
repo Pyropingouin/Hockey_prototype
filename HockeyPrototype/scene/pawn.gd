@@ -1,15 +1,30 @@
 extends CharacterBody2D  
 
+#TODO Ajouter des méthode shoot, plaque, pass....
+
 @export var bubbleHeadTexture: Texture2D
 @export var fullBodyTexture: Texture2D
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
-@export var hasPuck: bool = false
 @export var team_id: int = 0
 @onready var sprite: Sprite2D = $Sprite2D
 #DEBUG FOR TEAMS
 @onready var ring: Sprite2D = $Ring
+
+
+# --- hasPuck avec setter ---
+var _hasPuck: bool = false
+@export var hasPuck: bool:
+	get:
+		return _hasPuck
+	set(value):
+		if _hasPuck == value:
+			return
+		_hasPuck = value
+		_update_ring_color()
+
+
 
 var _start_cell: Vector2i = Vector2i.ZERO
 
@@ -71,4 +86,15 @@ func _on_current_cell_changed():
 	if hasPuck:
 		emit_signal("hold_puck_is_moving", _current_cell)
 	
+	
+func _update_ring_color() -> void:
+	if ring == null:
+		return
+
+	if hasPuck:
+		ring.modulate = Color.YELLOW
+	else:
+		ring.modulate = Color.RED if team_id == 1 else Color.BLUE
+		
+		
 	

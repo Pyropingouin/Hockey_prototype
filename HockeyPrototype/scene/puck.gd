@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+#TODO changer la valeur de isPickUp selon une variable getter setter
+#TODO écouteur ce changer et faire apparaitre la puck kkpart 
+
 @export var start_cell: Vector2i = Vector2i(0, 0):
 	set(value):
 		start_cell = value
