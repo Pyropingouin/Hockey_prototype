@@ -112,21 +112,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	# 1) Clic / relâche
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			_on_mouse_down(event.position)
+			_on_left_mouse_down(event.position)
 		else:
-			_on_mouse_up(event.position)
+			_on_left_mouse_up(event.position)
+			
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.pressed:
+			_on_right_mouse_down(event.position)
+		else: 
+			_on_right_mouse_up(event.position)			
 
 	# 2) Mouvement pendant drag
 	if event is InputEventMouseMotion and is_dragging:
 		_on_mouse_drag(event.position)
 
 
-func _on_mouse_down(global_pos: Vector2) -> void:
+func _on_left_mouse_down(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
 	var cell := local_to_map(mouse_local)
-	
-	
-	
 
 	active_pawn = null
 
@@ -143,18 +146,8 @@ func _on_mouse_down(global_pos: Vector2) -> void:
 		
 		emit_signal("pawn_selected", active_pawn)
 
-		
-		
-		
 
-
-func _on_mouse_drag(global_pos: Vector2) -> void:
-	# Le pion sélectionné suit la souris
-	if active_pawn != null:
-		active_pawn.global_position = global_pos
-
-
-func _on_mouse_up(global_pos: Vector2) -> void:
+func _on_left_mouse_up(global_pos: Vector2) -> void:
 	if not is_dragging or active_pawn == null:
 		return
 
@@ -185,6 +178,42 @@ func _on_mouse_up(global_pos: Vector2) -> void:
 	active_pawn = null
 	
 	update_occupancy()
+	
+	
+func _on_right_mouse_down(global_pos: Vector2) -> void:
+	var mouse_local := to_local(global_pos)
+	var cell := local_to_map(mouse_local)
+
+	active_pawn = null
+
+	# On cherche s'il y a un pion sur cette case
+	for p in pawns:
+		if p.current_cell == cell:
+			active_pawn = p
+			break
+			
+			
+	print (active_pawn)
+	
+	active_pawn.hasPuck=false		
+
+	#if active_pawn != null:
+		#is_dragging = true
+		#drag_start_cell = active_pawn.current_cell
+		#_highlight_unreachable_from(drag_start_cell)
+		#
+		#emit_signal("pawn_selected", active_pawn)
+		
+		
+func _on_right_mouse_up(global_pos: Vector2) -> void:
+	print ("left up")
+	print (global_pos)		
+	
+func _on_mouse_drag(global_pos: Vector2) -> void:
+	# Le pion sélectionné suit la souris
+	if active_pawn != null:
+		active_pawn.global_position = global_pos
+	
 	
 	
 func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:

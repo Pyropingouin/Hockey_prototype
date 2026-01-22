@@ -5,8 +5,6 @@ extends CharacterBody2D
 		start_cell = value
 		current_cell = value
 @export var isPickedUp: bool = false
-@export var carrier: Node2D = null
-
 @onready var sprite: Sprite2D = $Sprite2D
 
 var current_cell = start_cell
@@ -16,8 +14,6 @@ var current_cell = start_cell
 func _process(_delta: float) -> void:
 	pass
 	#print(current_cell)
-
-
 
 func get_current_cell() -> Vector2i:
 	return current_cell
