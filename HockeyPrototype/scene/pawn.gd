@@ -6,23 +6,41 @@ extends CharacterBody2D
 @export var strength: int = 2
 @export var reflex: int = 3
 @export var hasPuck: bool = false
-@export var start_cell: Vector2i = Vector2i(0, 0):
-	set(value):
-		start_cell = value
-		current_cell = value
 @export var team_id: int = 0
-
-var current_cell = start_cell
-
-
 @onready var sprite: Sprite2D = $Sprite2D
-
 #DEBUG FOR TEAMS
 @onready var ring: Sprite2D = $Ring
+
+var _start_cell: Vector2i = Vector2i.ZERO
+
+
+@export var start_cell: Vector2i:
+	get:
+		return _start_cell
+	set(value):
+		_start_cell = value
+		current_cell = value   # passe par le setter de current_cell
+		
+		
+		
+var _current_cell: Vector2i = Vector2i.ZERO
+var current_cell: Vector2i:
+	get:
+		return _current_cell
+	set(value):
+		if _current_cell == value:
+			return
+		_current_cell = value
+		_on_current_cell_changed()
+
+signal hold_puck_is_moving
+
 
 
 
 func _ready():
+	current_cell = start_cell
+
 
 	if bubbleHeadTexture:
 		sprite.texture = bubbleHeadTexture
@@ -43,13 +61,14 @@ func pick_up_puck(pawn) -> void:
 	if pawn != self:
 		return
 	
-	
 	hasPuck = true
 	print(name, " a ramassé la puck")	
 	
 	if hasPuck == true:
 		ring.modulate = Color.YELLOW
 		
-		
+func _on_current_cell_changed():
+	if hasPuck:
+		emit_signal("hold_puck_is_moving", _current_cell)
 	
 	
