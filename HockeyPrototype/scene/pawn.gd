@@ -97,4 +97,9 @@ func _update_ring_color() -> void:
 		ring.modulate = Color.RED if team_id == 1 else Color.BLUE
 		
 		
-	
+func _shoot() -> void:
+	if hasPuck:
+		hasPuck = false
+		print("shoot!")	
+	else: 
+		print("I dont have the puck")	

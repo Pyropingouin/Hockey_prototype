@@ -194,8 +194,10 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 			
 			
 	print (active_pawn)
+
+	#p-t menu contextuel éventuellement au lieu de juste caller shoot
 	
-	active_pawn.hasPuck=false		
+	active_pawn._shoot()		
 
 	#if active_pawn != null:
 		#is_dragging = true

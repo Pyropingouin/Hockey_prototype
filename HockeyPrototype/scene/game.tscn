@@ -57,21 +57,13 @@ script = ExtResource("3_xwcet")
 bubbleHeadTexture = ExtResource("5_xlg7c")
 fullBodyTexture = ExtResource("6_ll5lq")
 move_range = 3
-strength = null
-reflex = null
-puckInPossession = null
 team_id = 2
 start_cell = Vector2i(0, 1)
 
 [node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("7_17rxn")
 fullBodyTexture = ExtResource("8_yq8tf")
-move_range = null
-strength = null
-reflex = null
-puckInPossession = null
 team_id = 1
-start_cell = null
 
 [node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
 position = Vector2(1, 0)
