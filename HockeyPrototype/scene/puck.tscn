@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://40rq7tisbrq8"]
+
+[ext_resource type="Texture2D" uid="uid://bek1qy8xpmru4" path="res://assets/Ice_hockey_puck.png" id="1_brc0n"]
+[ext_resource type="Script" uid="uid://5hih23ub0wkx" path="res://scene/puck.gd" id="1_e5w2v"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_brc0n"]
+radius = 10.967229
+height = 40.026485
+
+[node name="Puck" type="CharacterBody2D"]
+script = ExtResource("1_e5w2v")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.04248047, 0.027832031)
+texture = ExtResource("1_brc0n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5865043
+shape = SubResource("CapsuleShape2D_brc0n")

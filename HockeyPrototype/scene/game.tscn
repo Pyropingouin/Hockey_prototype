@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=15 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bu8bofc3b8wlq" path="res://assets/personnage/GarenGaspacini.png" id="8_yq8tf"]
 [ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="9_17rxn"]
 [ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="10_yq8tf"]
+[ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="11_ym5sv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
 texture = ExtResource("4_qpk70")
@@ -56,13 +57,21 @@ script = ExtResource("3_xwcet")
 bubbleHeadTexture = ExtResource("5_xlg7c")
 fullBodyTexture = ExtResource("6_ll5lq")
 move_range = 3
-start_cell = Vector2i(2, 0)
+strength = null
+reflex = null
+puckInPossession = null
 team_id = 2
+start_cell = Vector2i(0, 1)
 
 [node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("7_17rxn")
 fullBodyTexture = ExtResource("8_yq8tf")
+move_range = null
+strength = null
+reflex = null
+puckInPossession = null
 team_id = 1
+start_cell = null
 
 [node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
 position = Vector2(1, 0)
@@ -89,4 +98,10 @@ offset_right = 1082.0
 offset_bottom = 571.0
 text = "REFLEX"
 
+[node name="Puck" parent="." instance=ExtResource("11_ym5sv")]
+position = Vector2(1, 5)
+start_cell = Vector2i(2, 0)
+
 [connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]
+[connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
+[connection signal="hold_puck_is_moving" from="PlayersContainer/Pawn" to="Puck" method="_on_pawn_hold_puck_is_moving"]
