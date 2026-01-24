@@ -58,6 +58,7 @@ signal shooting_puck
 
 func _ready():
 	current_cell = start_cell
+	call_deferred("_auto_connect_to_puck")
 
 
 	if bubbleHeadTexture:
@@ -110,3 +111,20 @@ func _shoot() -> void:
 		
 	else: 
 		print("I dont have the puck")	
+		
+		
+func _auto_connect_to_puck() -> void:
+	var pucks := get_tree().get_nodes_in_group("puck")
+	if pucks.is_empty():
+		return
+
+	var puck := pucks[0]
+
+	# hold_puck_is_moving -> puck
+	if has_signal("hold_puck_is_moving") and puck.has_method("_on_pawn_hold_puck_is_moving"):
+		connect("hold_puck_is_moving", Callable(puck, "_on_pawn_hold_puck_is_moving"))
+
+	# shooting_puck -> puck
+	if has_signal("shooting_puck") and puck.has_method("_on_pawn_shooting_puck"):
+		connect("shooting_puck", Callable(puck, "_on_pawn_shooting_puck"))
+		

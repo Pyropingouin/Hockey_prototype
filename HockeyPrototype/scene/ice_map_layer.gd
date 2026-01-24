@@ -76,6 +76,8 @@ func _ready() -> void:
 		# Connexion dynamique
 		if p.has_method("pick_up_puck"):
 			connect("puck_is_picked_up", Callable(p, "pick_up_puck"))
+			
+	
 		
 		_place_pawn_on_cell(p, p.current_cell)
 		
@@ -395,7 +397,6 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 		emit_signal("puck_is_picked_up", pawn)
 		
 		map_data[cell_to_check].is_puck_here = false
-		
 
 ###DEBUG
 func print_map_data():

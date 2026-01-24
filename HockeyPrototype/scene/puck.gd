@@ -16,9 +16,13 @@ var current_cell = start_cell
 
 @export var team_id: int = 0
 
+
+func _ready():
+	add_to_group("puck")
+
 func _process(_delta: float) -> void:
-	#print(current_cell)
-	pass
+	print(current_cell)
+	
 
 func get_current_cell() -> Vector2i:
 	return current_cell
