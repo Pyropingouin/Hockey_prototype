@@ -201,8 +201,6 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 	_open_context_menu(global_pos)
 	
 
-
-		
 func _on_right_mouse_up(global_pos: Vector2) -> void:
 	print ("left up")
 	print (global_pos)		
@@ -219,6 +217,11 @@ func _open_context_menu(screen_pos: Vector2) -> void:
 	action_menu.add_item("Plaquer", 0)
 	action_menu.add_item("Passer", 1)
 	action_menu.add_item("Shoot", 2)
+	
+	if !active_pawn.hasPuck:
+		action_menu.set_item_disabled(2, true)
+
+		
 
 	action_menu.position = screen_pos
 	action_menu.popup()
