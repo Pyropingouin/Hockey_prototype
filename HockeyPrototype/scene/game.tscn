@@ -94,5 +94,9 @@ text = "REFLEX"
 position = Vector2(1, 5)
 start_cell = Vector2i(2, 0)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PopupMenu" type="PopupMenu" parent="CanvasLayer"]
+
 [connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]

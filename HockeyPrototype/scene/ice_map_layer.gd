@@ -43,11 +43,13 @@ signal puck_is_picked_up(pawn)
 @onready var puck := $"../Puck"
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
+@onready var action_menu = $"../CanvasLayer/PopupMenu"
 
 
 
 
 func _ready() -> void:
+	action_menu.id_pressed.connect(_on_action_menu_pressed)
 
 	for cell in get_used_cells():
 		var state := CellState.new()
@@ -196,19 +198,10 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 			
 			
 	print (active_pawn)
-
-	#p-t menu contextuel éventuellement au lieu de juste caller shoot
+	_open_context_menu(global_pos)
 	
-	active_pawn._shoot()
-	update_occupancy()		
 
-	#if active_pawn != null:
-		#is_dragging = true
-		#drag_start_cell = active_pawn.current_cell
-		#_highlight_unreachable_from(drag_start_cell)
-		#
-		#emit_signal("pawn_selected", active_pawn)
-		
+
 		
 func _on_right_mouse_up(global_pos: Vector2) -> void:
 	print ("left up")
@@ -218,6 +211,30 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 	# Le pion sélectionné suit la souris
 	if active_pawn != null:
 		active_pawn.global_position = global_pos
+	
+	
+func _open_context_menu(screen_pos: Vector2) -> void:
+	action_menu.clear()
+
+	action_menu.add_item("Plaquer", 0)
+	action_menu.add_item("Passer", 1)
+	action_menu.add_item("Shoot", 2)
+
+	action_menu.position = screen_pos
+	action_menu.popup()
+	
+func _on_action_menu_pressed(id: int) -> void:
+	match id:
+		0:
+			print("Plaquage")
+		1:
+			print("Passe")
+		2:
+				## SHOOT HERE
+			print("Shoot")	
+			active_pawn._shoot()
+			update_occupancy()		
+	
 	
 	
 	

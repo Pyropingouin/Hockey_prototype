@@ -106,7 +106,11 @@ func _shoot() -> void:
 		hasPuck = false
 		print("shoot!")
 		
-		var shootPosition: Vector2i = Vector2i(2,2)
+		var rng = RandomNumberGenerator.new()
+		var  x = current_cell.x + rng.randf_range(0, strength)
+		var y = current_cell.y + rng.randf_range(0, reflex)
+		
+		var shootPosition: Vector2i = Vector2i(x,y)
 		emit_signal("shooting_puck", shootPosition)
 		
 	else: 
