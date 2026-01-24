@@ -97,3 +97,4 @@ start_cell = Vector2i(2, 0)
 [connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="hold_puck_is_moving" from="PlayersContainer/Pawn" to="Puck" method="_on_pawn_hold_puck_is_moving"]
+[connection signal="shooting_puck" from="PlayersContainer/Pawn" to="Puck" method="_on_pawn_shooting_puck"]

@@ -405,3 +405,4 @@ func print_map_data():
 	for cell in map_data.keys():
 		var state: CellState = map_data[cell]
 		print(cell, "=>", state)	
+		

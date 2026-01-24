@@ -13,6 +13,8 @@ extends CharacterBody2D
 @onready var ring: Sprite2D = $Ring
 
 
+
+
 # --- hasPuck avec setter ---
 var _hasPuck: bool = false
 @export var hasPuck: bool:
@@ -49,6 +51,7 @@ var current_cell: Vector2i:
 		_on_current_cell_changed()
 
 signal hold_puck_is_moving
+signal shooting_puck
 
 
 
@@ -100,6 +103,10 @@ func _update_ring_color() -> void:
 func _shoot() -> void:
 	if hasPuck:
 		hasPuck = false
-		print("shoot!")	
+		print("shoot!")
+		
+		var shootPosition: Vector2i = Vector2i(2,2)
+		emit_signal("shooting_puck", shootPosition)
+		
 	else: 
 		print("I dont have the puck")	
