@@ -21,7 +21,8 @@ func _ready():
 	add_to_group("puck")
 
 func _process(_delta: float) -> void:
-	print(current_cell)
+	#print(current_cell)
+	pass
 	
 
 func get_current_cell() -> Vector2i:

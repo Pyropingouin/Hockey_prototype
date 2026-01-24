@@ -199,7 +199,8 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 
 	#p-t menu contextuel éventuellement au lieu de juste caller shoot
 	
-	active_pawn._shoot()		
+	active_pawn._shoot()
+	update_occupancy()		
 
 	#if active_pawn != null:
 		#is_dragging = true
@@ -391,12 +392,13 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 		return
 	
 	
-	if map_data[cell_to_check].is_puck_here:
-		print("puck here")
-		
-		emit_signal("puck_is_picked_up", pawn)
-		
-		map_data[cell_to_check].is_puck_here = false
+	if puck.isPickedUp == false :
+		if map_data[cell_to_check].is_puck_here:
+			print("puck here")
+			
+			emit_signal("puck_is_picked_up", pawn)
+			
+			map_data[cell_to_check].is_puck_here = false
 
 ###DEBUG
 func print_map_data():
