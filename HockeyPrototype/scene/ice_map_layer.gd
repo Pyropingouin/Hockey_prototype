@@ -328,6 +328,9 @@ func _do_shoot(target_cell: Vector2i) -> void:
 	# Optionnel: valider une portée de tir (ex: move_range * 2)
 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
 	#     return
+	if _get_pawn_on_cell(target_cell) != null:
+		print("Shoot refusé: case occupée par un pawn.")
+		return
 
 	
 	if action_pawn.has_method("_shoot"):
@@ -344,6 +347,18 @@ func _do_pass(target_cell: Vector2i) -> void:
 	# Optionnel: valider une portée de tir (ex: move_range * 2)
 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
 	#     return
+	
+	var receiver := _get_pawn_on_cell(target_cell)
+
+	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
+	if receiver == null:
+		print("Passe refusée: aucun pawn sur la case visée.")
+		return
+
+	# (optionnel) éviter de se passer à soi-même
+	if receiver == action_pawn:
+		print("Passe refusée: tu ne peux pas te passer à toi-même.")
+		return
 
 	
 	if action_pawn.has_method("_pass"):
