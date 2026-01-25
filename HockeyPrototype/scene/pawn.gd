@@ -101,16 +101,11 @@ func _update_ring_color() -> void:
 		ring.modulate = Color.RED if team_id == 1 else Color.BLUE
 		
 		
-func _shoot() -> void:
+func _shoot(shootPosition) -> void:
 	if hasPuck:
 		hasPuck = false
-		print("shoot!")
-		
-		var rng = RandomNumberGenerator.new()
-		var  x = current_cell.x + rng.randf_range(0, strength)
-		var y = current_cell.y + rng.randf_range(0, reflex)
-		
-		var shootPosition: Vector2i = Vector2i(x,y)
+		print("_shoot player!")
+	
 		emit_signal("shooting_puck", shootPosition)
 		
 	else: 

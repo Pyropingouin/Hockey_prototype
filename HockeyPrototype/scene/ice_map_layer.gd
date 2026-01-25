@@ -1,5 +1,10 @@
 extends TileMapLayer
 
+enum ActionMode { NONE, SHOOT, PASS, TACKLE }
+var action_mode: ActionMode = ActionMode.NONE
+var action_pawn: Node2D = null
+var action_origin_cell: Vector2i = Vector2i.ZERO
+
 
 class CellState extends RefCounted:
 	var blocked:bool = false
@@ -118,13 +123,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.pressed:
 			_on_left_mouse_down(event.position)
 		else:
-			_on_left_mouse_up(event.position)
+			_on_left_mouse_up(event.position)		
 			
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
 		if event.pressed:
 			_on_right_mouse_down(event.position)
 		else: 
-			_on_right_mouse_up(event.position)			
+			_on_right_mouse_up(event.position)	
+			
+	if event.is_action_pressed("ui_cancel") and action_mode != ActionMode.NONE:
+		_cancel_action_mode()
+		return
+				
 
 	# 2) Mouvement pendant drag
 	if event is InputEventMouseMotion and is_dragging:
@@ -134,6 +144,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_left_mouse_down(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
 	var cell := local_to_map(mouse_local)
+	
+	if action_mode != ActionMode.NONE:
+		_handle_action_click(global_pos)
+		return
 
 	active_pawn = null
 
@@ -235,11 +249,71 @@ func _on_action_menu_pressed(id: int) -> void:
 		2:
 				## SHOOT HERE
 			print("Shoot")	
-			active_pawn._shoot()
-			update_occupancy()		
+			_start_action_shoot()
 	
 	
 	
+	
+func _start_action_shoot() -> void:
+	if active_pawn == null or not active_pawn.hasPuck:
+		return
+
+	action_mode = ActionMode.SHOOT
+	action_pawn = active_pawn
+	action_origin_cell = active_pawn.current_cell
+
+	# Optionnel: highlight les cases visables / portées de tir
+	# _highlight_shoot_targets(action_origin_cell)
+
+	# Ferme le menu
+	action_menu.hide()
+	
+	
+func _handle_action_click(global_pos: Vector2) -> void:
+	var mouse_local := to_local(global_pos)
+	var target_cell := local_to_map(mouse_local)
+
+	# 1) la cellule doit exister
+	if get_cell_source_id(target_cell) == -1:
+		_cancel_action_mode()
+		return
+
+	# 2) selon le mode
+	match action_mode:
+		ActionMode.SHOOT:
+			_do_shoot(target_cell)
+		ActionMode.PASS:
+			pass
+			#_do_pass(target_cell)
+		ActionMode.TACKLE:
+			pass
+			#_do_tackle(target_cell)
+
+func _do_shoot(target_cell: Vector2i) -> void:
+	if action_pawn == null or not action_pawn.hasPuck:
+		_cancel_action_mode()
+		return
+
+	# Optionnel: valider une portée de tir (ex: move_range * 2)
+	# if not _is_in_shoot_range(action_origin_cell, target_cell):
+	#     return
+
+	
+	if action_pawn.has_method("_shoot"):
+		action_pawn._shoot(target_cell)
+	#else:
+		## fallback si tu gardes ton signal direct
+		#action_pawn.emit_signal("shooting_puck", target_cell)
+		#action_pawn.hasPuck = false
+
+	update_occupancy()
+	_cancel_action_mode()
+			
+	
+func _cancel_action_mode() -> void:
+	action_mode = ActionMode.NONE
+	action_pawn = null
+	_clear_highlight() # si tu highlights des cibles	
 	
 func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
 	
