@@ -52,6 +52,7 @@ var current_cell: Vector2i:
 
 signal hold_puck_is_moving
 signal shooting_puck
+signal passing_puck
 
 
 
@@ -111,6 +112,15 @@ func _shoot(shootPosition) -> void:
 	else: 
 		print("I dont have the puck")	
 		
+
+func _pass(passPosition) -> void:
+	if hasPuck:
+		hasPuck = false
+		print("_pass player!")
+		emit_signal("passing_puck", passPosition)
+		
+	else: 
+		print("I dont have the puck")			
 		
 func _auto_connect_to_puck() -> void:
 	var pucks := get_tree().get_nodes_in_group("puck")
@@ -126,4 +136,8 @@ func _auto_connect_to_puck() -> void:
 	# shooting_puck -> puck
 	if has_signal("shooting_puck") and puck.has_method("_on_pawn_shooting_puck"):
 		connect("shooting_puck", Callable(puck, "_on_pawn_shooting_puck"))
+		
+	# passing_puck -> puck
+	if has_signal("passing_puck") and puck.has_method("_on_pawn_passing_puck"):
+		connect("passing_puck", Callable(puck, "_on_pawn_passing_puck"))	
 		

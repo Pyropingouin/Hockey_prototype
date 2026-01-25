@@ -100,13 +100,28 @@ func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
 	
+	update_occupancy()
+	
 	
 func _place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	puck_node.global_position = to_global(local_pos)
+	
+	var pawn_on_cell := _get_pawn_on_cell(cell)
+	if pawn_on_cell != null and puck.isPickedUp == false:
+		emit_signal("puck_is_picked_up", pawn_on_cell)
+		# si tu veux que la puck "disparaisse" du sol immédiatement :
+		puck.isPickedUp = true
+		if map_data.has(cell):
+			map_data[cell].is_puck_here = false
 		
 
-
+func _get_pawn_on_cell(cell: Vector2i) -> Node2D:
+	# tu peux utiliser pawns (ton array) ou players_container.get_children()
+	for p in pawns:
+		if p.current_cell == cell:
+			return p
+	return null
 
 func _is_in_range(a: Vector2i, b: Vector2i) -> bool:
 	if active_pawn == null:
@@ -246,6 +261,7 @@ func _on_action_menu_pressed(id: int) -> void:
 			print("Plaquage")
 		1:
 			print("Passe")
+			_start_pass_shoot()
 		2:
 				## SHOOT HERE
 			print("Shoot")	
@@ -269,6 +285,21 @@ func _start_action_shoot() -> void:
 	action_menu.hide()
 	
 	
+func _start_pass_shoot():
+	if active_pawn == null or not active_pawn.hasPuck:
+		return
+
+	action_mode = ActionMode.PASS
+	action_pawn = active_pawn
+	action_origin_cell = active_pawn.current_cell
+
+	# Optionnel: highlight les cases visables / portées de tir
+	# _highlight_shoot_targets(action_origin_cell)
+
+	# Ferme le menu
+	action_menu.hide()	
+	
+	
 func _handle_action_click(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
 	var target_cell := local_to_map(mouse_local)
@@ -284,7 +315,7 @@ func _handle_action_click(global_pos: Vector2) -> void:
 			_do_shoot(target_cell)
 		ActionMode.PASS:
 			pass
-			#_do_pass(target_cell)
+			_do_pass(target_cell)
 		ActionMode.TACKLE:
 			pass
 			#_do_tackle(target_cell)
@@ -304,6 +335,22 @@ func _do_shoot(target_cell: Vector2i) -> void:
 
 	update_occupancy()
 	_cancel_action_mode()
+	
+func _do_pass(target_cell: Vector2i) -> void:
+	if action_pawn == null or not action_pawn.hasPuck:
+		_cancel_action_mode()
+		return
+
+	# Optionnel: valider une portée de tir (ex: move_range * 2)
+	# if not _is_in_shoot_range(action_origin_cell, target_cell):
+	#     return
+
+	
+	if action_pawn.has_method("_pass"):
+		action_pawn._pass(target_cell)
+
+	update_occupancy()
+	_cancel_action_mode()	
 			
 	
 func _cancel_action_mode() -> void:

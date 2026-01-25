@@ -38,11 +38,20 @@ func _on_ice_map_layer_puck_is_picked_up(pawn: Variant) -> void:
 func _on_pawn_hold_puck_is_moving(pawn_position: Vector2i) -> void:
 	current_cell = pawn_position
 
-func _on_pawn_shooting_puck(newPuckPosition) -> void:
-	print("IN PUCK", newPuckPosition)
+func _on_pawn_shooting_puck(newShootPosition) -> void:
+	print("IN PUCK SHOOT", newShootPosition)
 	
-	current_cell = newPuckPosition
+	current_cell = newShootPosition
 	isPickedUp = false
 	## TODO modifier avec un getter/setter sur isPickedUp
+	sprite.visible = true
+	ice_map._place_puck_on_cell(self, current_cell)
+	
+func _on_pawn_passing_puck(newPassPosition) -> void:
+	print("IN PUCK PASS", newPassPosition)
+	
+	current_cell = newPassPosition
+	isPickedUp = false
+		## TODO modifier avec un getter/setter sur isPickedUp
 	sprite.visible = true
 	ice_map._place_puck_on_cell(self, current_cell)
