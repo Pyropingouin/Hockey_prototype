@@ -301,10 +301,6 @@ func _do_shoot(target_cell: Vector2i) -> void:
 	
 	if action_pawn.has_method("_shoot"):
 		action_pawn._shoot(target_cell)
-	#else:
-		## fallback si tu gardes ton signal direct
-		#action_pawn.emit_signal("shooting_puck", target_cell)
-		#action_pawn.hasPuck = false
 
 	update_occupancy()
 	_cancel_action_mode()
