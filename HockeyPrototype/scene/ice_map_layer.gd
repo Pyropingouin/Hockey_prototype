@@ -1,8 +1,9 @@
 extends TileMapLayer
 
-enum ActionMode { NONE, SHOOT, PASS, TACKLE }
+enum ActionMode { NONE, SHOOT, PASS, HIT }
 var action_mode: ActionMode = ActionMode.NONE
 var action_pawn: Node2D = null
+var target_pawn: Node2D = null
 var action_origin_cell: Vector2i = Vector2i.ZERO
 
 
@@ -51,7 +52,9 @@ signal puck_is_picked_up(pawn)
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
 
 
-
+func _process(_delta: float) -> void:
+	#print(active_pawn)
+	pass
 
 func _ready() -> void:
 	action_menu.id_pressed.connect(_on_action_menu_pressed)
@@ -173,9 +176,9 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 			break
 
 	if active_pawn != null:
-		is_dragging = true
-		drag_start_cell = active_pawn.current_cell
-		_highlight_unreachable_from(drag_start_cell)
+		#is_dragging = true
+		#drag_start_cell = active_pawn.current_cell
+		#_highlight_unreachable_from(drag_start_cell)
 		
 		emit_signal("pawn_selected", active_pawn)
 
@@ -194,7 +197,7 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 		# en dehors de la zone → retour à la case de départ
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
 		_clear_highlight()
-		active_pawn = null
+		#active_pawn = null
 		return
 
 	# On vérifie la portée et le blocage
@@ -208,7 +211,7 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	_check_for_puck_on_ice(target_cell, active_pawn)
 	_clear_highlight()
-	active_pawn = null
+	#active_pawn = null
 	
 	update_occupancy()
 	
@@ -217,16 +220,16 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
 	var cell := local_to_map(mouse_local)
 
-	active_pawn = null
+	target_pawn = null
 
-	# On cherche s'il y a un pion sur cette case
+	#On cherche s'il y a un pion sur cette case
 	for p in pawns:
 		if p.current_cell == cell:
-			active_pawn = p
+			target_pawn = p
 			break
 			
 			
-	print (active_pawn)
+	print ("Target_Pawn = ",target_pawn)
 	_open_context_menu(global_pos)
 	
 
@@ -246,10 +249,25 @@ func _open_context_menu(screen_pos: Vector2) -> void:
 	action_menu.add_item("Plaquer", 0)
 	action_menu.add_item("Passer", 1)
 	action_menu.add_item("Shoot", 2)
+	action_menu.add_item("Annulé", 3)
 	
+	
+	if !active_pawn:
+		return
+	
+	#Si le joueur actif n'a pas la puck, il ne peut pas tirer ou passer
 	if !active_pawn.hasPuck:
+		action_menu.set_item_disabled(1, true)
 		action_menu.set_item_disabled(2, true)
 
+	#Si le joueur target est null OU même équipe que active, peut pas plaquer
+	if target_pawn == null || target_pawn.team_id == active_pawn.team_id:
+		action_menu.set_item_disabled(0, true)
+	
+	if target_pawn == null || target_pawn.team_id != active_pawn.team_id:
+		action_menu.set_item_disabled(1, true)
+	
+		
 		
 
 	action_menu.position = screen_pos
@@ -259,13 +277,17 @@ func _on_action_menu_pressed(id: int) -> void:
 	match id:
 		0:
 			print("Plaquage")
+			_start_action_hit()
 		1:
 			print("Passe")
-			_start_pass_shoot()
+			_start_action_pass()
 		2:
-				## SHOOT HERE
 			print("Shoot")	
 			_start_action_shoot()
+		3:
+			print("menu annulé")
+			action_menu.hide()
+				
 	
 	
 	
@@ -285,7 +307,7 @@ func _start_action_shoot() -> void:
 	action_menu.hide()
 	
 	
-func _start_pass_shoot():
+func _start_action_pass():
 	if active_pawn == null or not active_pawn.hasPuck:
 		return
 
@@ -299,6 +321,18 @@ func _start_pass_shoot():
 	# Ferme le menu
 	action_menu.hide()	
 	
+	
+	
+func _start_action_hit():
+	if active_pawn == null or active_pawn.hasPuck:
+		return
+
+	action_mode = ActionMode.HIT
+	action_pawn = active_pawn
+	action_origin_cell = active_pawn.current_cell
+
+	# Ferme le menu
+	action_menu.hide()		
 	
 func _handle_action_click(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
@@ -316,9 +350,9 @@ func _handle_action_click(global_pos: Vector2) -> void:
 		ActionMode.PASS:
 			pass
 			_do_pass(target_cell)
-		ActionMode.TACKLE:
+		ActionMode.HIT:
 			pass
-			#_do_tackle(target_cell)
+			_do_hit(target_cell)
 
 func _do_shoot(target_cell: Vector2i) -> void:
 	if action_pawn == null or not action_pawn.hasPuck:
@@ -366,6 +400,35 @@ func _do_pass(target_cell: Vector2i) -> void:
 
 	update_occupancy()
 	_cancel_action_mode()	
+	
+	
+func _do_hit(target_cell: Vector2i) -> void:
+	if action_pawn == null or action_pawn.hasPuck:
+		_cancel_action_mode()
+		return
+
+	# Optionnel: valider une portée de tir (ex: move_range * 2)
+	# if not _is_in_shoot_range(action_origin_cell, target_cell):
+	#     return
+	
+	var receiver := _get_pawn_on_cell(target_cell)
+
+	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
+	if receiver == null:
+		print("Passe refusée: aucun pawn sur la case visée.")
+		return
+
+	# (optionnel) éviter de se passer à soi-même
+	if receiver == action_pawn:
+		print("Passe refusée: tu ne peux pas te passer à toi-même.")
+		return
+
+	
+	if action_pawn.has_method("_hit"):
+		action_pawn._hit(target_cell)
+
+	update_occupancy()
+	_cancel_action_mode()		
 			
 	
 func _cancel_action_mode() -> void:
