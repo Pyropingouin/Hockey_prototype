@@ -173,9 +173,9 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	active_pawn = _pawn_at_cell(cell)
 
 	if active_pawn != null:
-		#is_dragging = true
-		#drag_start_cell = active_pawn.current_cell
-		#_highlight_unreachable_from(drag_start_cell)
+		is_dragging = true
+		drag_start_cell = active_pawn.current_cell
+		_highlight_unreachable_from(drag_start_cell)
 		
 		emit_signal("pawn_selected", active_pawn)
 
@@ -297,7 +297,7 @@ func _start_action_shoot() -> void:
 	action_origin_cell = active_pawn.current_cell
 
 	# Optionnel: highlight les cases visables / portées de tir
-	# _highlight_shoot_targets(action_origin_cell)
+	_highlight_shoot_targets(action_origin_cell)
 
 	# Ferme le menu
 	action_menu.hide()
@@ -311,8 +311,7 @@ func _start_action_pass():
 	action_pawn = active_pawn
 	action_origin_cell = active_pawn.current_cell
 
-	# Optionnel: highlight les cases visables / portées de tir
-	# _highlight_shoot_targets(action_origin_cell)
+	_highlight_pass_targets(action_origin_cell)
 
 	# Ferme le menu
 	action_menu.hide()	
@@ -341,6 +340,7 @@ func _handle_action_click(global_pos: Vector2) -> void:
 
 	# 2) selon le mode
 	match action_mode:
+		
 		ActionMode.SHOOT:
 			_do_shoot(target_cell)
 		ActionMode.PASS:
@@ -617,7 +617,84 @@ func _pawn_at_cell(cell: Vector2i) -> Node2D:
 		if p.current_cell == cell:
 			return p
 	return null			
+	
+	
+func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
 
+	for cell in map_data.keys():
+		# distance Manhattan
+		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
+		if dist == 0 or dist > max_range:
+			continue
+
+		# mur logique
+		if map_data[cell].blocked:
+			continue
+
+		# OK comme cible
+		targets.append(cell)
+
+	return targets
+	
+	
+func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
+
+	for p in pawns:
+		if p == action_pawn:
+			continue
+
+
+		## TODO Remettre pour équipe
+		# règle équipe (ajuste selon ton gameplay)
+		#if p.team_id != action_pawn.team_id:
+			#continue
+
+		var cell: Vector2i = p.current_cell
+
+		# portée (Manhattan)
+		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
+		if dist > max_range:
+			continue
+
+		# optionnel: pas à travers les murs (si tu veux)
+		# if not _has_line_of_sight(origin, cell):
+		#     continue
+
+		targets.append(cell)
+
+	return targets
+
+	
+func _highlight_shoot_targets(origin: Vector2i) -> void:
+	var range: int = action_pawn.move_range * 2
+	var targets := _compute_shoot_targets(origin, range)
+
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+
+		if targets.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+	
+
+func _highlight_pass_targets(origin: Vector2i) -> void:
+	var range: int = action_pawn.move_range * 2
+	var targets := _compute_pass_targets(origin, range)
+
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+
+		if targets.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+
+	
 ###DEBUG
 func print_map_data():
 	print("=== MAP DATA DUMP ===")
