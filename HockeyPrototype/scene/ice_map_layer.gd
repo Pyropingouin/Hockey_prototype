@@ -6,6 +6,12 @@ var action_pawn: Node2D = null
 var target_pawn: Node2D = null
 var action_origin_cell: Vector2i = Vector2i.ZERO
 
+const DRAG_THRESHOLD_PX := 12.0
+
+var drag_candidate: Node2D = null
+var drag_start_mouse_pos: Vector2 = Vector2.ZERO
+
+
 
 class CellState extends RefCounted:
 	var blocked:bool = false
@@ -155,62 +161,62 @@ func _unhandled_input(event: InputEvent) -> void:
 				
 
 	# 2) Mouvement pendant drag
-	if event is InputEventMouseMotion and is_dragging:
+	if event is InputEventMouseMotion and drag_candidate:
 		_on_mouse_drag(event.position)
 
 
 func _on_left_mouse_down(global_pos: Vector2) -> void:
 	var mouse_local := to_local(global_pos)
 	var cell := local_to_map(mouse_local)
-	
+
 	if action_mode != ActionMode.NONE:
 		_handle_action_click(global_pos)
 		return
 
 	active_pawn = null
+	drag_candidate = _pawn_at_cell(cell)
 
-	# On cherche s'il y a un pion sur cette case
-	active_pawn = _pawn_at_cell(cell)
-
-	if active_pawn != null:
-		is_dragging = true
+	if drag_candidate != null:
+		active_pawn = drag_candidate
 		drag_start_cell = active_pawn.current_cell
-		_highlight_unreachable_from(drag_start_cell)
-		
-		emit_signal("pawn_selected", active_pawn)
+		drag_start_mouse_pos = global_pos
+		is_dragging = false  # IMPORTANT: pas encore en drag
+
 
 
 func _on_left_mouse_up(global_pos: Vector2) -> void:
-	if not is_dragging or active_pawn == null:
+	if active_pawn == null:
+		drag_candidate = null
 		return
 
+	# Cas "clic" (pas assez bougé)
+	if not is_dragging:
+		emit_signal("pawn_selected", active_pawn)  # ou rien, selon ton UX
+		drag_candidate = null
+		return
+
+	# Cas drag réel (ton code actuel)
 	is_dragging = false
+	drag_candidate = null
 
 	var mouse_local := to_local(global_pos)
 	var target_cell := local_to_map(mouse_local)
 
-	# On vérifie que la case est dans la grille connue
 	if get_cell_source_id(target_cell) == -1:
-		# en dehors de la zone → retour à la case de départ
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
 		_clear_highlight()
-		#active_pawn = null
 		return
 
-	# On vérifie la portée et le blocage
 	if _is_in_range(drag_start_cell, target_cell) and not _is_blocked(target_cell) and not _is_cell_occupied(target_cell, active_pawn):
 		active_pawn.current_cell = target_cell
 		_place_pawn_on_cell(active_pawn, active_pawn.current_cell)
 	else:
-		# trop loin / bloqué / occupé → retour à la case de départ
 		_place_pawn_on_cell(active_pawn, drag_start_cell)
-
 
 	_check_for_puck_on_ice(target_cell, active_pawn)
 	_clear_highlight()
-	#active_pawn = null
-	
 	update_occupancy()
+
 	
 	
 func _on_right_mouse_down(global_pos: Vector2) -> void:
@@ -234,10 +240,23 @@ func _on_right_mouse_up(global_pos: Vector2) -> void:
 	print (global_pos)		
 	
 func _on_mouse_drag(global_pos: Vector2) -> void:
-	# Le pion sélectionné suit la souris
-	if active_pawn != null:
-		active_pawn.global_position = global_pos
-	
+	if active_pawn == null:
+		return
+
+	# Si on n'a pas encore commencé le drag, vérifier le threshold
+	if not is_dragging:
+		var dist := drag_start_mouse_pos.distance_to(global_pos)
+		if dist < DRAG_THRESHOLD_PX:
+			return
+
+		# On démarre officiellement le drag ici
+		is_dragging = true
+		_highlight_unreachable_from(drag_start_cell)
+		emit_signal("pawn_selected", active_pawn)
+
+	# Drag actif: le pion suit la souris
+	active_pawn.global_position = global_pos
+
 	
 func _open_context_menu(screen_pos: Vector2) -> void:
 	action_menu.clear()
