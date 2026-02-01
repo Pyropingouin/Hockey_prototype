@@ -170,10 +170,7 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	active_pawn = null
 
 	# On cherche s'il y a un pion sur cette case
-	for p in pawns:
-		if p.current_cell == cell:
-			active_pawn = p
-			break
+	active_pawn = _pawn_at_cell(cell)
 
 	if active_pawn != null:
 		#is_dragging = true
@@ -223,10 +220,9 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 	target_pawn = null
 
 	#On cherche s'il y a un pion sur cette case
-	for p in pawns:
-		if p.current_cell == cell:
-			target_pawn = p
-			break
+	
+	target_pawn = _pawn_at_cell(cell)
+			
 			
 			
 	print ("Target_Pawn = ",target_pawn)
@@ -614,6 +610,13 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 			emit_signal("puck_is_picked_up", pawn)
 			
 			map_data[cell_to_check].is_puck_here = false
+			
+			
+func _pawn_at_cell(cell: Vector2i) -> Node2D:
+	for p in pawns:
+		if p.current_cell == cell:
+			return p
+	return null			
 
 ###DEBUG
 func print_map_data():
