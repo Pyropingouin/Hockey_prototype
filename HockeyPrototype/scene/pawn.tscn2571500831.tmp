@@ -18,7 +18,7 @@ texture = ExtResource("3_08rbq")
 
 [node name="TeamRing" type="Sprite2D" parent="."]
 position = Vector2(-3.0517578e-05, 0)
-scale = Vector2(-0.17882574, 0.18596756)
+scale = Vector2(0.21875, 0.22363281)
 texture = ExtResource("3_08rbq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

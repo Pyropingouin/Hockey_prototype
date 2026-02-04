@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=16 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="9_17rxn"]
 [ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="10_yq8tf"]
 [ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="11_ym5sv"]
+[ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="12_sng2h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
 texture = ExtResource("4_qpk70")
@@ -41,6 +42,9 @@ sources/0 = SubResource("TileSetAtlasSource_5kiuu")
 sources/1 = SubResource("TileSetAtlasSource_dbls1")
 
 [node name="game" type="Node2D"]
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("12_sng2h")
 
 [node name="IceMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -98,5 +102,28 @@ start_cell = Vector2i(2, 0)
 
 [node name="PopupMenu" type="PopupMenu" parent="CanvasLayer"]
 
+[node name="EndTurnButton" type="Button" parent="."]
+offset_left = 67.0
+offset_top = 548.0
+offset_right = 291.0
+offset_bottom = 613.0
+text = "End Turn"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 305.0
+offset_top = 548.0
+offset_right = 439.0
+offset_bottom = 589.0
+text = "Tour de l'équipe :"
+horizontal_alignment = 3
+
+[node name="ActiveTeamLabel" type="Label" parent="."]
+offset_left = 456.0
+offset_top = 548.0
+offset_right = 502.0
+offset_bottom = 578.0
+text = "1"
+
 [connection signal="pawn_selected" from="IceMapLayer" to="CardDisplay" method="_on_ice_map_layer_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
+[connection signal="pressed" from="EndTurnButton" to="GameManager" method="_on_end_turn_button_pressed"]

@@ -13,6 +13,8 @@ var drag_start_mouse_pos: Vector2 = Vector2.ZERO
 
 
 
+
+
 class CellState extends RefCounted:
 	var blocked:bool = false
 	var is_occupied: bool = false
@@ -30,6 +32,8 @@ class CellState extends RefCounted:
 
 var is_dragging := false
 var drag_start_cell: Vector2i
+
+
 
 var pawns: Array = []
 var active_pawn: Node2D = null
@@ -50,12 +54,15 @@ signal pawn_selected(pawn)
 signal puck_is_picked_up(pawn)
 
 
+
 #OnReady
 @onready var players_container := $"../PlayersContainer"
 @onready var puck := $"../Puck"
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
+
+
 
 
 func _process(_delta: float) -> void:
@@ -444,8 +451,7 @@ func _do_hit(target_cell: Vector2i) -> void:
 
 	update_occupancy()
 	_cancel_action_mode()		
-			
-	
+
 func _cancel_action_mode() -> void:
 	action_mode = ActionMode.NONE
 	action_pawn = null

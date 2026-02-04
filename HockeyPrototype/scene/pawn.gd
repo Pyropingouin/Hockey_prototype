@@ -1,7 +1,5 @@
 extends CharacterBody2D  
 
-#TODO Ajouter des méthode shoot, plaque, pass....
-
 @export var bubbleHeadTexture: Texture2D
 @export var fullBodyTexture: Texture2D
 @export var move_range: int = 2
@@ -10,7 +8,10 @@ extends CharacterBody2D
 @export var team_id: int = 0
 @onready var sprite: Sprite2D = $Sprite2D
 #DEBUG FOR TEAMS
-@onready var ring: Sprite2D = $Ring
+@onready var puck_ring: Sprite2D = $PuckRing
+@onready var active_team_ring: Sprite2D = $TeamRing
+
+@onready var GameManager = $"../../GameManager"
 
 
 
@@ -61,17 +62,14 @@ signal hitting_player
 func _ready():
 	current_cell = start_cell
 	call_deferred("_auto_connect_to_puck")
+	
+	GameManager.active_team_changed.connect(_on_active_team_changed)
+	_on_active_team_changed(GameManager.active_team)
+	
 
 
 	if bubbleHeadTexture:
 		sprite.texture = bubbleHeadTexture
-		
-	#DEBUG FOR TEAMS
-	if team_id == 1:
-		ring.modulate = Color.RED
-	#DEBUG FOR TEAMS
-	else:
-		ring.modulate = Color.BLUE	
 		
 
 func get_current_cell() -> Vector2i:
@@ -86,7 +84,7 @@ func pick_up_puck(pawn) -> void:
 	print(name, " a ramassé la puck")	
 	
 	if hasPuck == true:
-		ring.modulate = Color.YELLOW
+		puck_ring.modulate = Color.YELLOW
 		
 func _on_current_cell_changed():
 	if hasPuck:
@@ -94,14 +92,13 @@ func _on_current_cell_changed():
 	
 	
 func _update_ring_color() -> void:
-	if ring == null:
+	if puck_ring == null:
 		return
 
 	if hasPuck:
-		ring.modulate = Color.YELLOW
+		puck_ring.modulate = Color.YELLOW
 	else:
-		ring.modulate = Color.RED if team_id == 1 else Color.BLUE
-		
+		puck_ring.modulate = Color.BLACK
 		
 func _shoot(shootPosition) -> void:
 	if hasPuck:
@@ -135,7 +132,15 @@ func _hit(hitPosition) -> void:
 		
 		
 func _being_hit() -> void:
-	pass			
+	pass
+	
+func _on_active_team_changed(active_team_id: int) -> void:
+	if active_team_id == team_id:
+		active_team_ring.modulate = Color.BLUE
+	else: 	
+		active_team_ring.modulate = Color.RED
+		
+				
 		
 func _auto_connect_to_puck() -> void:
 	var pucks := get_tree().get_nodes_in_group("puck")
