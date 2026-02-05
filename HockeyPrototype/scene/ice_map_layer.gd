@@ -15,6 +15,8 @@ var drag_start_mouse_pos: Vector2 = Vector2.ZERO
 
 
 
+
+
 class CellState extends RefCounted:
 	var blocked:bool = false
 	var is_occupied: bool = false
@@ -61,6 +63,7 @@ signal puck_is_picked_up(pawn)
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
+@onready var GameManager = $"../GameManager"
 
 
 
@@ -182,8 +185,14 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 
 	active_pawn = null
 	drag_candidate = _pawn_at_cell(cell)
+	
+	
+	if drag_candidate.team_id != GameManager.active_team:
+		return	
+
 
 	if drag_candidate != null:
+		
 		active_pawn = drag_candidate
 		drag_start_cell = active_pawn.current_cell
 		drag_start_mouse_pos = global_pos
