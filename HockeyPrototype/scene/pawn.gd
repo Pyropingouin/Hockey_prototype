@@ -12,6 +12,10 @@ extends CharacterBody2D
 @onready var active_team_ring: Sprite2D = $TeamRing
 
 @onready var GameManager = $"../../GameManager"
+@onready var redXLabel = $RedX
+@onready var downLabel = $downLabel
+
+var downCounter: int = 0
 
 
 
@@ -30,6 +34,7 @@ var _hasPuck: bool = false
 
 
 var _start_cell: Vector2i = Vector2i.ZERO
+
 
 
 @export var start_cell: Vector2i:
@@ -132,7 +137,14 @@ func _hit(hitPosition) -> void:
 		
 		
 func _being_hit() -> void:
-	pass
+	downCounter = 2
+	redXLabel.visible = true
+	downLabel.visible = true
+	
+	downLabel.text = str(downCounter) + " tours"
+	
+	
+	
 	
 func _on_active_team_changed(active_team_id: int) -> void:
 	if active_team_id == team_id:
@@ -146,6 +158,8 @@ func _auto_connect_to_puck() -> void:
 	var pucks := get_tree().get_nodes_in_group("puck")
 	if pucks.is_empty():
 		return
+		
+		
 
 	var puck := pucks[0]
 
@@ -162,6 +176,6 @@ func _auto_connect_to_puck() -> void:
 		connect("passing_puck", Callable(puck, "_on_pawn_passing_puck"))
 		
 	# hitting_player -> ???
-	if has_signal("hitting_player") and puck.has_method("_on_pawn_passing_puck"):
-		connect("hitting_player", Callable(puck, "_on_pawn_passing_puck"))		
+	#if has_signal("hitting_player") and pawn.has_method("_being_hit"):
+		#connect("hitting_player", Callable(pawn, "_being_hit"))		
 		
