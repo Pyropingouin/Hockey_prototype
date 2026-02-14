@@ -1,21 +1,14 @@
 extends TileMapLayer
 
-enum ActionMode { NONE, SHOOT, PASS, HIT }
-var action_mode: ActionMode = ActionMode.NONE
+
+
 var action_pawn: Node2D = null
-var target_pawn: Node2D = null
+
 var action_origin_cell: Vector2i = Vector2i.ZERO
 
 const DRAG_THRESHOLD_PX := 12.0
 
-var drag_candidate: Node2D = null
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
-
-
-
-
-
-
 
 class CellState extends RefCounted:
 	var blocked:bool = false
@@ -32,13 +25,11 @@ class CellState extends RefCounted:
 			occupied_player_team
 		]
 
-var is_dragging := false
-var drag_start_cell: Vector2i
 
 
 
 var pawns: Array = []
-var active_pawn: Node2D = null
+
 
 
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
@@ -69,11 +60,11 @@ signal puck_is_picked_up(pawn)
 
 
 func _process(_delta: float) -> void:
-	#print(active_pawn)
+	
 	pass
 
 func _ready() -> void:
-	action_menu.id_pressed.connect(_on_action_menu_pressed)
+	#action_menu.id_pressed.connect(GameManager._on_action_menu_pressed)
 
 	for cell in get_used_cells():
 		var state := CellState.new()
@@ -114,7 +105,86 @@ func _ready() -> void:
 	print_map_data()	
 
 
-#  maintenant la fonction prend le pawn en paramètre
+
+
+
+
+func cell_from_global_pos(global_pos: Vector2) -> Vector2i:
+	var local_pos := to_local(global_pos)
+	return local_to_map(local_pos)
+
+func pawn_at_cell(cell: Vector2i) -> Node2D:
+	for p in pawns:
+		if p.current_cell == cell:
+			return p
+	return null
+
+func cell_exists(cell: Vector2i) -> bool:
+	return get_cell_source_id(cell) != -1
+
+func is_cell_blocked(cell: Vector2i) -> bool:
+	if not map_data.has(cell):
+		return true
+	return map_data[cell].blocked
+
+func is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
+	if not map_data.has(cell):
+		return false
+	if ignore_pawn != null and ignore_pawn.current_cell == cell:
+		return false
+	return map_data[cell].is_occupied
+
+func is_in_move_range(pawn: Node2D, origin: Vector2i, target: Vector2i) -> bool:
+	var d := target - origin
+	var dist: int = abs(d.x) + abs(d.y)
+	return dist <= pawn.move_range
+
+func can_move_pawn_to(pawn: Node2D, origin: Vector2i, target: Vector2i) -> bool:
+	if pawn == null:
+		return false
+	if not cell_exists(target):
+		return false
+	if is_cell_blocked(target):
+		return false
+	if is_cell_occupied(target, pawn):
+		return false
+	if not is_in_move_range(pawn, origin, target):
+		return false
+	return true
+
+func place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
+	# place visuellement + tu peux garder ton update_occupancy() ici
+	var local_pos := map_to_local(cell)
+	pawn.global_position = to_global(local_pos)
+
+func apply_move(pawn: Node2D, origin: Vector2i, target: Vector2i) -> void:
+	# met à jour la donnée + place visuellement + occupancy + puck
+	pawn.current_cell = target
+	place_pawn_on_cell(pawn, target)
+	update_occupancy()
+	_check_for_puck_on_ice(target, pawn)
+
+func reset_move(pawn: Node2D, origin: Vector2i) -> void:
+	pawn.current_cell = origin
+	place_pawn_on_cell(pawn, origin)
+	update_occupancy()
+
+func show_move_reachability(origin: Vector2i, move_range: int) -> void:
+	var reachable := _compute_reachable_cells(origin, move_range)
+
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+
+		if reachable.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+
+	_show_costs(reachable)
+
+
+#   maintenant la fonction prend le pawn en paramètre
 func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
@@ -142,348 +212,39 @@ func _get_pawn_on_cell(cell: Vector2i) -> Node2D:
 			return p
 	return null
 
-func _is_in_range(a: Vector2i, b: Vector2i) -> bool:
-	if active_pawn == null:
-		return false
+# func _is_in_range(a: Vector2i, b: Vector2i) -> bool:
+# 	if active_pawn == null:
+# 		return false
 
-	var delta: Vector2i = b - a
-	var dist: int = abs(delta.x) + abs(delta.y)  # distance "Manhattan"
-	return dist <= active_pawn.move_range
+# 	var delta: Vector2i = b - a
+# 	var dist: int = abs(delta.x) + abs(delta.y)  # distance "Manhattan"
+# 	return dist <= active_pawn.move_range
 	
 
-func _unhandled_input(event: InputEvent) -> void:
-	# 1) Clic / relâche
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_on_left_mouse_down(event.position)
-		else:
-			_on_left_mouse_up(event.position)		
-			
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
-		if event.pressed:
-			_on_right_mouse_down(event.position)
-		else: 
-			_on_right_mouse_up(event.position)	
-			
-	if event.is_action_pressed("ui_cancel") and action_mode != ActionMode.NONE:
-		_cancel_action_mode()
-		return
-				
-
-	# 2) Mouvement pendant drag
-	if event is InputEventMouseMotion and drag_candidate:
-		_on_mouse_drag(event.position)
 
 
-func _on_left_mouse_down(global_pos: Vector2) -> void:
-	var mouse_local := to_local(global_pos)
-	var cell := local_to_map(mouse_local)
-
-	if action_mode != ActionMode.NONE:
-		_handle_action_click(global_pos)
-		return
-
-	active_pawn = null
-	drag_candidate = _pawn_at_cell(cell)
-	
-	
-	if drag_candidate.team_id != GameManager.active_team:
-		return	
-
-
-	if drag_candidate != null:
-		
-		active_pawn = drag_candidate
-		drag_start_cell = active_pawn.current_cell
-		drag_start_mouse_pos = global_pos
-		is_dragging = false  # IMPORTANT: pas encore en drag
-
-
-
-func _on_left_mouse_up(global_pos: Vector2) -> void:
-	if active_pawn == null:
-		drag_candidate = null
-		return
-
-	# Cas "clic" (pas assez bougé)
-	if not is_dragging:
-		emit_signal("pawn_selected", active_pawn)  # ou rien, selon ton UX
-		drag_candidate = null
-		return
-
-	# Cas drag réel (ton code actuel)
-	is_dragging = false
-	drag_candidate = null
-
-	var mouse_local := to_local(global_pos)
-	var target_cell := local_to_map(mouse_local)
-
-	if get_cell_source_id(target_cell) == -1:
-		_place_pawn_on_cell(active_pawn, drag_start_cell)
-		_clear_highlight()
-		return
-
-	if _is_in_range(drag_start_cell, target_cell) and not _is_blocked(target_cell) and not _is_cell_occupied(target_cell, active_pawn):
-		active_pawn.current_cell = target_cell
-		_place_pawn_on_cell(active_pawn, active_pawn.current_cell)
-	else:
-		_place_pawn_on_cell(active_pawn, drag_start_cell)
-
-	_check_for_puck_on_ice(target_cell, active_pawn)
-	_clear_highlight()
-	update_occupancy()
 
 	
-	
-func _on_right_mouse_down(global_pos: Vector2) -> void:
-	var mouse_local := to_local(global_pos)
-	var cell := local_to_map(mouse_local)
 
-	target_pawn = null
 
-	#On cherche s'il y a un pion sur cette case
+# func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
 	
-	target_pawn = _pawn_at_cell(cell)
-			
-			
-			
-	print ("Target_Pawn = ",target_pawn)
-	_open_context_menu(global_pos)
+# 	if not map_data.has(cell):
+# 		return false
+
+# 	# Cas simple : aucune exception
+# 	if ignore_pawn == null:
+# 		return map_data[cell].is_occupied
+
+# 	if ignore_pawn.current_cell == cell:
+# 		return false
 	
 
-func _on_right_mouse_up(global_pos: Vector2) -> void:
-	print ("left up")
-	print (global_pos)		
-	
-func _on_mouse_drag(global_pos: Vector2) -> void:
-	if active_pawn == null:
-		return
-
-	# Si on n'a pas encore commencé le drag, vérifier le threshold
-	if not is_dragging:
-		var dist := drag_start_mouse_pos.distance_to(global_pos)
-		if dist < DRAG_THRESHOLD_PX:
-			return
-
-		# On démarre officiellement le drag ici
-		is_dragging = true
-		_highlight_unreachable_from(drag_start_cell)
-		emit_signal("pawn_selected", active_pawn)
-
-	# Drag actif: le pion suit la souris
-	active_pawn.global_position = global_pos
-
-	
-func _open_context_menu(screen_pos: Vector2) -> void:
-	action_menu.clear()
-
-	action_menu.add_item("Plaquer", 0)
-	action_menu.add_item("Passer", 1)
-	action_menu.add_item("Shoot", 2)
-	action_menu.add_item("Annulé", 3)
-	
-	
-	if !active_pawn:
-		return
-	
-	#Si le joueur actif n'a pas la puck, il ne peut pas tirer ou passer
-	if !active_pawn.hasPuck:
-		action_menu.set_item_disabled(1, true)
-		action_menu.set_item_disabled(2, true)
-
-	#Si le joueur target est null OU même équipe que active, peut pas plaquer
-	if target_pawn == null || target_pawn.team_id == active_pawn.team_id:
-		action_menu.set_item_disabled(0, true)
-	
-	if target_pawn == null || target_pawn.team_id != active_pawn.team_id:
-		action_menu.set_item_disabled(1, true)
-	
-		
-		
-
-	action_menu.position = screen_pos
-	action_menu.popup()
-	
-func _on_action_menu_pressed(id: int) -> void:
-	match id:
-		0:
-			print("Plaquage")
-			_start_action_hit()
-		1:
-			print("Passe")
-			_start_action_pass()
-		2:
-			print("Shoot")	
-			_start_action_shoot()
-		3:
-			print("menu annulé")
-			action_menu.hide()
-				
-	
-	
-	
-	
-func _start_action_shoot() -> void:
-	if active_pawn == null or not active_pawn.hasPuck:
-		return
-
-	action_mode = ActionMode.SHOOT
-	action_pawn = active_pawn
-	action_origin_cell = active_pawn.current_cell
-
-	# Optionnel: highlight les cases visables / portées de tir
-	_highlight_shoot_targets(action_origin_cell)
-
-	# Ferme le menu
-	action_menu.hide()
-	
-	
-func _start_action_pass():
-	if active_pawn == null or not active_pawn.hasPuck:
-		return
-
-	action_mode = ActionMode.PASS
-	action_pawn = active_pawn
-	action_origin_cell = active_pawn.current_cell
-
-	_highlight_pass_targets(action_origin_cell)
-
-	# Ferme le menu
-	action_menu.hide()	
-	
-	
-	
-func _start_action_hit():
-	if active_pawn == null or active_pawn.hasPuck:
-		return
-
-	action_mode = ActionMode.HIT
-	action_pawn = active_pawn
-	action_origin_cell = active_pawn.current_cell
-
-	# Ferme le menu
-	action_menu.hide()		
-	
-func _handle_action_click(global_pos: Vector2) -> void:
-	var mouse_local := to_local(global_pos)
-	var target_cell := local_to_map(mouse_local)
-
-	# 1) la cellule doit exister
-	if get_cell_source_id(target_cell) == -1:
-		_cancel_action_mode()
-		return
-
-	# 2) selon le mode
-	match action_mode:
-		
-		ActionMode.SHOOT:
-			_do_shoot(target_cell)
-		ActionMode.PASS:
-			pass
-			_do_pass(target_cell)
-		ActionMode.HIT:
-			pass
-			_do_hit(target_cell)
-
-func _do_shoot(target_cell: Vector2i) -> void:
-	if action_pawn == null or not action_pawn.hasPuck:
-		_cancel_action_mode()
-		return
-
-	# Optionnel: valider une portée de tir (ex: move_range * 2)
-	# if not _is_in_shoot_range(action_origin_cell, target_cell):
-	#     return
-	if _get_pawn_on_cell(target_cell) != null:
-		print("Shoot refusé: case occupée par un pawn.")
-		return
-
-	
-	if action_pawn.has_method("_shoot"):
-		action_pawn._shoot(target_cell)
-
-	update_occupancy()
-	_cancel_action_mode()
-	
-func _do_pass(target_cell: Vector2i) -> void:
-	if action_pawn == null or not action_pawn.hasPuck:
-		_cancel_action_mode()
-		return
-
-	# Optionnel: valider une portée de tir (ex: move_range * 2)
-	# if not _is_in_shoot_range(action_origin_cell, target_cell):
-	#     return
-	
-	var receiver := _get_pawn_on_cell(target_cell)
-
-	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
-	if receiver == null:
-		print("Passe refusée: aucun pawn sur la case visée.")
-		return
-
-	# (optionnel) éviter de se passer à soi-même
-	if receiver == action_pawn:
-		print("Passe refusée: tu ne peux pas te passer à toi-même.")
-		return
-
-	
-	if action_pawn.has_method("_pass"):
-		action_pawn._pass(target_cell)
-
-	update_occupancy()
-	_cancel_action_mode()	
-	
-	
-func _do_hit(target_cell: Vector2i) -> void:
-	if action_pawn == null or action_pawn.hasPuck:
-		_cancel_action_mode()
-		return
-
-	# Optionnel: valider une portée de tir (ex: move_range * 2)
-	# if not _is_in_shoot_range(action_origin_cell, target_cell):
-	#     return
-	
-	var receiver := _get_pawn_on_cell(target_cell)
-
-	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
-	if receiver == null:
-		print("Passe refusée: aucun pawn sur la case visée.")
-		return
-
-	# (optionnel) éviter de se passer à soi-même
-	if receiver == action_pawn:
-		print("Passe refusée: tu ne peux pas te passer à toi-même.")
-		return
-
-	
-	if action_pawn.has_method("_hit"):
-		action_pawn._hit(target_cell)
-
-	update_occupancy()
-	_cancel_action_mode()		
-
-func _cancel_action_mode() -> void:
-	action_mode = ActionMode.NONE
-	action_pawn = null
-	_clear_highlight() # si tu highlights des cibles	
-	
-func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
-	
-	if not map_data.has(cell):
-		return false
-
-	# Cas simple : aucune exception
-	if ignore_pawn == null:
-		return map_data[cell].is_occupied
-
-	if ignore_pawn.current_cell == cell:
-		return false
-	
-
-	return map_data[cell].is_occupied
+# 	return map_data[cell].is_occupied
 
 
-func _highlight_unreachable_from(origin: Vector2i) -> void:
-	var reachable := _compute_reachable_cells(origin, active_pawn.move_range)
+func highlight_unreachable_from(origin: Vector2i, max_range: int) -> void:
+	var reachable := _compute_reachable_cells(origin, max_range)
 
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
@@ -497,7 +258,8 @@ func _highlight_unreachable_from(origin: Vector2i) -> void:
 	_show_costs(reachable)
 
 
-func _clear_highlight() -> void:
+
+func clear_highlight() -> void:
 	for cell in get_used_cells():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
@@ -508,7 +270,7 @@ func _clear_highlight() -> void:
 		
 		
 		
-## Algo Breadth-First Search (BFS)
+# ## Algo Breadth-First Search (BFS)
 func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
 	# Dictionary<Vector2i, int>  (cell -> distance)
 	var reachable: Dictionary = {} # Vector2i -> int
@@ -646,87 +408,87 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 			map_data[cell_to_check].is_puck_here = false
 			
 			
-func _pawn_at_cell(cell: Vector2i) -> Node2D:
-	for p in pawns:
-		if p.current_cell == cell:
-			return p
-	return null			
+# func _pawn_at_cell(cell: Vector2i) -> Node2D:
+# 	for p in pawns:
+# 		if p.current_cell == cell:
+# 			return p
+# 	return null			
 	
 	
-func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
-	var targets: Array[Vector2i] = []
+# func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+# 	var targets: Array[Vector2i] = []
 
-	for cell in map_data.keys():
-		# distance Manhattan
-		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
-		if dist == 0 or dist > max_range:
-			continue
+# 	for cell in map_data.keys():
+# 		# distance Manhattan
+# 		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
+# 		if dist == 0 or dist > max_range:
+# 			continue
 
-		# mur logique
-		if map_data[cell].blocked:
-			continue
+# 		# mur logique
+# 		if map_data[cell].blocked:
+# 			continue
 
-		# OK comme cible
-		targets.append(cell)
+# 		# OK comme cible
+# 		targets.append(cell)
 
-	return targets
+# 	return targets
 	
 	
-func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
-	var targets: Array[Vector2i] = []
+# func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+# 	var targets: Array[Vector2i] = []
 
-	for p in pawns:
-		if p == action_pawn:
-			continue
+# 	for p in pawns:
+# 		if p == action_pawn:
+# 			continue
 
 
-		## TODO Remettre pour équipe
-		# règle équipe (ajuste selon ton gameplay)
-		#if p.team_id != action_pawn.team_id:
-			#continue
+# 		## TODO Remettre pour équipe
+# 		# règle équipe (ajuste selon ton gameplay)
+# 		#if p.team_id != action_pawn.team_id:
+# 			#continue
 
-		var cell: Vector2i = p.current_cell
+# 		var cell: Vector2i = p.current_cell
 
-		# portée (Manhattan)
-		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
-		if dist > max_range:
-			continue
+# 		# portée (Manhattan)
+# 		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
+# 		if dist > max_range:
+# 			continue
 
-		# optionnel: pas à travers les murs (si tu veux)
-		# if not _has_line_of_sight(origin, cell):
-		#     continue
+# 		# optionnel: pas à travers les murs (si tu veux)
+# 		# if not _has_line_of_sight(origin, cell):
+# 		#     continue
 
-		targets.append(cell)
+# 		targets.append(cell)
 
-	return targets
+# 	return targets
 
 	
-func _highlight_shoot_targets(origin: Vector2i) -> void:
-	var range: int = action_pawn.move_range * 2
-	var targets := _compute_shoot_targets(origin, range)
+# func _highlight_shoot_targets(origin: Vector2i) -> void:
+# 	var range: int = action_pawn.move_range * 2
+# 	var targets := _compute_shoot_targets(origin, range)
 
-	for cell in map_data.keys():
-		var src_id := get_cell_source_id(cell)
-		var atlas_coords := get_cell_atlas_coords(cell)
+# 	for cell in map_data.keys():
+# 		var src_id := get_cell_source_id(cell)
+# 		var atlas_coords := get_cell_atlas_coords(cell)
 
-		if targets.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+# 		if targets.has(cell):
+# 			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+# 		else:
+# 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
 	
 
-func _highlight_pass_targets(origin: Vector2i) -> void:
-	var range: int = action_pawn.move_range * 2
-	var targets := _compute_pass_targets(origin, range)
+# func _highlight_pass_targets(origin: Vector2i) -> void:
+# 	var range: int = action_pawn.move_range * 2
+# 	var targets := _compute_pass_targets(origin, range)
 
-	for cell in map_data.keys():
-		var src_id := get_cell_source_id(cell)
-		var atlas_coords := get_cell_atlas_coords(cell)
+# 	for cell in map_data.keys():
+# 		var src_id := get_cell_source_id(cell)
+# 		var atlas_coords := get_cell_atlas_coords(cell)
 
-		if targets.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+# 		if targets.has(cell):
+# 			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+# 		else:
+# 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
 
 	
 ###DEBUG
