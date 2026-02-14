@@ -25,9 +25,6 @@ class CellState extends RefCounted:
 			occupied_player_team
 		]
 
-
-
-
 var pawns: Array = []
 
 
@@ -212,37 +209,6 @@ func _get_pawn_on_cell(cell: Vector2i) -> Node2D:
 			return p
 	return null
 
-# func _is_in_range(a: Vector2i, b: Vector2i) -> bool:
-# 	if active_pawn == null:
-# 		return false
-
-# 	var delta: Vector2i = b - a
-# 	var dist: int = abs(delta.x) + abs(delta.y)  # distance "Manhattan"
-# 	return dist <= active_pawn.move_range
-	
-
-
-
-
-	
-
-
-# func _is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
-	
-# 	if not map_data.has(cell):
-# 		return false
-
-# 	# Cas simple : aucune exception
-# 	if ignore_pawn == null:
-# 		return map_data[cell].is_occupied
-
-# 	if ignore_pawn.current_cell == cell:
-# 		return false
-	
-
-# 	return map_data[cell].is_occupied
-
-
 func highlight_unreachable_from(origin: Vector2i, max_range: int) -> void:
 	var reachable := _compute_reachable_cells(origin, max_range)
 
@@ -267,58 +233,7 @@ func clear_highlight() -> void:
 		
 	_clear_cost_overlay()
 	
-		
-		
-		
-# ## Algo Breadth-First Search (BFS)
-func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
-	# Dictionary<Vector2i, int>  (cell -> distance)
-	var reachable: Dictionary = {} # Vector2i -> int
-	var queue: Array[Vector2i] = []
-
-	# Initialisation
-	reachable[origin] = 0
-	queue.append(origin)
-
-	var directions = [
-		Vector2i.LEFT,
-		Vector2i.RIGHT,
-		Vector2i.UP,
-		Vector2i.DOWN
-	]
-
-	while queue.size() > 0:
-		var current: Vector2i = queue.pop_front()
-		var current_dist: int = reachable[current]
-
-		for dir in directions:
-			var next: Vector2i = current + dir
-
-			# 1) La cellule doit exister dans la map
-			if not map_data.has(next):
-				continue
-
-			var state: CellState = map_data[next]
-
-			# 2) Mur logique = bloqué OU occupé
-			if state.blocked or state.is_occupied:
-				continue
-
-			# 3) Distance max
-			var next_dist := current_dist + 1
-			if next_dist > max_range:
-				continue
-
-			# 4) Déjà visité avec une meilleure distance
-			if reachable.has(next):
-				continue
-
-			reachable[next] = next_dist
-			queue.append(next)
-
-	return reachable
-		
-		
+	
 func _clear_cost_overlay() -> void:
 	for child in cost_overlay.get_children():
 		child.queue_free()
@@ -340,10 +255,7 @@ func _show_costs(reachable: Dictionary) -> void:
 
 		cost_overlay.add_child(label)
 		
-		
-		
-		
-		
+	
 func _get_custom(cell: Vector2i, layer_name: String):
 	var tile_data = get_cell_tile_data(cell)
 	if tile_data == null:
@@ -408,13 +320,6 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 			map_data[cell_to_check].is_puck_here = false
 			
 			
-# func _pawn_at_cell(cell: Vector2i) -> Node2D:
-# 	for p in pawns:
-# 		if p.current_cell == cell:
-# 			return p
-# 	return null			
-	
-	
 # func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
 # 	var targets: Array[Vector2i] = []
 
@@ -491,6 +396,59 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 # 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
 
 	
+
+
+
+
+
+
+### Algo Breadth-First Search (BFS)
+func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
+	# Dictionary<Vector2i, int>  (cell -> distance)
+	var reachable: Dictionary = {} # Vector2i -> int
+	var queue: Array[Vector2i] = []
+
+	# Initialisation
+	reachable[origin] = 0
+	queue.append(origin)
+
+	var directions = [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN
+	]
+
+	while queue.size() > 0:
+		var current: Vector2i = queue.pop_front()
+		var current_dist: int = reachable[current]
+
+		for dir in directions:
+			var next: Vector2i = current + dir
+
+			# 1) La cellule doit exister dans la map
+			if not map_data.has(next):
+				continue
+
+			var state: CellState = map_data[next]
+
+			# 2) Mur logique = bloqué OU occupé
+			if state.blocked or state.is_occupied:
+				continue
+
+			# 3) Distance max
+			var next_dist := current_dist + 1
+			if next_dist > max_range:
+				continue
+
+			# 4) Déjà visité avec une meilleure distance
+			if reachable.has(next):
+				continue
+
+			reachable[next] = next_dist
+			queue.append(next)
+
+	return reachable	
 ###DEBUG
 func print_map_data():
 	print("=== MAP DATA DUMP ===")
