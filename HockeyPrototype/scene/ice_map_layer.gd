@@ -4,12 +4,6 @@ extends TileMapLayer
 
 var action_pawn: Node2D = null
 
-var action_origin_cell: Vector2i = Vector2i.ZERO
-
-const DRAG_THRESHOLD_PX := 12.0
-
-var drag_start_mouse_pos: Vector2 = Vector2.ZERO
-
 class CellState extends RefCounted:
 	var blocked:bool = false
 	var is_occupied: bool = false
@@ -26,9 +20,6 @@ class CellState extends RefCounted:
 		]
 
 var pawns: Array = []
-
-
-
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
 
 
@@ -40,7 +31,6 @@ const LAYER_BLOCKED := 2
 
 
 #Signal
-signal pawn_selected(pawn)
 signal puck_is_picked_up(pawn)
 
 
@@ -61,7 +51,7 @@ func _process(_delta: float) -> void:
 	pass
 
 func _ready() -> void:
-	#action_menu.id_pressed.connect(GameManager._on_action_menu_pressed)
+	
 
 	for cell in get_used_cells():
 		var state := CellState.new()
@@ -102,13 +92,14 @@ func _ready() -> void:
 	print_map_data()	
 
 
-
-
-
-
 func cell_from_global_pos(global_pos: Vector2) -> Vector2i:
 	var local_pos := to_local(global_pos)
 	return local_to_map(local_pos)
+	
+func get_ice_map_layer_cell_id(cell):
+	return get_cell_source_id(cell)
+	
+	
 
 func pawn_at_cell(cell: Vector2i) -> Node2D:
 	for p in pawns:
@@ -193,7 +184,7 @@ func _place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	puck_node.global_position = to_global(local_pos)
 	
-	var pawn_on_cell := _get_pawn_on_cell(cell)
+	var pawn_on_cell := get_pawn_on_cell(cell)
 	if pawn_on_cell != null and puck.isPickedUp == false:
 		emit_signal("puck_is_picked_up", pawn_on_cell)
 		# si tu veux que la puck "disparaisse" du sol immédiatement :
@@ -202,7 +193,7 @@ func _place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 			map_data[cell].is_puck_here = false
 		
 
-func _get_pawn_on_cell(cell: Vector2i) -> Node2D:
+func get_pawn_on_cell(cell: Vector2i) -> Node2D:
 	# tu peux utiliser pawns (ton array) ou players_container.get_children()
 	for p in pawns:
 		if p.current_cell == cell:
@@ -320,23 +311,7 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 			map_data[cell_to_check].is_puck_here = false
 			
 			
-# func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
-# 	var targets: Array[Vector2i] = []
 
-# 	for cell in map_data.keys():
-# 		# distance Manhattan
-# 		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
-# 		if dist == 0 or dist > max_range:
-# 			continue
-
-# 		# mur logique
-# 		if map_data[cell].blocked:
-# 			continue
-
-# 		# OK comme cible
-# 		targets.append(cell)
-
-# 	return targets
 	
 	
 # func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
@@ -368,18 +343,42 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 # 	return targets
 
 	
-# func _highlight_shoot_targets(origin: Vector2i) -> void:
-# 	var range: int = action_pawn.move_range * 2
-# 	var targets := _compute_shoot_targets(origin, range)
+ 
+func highlight_shoot_targets(origin: Vector2i, action_pawn: Node2D) -> void:
+	var range: int = action_pawn.move_range * 2
+	
+	
+	var targets := _compute_shoot_targets(origin, range)
 
-# 	for cell in map_data.keys():
-# 		var src_id := get_cell_source_id(cell)
-# 		var atlas_coords := get_cell_atlas_coords(cell)
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
 
-# 		if targets.has(cell):
-# 			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-# 		else:
-# 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+		if targets.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+			
+			
+			
+			
+func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
+
+	for cell in map_data.keys():
+ 		# distance Manhattan
+		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
+		if dist == 0 or dist > max_range:
+			continue
+
+ 		# mur logique
+		if map_data[cell].blocked:
+			continue
+
+ 		# OK comme cible
+		targets.append(cell)
+
+	return targets			
 	
 
 # func _highlight_pass_targets(origin: Vector2i) -> void:

@@ -14,6 +14,7 @@ var active_team:
 
 @onready var activeTeamLabel: Label = $"../ActiveTeamLabel"
 @onready var IceMapLayer = $"../IceMapLayer"
+@onready var action_menu = $"../CanvasLayer/PopupMenu"
 
 
 const DRAG_THRESHOLD_PX := 12.0
@@ -25,6 +26,9 @@ var is_dragging := false
 
 
 var target_pawn: Node2D = null
+var action_pawn: Node2D = null
+var action_origin_cell: Vector2i = Vector2i.ZERO
+
 
 var action_mode: ActionMode = ActionMode.NONE
 
@@ -32,11 +36,13 @@ var action_mode: ActionMode = ActionMode.NONE
 enum ActionMode { NONE, SHOOT, PASS, HIT }
 
 signal active_team_changed(active_team_id: int)
+signal pawn_selected(pawn)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	active_team_changed.emit(_active_team)
+	action_menu.id_pressed.connect(_on_action_menu_pressed)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -51,9 +57,6 @@ func _on_end_turn_button_pressed() -> void:
 		
 	activeTeamLabel.text = str(active_team)		
 	
-
-
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	# 1) Clic / relâche
@@ -79,11 +82,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_mouse_drag(event.position)
 
 
-
-
 func _on_left_mouse_down(global_pos: Vector2) -> void:
 	if action_mode != ActionMode.NONE:
-		# _handle_action_click(global_pos)
+		_handle_action_click(global_pos)
 		return
 
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
@@ -130,20 +131,16 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 	
 	
 func _on_right_mouse_down(global_pos: Vector2) -> void:
-	pass
-	# var mouse_local := to_local(global_pos)
-	# var cell := local_to_map(mouse_local)
-
-	# target_pawn = null
-
-	# #On cherche s'il y a un pion sur cette case
 	
-	# target_pawn = _pawn_at_cell(cell)
+	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
+
+	target_pawn = null
+	 #On cherche s'il y a un pion sur cette case
+	target_pawn = IceMapLayer.pawn_at_cell(cell)
+		
 			
-			
-			
-	# print ("Target_Pawn = ",target_pawn)
-	# _open_context_menu(global_pos)
+	print ("Target_Pawn = ",target_pawn)
+	_open_context_menu(global_pos)
 	
 
 func _on_right_mouse_up(global_pos: Vector2) -> void:
@@ -170,101 +167,105 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 
 
 func _cleanup_drag() -> void:
-	active_pawn = null
+	#active_pawn = null
 	drag_candidate = null
 
+func _handle_action_click(global_pos: Vector2) -> void:
+	print("handle action click")
 
+	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
-# func _handle_action_click(global_pos: Vector2) -> void:
-# 	var mouse_local := to_local(global_pos)
-# 	var target_cell := local_to_map(mouse_local)
+ 	# 1) la cellule doit exister
+	if IceMapLayer.get_ice_map_layer_cell_id(target_cell) == -1:
+		_cancel_action_mode()
+		return
 
-# 	# 1) la cellule doit exister
-# 	if get_cell_source_id(target_cell) == -1:
-# 		_cancel_action_mode()
-# 		return
-
-# 	# 2) selon le mode
-# 	match action_mode:
+ 	# 2) selon le mode
+	match action_mode:
 		
-# 		ActionMode.SHOOT:
-# 			_do_shoot(target_cell)
-# 		ActionMode.PASS:
-# 			pass
-# 			_do_pass(target_cell)
-# 		ActionMode.HIT:
-# 			pass
-# 			_do_hit(target_cell)
+		ActionMode.SHOOT:
+			_do_shoot(target_cell)
+		ActionMode.PASS:
+			pass
+			#_do_pass(target_cell)
+		ActionMode.HIT:
+			pass
+			#_do_hit(target_cell)
 
-# func _cancel_action_mode() -> void:
-# 	action_mode = ActionMode.NONE
-# 	action_pawn = null
-# 	IceMapLayer.clear_highlight() # si tu highlights des cibles	
+func _cancel_action_mode() -> void:
+	action_mode = ActionMode.NONE
+	action_pawn = null
+	IceMapLayer.clear_highlight() # si tu highlights des cibles	
 	
 
-
-# func _open_context_menu(screen_pos: Vector2) -> void:
-# 	action_menu.clear()
-
-# 	action_menu.add_item("Plaquer", 0)
-# 	action_menu.add_item("Passer", 1)
-# 	action_menu.add_item("Shoot", 2)
-# 	action_menu.add_item("Annulé", 3)
+func _open_context_menu(screen_pos: Vector2) -> void:
 	
+	action_menu.clear()
 	
-# 	if !active_pawn:
-# 		return
+	action_menu.add_item("Plaquer", 0)
+	action_menu.add_item("Passer", 1)
+	action_menu.add_item("Shoot", 2)
+	action_menu.add_item("Annulé", 3)
 	
-# 	#Si le joueur actif n'a pas la puck, il ne peut pas tirer ou passer
-# 	if !active_pawn.hasPuck:
-# 		action_menu.set_item_disabled(1, true)
-# 		action_menu.set_item_disabled(2, true)
-
-# 	#Si le joueur target est null OU même équipe que active, peut pas plaquer
-# 	if target_pawn == null || target_pawn.team_id == active_pawn.team_id:
-# 		action_menu.set_item_disabled(0, true)
-	
-# 	if target_pawn == null || target_pawn.team_id != active_pawn.team_id:
-# 		action_menu.set_item_disabled(1, true)
-	
+	if !active_pawn:
+		print("pas active pawn")
+		return
 		
+	if !active_pawn.	hasPuck:
+		action_menu.set_item_disabled(1, true)
+		action_menu.set_item_disabled(2, true)
 		
+#Si le joueur target est null OU même équipe que active, peut pas plaquer		
+	if target_pawn == null || target_pawn.team_id == active_pawn.team_id:
+		action_menu.set_item_disabled(0, true)
+	
+	if target_pawn == null || target_pawn.team_id != active_pawn.team_id:
+		action_menu.set_item_disabled(1, true)
 
-# 	action_menu.position = screen_pos
-# 	action_menu.popup()
+	action_menu.position = screen_pos
+	action_menu.popup()
 	
-# func _on_action_menu_pressed(id: int) -> void:
-# 	match id:
-# 		0:
-# 			print("Plaquage")
-# 			_start_action_hit()
-# 		1:
-# 			print("Passe")
-# 			_start_action_pass()
-# 		2:
-# 			print("Shoot")	
-# 			_start_action_shoot()
-# 		3:
-# 			print("menu annulé")
-# 			action_menu.hide()
-				
+func _on_action_menu_pressed(id: int) -> void:
+	print(id)
 	
-	
-	
-	
-# func _start_action_shoot() -> void:
-# 	if active_pawn == null or not active_pawn.hasPuck:
-# 		return
+	match id:
+		0:
+			print("Plaquage")
+			#_start_action_hit()
+		1:
+			print("Pass")
+			#_start_action_pass()	
+		2:
+			print("Shoot")
+			_start_action_shoot()
+			
+		3:
+			print("Menu annulé")
+			action_menu.hide()		
 
-# 	action_mode = ActionMode.SHOOT
-# 	action_pawn = active_pawn
-# 	action_origin_cell = active_pawn.current_cell
+func _start_action_shoot() -> void:
+	print("start shoot")
+	
+	if active_pawn == null or not active_pawn.hasPuck:
+		return
+		
+	
+	action_mode = ActionMode.SHOOT	
+ 		#
+		
+	action_pawn = active_pawn	
+	action_origin_cell = active_pawn.current_cell
 
-# 	# Optionnel: highlight les cases visables / portées de tir
-# 	_highlight_shoot_targets(action_origin_cell)
 
-# 	# Ferme le menu
-# 	action_menu.hide()
+	print("pre eligible", action_origin_cell, action_pawn)
+	
+ 	# Optionnel: highlight les cases visables / portées de tir
+	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn)
+
+ 	# Ferme le menu
+	action_menu.hide()
+ 
+
 	
 	
 # func _start_action_pass():
@@ -294,24 +295,25 @@ func _cleanup_drag() -> void:
 # 	action_menu.hide()		
 	
 
-# func _do_shoot(target_cell: Vector2i) -> void:
-# 	if action_pawn == null or not action_pawn.hasPuck:
-# 		_cancel_action_mode()
-# 		return
+func _do_shoot(target_cell: Vector2i) -> void:
+	print("do_shoot")
+	if action_pawn == null or not action_pawn.hasPuck:
+		_cancel_action_mode()
+		return
 
 # 	# Optionnel: valider une portée de tir (ex: move_range * 2)
-# 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
-# 	#     return
-# 	if _get_pawn_on_cell(target_cell) != null:
-# 		print("Shoot refusé: case occupée par un pawn.")
-# 		return
+ 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
+ 	#     return
+	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
+		print("Shoot refusé: case occupée par un pawn.")
+		return
 
 	
-# 	if action_pawn.has_method("_shoot"):
-# 		action_pawn._shoot(target_cell)
+	if action_pawn.has_method("_shoot"):
+		action_pawn._shoot(target_cell)
 
-# 	update_occupancy()
-# 	_cancel_action_mode()
+	IceMapLayer.update_occupancy()
+	_cancel_action_mode()
 	
 # func _do_pass(target_cell: Vector2i) -> void:
 # 	if action_pawn == null or not action_pawn.hasPuck:
