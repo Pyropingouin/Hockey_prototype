@@ -187,7 +187,7 @@ func _handle_action_click(global_pos: Vector2) -> void:
 			_do_shoot(target_cell)
 		ActionMode.PASS:
 			pass
-			#_do_pass(target_cell)
+			_do_pass(target_cell)
 		ActionMode.HIT:
 			pass
 			#_do_hit(target_cell)
@@ -234,7 +234,7 @@ func _on_action_menu_pressed(id: int) -> void:
 			#_start_action_hit()
 		1:
 			print("Pass")
-			#_start_action_pass()	
+			_start_action_pass()	
 		2:
 			print("Shoot")
 			_start_action_shoot()
@@ -265,21 +265,19 @@ func _start_action_shoot() -> void:
  	# Ferme le menu
 	action_menu.hide()
  
+func _start_action_pass():
+	if active_pawn == null or not active_pawn.hasPuck:
+		return
 
 	
-	
-# func _start_action_pass():
-# 	if active_pawn == null or not active_pawn.hasPuck:
-# 		return
+	action_mode = ActionMode.PASS
+	action_pawn = active_pawn
+	action_origin_cell = active_pawn.current_cell
 
-# 	action_mode = ActionMode.PASS
-# 	action_pawn = active_pawn
-# 	action_origin_cell = active_pawn.current_cell
+	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn)
 
-# 	_highlight_pass_targets(action_origin_cell)
-
-# 	# Ferme le menu
-# 	action_menu.hide()	
+	# Ferme le menu
+	action_menu.hide()	
 	
 	
 	
@@ -315,33 +313,34 @@ func _do_shoot(target_cell: Vector2i) -> void:
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 	
-# func _do_pass(target_cell: Vector2i) -> void:
-# 	if action_pawn == null or not action_pawn.hasPuck:
-# 		_cancel_action_mode()
-# 		return
+func _do_pass(target_cell: Vector2i) -> void:
+	if action_pawn == null or not action_pawn.hasPuck:
+		_cancel_action_mode()
+		return
 
-# 	# Optionnel: valider une portée de tir (ex: move_range * 2)
-# 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
-# 	#     return
+ 	# Optionnel: valider une portée de tir (ex: move_range * 2)
+ 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
+ 	#     return
 	
-# 	var receiver := _get_pawn_on_cell(target_cell)
+	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
-# 	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
-# 	if receiver == null:
-# 		print("Passe refusée: aucun pawn sur la case visée.")
-# 		return
+ 	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
+	if receiver == null:
+		print("Passe refusée: aucun pawn sur la case visée.")
+		return
 
-# 	# (optionnel) éviter de se passer à soi-même
-# 	if receiver == action_pawn:
-# 		print("Passe refusée: tu ne peux pas te passer à toi-même.")
-# 		return
+ 	# (optionnel) éviter de se passer à soi-même
+ 
+	if receiver == action_pawn:
+		print("Passe refusée: tu ne peux pas te passer à toi-même.")
+		return
 
 	
-# 	if action_pawn.has_method("_pass"):
-# 		action_pawn._pass(target_cell)
+	if action_pawn.has_method("_pass"):
+		action_pawn._pass(target_cell)
 
-# 	update_occupancy()
-# 	_cancel_action_mode()	
+	IceMapLayer.update_occupancy()
+	_cancel_action_mode()	
 	
 	
 # func _do_hit(target_cell: Vector2i) -> void:
@@ -353,7 +352,7 @@ func _do_shoot(target_cell: Vector2i) -> void:
 # 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
 # 	#     return
 	
-# 	var receiver := _get_pawn_on_cell(target_cell)
+# 	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
 # 	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
 # 	if receiver == null:

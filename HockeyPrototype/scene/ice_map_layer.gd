@@ -314,33 +314,6 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 
 	
 	
-# func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
-# 	var targets: Array[Vector2i] = []
-
-# 	for p in pawns:
-# 		if p == action_pawn:
-# 			continue
-
-
-# 		## TODO Remettre pour équipe
-# 		# règle équipe (ajuste selon ton gameplay)
-# 		#if p.team_id != action_pawn.team_id:
-# 			#continue
-
-# 		var cell: Vector2i = p.current_cell
-
-# 		# portée (Manhattan)
-# 		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
-# 		if dist > max_range:
-# 			continue
-
-# 		# optionnel: pas à travers les murs (si tu veux)
-# 		# if not _has_line_of_sight(origin, cell):
-# 		#     continue
-
-# 		targets.append(cell)
-
-# 	return targets
 
 	
  
@@ -381,24 +354,49 @@ func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]
 	return targets			
 	
 
-# func _highlight_pass_targets(origin: Vector2i) -> void:
-# 	var range: int = action_pawn.move_range * 2
-# 	var targets := _compute_pass_targets(origin, range)
+func highlight_pass_targets(origin: Vector2i, action_pawn: Node2D) -> void:	
+	var range: int = action_pawn.move_range * 2
+	var targets := _compute_pass_targets(origin, range)
 
-# 	for cell in map_data.keys():
-# 		var src_id := get_cell_source_id(cell)
-# 		var atlas_coords := get_cell_atlas_coords(cell)
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
 
-# 		if targets.has(cell):
-# 			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-# 		else:
-# 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+		if targets.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+			
+			
+			
+func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
 
-	
+	for p in pawns:
+		if p == action_pawn:
+			continue
 
 
+ 		## TODO Remettre pour équipe
+ 		# règle équipe (ajuste selon ton gameplay)
+ 		#if p.team_id != action_pawn.team_id:
+ 			#continue
 
+		var cell: Vector2i = p.current_cell
 
+ 		# portée (Manhattan)
+		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
+		if dist > max_range:
+			continue
+
+ 		# optionnel: pas à travers les murs (si tu veux)
+ 		# if not _has_line_of_sight(origin, cell):
+ 		#     continue
+
+		targets.append(cell)
+
+	return targets
+			
 
 
 ### Algo Breadth-First Search (BFS)
