@@ -190,7 +190,7 @@ func _handle_action_click(global_pos: Vector2) -> void:
 			_do_pass(target_cell)
 		ActionMode.HIT:
 			pass
-			#_do_hit(target_cell)
+			_do_hit(target_cell)
 
 func _cancel_action_mode() -> void:
 	action_mode = ActionMode.NONE
@@ -231,7 +231,7 @@ func _on_action_menu_pressed(id: int) -> void:
 	match id:
 		0:
 			print("Plaquage")
-			#_start_action_hit()
+			_start_action_hit()
 		1:
 			print("Pass")
 			_start_action_pass()	
@@ -281,16 +281,16 @@ func _start_action_pass():
 	
 	
 	
-# func _start_action_hit():
-# 	if active_pawn == null or active_pawn.hasPuck:
-# 		return
+func _start_action_hit():
+	if active_pawn == null or active_pawn.hasPuck:
+		return
 
-# 	action_mode = ActionMode.HIT
-# 	action_pawn = active_pawn
-# 	action_origin_cell = active_pawn.current_cell
+	action_mode = ActionMode.HIT
+	action_pawn = active_pawn
+	action_origin_cell = active_pawn.current_cell
 
-# 	# Ferme le menu
-# 	action_menu.hide()		
+ 	# Ferme le menu
+	action_menu.hide()		
 	
 
 func _do_shoot(target_cell: Vector2i) -> void:
@@ -343,30 +343,33 @@ func _do_pass(target_cell: Vector2i) -> void:
 	_cancel_action_mode()	
 	
 	
-# func _do_hit(target_cell: Vector2i) -> void:
-# 	if action_pawn == null or action_pawn.hasPuck:
-# 		_cancel_action_mode()
-# 		return
+func _do_hit(target_cell: Vector2i) -> void:
+	if action_pawn == null or action_pawn.hasPuck:
+		_cancel_action_mode()
+		return
 
-# 	# Optionnel: valider une portée de tir (ex: move_range * 2)
-# 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
-# 	#     return
+ 	
 	
-# 	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+	var hitTarget: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
-# 	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
-# 	if receiver == null:
-# 		print("Passe refusée: aucun pawn sur la case visée.")
-# 		return
+ 	# Restriction: pass autorisé seulement s'il y a un pawn sur la case visée
+	if hitTarget == null:
+		print("Passe refusée: aucun pawn sur la case visée.")
+		return
 
-# 	# (optionnel) éviter de se passer à soi-même
-# 	if receiver == action_pawn:
-# 		print("Passe refusée: tu ne peux pas te passer à toi-même.")
-# 		return
+ 	# (optionnel) éviter de se plaquer à soi-même
+	if hitTarget == action_pawn:
+		print("Plaquage: tu ne peux pas te plaquer toi-même.")
+		return
 
 	
-# 	if action_pawn.has_method("_hit"):
-# 		action_pawn._hit(target_cell)
+	if action_pawn.has_method("_hit"):
+		action_pawn._hit(target_cell)
+		
+	#TODO ajouter une méthode pour être frapper	
+	#if hitTarget.has_method("_being_hit"):
+		#hitTarget._being_hit(target_cell)
+		
 
-# 	update_occupancy()
-# 	_cancel_action_mode()		
+	IceMapLayer.update_occupancy()
+	_cancel_action_mode()		
