@@ -54,7 +54,7 @@ var current_cell: Vector2i:
 signal hold_puck_is_moving
 signal shooting_puck
 signal passing_puck
-signal hitting_player(hit_cell: Vector2i)
+signal hitting_player(hit_cell: Vector2i, pawn: Node2D)
 
 
 
@@ -63,9 +63,8 @@ signal hitting_player(hit_cell: Vector2i)
 func _ready():
 	current_cell = start_cell
 
-
-	call_deferred("_auto_connect_to_pawns") 
 	call_deferred("_auto_connect_to_puck")
+	call_deferred("_connect_to_other_pawns")
 	
 	GameManager.active_team_changed.connect(_on_active_team_changed)
 	_on_active_team_changed(GameManager.active_team)
@@ -130,23 +129,29 @@ func _hit(hit_cell) -> void:
 	if  not hasPuck:
 		
 		print(name, " tente un hit sur ", hit_cell)
-		emit_signal("hitting_player", hit_cell)
+		emit_signal("hitting_player", hit_cell, self)
 		
 	else: 
 		print("I have the puck, I can't hit")
 		
 		
-func _being_hit() -> void:
+func _being_hit(aggressorPawn: Node2D) -> void:
 	print(name, " a été FRAPPÉ ✅")
+	print(aggressorPawn.name, "aggressor")
+
+	print(aggressorPawn.strength, "Strength")
+
+	if aggressorPawn.strength > self.reflex:
+		self.queue_free()
 	
 	
 
-func _on_other_pawn_hit_attempt(hit_cell: Vector2i) -> void:
+func _on_other_pawn_hit_attempt(hit_cell: Vector2i, aggressorPawn: Node2D) -> void:
 	# Le pawn qui reçoit décide si c'est lui qui est visé
 	if current_cell != hit_cell:
 		return
 
-	_being_hit()
+	_being_hit(aggressorPawn)
 
 
 
@@ -195,13 +200,3 @@ func _auto_connect_to_puck() -> void:
 		connect("passing_puck", Callable(puck, "_on_pawn_passing_puck"))
 		
 	
-# func _auto_connect_to_pawns() -> void :
-# 	var pawns := get_tree().get_nodes_in_group("pawn")
-# 	for p in pawns:
-# 		if p == self: 
-# 			continue
-
-# 	# Call hitting_player en lien avec la méthode _on_other_pawn_hit_attempt() de tout les joueurs. S'ils sont le target, ils vont réagir
-# 		if has_signal("hitting_player") and p.has_method("_on_other_pawn_hit_attempt"):
-# 			connect("hitting_player", Callable(p, "_on_other_pawn_hit_attempt"))
-		
