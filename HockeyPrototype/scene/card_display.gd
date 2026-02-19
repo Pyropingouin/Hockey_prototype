@@ -7,8 +7,7 @@ func _ready():
 		
 	pass
 
-
-func _on_ice_map_layer_pawn_selected(pawn: Variant) -> void:
+func _on_game_manager_pawn_selected(pawn: Variant) -> void:
 	print("Pion Reçu", pawn)
 	print(pawn.hasPuck)
 	

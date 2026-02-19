@@ -15,11 +15,6 @@ extends CharacterBody2D
 @onready var redXLabel = $RedX
 @onready var downLabel = $downLabel
 
-var downCounter: int = 0
-
-
-
-
 # --- hasPuck avec setter ---
 var _hasPuck: bool = false
 @export var hasPuck: bool:
@@ -59,17 +54,22 @@ var current_cell: Vector2i:
 signal hold_puck_is_moving
 signal shooting_puck
 signal passing_puck
-signal hitting_player
+signal hitting_player(hit_cell: Vector2i)
+
 
 
 
 
 func _ready():
 	current_cell = start_cell
+
+
+	call_deferred("_auto_connect_to_pawns") 
 	call_deferred("_auto_connect_to_puck")
 	
 	GameManager.active_team_changed.connect(_on_active_team_changed)
 	_on_active_team_changed(GameManager.active_team)
+
 	
 
 
@@ -126,24 +126,33 @@ func _pass(passPosition) -> void:
 		print("I dont have the puck")
 		
 		
-func _hit(hitPosition) -> void:
+func _hit(hit_cell) -> void:
 	if  not hasPuck:
 		
-		print("_hit player!")
-		emit_signal("hitting_player", hitPosition)
+		print(name, " tente un hit sur ", hit_cell)
+		emit_signal("hitting_player", hit_cell)
 		
 	else: 
 		print("I have the puck, I can't hit")
 		
 		
 func _being_hit() -> void:
-	downCounter = 2
-	redXLabel.visible = true
-	downLabel.visible = true
-	
-	downLabel.text = str(downCounter) + " tours"
+	print(name, " a été FRAPPÉ ✅")
 	
 	
+
+func _on_other_pawn_hit_attempt(hit_cell: Vector2i) -> void:
+	# Le pawn qui reçoit décide si c'est lui qui est visé
+	if current_cell != hit_cell:
+		return
+
+	_being_hit()
+
+
+
+
+
+
 	
 	
 func _on_active_team_changed(active_team_id: int) -> void:
@@ -151,6 +160,16 @@ func _on_active_team_changed(active_team_id: int) -> void:
 		active_team_ring.modulate = Color.BLUE
 	else: 	
 		active_team_ring.modulate = Color.RED
+		
+func _connect_to_other_pawns() -> void:
+	var container = get_parent() #PlayerContainer
+	
+	for p in container.get_children():
+		if p == self:
+			continue
+		
+		if p.has_method("_on_other_pawn_hit_attempt"):
+			connect("hitting_player", Callable(p, "_on_other_pawn_hit_attempt"))
 		
 				
 		
@@ -175,7 +194,14 @@ func _auto_connect_to_puck() -> void:
 	if has_signal("passing_puck") and puck.has_method("_on_pawn_passing_puck"):
 		connect("passing_puck", Callable(puck, "_on_pawn_passing_puck"))
 		
-	# hitting_player -> ???
-	#if has_signal("hitting_player") and pawn.has_method("_being_hit"):
-		#connect("hitting_player", Callable(pawn, "_being_hit"))		
+	
+# func _auto_connect_to_pawns() -> void :
+# 	var pawns := get_tree().get_nodes_in_group("pawn")
+# 	for p in pawns:
+# 		if p == self: 
+# 			continue
+
+# 	# Call hitting_player en lien avec la méthode _on_other_pawn_hit_attempt() de tout les joueurs. S'ils sont le target, ils vont réagir
+# 		if has_signal("hitting_player") and p.has_method("_on_other_pawn_hit_attempt"):
+# 			connect("hitting_player", Callable(p, "_on_other_pawn_hit_attempt"))
 		
