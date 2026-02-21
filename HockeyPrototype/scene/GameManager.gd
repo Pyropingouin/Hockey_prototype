@@ -186,10 +186,8 @@ func _handle_action_click(global_pos: Vector2) -> void:
 		ActionMode.SHOOT:
 			_do_shoot(target_cell)
 		ActionMode.PASS:
-			pass
 			_do_pass(target_cell)
 		ActionMode.HIT:
-			pass
 			_do_hit(target_cell)
 
 func _cancel_action_mode() -> void:
@@ -241,7 +239,9 @@ func _on_action_menu_pressed(id: int) -> void:
 			
 		3:
 			print("Menu annulé")
-			action_menu.hide()		
+			action_menu.hide()
+			_cancel_action_mode()
+
 
 func _start_action_shoot() -> void:
 	print("start shoot")
