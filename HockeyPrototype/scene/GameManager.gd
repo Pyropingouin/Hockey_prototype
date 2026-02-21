@@ -289,6 +289,8 @@ func _start_action_hit():
 	action_pawn = active_pawn
 	action_origin_cell = active_pawn.current_cell
 
+	IceMapLayer.highlight_hit_targets(action_origin_cell, action_pawn)
+
  	# Ferme le menu
 	action_menu.hide()		
 	

@@ -1,7 +1,5 @@
 extends TileMapLayer
 
-
-
 var action_pawn: Node2D = null
 
 class CellState extends RefCounted:
@@ -33,8 +31,6 @@ const LAYER_BLOCKED := 2
 #Signal
 signal puck_is_picked_up(pawn)
 
-
-
 #OnReady
 @onready var players_container := $"../PlayersContainer"
 @onready var puck := $"../Puck"
@@ -42,8 +38,6 @@ signal puck_is_picked_up(pawn)
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
 @onready var GameManager = $"../GameManager"
-
-
 
 
 func _process(_delta: float) -> void:
@@ -64,10 +58,8 @@ func _ready() -> void:
 			state.is_occupied = false
 			state.occupied_player_team = -1
 			
-		
+	
 		map_data[cell] = state	
-
-
 
 	# Initialiser les pawns
 	for p in players_container.get_children():
@@ -81,11 +73,8 @@ func _ready() -> void:
 		if p.has_method("pick_up_puck"):
 			connect("puck_is_picked_up", Callable(p, "pick_up_puck"))
 			
-	
-		
 		_place_pawn_on_cell(p, p.current_cell)
 		
-	
 	_place_puck_on_cell(puck, puck.current_cell)	
 	
 	update_occupancy()
@@ -98,8 +87,6 @@ func cell_from_global_pos(global_pos: Vector2) -> Vector2i:
 	
 func get_ice_map_layer_cell_id(cell):
 	return get_cell_source_id(cell)
-	
-	
 
 func pawn_at_cell(cell: Vector2i) -> Node2D:
 	for p in pawns:
@@ -310,18 +297,11 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 			
 			map_data[cell_to_check].is_puck_here = false
 			
-			
 
+func highlight_shoot_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
+	var _range: int = recieved_pawn.move_range * 2
 	
-	
-
-	
- 
-func highlight_shoot_targets(origin: Vector2i, action_pawn: Node2D) -> void:
-	var range: int = action_pawn.move_range * 2
-	
-	
-	var targets := _compute_shoot_targets(origin, range)
+	var targets := _compute_shoot_targets(origin, _range)
 
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
@@ -331,8 +311,6 @@ func highlight_shoot_targets(origin: Vector2i, action_pawn: Node2D) -> void:
 			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
 		else:
 			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
-			
-			
 			
 			
 func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
@@ -354,9 +332,9 @@ func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]
 	return targets			
 	
 
-func highlight_pass_targets(origin: Vector2i, action_pawn: Node2D) -> void:	
-	var range: int = action_pawn.move_range * 2
-	var targets := _compute_pass_targets(origin, range)
+func highlight_pass_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:	
+	var _range: int = recieved_pawn.move_range * 2
+	var targets := _compute_pass_targets(origin, _range)
 
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
@@ -397,6 +375,82 @@ func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
 
 	return targets
 			
+
+func highlight_hit_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
+	# Choisis UNE des deux lignes :
+	var targets := _compute_hit_targets_cross(origin, recieved_pawn)
+	# var targets := _compute_hit_targets_8(origin, recieved_pawn)
+
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+
+		if targets.has(cell):
+			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		else:
+			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)	
+
+
+func _compute_hit_targets_cross(origin: Vector2i, recieved_pawn: Node2D) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
+	var directions := [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN
+	]
+
+	for dir in directions:
+		var cell: Vector2i = origin + dir
+		if not map_data.has(cell):
+			continue
+		if map_data[cell].blocked:
+			continue
+
+		# Optionnel: frapper seulement si y'a un pawn
+		var p := get_pawn_on_cell(cell)
+		if p == null:
+			continue
+		if p == recieved_pawn:
+			continue
+
+		# Optionnel: frapper seulement ennemi
+		# if p.team_id == recieved_pawn.team_id:
+		#     continue
+
+		targets.append(cell)
+
+	return targets
+
+
+func _compute_hit_targets_8(origin: Vector2i, recieved_pawn: Node2D) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
+	var directions := [
+		Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1),
+		Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(1, 1)
+	]
+
+	for dir in directions:
+		var cell: Vector2i = origin + dir
+		if not map_data.has(cell):
+			continue
+		if map_data[cell].blocked:
+			continue
+
+		var p := get_pawn_on_cell(cell)
+		if p == null:
+			continue
+		if p == recieved_pawn:
+			continue
+
+		# Optionnel équipe
+		# if p.team_id == recieved_pawn.team_id:
+		#     continue
+
+		targets.append(cell)
+
+	return targets	
+
 
 
 ### Algo Breadth-First Search (BFS)
