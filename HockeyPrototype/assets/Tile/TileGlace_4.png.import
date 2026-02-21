@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6bthwplbn84g"
-path="res://.godot/imported/TileGlace32.png-13e7ca54b1f5719eee75f9c0db25b4ca.ctex"
+uid="uid://dpmoe2nrvy8r4"
+path="res://.godot/imported/TileGlace_4.png-ac35fad6a52589a6cf6e1ba2b22159b8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tile/TileGlace32.png"
-dest_files=["res://.godot/imported/TileGlace32.png-13e7ca54b1f5719eee75f9c0db25b4ca.ctex"]
+source_file="res://assets/Tile/TileGlace_4.png"
+dest_files=["res://.godot/imported/TileGlace_4.png-ac35fad6a52589a6cf6e1ba2b22159b8.ctex"]
 
 [params]
 
