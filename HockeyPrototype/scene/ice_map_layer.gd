@@ -75,7 +75,7 @@ func _ready() -> void:
 			
 		_place_pawn_on_cell(p, p.current_cell)
 		
-	_place_puck_on_cell(puck, puck.current_cell)	
+	place_puck_on_cell(puck, puck.current_cell)	
 	
 	update_occupancy()
 	print_map_data()	
@@ -167,7 +167,7 @@ func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	update_occupancy()
 	
 	
-func _place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
+func place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	puck_node.global_position = to_global(local_pos)
 	

@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 
 var current_cell = start_cell
+var reset_puck_position: Vector2i = Vector2i(7, 4)
 
 @export var team_id: int = 0
 
@@ -45,7 +46,15 @@ func _on_pawn_shooting_puck(newShootPosition) -> void:
 	isPickedUp = false
 	## TODO modifier avec un getter/setter sur isPickedUp
 	sprite.visible = true
-	ice_map._place_puck_on_cell(self, current_cell)
+
+	# S'il y a but
+	if (_is_goal(current_cell)):
+		ice_map.place_puck_on_cell(self, reset_puck_position)
+		current_cell = reset_puck_position
+	else:
+		ice_map.place_puck_on_cell(self, current_cell)
+
+	
 	
 func _on_pawn_passing_puck(newPassPosition) -> void:
 	print("IN PUCK PASS", newPassPosition)
@@ -54,4 +63,20 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 	isPickedUp = false
 		## TODO modifier avec un getter/setter sur isPickedUp
 	sprite.visible = true
-	ice_map._place_puck_on_cell(self, current_cell)
+
+
+	# S'il y a but
+	if (_is_goal(current_cell)):
+		ice_map.place_puck_on_cell(self, reset_puck_position)
+		current_cell = reset_puck_position
+
+	else:
+		ice_map.place_puck_on_cell(self, current_cell)
+
+
+func _is_goal(puck_position):
+	if ice_map._get_type(puck_position) == "goal":
+		return true
+	else:
+		return false	
+		
