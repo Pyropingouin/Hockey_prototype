@@ -15,7 +15,7 @@ var active_team:
 @onready var activeTeamLabel: Label = $"../ActiveTeamLabel"
 @onready var IceMapLayer = $"../IceMapLayer"
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
-
+@onready var puck := $"../Puck"
 
 const DRAG_THRESHOLD_PX := 12.0
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
@@ -390,3 +390,21 @@ func _is_in_shoot_range(orgin_cell, target_cell, recieved_pawn):
 		return false
 	else:
 		return true	
+
+func goal_scored(puck_position):
+	## Déterminer avec get_type or something si:
+	# 1) c'est le but
+	# 2) c'est le but de qui pour udpate score
+	print(IceMapLayer._get_type(puck_position))
+	print("GOAAAAL")
+	#Mettre un genre de menu pause
+	#Update le score Panel
+	#Partir la séquence de reset
+	reset_board()
+	
+
+func reset_board():
+		puck.reset_board()
+		#Dire à la puck d'initier le reset
+		#Dire au joueurs? ou IcemapLayer de replacer les joueurs
+		#Activer le bouton pour starter la game

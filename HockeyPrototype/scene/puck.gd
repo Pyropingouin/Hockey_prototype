@@ -4,6 +4,7 @@ extends CharacterBody2D
 #TODO écouteur ce changer et faire apparaitre la puck kkpart 
 
 @onready var ice_map: TileMapLayer = $"../IceMapLayer"
+@onready var GameManager = $"../GameManager"
 
 @export var start_cell: Vector2i = Vector2i(0, 0):
 	set(value):
@@ -49,10 +50,9 @@ func _on_pawn_shooting_puck(newShootPosition) -> void:
 
 	# S'il y a but
 	if (_is_goal(current_cell)):
-		ice_map.place_puck_on_cell(self, reset_puck_position)
-		current_cell = reset_puck_position
-	else:
-		ice_map.place_puck_on_cell(self, current_cell)
+		GameManager.goal_scored(current_cell)
+	
+	ice_map.place_puck_on_cell(self, current_cell)
 
 	
 	
@@ -67,11 +67,9 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 
 	# S'il y a but
 	if (_is_goal(current_cell)):
-		ice_map.place_puck_on_cell(self, reset_puck_position)
-		current_cell = reset_puck_position
-
-	else:
-		ice_map.place_puck_on_cell(self, current_cell)
+		GameManager.goal_scored(current_cell)
+		
+	ice_map.place_puck_on_cell(self, current_cell)
 
 
 func _is_goal(puck_position):
@@ -80,3 +78,7 @@ func _is_goal(puck_position):
 	else:
 		return false	
 		
+
+func reset_board():
+	current_cell = reset_puck_position
+	ice_map.place_puck_on_cell(self, reset_puck_position)
