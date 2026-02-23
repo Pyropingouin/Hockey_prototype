@@ -301,9 +301,12 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		_cancel_action_mode()
 		return
 
+	action_origin_cell = active_pawn.current_cell	
+
 # 	# Optionnel: valider une portée de tir (ex: move_range * 2)
- 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
- 	#     return
+	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
+		return
+
 	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
 		print("Shoot refusé: case occupée par un pawn.")
 		return
@@ -320,9 +323,11 @@ func _do_pass(target_cell: Vector2i) -> void:
 		_cancel_action_mode()
 		return
 
+	action_origin_cell = active_pawn.current_cell	
+
  	# Optionnel: valider une portée de tir (ex: move_range * 2)
- 	# if not _is_in_shoot_range(action_origin_cell, target_cell):
- 	#     return
+	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
+		return
 	
 	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
@@ -375,3 +380,13 @@ func _do_hit(target_cell: Vector2i) -> void:
 
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()		
+
+
+func _is_in_shoot_range(orgin_cell, target_cell, recieved_pawn):
+	var _range: int = recieved_pawn.move_range * 2
+
+	var dist:int = abs(target_cell.x - orgin_cell.x) + abs(target_cell.y - orgin_cell.y)
+	if dist == 0 or dist > _range:
+		return false
+	else:
+		return true	
