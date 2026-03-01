@@ -10,6 +10,27 @@ var active_team:
 		#Signal émit à chaque changement
 		active_team_changed.emit(_active_team)
 
+var _home_team_score = 0
+var home_team_score:
+	get:
+		return _home_team_score
+	set(value):
+		print("home_team_score:", home_team_score, "->", value)
+		home_team_score = value
+		#Signal émit à chaque changement
+		home_team_score_changed.emit(home_team_score)
+
+var _away_team_score = 0
+var away_team_score:
+	get:
+		return _away_team_score
+	set(value):
+		print("away_team_score:", _away_team_score, "->", value)
+		_away_team_score = value
+		#Signal émit à chaque changement
+		away_team_score_changed.emit(_away_team_score)		
+
+
 
 
 @onready var activeTeamLabel: Label = $"../ActiveTeamLabel"
@@ -37,6 +58,8 @@ enum ActionMode { NONE, SHOOT, PASS, HIT }
 
 signal active_team_changed(active_team_id: int)
 signal pawn_selected(pawn)
+signal home_team_score_changed(home_team_score: int)
+signal away_team_score_changed(away_team_score: int)
 
 
 # Called when the node enters the scene tree for the first time.

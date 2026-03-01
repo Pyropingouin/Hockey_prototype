@@ -103,6 +103,8 @@ custom_data_layer_1/name = "cost"
 custom_data_layer_1/type = 2
 custom_data_layer_2/name = "blocked"
 custom_data_layer_2/type = 1
+custom_data_layer_3/name = "goal_type"
+custom_data_layer_3/type = 4
 sources/0 = SubResource("TileSetAtlasSource_5kiuu")
 sources/1 = SubResource("TileSetAtlasSource_dbls1")
 sources/2 = SubResource("TileSetAtlasSource_ca6q5")
@@ -197,6 +199,37 @@ offset_top = 773.0
 offset_right = 1718.0
 offset_bottom = 803.0
 text = "1"
+
+[node name="HomeTeamLabel" type="Label" parent="."]
+offset_left = 1305.0
+offset_top = 840.0
+offset_right = 1387.0
+offset_bottom = 889.0
+text = "Home :
+"
+
+[node name="AwayTeamLabel" type="Label" parent="."]
+offset_left = 1501.0
+offset_top = 840.0
+offset_right = 1583.0
+offset_bottom = 915.0
+text = "Away :
+
+"
+
+[node name="HomeTeamScoreLabel" type="Label" parent="."]
+offset_left = 1371.0
+offset_top = 840.0
+offset_right = 1411.0
+offset_bottom = 863.0
+text = "0"
+
+[node name="AwayTeamScoreLabel" type="Label" parent="."]
+offset_left = 1559.0
+offset_top = 840.0
+offset_right = 1599.0
+offset_bottom = 863.0
+text = "0"
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
