@@ -10,30 +10,30 @@ var active_team:
 		#Signal émit à chaque changement
 		active_team_changed.emit(_active_team)
 
-var _home_team_score = 0
+var _home_team_score := 0
 var home_team_score:
 	get:
 		return _home_team_score
 	set(value):
-		print("home_team_score:", home_team_score, "->", value)
-		home_team_score = value
-		#Signal émit à chaque changement
-		home_team_score_changed.emit(home_team_score)
+		print("home_team_score:", _home_team_score, "->", value)
+		_home_team_score = value
+		home_team_score_changed.emit(_home_team_score)
 
-var _away_team_score = 0
+var _away_team_score := 0
 var away_team_score:
 	get:
 		return _away_team_score
 	set(value):
 		print("away_team_score:", _away_team_score, "->", value)
 		_away_team_score = value
-		#Signal émit à chaque changement
-		away_team_score_changed.emit(_away_team_score)		
+		away_team_score_changed.emit(_away_team_score)	
 
 
 
 
 @onready var activeTeamLabel: Label = $"../ActiveTeamLabel"
+@onready var homeTeamScoreLabel: Label = $"../HomeTeamScoreLabel"
+@onready var awayTeamScoreLabel: Label = $"../AwayTeamScoreLabel"
 @onready var IceMapLayer = $"../IceMapLayer"
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
 @onready var puck := $"../Puck"
@@ -67,6 +67,9 @@ func _ready() -> void:
 	active_team_changed.emit(_active_team)
 	action_menu.id_pressed.connect(_on_action_menu_pressed)
 	puck.goal_scored.connect(_on_goal_scored)
+
+	homeTeamScoreLabel.text = str(_home_team_score)
+	awayTeamScoreLabel.text = str(_away_team_score)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -425,5 +428,17 @@ func reset_board():
 
 func _on_goal_scored(goal_type):
 	print("But marqué dans le filet de: ", goal_type)
+
+	# goal_type = "home" ou "away" (selon ta puck/tiles)
+	if goal_type == "away":
+		home_team_score += 1
+	elif goal_type == "home":
+		away_team_score += 1
+
+	homeTeamScoreLabel.text = str(home_team_score)
+	awayTeamScoreLabel.text = str(away_team_score)
+
+
+	#Call function d'acknoledgement du but pour starter le reset
 
 	reset_board()
