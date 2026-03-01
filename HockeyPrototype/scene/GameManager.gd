@@ -66,6 +66,7 @@ signal away_team_score_changed(away_team_score: int)
 func _ready() -> void:
 	active_team_changed.emit(_active_team)
 	action_menu.id_pressed.connect(_on_action_menu_pressed)
+	puck.goal_scored.connect(_on_goal_scored)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -431,3 +432,7 @@ func reset_board():
 		#Dire à la puck d'initier le reset
 		#Dire au joueurs? ou IcemapLayer de replacer les joueurs
 		#Activer le bouton pour starter la game
+
+
+func _on_goal_scored(goal_type):
+	print("But marqué dans le filet de: ", goal_type)

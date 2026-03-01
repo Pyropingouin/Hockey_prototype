@@ -16,6 +16,8 @@ extends CharacterBody2D
 var current_cell = start_cell
 var reset_puck_position: Vector2i = Vector2i(7, 4)
 
+signal goal_scored(goal_type)
+
 @export var team_id: int = 0
 
 
@@ -73,9 +75,14 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 
 
 func _is_goal(puck_position):
-	print("type de tuile", ice_map._get_type(puck_position))
+	print("type de tuile: ", ice_map._get_type(puck_position))
+	print("goal_type: ", ice_map._get_goal_type(puck_position))
 
+
+	
 	if ice_map._get_type(puck_position) == "goal":
+		var goal_type = ice_map._get_goal_type(puck_position)
+		goal_scored.emit(goal_type)
 		return true
 	else:
 		return false	

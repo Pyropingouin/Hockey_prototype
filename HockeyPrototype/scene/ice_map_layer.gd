@@ -244,6 +244,9 @@ func _get_custom(cell: Vector2i, layer_name: String):
 func _get_type(cell: Vector2i) -> String:
 	return str(_get_custom(cell, "type"))
 
+func _get_goal_type(cell: Vector2i) -> String:
+	return str(_get_custom(cell, "goal_type"))	
+
 func _get_cost(cell: Vector2i) -> int:
 	return int(_get_custom(cell, "cost"))
 
