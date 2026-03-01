@@ -51,8 +51,7 @@ func _on_pawn_shooting_puck(newShootPosition) -> void:
 	sprite.visible = true
 
 	# S'il y a but
-	if (_is_goal(current_cell)):
-		GameManager.goal_scored(current_cell)
+	_is_goal(current_cell)
 	
 	ice_map.place_puck_on_cell(self, current_cell)
 
@@ -68,8 +67,7 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 
 
 	# S'il y a but
-	if (_is_goal(current_cell)):
-		GameManager.goal_scored(current_cell)
+	_is_goal(current_cell)
 		
 	ice_map.place_puck_on_cell(self, current_cell)
 
@@ -77,8 +75,6 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 func _is_goal(puck_position):
 	print("type de tuile: ", ice_map._get_type(puck_position))
 	print("goal_type: ", ice_map._get_goal_type(puck_position))
-
-
 	
 	if ice_map._get_type(puck_position) == "goal":
 		var goal_type = ice_map._get_goal_type(puck_position)

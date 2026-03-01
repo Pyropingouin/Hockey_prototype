@@ -415,17 +415,6 @@ func _is_in_shoot_range(orgin_cell, target_cell, recieved_pawn):
 	else:
 		return true	
 
-func goal_scored(puck_position):
-	## Déterminer avec get_type or something si:
-	# 1) c'est le but
-	# 2) c'est le but de qui pour udpate score
-	print(IceMapLayer._get_type(puck_position))
-	print("GOAAAAL")
-	#Mettre un genre de menu pause
-	#Update le score Panel
-	#Partir la séquence de reset
-	reset_board()
-	
 
 func reset_board():
 		puck.reset_board()
@@ -436,3 +425,5 @@ func reset_board():
 
 func _on_goal_scored(goal_type):
 	print("But marqué dans le filet de: ", goal_type)
+
+	reset_board()
