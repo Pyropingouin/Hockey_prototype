@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=32 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
@@ -117,6 +117,9 @@ sources/8 = SubResource("TileSetAtlasSource_8p2gu")
 sources/9 = SubResource("TileSetAtlasSource_kv4hp")
 sources/10 = SubResource("TileSetAtlasSource_ww6yf")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jrd6n"]
+bg_color = Color(0, 0, 0, 0.80784315)
+
 [node name="game" type="Node2D"]
 
 [node name="GameManager" type="Node" parent="."]
@@ -178,6 +181,7 @@ start_cell = Vector2i(6, 3)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PopupMenu" type="PopupMenu" parent="CanvasLayer"]
+oversampling_override = 1.0
 
 [node name="EndTurnButton" type="Button" parent="."]
 offset_left = 1277.0
@@ -232,6 +236,49 @@ offset_right = 1599.0
 offset_bottom = 863.0
 text = "0"
 
+[node name="GoalOverlay" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="GoalPanel" type="Panel" parent="GoalOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jrd6n")
+
+[node name="GoalLabel" type="Label" parent="GoalOverlay/GoalPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -11.5
+offset_right = 22.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 80
+text = "Goal !"
+
+[node name="ContinueButton" type="Button" parent="GoalOverlay/GoalPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = 55.0
+offset_right = 50.0
+offset_bottom = 86.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Continue "
+
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="pressed" from="EndTurnButton" to="GameManager" method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="GoalOverlay/GoalPanel/ContinueButton" to="GameManager" method="_on_continue_button_pressed"]

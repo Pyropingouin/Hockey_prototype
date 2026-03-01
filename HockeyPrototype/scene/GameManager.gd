@@ -1,5 +1,8 @@
 extends Node
 
+enum GameState { PLAYING, GOAL_PAUSE }
+var game_state: GameState = GameState.PLAYING
+
 var _active_team: int = 1
 var active_team:
 	get:
@@ -37,6 +40,7 @@ var away_team_score:
 @onready var IceMapLayer = $"../IceMapLayer"
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
 @onready var puck := $"../Puck"
+@onready var GoalOverlay = $"../GoalOverlay"
 
 const DRAG_THRESHOLD_PX := 12.0
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
@@ -86,6 +90,10 @@ func _on_end_turn_button_pressed() -> void:
 	
 
 func _unhandled_input(event: InputEvent) -> void:
+
+	if game_state != GameState.PLAYING:
+			return
+
 	# 1) Clic / relâche
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -429,7 +437,6 @@ func reset_board():
 func _on_goal_scored(goal_type):
 	print("But marqué dans le filet de: ", goal_type)
 
-	# goal_type = "home" ou "away" (selon ta puck/tiles)
 	if goal_type == "away":
 		home_team_score += 1
 	elif goal_type == "home":
@@ -438,7 +445,16 @@ func _on_goal_scored(goal_type):
 	homeTeamScoreLabel.text = str(home_team_score)
 	awayTeamScoreLabel.text = str(away_team_score)
 
+	game_state = GameState.GOAL_PAUSE
+	GoalOverlay.show()
+
 
 	#Call function d'acknoledgement du but pour starter le reset
 
+
+
+
+func _on_continue_button_pressed() -> void:
+	GoalOverlay.hide()
 	reset_board()
+	game_state = GameState.PLAYING
