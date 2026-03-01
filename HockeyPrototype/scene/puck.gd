@@ -73,6 +73,8 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 
 
 func _is_goal(puck_position):
+	print("type de tuile", ice_map._get_type(puck_position))
+
 	if ice_map._get_type(puck_position) == "goal":
 		return true
 	else:
