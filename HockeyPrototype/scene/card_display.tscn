@@ -13,7 +13,7 @@ border_color = Color(0.0011974465, 0.001197445, 0.0011974436, 1)
 [node name="PanelContainer" type="PanelContainer" parent="."]
 offset_left = 670.0
 offset_top = 5.0
-offset_right = 1094.0
+offset_right = 1130.0
 offset_bottom = 630.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_3nyei")
 
