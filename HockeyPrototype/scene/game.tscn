@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=40 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
@@ -7,18 +7,21 @@
 [ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="4_qpk70"]
 [ext_resource type="PackedScene" uid="uid://3k4vl80vnul2" path="res://scene/pawn.tscn" id="4_xwcet"]
 [ext_resource type="Texture2D" uid="uid://byj8gsibyqvxg" path="res://assets/Tile/DemiLigneRouge64.png" id="5_jhlss"]
-[ext_resource type="Texture2D" uid="uid://dwu2mi7ewnbqk" path="res://assets/Bubble_head/CarloMonferato_BubbleHead.png" id="5_xlg7c"]
-[ext_resource type="Texture2D" uid="uid://cbrjyq8posu4q" path="res://assets/personnage/CarloMonferato.png" id="6_ll5lq"]
 [ext_resource type="Texture2D" uid="uid://dsuvk2d3ajh6h" path="res://assets/Tile/TileGlace_1.png" id="7_1it6f"]
-[ext_resource type="Texture2D" uid="uid://cjlhywugwo3ok" path="res://assets/Bubble_head/GarenGaspacini_BubbleHead.png" id="7_17rxn"]
 [ext_resource type="Texture2D" uid="uid://dim8sdbugs2o5" path="res://assets/Tile/TileGlace_2.png" id="8_pp3pk"]
-[ext_resource type="Texture2D" uid="uid://bu8bofc3b8wlq" path="res://assets/personnage/GarenGaspacini.png" id="8_yq8tf"]
 [ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="9_17rxn"]
 [ext_resource type="Texture2D" uid="uid://qf5wabb6y5l1" path="res://assets/Tile/TileGlace_3.png" id="9_b8t8i"]
 [ext_resource type="Texture2D" uid="uid://dpmoe2nrvy8r4" path="res://assets/Tile/TileGlace_4.png" id="10_355h4"]
 [ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="10_yq8tf"]
 [ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="11_ym5sv"]
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="12_sng2h"]
+[ext_resource type="Texture2D" uid="uid://cgr1s0pcocxio" path="res://assets/personnage/DougDog.png" id="13_1it6f"]
+[ext_resource type="Texture2D" uid="uid://bnr3357r332yu" path="res://assets/Bubble_head/JSP_BubbleHead.png" id="14_pp3pk"]
+[ext_resource type="Texture2D" uid="uid://b4ma8wsq6ysua" path="res://assets/personnage/JSP.png" id="15_b8t8i"]
+[ext_resource type="Texture2D" uid="uid://c15j143j7raw3" path="res://assets/Bubble_head/JoshSoup_BubbleHead.png" id="16_355h4"]
+[ext_resource type="Texture2D" uid="uid://c7ipo7b1v0r6u" path="res://assets/personnage/JoshSoup.png" id="17_ca6q5"]
+[ext_resource type="Texture2D" uid="uid://cl1ycvt6m1ioh" path="res://assets/Bubble_head/LarryStone_BubbleHead.png" id="18_yerfe"]
+[ext_resource type="Texture2D" uid="uid://u0557i1fp4lf" path="res://assets/personnage/LarryStone.png" id="19_abp7u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
 texture = ExtResource("4_qpk70")
@@ -117,6 +120,21 @@ sources/8 = SubResource("TileSetAtlasSource_8p2gu")
 sources/9 = SubResource("TileSetAtlasSource_kv4hp")
 sources/10 = SubResource("TileSetAtlasSource_ww6yf")
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_he4o3"]
+load_path = "res://.godot/imported/CarloMonferato_BubbleHead.png-d2cb0abf9a15c22943e171353659e525.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yk3to"]
+load_path = "res://.godot/imported/CarloMonferato.png-75e3e4b9bf851e8575878c9a3ba4cb68.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0halo"]
+load_path = "res://.godot/imported/GarenGaspacini_BubbleHead.png-09a01d0f4a25943537061c89f7cc0ac3.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8p2gu"]
+load_path = "res://.godot/imported/GarenGaspacini.png-52c8dbe34252dc77579183c571c6cd4c.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kv4hp"]
+load_path = "res://.godot/imported/DougDog_BubbleHead.png-a414101ec5fc056c336285c51f4b9720.ctex"
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jrd6n"]
 bg_color = Color(0, 0, 0, 0.80784315)
 
@@ -137,20 +155,68 @@ script = ExtResource("3_xwcet")
 [node name="PlayersContainer" type="Node" parent="."]
 
 [node name="Pawn" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("5_xlg7c")
-fullBodyTexture = ExtResource("6_ll5lq")
+bubbleHeadTexture = SubResource("CompressedTexture2D_he4o3")
+fullBodyTexture = SubResource("CompressedTexture2D_yk3to")
 move_range = 3
-team_id = 2
-start_cell = Vector2i(5, 3)
+strength = 2
+reflex = 3
+team_id = 1
+hasPuck = false
+start_cell = Vector2i(4, 3)
 
 [node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("7_17rxn")
-fullBodyTexture = ExtResource("8_yq8tf")
+bubbleHeadTexture = SubResource("CompressedTexture2D_0halo")
+fullBodyTexture = SubResource("CompressedTexture2D_8p2gu")
+move_range = 2
+strength = 2
+reflex = 3
 team_id = 1
+hasPuck = false
+start_cell = Vector2i(5, 3)
+
+[node name="Pawn3" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
+bubbleHeadTexture = SubResource("CompressedTexture2D_kv4hp")
+fullBodyTexture = ExtResource("13_1it6f")
+move_range = 3
+strength = 2
+reflex = 3
+team_id = 1
+hasPuck = false
+start_cell = Vector2i(6, 3)
+
+[node name="Pawn4" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
+bubbleHeadTexture = ExtResource("14_pp3pk")
+fullBodyTexture = ExtResource("15_b8t8i")
+move_range = 3
+strength = 2
+reflex = 3
+team_id = 2
+hasPuck = false
+start_cell = Vector2i(4, 4)
+
+[node name="Pawn5" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
+bubbleHeadTexture = ExtResource("16_355h4")
+fullBodyTexture = ExtResource("17_ca6q5")
+move_range = 3
+strength = 2
+reflex = 3
+team_id = 2
+hasPuck = false
 start_cell = Vector2i(5, 4)
 
+[node name="Pawn6" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
+bubbleHeadTexture = ExtResource("18_yerfe")
+fullBodyTexture = ExtResource("19_abp7u")
+move_range = 3
+strength = 2
+reflex = 3
+team_id = 2
+hasPuck = false
+start_cell = Vector2i(6, 4)
+
 [node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
-position = Vector2(607, 122)
+position = Vector2(607, 132)
+scale = Vector2(1.004868, 1)
 script = ExtResource("10_yq8tf")
 
 [node name="Move" type="Label" parent="CardDisplay"]
@@ -176,7 +242,7 @@ text = "REFLEX"
 
 [node name="Puck" parent="." instance=ExtResource("11_ym5sv")]
 position = Vector2(1, 5)
-start_cell = Vector2i(6, 3)
+start_cell = Vector2i(7, 3)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

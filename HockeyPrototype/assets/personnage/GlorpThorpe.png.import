@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh8qhsswf7fxa"
-path="res://.godot/imported/SteevenDoug.png-6f90b2f0b5fc00612f472b4a76468d64.ctex"
+uid="uid://brwcuv3nis8sy"
+path="res://.godot/imported/GlorpThorpe.png-52fe1ba3fa009a382ce3577034cd334e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/personnage/SteevenDoug.png"
-dest_files=["res://.godot/imported/SteevenDoug.png-6f90b2f0b5fc00612f472b4a76468d64.ctex"]
+source_file="res://assets/personnage/GlorpThorpe.png"
+dest_files=["res://.godot/imported/GlorpThorpe.png-52fe1ba3fa009a382ce3577034cd334e.ctex"]
 
 [params]
 

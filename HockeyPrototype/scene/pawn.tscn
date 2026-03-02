@@ -13,6 +13,12 @@ default_font_size = 20
 
 [node name="Pawn" type="CharacterBody2D"]
 script = ExtResource("1_b0spm")
+move_range = null
+strength = null
+reflex = null
+team_id = null
+hasPuck = null
+start_cell = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var bubbleHeadTexture: Texture2D
 @export var fullBodyTexture: Texture2D
+@export var pawn_name: String
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
