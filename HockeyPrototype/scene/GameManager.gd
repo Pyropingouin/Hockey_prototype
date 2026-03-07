@@ -12,6 +12,8 @@ var active_team_action_counter:
 		_active_team_action_counter = value
 		#Signal émit à chaque changement
 		active_team_action_counter_changed.emit(_active_team_action_counter)
+		actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/4"
+
 		if _active_team_action_counter >= 4:
 			_end_turn()
 
@@ -54,6 +56,8 @@ var away_team_score:
 @onready var action_menu = $"../CanvasLayer/PopupMenu"
 @onready var puck := $"../Puck"
 @onready var GoalOverlay = $"../GoalOverlay"
+@onready var actionCounterLabel = $"../ActionCounterLabel"
+
 
 const DRAG_THRESHOLD_PX := 12.0
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
@@ -86,8 +90,12 @@ func _ready() -> void:
 	action_menu.id_pressed.connect(_on_action_menu_pressed)
 	puck.goal_scored.connect(_on_goal_scored)
 
+	#Set les labels
 	homeTeamScoreLabel.text = str(_home_team_score)
 	awayTeamScoreLabel.text = str(_away_team_score)
+	actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/4"
+
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -474,9 +482,6 @@ func _on_goal_scored(goal_type):
 
 
 	#Call function d'acknoledgement du but pour starter le reset
-
-
-
 
 func _on_continue_button_pressed() -> void:
 	GoalOverlay.hide()

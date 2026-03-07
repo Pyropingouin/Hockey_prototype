@@ -344,6 +344,14 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Continue "
 
+[node name="ActionCounterLabel" type="Label" parent="."]
+offset_left = 1604.0
+offset_top = 825.0
+offset_right = 1767.0
+offset_bottom = 881.0
+text = "action counter = 1 / 4"
+vertical_alignment = 1
+
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="puck_is_picked_up" from="IceMapLayer2" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
