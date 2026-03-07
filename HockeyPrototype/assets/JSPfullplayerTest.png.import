@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dljha08vyohsl"
-path="res://.godot/imported/red-x-letter-computer-icons-red-x-thumbnail.jpg-a29f3bbc72aa5f399e925c93b0722d4b.ctex"
+uid="uid://bkgfesd5dn234"
+path="res://.godot/imported/JSPfullplayerTest.png-b56933cfa70992db69eb5ad8828e2c2f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/red-x-letter-computer-icons-red-x-thumbnail.jpg"
-dest_files=["res://.godot/imported/red-x-letter-computer-icons-red-x-thumbnail.jpg-a29f3bbc72aa5f399e925c93b0722d4b.ctex"]
+source_file="res://assets/JSPfullplayerTest.png"
+dest_files=["res://.godot/imported/JSPfullplayerTest.png-b56933cfa70992db69eb5ad8828e2c2f.ctex"]
 
 [params]
 

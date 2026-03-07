@@ -3,6 +3,19 @@ extends Node
 enum GameState { PLAYING, GOAL_PAUSE }
 var game_state: GameState = GameState.PLAYING
 
+var _active_team_action_counter: int = 0
+var active_team_action_counter:
+	get:
+		return _active_team_action_counter
+	set(value):
+		print("active_team_action_counter:", _active_team_action_counter, "->", value)
+		_active_team_action_counter = value
+		#Signal émit à chaque changement
+		active_team_action_counter_changed.emit(_active_team_action_counter)
+		if _active_team_action_counter >= 4:
+			_end_turn()
+
+
 var _active_team: int = 1
 var active_team:
 	get:
@@ -64,6 +77,7 @@ signal active_team_changed(active_team_id: int)
 signal pawn_selected(pawn)
 signal home_team_score_changed(home_team_score: int)
 signal away_team_score_changed(away_team_score: int)
+signal active_team_action_counter_changed(active_team_action_counter: int)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -159,6 +173,7 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 	else:
 		IceMapLayer.reset_move(active_pawn, drag_start_cell)
 
+	update_action_counter(1)
 	IceMapLayer.clear_highlight() # si tu exposes clear_highlight() public
 	_cleanup_drag()
 
@@ -199,6 +214,7 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 
 	# Drag actif: le pion suit la souris
 	active_pawn.global_position = global_pos
+	
 
 
 func _cleanup_drag() -> void:
@@ -350,6 +366,7 @@ func _do_shoot(target_cell: Vector2i) -> void:
 	if action_pawn.has_method("_shoot"):
 		action_pawn._shoot(target_cell)
 
+	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 	
@@ -380,7 +397,8 @@ func _do_pass(target_cell: Vector2i) -> void:
 	
 	if action_pawn.has_method("_pass"):
 		action_pawn._pass(target_cell)
-
+		
+	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()	
 	
@@ -412,7 +430,7 @@ func _do_hit(target_cell: Vector2i) -> void:
 	#if hitTarget.has_method("_being_hit"):
 		#hitTarget._being_hit(target_cell)
 		
-
+	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()		
 
@@ -433,6 +451,12 @@ func reset_board():
 		#Dire au joueurs? ou IcemapLayer de replacer les joueurs
 		#Activer le bouton pour starter la game
 
+func update_action_counter(action_cost: int):
+	active_team_action_counter += action_cost
+	
+func _end_turn():
+	_on_end_turn_button_pressed()
+	active_team_action_counter = 0
 
 func _on_goal_scored(goal_type):
 	print("But marqué dans le filet de: ", goal_type)
