@@ -2,6 +2,7 @@ extends Node
 
 enum GameState { PLAYING, GOAL_PAUSE }
 var game_state: GameState = GameState.PLAYING
+const max_action_counter: int = 4
 
 var _active_team_action_counter: int = 0
 var active_team_action_counter:
@@ -12,9 +13,10 @@ var active_team_action_counter:
 		_active_team_action_counter = value
 		#Signal émit à chaque changement
 		active_team_action_counter_changed.emit(_active_team_action_counter)
-		actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/4"
+		actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/" + str(max_action_counter)
+		
 
-		if _active_team_action_counter >= 4:
+		if _active_team_action_counter >= max_action_counter:
 			_end_turn()
 
 
@@ -93,7 +95,7 @@ func _ready() -> void:
 	#Set les labels
 	homeTeamScoreLabel.text = str(_home_team_score)
 	awayTeamScoreLabel.text = str(_away_team_score)
-	actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/4"
+	actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/" + str(max_action_counter)
 
 	
 
