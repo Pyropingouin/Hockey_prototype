@@ -263,6 +263,7 @@ func clear_occupancy():
 		
 		
 func update_occupancy():
+
 	clear_occupancy()
 
    #Pawn

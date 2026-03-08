@@ -13,9 +13,7 @@ extends CharacterBody2D
 @onready var active_team_ring: Sprite2D = $TeamRing
 
 @onready var GameManager = $"../../GameManager"
-@onready var redXLabel = $RedX
-@onready var downLabel = $downLabel
-
+@onready var IceMapLayer = $"../../IceMapLayer"
 # --- hasPuck avec setter ---
 var _hasPuck: bool = false
 @export var hasPuck: bool:
@@ -55,7 +53,7 @@ var current_cell: Vector2i:
 signal hold_puck_is_moving
 signal shooting_puck
 signal passing_puck
-signal hitting_player(hit_cell: Vector2i, pawn: Node2D)
+signal hitting_player(hit_cell: Vector2i, current_cell: Vector2i, pawn: Node2D)
 
 
 
@@ -129,38 +127,46 @@ func _pass(passPosition) -> void:
 func _hit(hit_cell) -> void:
 	if  not hasPuck:
 		
+	
 		print(name, " tente un hit sur ", hit_cell)
-		emit_signal("hitting_player", hit_cell, self)
+		emit_signal("hitting_player", hit_cell, current_cell, self)
 		
 	else: 
 		print("I have the puck, I can't hit")
 		
 		
-func _being_hit(aggressorPawn: Node2D) -> void:
+func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 	print(name, " a été FRAPPÉ ✅")
 	print(aggressorPawn.name, "aggressor")
 
 	print(aggressorPawn.strength, "Strength")
-
-	if aggressorPawn.strength > self.reflex:
-		self.queue_free()
+	
+	print("Cell d'origine", origin_cell)
+	
+	var push_direction: Vector2i = current_cell - origin_cell
+	var new_position_after_hit : Vector2i  = current_cell + push_direction
+	
+	print("direction", push_direction)
+	print("NewPos", new_position_after_hit)
+	
+	current_cell = new_position_after_hit
+	IceMapLayer.place_pawn_on_cell(self,current_cell)
 	
 	
+	
+		
 
-func _on_other_pawn_hit_attempt(hit_cell: Vector2i, aggressorPawn: Node2D) -> void:
+	
+	
+	
+
+func _on_other_pawn_hit_attempt(hit_cell: Vector2i, origin_cell: Vector2i, aggressorPawn: Node2D) -> void:
 	# Le pawn qui reçoit décide si c'est lui qui est visé
 	if current_cell != hit_cell:
 		return
 
-	_being_hit(aggressorPawn)
+	_being_hit(aggressorPawn, origin_cell)
 
-
-
-
-
-
-	
-	
 func _on_active_team_changed(active_team_id: int) -> void:
 	if active_team_id == team_id:
 		active_team_ring.modulate = Color.BLUE

@@ -1,24 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://3k4vl80vnul2"]
+[gd_scene load_steps=4 format=3 uid="uid://3k4vl80vnul2"]
 
 [ext_resource type="Script" uid="uid://ijwoicjnn5y0" path="res://scene/pawn.gd" id="1_b0spm"]
 [ext_resource type="Texture2D" uid="uid://xf3ulgovp6hl" path="res://assets/Bubble_head/CarloMonferato_BubbleHead.png" id="2_w6ftl"]
 [ext_resource type="Texture2D" uid="uid://ru2kqb6wj3fb" path="res://assets/ring.png" id="3_08rbq"]
 
-[sub_resource type="Theme" id="Theme_w6ftl"]
-default_base_scale = 0.43
-default_font_size = 100
-
-[sub_resource type="Theme" id="Theme_08rbq"]
-default_font_size = 20
-
 [node name="Pawn" type="CharacterBody2D"]
 script = ExtResource("1_b0spm")
-move_range = null
-strength = null
-reflex = null
-team_id = null
-hasPuck = null
-start_cell = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -35,27 +22,3 @@ scale = Vector2(-0.17882574, 0.18596756)
 texture = ExtResource("3_08rbq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
-[node name="RedX" type="Label" parent="."]
-visible = false
-offset_left = -67.0
-offset_top = -90.0
-offset_right = 67.0
-offset_bottom = 47.0
-theme = SubResource("Theme_w6ftl")
-theme_override_colors/font_color = Color(0.7614446, 0, 0.08705016, 1)
-text = "X"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="downLabel" type="Label" parent="."]
-visible = false
-offset_left = -40.0
-offset_top = 28.0
-offset_right = 40.0
-offset_bottom = 56.0
-theme = SubResource("Theme_08rbq")
-theme_override_colors/font_color = Color(0.038397167, 0.038397167, 0.03839716, 1)
-text = "10 tours"
-horizontal_alignment = 1
-vertical_alignment = 1
