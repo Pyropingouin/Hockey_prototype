@@ -149,14 +149,16 @@ func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 	print("direction", push_direction)
 	print("NewPos", new_position_after_hit)
 	
-	current_cell = new_position_after_hit
-	IceMapLayer.place_pawn_on_cell(self,current_cell)
+	#Vérifier si il est possible de déplacer le joueur 
+	#Call GameManager qui va call IceMap pour savoir si on peut déplacer
 	
-	
-	
+	if (true):
+		current_cell = new_position_after_hit
+		#Ne pas call Icemap, trouve autre façon à traver GameManager
+		IceMapLayer.place_pawn_on_cell(self,current_cell)
 		
-
-	
+	else:
+		pass
 	
 	
 
