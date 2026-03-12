@@ -196,7 +196,7 @@ team_id = 2
 start_cell = Vector2i(6, 4)
 
 [node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
-position = Vector2(607, 132)
+position = Vector2(607, -9)
 scale = Vector2(1.004868, 1)
 script = ExtResource("10_yq8tf")
 
@@ -225,62 +225,57 @@ text = "REFLEX"
 position = Vector2(1, 5)
 start_cell = Vector2i(7, 3)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PopupMenu" type="PopupMenu" parent="CanvasLayer"]
-oversampling_override = 1.0
-
 [node name="EndTurnButton" type="Button" parent="."]
-offset_left = 1277.0
-offset_top = 752.0
-offset_right = 1501.0
-offset_bottom = 817.0
+offset_left = 1280.0
+offset_top = 621.0
+offset_right = 1504.0
+offset_bottom = 686.0
 text = "End Turn"
 
 [node name="Label" type="Label" parent="."]
-offset_left = 1516.0
-offset_top = 773.0
-offset_right = 1650.0
-offset_bottom = 814.0
+offset_left = 1504.0
+offset_top = 621.0
+offset_right = 1638.0
+offset_bottom = 662.0
 text = "Tour de l'équipe :"
 horizontal_alignment = 3
 
 [node name="ActiveTeamLabel" type="Label" parent="."]
-offset_left = 1672.0
-offset_top = 773.0
-offset_right = 1718.0
-offset_bottom = 803.0
+offset_left = 1658.0
+offset_top = 621.0
+offset_right = 1704.0
+offset_bottom = 651.0
 text = "1"
 
 [node name="HomeTeamLabel" type="Label" parent="."]
-offset_left = 1305.0
-offset_top = 840.0
-offset_right = 1387.0
-offset_bottom = 889.0
+offset_left = 1280.0
+offset_top = 686.0
+offset_right = 1362.0
+offset_bottom = 735.0
 text = "Home :
 "
 
 [node name="AwayTeamLabel" type="Label" parent="."]
-offset_left = 1501.0
-offset_top = 840.0
-offset_right = 1583.0
-offset_bottom = 915.0
+offset_left = 1411.0
+offset_top = 686.0
+offset_right = 1493.0
+offset_bottom = 761.0
 text = "Away :
 
 "
 
 [node name="HomeTeamScoreLabel" type="Label" parent="."]
-offset_left = 1371.0
-offset_top = 840.0
-offset_right = 1411.0
-offset_bottom = 863.0
+offset_left = 1356.0
+offset_top = 686.0
+offset_right = 1396.0
+offset_bottom = 709.0
 text = "0"
 
 [node name="AwayTeamScoreLabel" type="Label" parent="."]
-offset_left = 1559.0
-offset_top = 840.0
-offset_right = 1599.0
-offset_bottom = 863.0
+offset_left = 1463.0
+offset_top = 686.0
+offset_right = 1503.0
+offset_bottom = 709.0
 text = "0"
 
 [node name="GoalOverlay" type="CanvasLayer" parent="."]
@@ -326,12 +321,46 @@ grow_vertical = 2
 text = "Continue "
 
 [node name="ActionCounterLabel" type="Label" parent="."]
-offset_left = 1604.0
-offset_top = 825.0
-offset_right = 1767.0
-offset_bottom = 881.0
+offset_left = 1504.0
+offset_top = 651.0
+offset_right = 1667.0
+offset_bottom = 707.0
 text = "action counter = 1 / 4"
 vertical_alignment = 1
+
+[node name="ActionButtonOverlay" type="CanvasLayer" parent="."]
+
+[node name="ShootButton" type="Button" parent="ActionButtonOverlay"]
+offset_left = 1280.0
+offset_top = 811.0
+offset_right = 1391.0
+offset_bottom = 842.0
+disabled = true
+text = "Shoot Button"
+
+[node name="PassButton" type="Button" parent="ActionButtonOverlay"]
+offset_left = 1433.0
+offset_top = 811.0
+offset_right = 1534.0
+offset_bottom = 842.0
+disabled = true
+text = "Pass Button"
+
+[node name="HitButton" type="Button" parent="ActionButtonOverlay"]
+offset_left = 1280.0
+offset_top = 863.0
+offset_right = 1369.0
+offset_bottom = 894.0
+disabled = true
+text = "Hit Button"
+
+[node name="CancelButton" type="Button" parent="ActionButtonOverlay"]
+offset_left = 1433.0
+offset_top = 863.0
+offset_right = 1550.0
+offset_bottom = 894.0
+disabled = true
+text = "Cancel Button"
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
