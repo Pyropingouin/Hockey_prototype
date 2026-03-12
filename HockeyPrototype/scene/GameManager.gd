@@ -436,10 +436,6 @@ func _do_hit(target_cell: Vector2i) -> void:
 	if action_pawn.has_method("_hit"):
 		action_pawn._hit(target_cell)
 		
-	#TODO ajouter une méthode pour être frapper	
-	#if hitTarget.has_method("_being_hit"):
-		#hitTarget._being_hit(target_cell)
-		
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()		
@@ -453,7 +449,6 @@ func _is_in_shoot_range(orgin_cell, target_cell, recieved_pawn):
 		return false
 	else:
 		return true	
-
 
 func reset_board():
 		puck.reset_board()

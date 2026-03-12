@@ -127,6 +127,18 @@ func can_move_pawn_to(pawn: Node2D, origin: Vector2i, target: Vector2i) -> bool:
 		return false
 	return true
 
+
+func can_push_pawn_to(pawn: Node2D, target: Vector2i) -> bool:
+	if pawn == null:
+		return false
+	if not cell_exists(target):
+		return false
+	if is_cell_blocked(target):
+		return false
+	if is_cell_occupied(target, pawn):
+		return false
+	return true
+
 func place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	# place visuellement + tu peux garder ton update_occupancy() ici
 	var local_pos := map_to_local(cell)

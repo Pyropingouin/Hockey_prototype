@@ -150,15 +150,15 @@ func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 	print("NewPos", new_position_after_hit)
 	
 	#Vérifier si il est possible de déplacer le joueur 
-	#Call GameManager qui va call IceMap pour savoir si on peut déplacer
-	
-	if (true):
+
+	if (IceMapLayer.can_push_pawn_to(self, new_position_after_hit)):
 		current_cell = new_position_after_hit
 		#Ne pas call Icemap, trouve autre façon à traver GameManager
 		IceMapLayer.place_pawn_on_cell(self,current_cell)
 		
 	else:
-		pass
+		#TODO Trouver si stun ou déplacer ailleurs
+		print("stun!")
 	
 	
 
@@ -192,8 +192,6 @@ func _auto_connect_to_puck() -> void:
 	if pucks.is_empty():
 		return
 		
-		
-
 	var puck := pucks[0]
 
 	# hold_puck_is_moving -> puck
@@ -207,5 +205,4 @@ func _auto_connect_to_puck() -> void:
 	# passing_puck -> puck
 	if has_signal("passing_puck") and puck.has_method("_on_pawn_passing_puck"):
 		connect("passing_puck", Callable(puck, "_on_pawn_passing_puck"))
-		
 	
