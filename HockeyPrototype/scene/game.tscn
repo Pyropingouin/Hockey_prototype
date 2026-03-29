@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=40 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
@@ -20,6 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://b4ma8wsq6ysua" path="res://assets/personnage/JSP.png" id="15_b8t8i"]
 [ext_resource type="Texture2D" uid="uid://c7ipo7b1v0r6u" path="res://assets/personnage/JoshSoup.png" id="17_ca6q5"]
 [ext_resource type="Texture2D" uid="uid://u0557i1fp4lf" path="res://assets/personnage/LarryStone.png" id="19_abp7u"]
+[ext_resource type="Texture2D" uid="uid://dsavf7v6w6l8t" path="res://assets/tirer.png" id="21_ww6yf"]
+[ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="22_1it6f"]
+[ext_resource type="Texture2D" uid="uid://k1aupt461k4t" path="res://assets/Passe.png" id="23_b8t8i"]
+[ext_resource type="Script" uid="uid://dgiu1sbeek6xv" path="res://scene/texture_button.gd" id="23_pp3pk"]
+[ext_resource type="Texture2D" uid="uid://bcx3y0pe8d3h7" path="res://assets/Hit_pressed.png" id="25_355h4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
 texture = ExtResource("4_qpk70")
@@ -330,40 +335,47 @@ vertical_alignment = 1
 
 [node name="ActionButtonOverlay" type="CanvasLayer" parent="."]
 
-[node name="ShootButton" type="Button" parent="ActionButtonOverlay"]
-offset_left = 1280.0
-offset_top = 811.0
-offset_right = 1391.0
-offset_bottom = 842.0
-disabled = true
-text = "Shoot Button"
-
-[node name="PassButton" type="Button" parent="ActionButtonOverlay"]
-offset_left = 1433.0
-offset_top = 811.0
-offset_right = 1534.0
-offset_bottom = 842.0
-disabled = true
-text = "Pass Button"
-
-[node name="HitButton" type="Button" parent="ActionButtonOverlay"]
-offset_left = 1280.0
-offset_top = 863.0
-offset_right = 1369.0
-offset_bottom = 894.0
-disabled = true
-text = "Hit Button"
-
 [node name="CancelButton" type="Button" parent="ActionButtonOverlay"]
-offset_left = 1433.0
-offset_top = 863.0
-offset_right = 1550.0
-offset_bottom = 894.0
+offset_left = 2607.0
+offset_top = 946.0
+offset_right = 2724.0
+offset_bottom = 977.0
 disabled = true
 text = "Cancel Button"
+
+[node name="ShootButton" type="TextureButton" parent="ActionButtonOverlay"]
+offset_left = 1280.0
+offset_top = 709.0
+offset_right = 1440.0
+offset_bottom = 869.0
+texture_normal = ExtResource("21_ww6yf")
+script = ExtResource("23_pp3pk")
+
+[node name="PassButton" type="TextureButton" parent="ActionButtonOverlay"]
+offset_left = 1440.0
+offset_top = 709.0
+offset_right = 1600.0
+offset_bottom = 869.0
+texture_normal = ExtResource("23_b8t8i")
+script = ExtResource("23_pp3pk")
+
+[node name="HitButton" type="TextureButton" parent="ActionButtonOverlay"]
+offset_left = 1600.0
+offset_top = 709.0
+offset_right = 1760.0
+offset_bottom = 869.0
+texture_normal = ExtResource("22_1it6f")
+texture_pressed = ExtResource("25_355h4")
+script = ExtResource("23_pp3pk")
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="puck_is_picked_up" from="IceMapLayer2" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="pressed" from="EndTurnButton" to="GameManager" method="_on_end_turn_button_pressed"]
 [connection signal="pressed" from="GoalOverlay/GoalPanel/ContinueButton" to="GameManager" method="_on_continue_button_pressed"]
+[connection signal="mouse_entered" from="ActionButtonOverlay/ShootButton" to="ActionButtonOverlay/ShootButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ActionButtonOverlay/ShootButton" to="ActionButtonOverlay/ShootButton" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="ActionButtonOverlay/PassButton" to="ActionButtonOverlay/PassButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ActionButtonOverlay/PassButton" to="ActionButtonOverlay/PassButton" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="ActionButtonOverlay/HitButton" to="ActionButtonOverlay/HitButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ActionButtonOverlay/HitButton" to="ActionButtonOverlay/HitButton" method="_on_mouse_exited"]
