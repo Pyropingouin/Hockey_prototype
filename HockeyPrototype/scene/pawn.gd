@@ -28,6 +28,7 @@ var _hasPuck: bool = false
 
 
 var _start_cell: Vector2i = Vector2i.ZERO
+var _is_selected_pawn = false
 
 
 
@@ -67,6 +68,9 @@ func _ready():
 	
 	GameManager.active_team_changed.connect(_on_active_team_changed)
 	_on_active_team_changed(GameManager.active_team)
+	
+	GameManager.pawn_selected.connect(_on_pawn_selected)
+
 
 	
 
@@ -102,6 +106,7 @@ func _update_ring_color() -> void:
 		puck_ring.modulate = Color.YELLOW
 	else:
 		puck_ring.modulate = Color.BLACK
+
 		
 func _shoot(shootPosition) -> void:
 	if hasPuck:
@@ -174,6 +179,20 @@ func _on_active_team_changed(active_team_id: int) -> void:
 		active_team_ring.modulate = Color.BLUE
 	else: 	
 		active_team_ring.modulate = Color.RED
+		
+func _on_pawn_selected(selected_pawn: Variant) -> void:
+	if(selected_pawn == self):
+		_is_selected_pawn = true
+	else: 	
+		_is_selected_pawn = false
+	
+	
+	#Change color et pas remplacer le active ring !
+	if _is_selected_pawn:
+		active_team_ring.modulate = Color.YELLOW
+	else:
+		active_team_ring.modulate = Color.PALE_VIOLET_RED	
+					
 		
 func _connect_to_other_pawns() -> void:
 	var container = get_parent() #PlayerContainer

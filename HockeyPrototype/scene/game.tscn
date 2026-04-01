@@ -162,42 +162,67 @@ visible = false
 [node name="Pawn" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("13_pp3pk")
 fullBodyTexture = SubResource("CompressedTexture2D_yk3to")
+pawn_name = ""
 move_range = 3
+strength = 2
+reflex = 3
 team_id = 1
+hasPuck = false
 start_cell = Vector2i(4, 3)
 
 [node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("13_pp3pk")
 fullBodyTexture = SubResource("CompressedTexture2D_8p2gu")
+pawn_name = ""
+move_range = 2
+strength = 2
+reflex = 3
 team_id = 1
+hasPuck = false
 start_cell = Vector2i(5, 3)
 
 [node name="Pawn3" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("13_pp3pk")
 fullBodyTexture = ExtResource("13_1it6f")
+pawn_name = ""
 move_range = 3
+strength = 2
+reflex = 3
 team_id = 1
+hasPuck = false
 start_cell = Vector2i(6, 3)
 
 [node name="Pawn4" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("13_pp3pk")
 fullBodyTexture = ExtResource("15_b8t8i")
+pawn_name = ""
 move_range = 3
+strength = 2
+reflex = 3
 team_id = 2
+hasPuck = false
 start_cell = Vector2i(4, 4)
 
 [node name="Pawn5" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("13_pp3pk")
 fullBodyTexture = ExtResource("17_ca6q5")
+pawn_name = ""
 move_range = 3
+strength = 2
+reflex = 3
 team_id = 2
+hasPuck = false
 start_cell = Vector2i(5, 4)
 
 [node name="Pawn6" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
 bubbleHeadTexture = ExtResource("13_pp3pk")
 fullBodyTexture = ExtResource("19_abp7u")
+pawn_name = ""
 move_range = 3
+strength = 2
+reflex = 3
 team_id = 2
+hasPuck = false
 start_cell = Vector2i(6, 4)
 
 [node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]

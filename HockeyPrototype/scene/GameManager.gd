@@ -70,6 +70,7 @@ var is_dragging := false
 
 var target_pawn: Node2D = null
 var action_pawn: Node2D = null
+var selected_pawn: Node2D = null
 var action_origin_cell: Vector2i = Vector2i.ZERO
 
 signal active_team_changed(active_team_id: int)
@@ -137,6 +138,8 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
+	
+	emit_signal("pawn_selected", selected_pawn)
 	active_pawn = null
 	drag_candidate = IceMapLayer.pawn_at_cell(cell)
 
@@ -163,7 +166,10 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 		return
 
 	if not is_dragging:
-		emit_signal("pawn_selected", active_pawn)
+		
+		selected_pawn = active_pawn
+		
+		emit_signal("pawn_selected", selected_pawn)
 		
 		#Faire une variable selected_Pawn
 		#l'envoyer au pawn pour lui dire qu'il est sélectionner
@@ -228,7 +234,7 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 
 		is_dragging = true
 		IceMapLayer.highlight_unreachable_from(drag_start_cell, active_pawn.move_range)
-		emit_signal("pawn_selected", active_pawn)
+		emit_signal("pawn_selected", selected_pawn)
 		_refresh_action_buttons()
 
 	active_pawn.global_position = global_pos
