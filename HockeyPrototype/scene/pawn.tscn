@@ -6,13 +6,6 @@
 
 [node name="Pawn" type="CharacterBody2D"]
 script = ExtResource("1_b0spm")
-pawn_name = null
-move_range = null
-strength = null
-reflex = null
-team_id = null
-hasPuck = null
-start_cell = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

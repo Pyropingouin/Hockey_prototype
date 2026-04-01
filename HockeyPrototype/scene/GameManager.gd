@@ -30,6 +30,8 @@ var active_team:
 		print("active_team:", _active_team, "->", value)
 		_active_team = value
 		active_team_changed.emit(_active_team)
+		selected_pawn = null
+		pawn_selected.emit(selected_pawn)
 
 var _home_team_score := 0
 var home_team_score:

@@ -29,6 +29,8 @@ var _hasPuck: bool = false
 
 var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
+var hue: float = 0.0
+
 
 
 
@@ -78,6 +80,18 @@ func _ready():
 	if bubbleHeadTexture:
 		sprite.texture = bubbleHeadTexture
 		
+func _process(delta: float) -> void:
+	if _is_selected_pawn:
+		hue += delta * 0.5
+		if hue > 1.0:
+			hue -= 1.0
+		
+		active_team_ring.modulate = Color.from_hsv(hue, 1.0, 1.0, 1.0)
+	else:
+		if GameManager.active_team == team_id:
+			active_team_ring.modulate = Color.BLUE
+		else:
+			active_team_ring.modulate = Color.RED		
 
 func get_current_cell() -> Vector2i:
 	return current_cell
@@ -187,11 +201,15 @@ func _on_pawn_selected(selected_pawn: Variant) -> void:
 		_is_selected_pawn = false
 	
 	
-	#Change color et pas remplacer le active ring !
+	#Change color et pas remplacer le team ring !
 	if _is_selected_pawn:
 		active_team_ring.modulate = Color.YELLOW
 	else:
-		active_team_ring.modulate = Color.PALE_VIOLET_RED	
+		if GameManager.active_team == team_id:
+			active_team_ring.modulate = Color.BLUE
+		else: 	
+			active_team_ring.modulate = Color.RED
+			
 					
 		
 func _connect_to_other_pawns() -> void:
