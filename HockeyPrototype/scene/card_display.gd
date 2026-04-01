@@ -8,7 +8,7 @@ func _ready():
 	pass
 
 func _on_game_manager_pawn_selected(pawn: Variant) -> void:
-	print("Pion Reçu", pawn)
+	print("Pion Reçu ", pawn)
 	print(pawn.hasPuck)
 	
 	sprite.texture = pawn.fullBodyTexture

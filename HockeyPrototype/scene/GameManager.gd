@@ -164,6 +164,28 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	if not is_dragging:
 		emit_signal("pawn_selected", active_pawn)
+		
+		#Faire une variable selected_Pawn
+		#l'envoyer au pawn pour lui dire qu'il est sélectionner
+			#faire tourner le ring dans le pawn si selected
+		#l'envoyer au card display aussu	
+		#Tant qu'il est selected, on change pas
+		#Si PLUS selected, 
+			#dire au selected Pawn qu'il n'est plus selected
+		#Selected_pawn = null
+			#dire au card display que selected pawn = null
+			
+		#Qu'est-ce qui trigger la fin du selected pawn?
+		#1) Selecté un autre pawn
+		#2) juste cancel le présent pawn (Click à coté??)
+		
+			
+		
+			
+			
+			
+		
+		
 		_refresh_action_buttons()
 		_cleanup_drag()
 		return
