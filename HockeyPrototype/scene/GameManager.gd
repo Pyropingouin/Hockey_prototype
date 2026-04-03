@@ -141,11 +141,13 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
 	
-	emit_signal("pawn_selected", selected_pawn)
+
 	active_pawn = null
 	drag_candidate = IceMapLayer.pawn_at_cell(cell)
 
 	if drag_candidate == null:
+		selected_pawn = null
+		emit_signal("pawn_selected", selected_pawn)
 		_refresh_action_buttons()
 		return
 
@@ -155,6 +157,11 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 		return
 
 	active_pawn = drag_candidate
+	selected_pawn = drag_candidate
+
+	
+		
+	emit_signal("pawn_selected", selected_pawn)
 	drag_start_cell = active_pawn.current_cell
 	drag_start_mouse_pos = global_pos
 	is_dragging = false
@@ -217,6 +224,10 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 
 	target_pawn = null
 	target_pawn = IceMapLayer.pawn_at_cell(cell)
+
+	if (target_pawn == null):
+		selected_pawn = null
+		emit_signal("pawn_selected", selected_pawn)
 
 	print("Target_Pawn = ", target_pawn)
 	
@@ -297,6 +308,12 @@ func _refresh_action_buttons() -> void:
 		pass_button.disabled = false
 	else:
 		hit_button.disabled = false
+
+
+	shoot_button.update_visual()
+	pass_button.update_visual()
+	hit_button.update_visual()
+	# cancel_button.update_visual()	
 
 
 func _start_action_shoot() -> void:
