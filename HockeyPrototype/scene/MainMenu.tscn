@@ -23,10 +23,14 @@ layout_mode = 2
 text = "Sticks and Blades '95"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="VBoxContainer"]
+[node name="QuickGame" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Start Game
+text = "Quick Game
 "
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Draft Mode"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -45,5 +49,6 @@ rotation = -0.2617994
 scale = Vector2(0.5888889, 0.5888889)
 texture = ExtResource("2_sks6p")
 
-[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuickGame" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
