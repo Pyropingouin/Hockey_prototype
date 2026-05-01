@@ -1,33 +1,33 @@
 [gd_scene load_steps=40 format=4 uid="uid://dqh2m1tcbosaq"]
 
-[ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="2_p1ry8"]
-[ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="3_xwcet"]
-[ext_resource type="Texture2D" uid="uid://pwwo7v34yhog" path="res://assets/Tile/DemiLigneRouge64_180.png" id="4_jhlss"]
-[ext_resource type="Texture2D" uid="uid://dku5ajwvlga65" path="res://assets/Tile/LigneBleue64.png" id="4_jrd6n"]
-[ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="4_qpk70"]
-[ext_resource type="PackedScene" uid="uid://3k4vl80vnul2" path="res://scene/pawn.tscn" id="4_xwcet"]
-[ext_resource type="Texture2D" uid="uid://byj8gsibyqvxg" path="res://assets/Tile/DemiLigneRouge64.png" id="5_jhlss"]
-[ext_resource type="Texture2D" uid="uid://dsuvk2d3ajh6h" path="res://assets/Tile/TileGlace_1.png" id="7_1it6f"]
-[ext_resource type="Texture2D" uid="uid://dim8sdbugs2o5" path="res://assets/Tile/TileGlace_2.png" id="8_pp3pk"]
-[ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="9_17rxn"]
-[ext_resource type="Texture2D" uid="uid://qf5wabb6y5l1" path="res://assets/Tile/TileGlace_3.png" id="9_b8t8i"]
-[ext_resource type="Texture2D" uid="uid://dpmoe2nrvy8r4" path="res://assets/Tile/TileGlace_4.png" id="10_355h4"]
-[ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="10_yq8tf"]
-[ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="11_ym5sv"]
-[ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="12_sng2h"]
-[ext_resource type="Texture2D" uid="uid://cgr1s0pcocxio" path="res://assets/personnage/DougDog.png" id="13_1it6f"]
-[ext_resource type="Texture2D" uid="uid://ckitveq3h1dcq" path="res://assets/JSPMinifullplayerTest.png" id="13_pp3pk"]
-[ext_resource type="Texture2D" uid="uid://b4ma8wsq6ysua" path="res://assets/personnage/JSP.png" id="15_b8t8i"]
-[ext_resource type="Texture2D" uid="uid://c7ipo7b1v0r6u" path="res://assets/personnage/JoshSoup.png" id="17_ca6q5"]
-[ext_resource type="Texture2D" uid="uid://u0557i1fp4lf" path="res://assets/personnage/LarryStone.png" id="19_abp7u"]
-[ext_resource type="Texture2D" uid="uid://dsavf7v6w6l8t" path="res://assets/tirer.png" id="21_ww6yf"]
-[ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="22_1it6f"]
-[ext_resource type="Texture2D" uid="uid://k1aupt461k4t" path="res://assets/Passe.png" id="23_b8t8i"]
-[ext_resource type="Script" uid="uid://dgiu1sbeek6xv" path="res://scene/texture_button.gd" id="23_pp3pk"]
-[ext_resource type="Texture2D" uid="uid://bcx3y0pe8d3h7" path="res://assets/Hit_pressed.png" id="25_355h4"]
+[ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="1_84jve"]
+[ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="2_pto03"]
+[ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="3_bhud1"]
+[ext_resource type="Texture2D" uid="uid://pwwo7v34yhog" path="res://assets/Tile/DemiLigneRouge64_180.png" id="4_563h6"]
+[ext_resource type="Texture2D" uid="uid://dku5ajwvlga65" path="res://assets/Tile/LigneBleue64.png" id="5_63rlt"]
+[ext_resource type="Texture2D" uid="uid://byj8gsibyqvxg" path="res://assets/Tile/DemiLigneRouge64.png" id="6_iudat"]
+[ext_resource type="Texture2D" uid="uid://dsuvk2d3ajh6h" path="res://assets/Tile/TileGlace_1.png" id="7_dc67i"]
+[ext_resource type="Texture2D" uid="uid://dim8sdbugs2o5" path="res://assets/Tile/TileGlace_2.png" id="8_qsdp0"]
+[ext_resource type="Texture2D" uid="uid://qf5wabb6y5l1" path="res://assets/Tile/TileGlace_3.png" id="9_hnnr8"]
+[ext_resource type="Texture2D" uid="uid://dpmoe2nrvy8r4" path="res://assets/Tile/TileGlace_4.png" id="10_obi1p"]
+[ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="11_48mqq"]
+[ext_resource type="PackedScene" uid="uid://3k4vl80vnul2" path="res://scene/pawn.tscn" id="12_g1aoe"]
+[ext_resource type="Texture2D" uid="uid://ckitveq3h1dcq" path="res://assets/JSPMinifullplayerTest.png" id="13_ga48g"]
+[ext_resource type="Texture2D" uid="uid://cgr1s0pcocxio" path="res://assets/personnage/DougDog.png" id="14_spa6w"]
+[ext_resource type="Texture2D" uid="uid://b4ma8wsq6ysua" path="res://assets/personnage/JSP.png" id="15_iegxr"]
+[ext_resource type="Texture2D" uid="uid://c7ipo7b1v0r6u" path="res://assets/personnage/JoshSoup.png" id="16_02sss"]
+[ext_resource type="Texture2D" uid="uid://u0557i1fp4lf" path="res://assets/personnage/LarryStone.png" id="17_5k64s"]
+[ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="18_fqyvk"]
+[ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="19_y5is6"]
+[ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="20_a1gg8"]
+[ext_resource type="Texture2D" uid="uid://dsavf7v6w6l8t" path="res://assets/tirer.png" id="21_w6c7q"]
+[ext_resource type="Script" uid="uid://dgiu1sbeek6xv" path="res://scene/texture_button.gd" id="22_p4wsm"]
+[ext_resource type="Texture2D" uid="uid://k1aupt461k4t" path="res://assets/Passe.png" id="23_mjiv6"]
+[ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="24_yj4y7"]
+[ext_resource type="Texture2D" uid="uid://bcx3y0pe8d3h7" path="res://assets/Hit_pressed.png" id="25_xlqbc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
-texture = ExtResource("4_qpk70")
+texture = ExtResource("2_pto03")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 6
 0:0/0 = 0
@@ -37,7 +37,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/1/modulate = Color(0.27752772, 0.27752772, 0.27752772, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dbls1"]
-texture = ExtResource("2_p1ry8")
+texture = ExtResource("3_bhud1")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -46,7 +46,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/1 = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ww6yf"]
-texture = ExtResource("4_jhlss")
+texture = ExtResource("4_563h6")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -54,7 +54,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/1/modulate = Color(0.26293245, 0.26293245, 0.26293245, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ca6q5"]
-texture = ExtResource("4_jrd6n")
+texture = ExtResource("5_63rlt")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -64,7 +64,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/1/modulate = Color(0.35906908, 0.35906908, 0.35906908, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yerfe"]
-texture = ExtResource("5_jhlss")
+texture = ExtResource("6_iudat")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 6
 0:0/0 = 0
@@ -72,7 +72,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/1/modulate = Color(0.27387273, 0.27387273, 0.27387273, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_he4o3"]
-texture = ExtResource("4_qpk70")
+texture = ExtResource("2_pto03")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -80,7 +80,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/1/modulate = Color(0.28485027, 0.28485027, 0.28485027, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yk3to"]
-texture = ExtResource("7_1it6f")
+texture = ExtResource("7_dc67i")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -88,21 +88,22 @@ texture_region_size = Vector2i(64, 64)
 0:0/1/modulate = Color(0.26293245, 0.26293245, 0.26293245, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0halo"]
-texture = ExtResource("8_pp3pk")
+texture = ExtResource("8_qsdp0")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8p2gu"]
-texture = ExtResource("9_b8t8i")
+texture = ExtResource("9_hnnr8")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kv4hp"]
-texture = ExtResource("10_355h4")
+texture = ExtResource("10_obi1p")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_dbls1"]
+tile_shape = 3
 tile_size = Vector2i(64, 64)
 custom_data_layer_0/name = "type"
 custom_data_layer_0/type = 4
@@ -132,78 +133,77 @@ load_path = "res://.godot/imported/GarenGaspacini.png-52c8dbe34252dc77579183c571
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jrd6n"]
 bg_color = Color(0, 0, 0, 0.80784315)
 
-[node name="game" type="Node2D"]
+[node name="Game" type="Node2D"]
 
 [node name="GameManager" type="Node" parent="."]
-script = ExtResource("12_sng2h")
+script = ExtResource("1_84jve")
 
 [node name="IceMapLayer" type="TileMapLayer" parent="."]
+visible = false
 texture_filter = 1
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAABAAQAAwAAAAAAAAACAAQAAwAAAAAAAAADAAQAAwAAAAAAAAAEAAQAAwAAAAAAAAAFAAQAAwAAAAAAAAAGAAQAAwAAAAAAAAAHAAQAAwAAAAAAAAAIAAQAAwAAAAAAAAAJAAQAAwAAAAAAAAABAAUABgAAAAAAAAACAAUABgAAAAAAAGADAAUABgAAAAAAAAAEAAUABgAAAAAAAGAFAAUABgAAAAAAAAAGAAUABgAAAAAAAAAHAAUABgAAAAAAAAAIAAUABgAAAAAAAFAJAAUABgAAAAAAAAAJAAYABgAAAAAAAAAIAAYABgAAAAAAAAAHAAYABgAAAAAAAAAGAAYABgAAAAAAAAAFAAYABgAAAAAAAAAEAAYABgAAAAAAAFADAAYABgAAAAAAAFACAAYABgAAAAAAAAABAAYABgAAAAAAAAABAAIABgAAAAAAADACAAIABgAAAAAAAAADAAIABgAAAAAAAGAEAAIABgAAAAAAADAFAAIABgAAAAAAAAAGAAIABgAAAAAAAFAHAAIABgAAAAAAAAAIAAIABgAAAAAAAAAJAAIABQAAAAAAAAAJAAEABgAAAAAAAAAIAAEABgAAAAAAAAAHAAEABgAAAAAAAAAGAAEABgAAAAAAAAAFAAEABgAAAAAAAAAEAAEABgAAAAAAAGADAAEABgAAAAAAAAACAAEABgAAAAAAAAABAAEABgAAAAAAAGABAAMACgAAAAAAAAADAAMACgAAAAAAAAAFAAMACgAAAAAAAAAGAAMACgAAAAAAAAAJAAMACgAAAAAAAAAIAAMACgAAAAAAAAAHAAMACgAAAAAAAAAEAAMACgAAAAAAAAACAAMACgAAAAAAAAAFAAcAAQAAAAAAAAAFAAAAAgAAAAAAAAA=")
 tile_set = SubResource("TileSet_dbls1")
-script = ExtResource("3_xwcet")
+script = ExtResource("11_48mqq")
 
 [node name="CostOverlay" type="Node2D" parent="IceMapLayer"]
 
 [node name="IceMapLayer2" type="TileMapLayer" parent="."]
-visible = false
 texture_filter = 1
 scale = Vector2(2, 2)
-tile_map_data = PackedByteArray("AAAEAAMAAwAAAAAAAFAFAAMAAwAAAAAAAGAFAAEAAwAAAAAAAGAFAAIAAwAAAAAAAGAFAAQAAwAAAAAAAGAFAAUAAwAAAAAAAGAFAAYAAwAAAAAAAGAFAAcAAwAAAAAAAGAEAAEAAwAAAAAAAFAEAAIAAwAAAAAAAFAEAAQAAwAAAAAAAFAEAAUAAwAAAAAAAFAEAAYAAwAAAAAAAFAEAAcAAwAAAAAAAFADAAEABgAAAAAAAAADAAIABgAAAAAAAAADAAMABgAAAAAAAAADAAQABgAAAAAAAAADAAUABgAAAAAAAAADAAYABgAAAAAAAAADAAcABgAAAAAAAAAGAAEABgAAAAAAAAAGAAIABgAAAAAAAAAGAAMABgAAAAAAAAAGAAQABgAAAAAAAAAGAAUABgAAAAAAAAAGAAYABgAAAAAAAAAGAAcABgAAAAAAAAAHAAEABgAAAAAAAAAHAAIABgAAAAAAAAAHAAMABgAAAAAAAAAHAAQABgAAAAAAAAAHAAUABgAAAAAAAAAHAAYABgAAAAAAAAAHAAcABgAAAAAAAAACAAEABgAAAAAAAAACAAIABgAAAAAAAAACAAMABgAAAAAAAAACAAQABgAAAAAAAAACAAUABgAAAAAAAAACAAYABgAAAAAAAAACAAcABgAAAAAAAAABAAQAAgAAAAAAAAAIAAQAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_dbls1")
-script = ExtResource("3_xwcet")
+script = ExtResource("11_48mqq")
 
 [node name="CostOverlay" type="Node2D" parent="IceMapLayer2"]
 visible = false
 
 [node name="PlayersContainer" type="Node" parent="."]
 
-[node name="Pawn" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("13_pp3pk")
+[node name="Pawn" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
+bubbleHeadTexture = ExtResource("13_ga48g")
 fullBodyTexture = SubResource("CompressedTexture2D_yk3to")
 move_range = 3
 team_id = 1
 start_cell = Vector2i(4, 3)
 
-[node name="Pawn2" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("13_pp3pk")
+[node name="Pawn2" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
+bubbleHeadTexture = ExtResource("13_ga48g")
 fullBodyTexture = SubResource("CompressedTexture2D_8p2gu")
 team_id = 1
 start_cell = Vector2i(5, 3)
 
-[node name="Pawn3" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("13_pp3pk")
-fullBodyTexture = ExtResource("13_1it6f")
+[node name="Pawn3" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
+bubbleHeadTexture = ExtResource("13_ga48g")
+fullBodyTexture = ExtResource("14_spa6w")
 move_range = 3
 team_id = 1
 start_cell = Vector2i(6, 3)
 
-[node name="Pawn4" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("13_pp3pk")
-fullBodyTexture = ExtResource("15_b8t8i")
+[node name="Pawn4" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
+bubbleHeadTexture = ExtResource("13_ga48g")
+fullBodyTexture = ExtResource("15_iegxr")
 move_range = 3
 team_id = 2
 start_cell = Vector2i(4, 4)
 
-[node name="Pawn5" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("13_pp3pk")
-fullBodyTexture = ExtResource("17_ca6q5")
+[node name="Pawn5" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
+bubbleHeadTexture = ExtResource("13_ga48g")
+fullBodyTexture = ExtResource("16_02sss")
 move_range = 3
 team_id = 2
 start_cell = Vector2i(5, 4)
 
-[node name="Pawn6" parent="PlayersContainer" instance=ExtResource("4_xwcet")]
-bubbleHeadTexture = ExtResource("13_pp3pk")
-fullBodyTexture = ExtResource("19_abp7u")
+[node name="Pawn6" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
+bubbleHeadTexture = ExtResource("13_ga48g")
+fullBodyTexture = ExtResource("17_5k64s")
 move_range = 3
 team_id = 2
 start_cell = Vector2i(6, 4)
 
-[node name="CardDisplay" parent="." instance=ExtResource("9_17rxn")]
+[node name="CardDisplay" parent="." instance=ExtResource("18_fqyvk")]
 position = Vector2(607, -9)
 scale = Vector2(1.004868, 1)
-script = ExtResource("10_yq8tf")
+script = ExtResource("19_y5is6")
 
 [node name="Move" type="Label" parent="CardDisplay"]
 offset_left = 698.0
@@ -226,7 +226,7 @@ offset_right = 1082.0
 offset_bottom = 571.0
 text = "REFLEX"
 
-[node name="Puck" parent="." instance=ExtResource("11_ym5sv")]
+[node name="Puck" parent="." instance=ExtResource("20_a1gg8")]
 position = Vector2(1, 5)
 start_cell = Vector2i(7, 3)
 
@@ -236,6 +236,7 @@ offset_top = 621.0
 offset_right = 1504.0
 offset_bottom = 686.0
 text = "End Turn"
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="."]
 offset_left = 1504.0
@@ -244,6 +245,7 @@ offset_right = 1638.0
 offset_bottom = 662.0
 text = "Tour de l'équipe :"
 horizontal_alignment = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="ActiveTeamLabel" type="Label" parent="."]
 offset_left = 1658.0
@@ -251,6 +253,7 @@ offset_top = 621.0
 offset_right = 1704.0
 offset_bottom = 651.0
 text = "1"
+metadata/_edit_use_anchors_ = true
 
 [node name="HomeTeamLabel" type="Label" parent="."]
 offset_left = 1280.0
@@ -259,6 +262,7 @@ offset_right = 1362.0
 offset_bottom = 735.0
 text = "Home :
 "
+metadata/_edit_use_anchors_ = true
 
 [node name="AwayTeamLabel" type="Label" parent="."]
 offset_left = 1411.0
@@ -268,6 +272,7 @@ offset_bottom = 761.0
 text = "Away :
 
 "
+metadata/_edit_use_anchors_ = true
 
 [node name="HomeTeamScoreLabel" type="Label" parent="."]
 offset_left = 1356.0
@@ -275,6 +280,7 @@ offset_top = 686.0
 offset_right = 1396.0
 offset_bottom = 709.0
 text = "0"
+metadata/_edit_use_anchors_ = true
 
 [node name="AwayTeamScoreLabel" type="Label" parent="."]
 offset_left = 1463.0
@@ -282,6 +288,7 @@ offset_top = 686.0
 offset_right = 1503.0
 offset_bottom = 709.0
 text = "0"
+metadata/_edit_use_anchors_ = true
 
 [node name="GoalOverlay" type="CanvasLayer" parent="."]
 visible = false
@@ -332,6 +339,7 @@ offset_right = 1667.0
 offset_bottom = 707.0
 text = "action counter = 1 / 4"
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="ActionButtonOverlay" type="CanvasLayer" parent="."]
 
@@ -342,31 +350,35 @@ offset_right = 2724.0
 offset_bottom = 977.0
 disabled = true
 text = "Cancel Button"
+metadata/_edit_use_anchors_ = true
 
 [node name="ShootButton" type="TextureButton" parent="ActionButtonOverlay"]
 offset_left = 1280.0
 offset_top = 709.0
 offset_right = 1440.0
 offset_bottom = 869.0
-texture_normal = ExtResource("21_ww6yf")
-script = ExtResource("23_pp3pk")
+texture_normal = ExtResource("21_w6c7q")
+script = ExtResource("22_p4wsm")
+metadata/_edit_use_anchors_ = true
 
 [node name="PassButton" type="TextureButton" parent="ActionButtonOverlay"]
 offset_left = 1440.0
 offset_top = 709.0
 offset_right = 1600.0
 offset_bottom = 869.0
-texture_normal = ExtResource("23_b8t8i")
-script = ExtResource("23_pp3pk")
+texture_normal = ExtResource("23_mjiv6")
+script = ExtResource("22_p4wsm")
+metadata/_edit_use_anchors_ = true
 
 [node name="HitButton" type="TextureButton" parent="ActionButtonOverlay"]
 offset_left = 1600.0
 offset_top = 709.0
 offset_right = 1760.0
 offset_bottom = 869.0
-texture_normal = ExtResource("22_1it6f")
-texture_pressed = ExtResource("25_355h4")
-script = ExtResource("23_pp3pk")
+texture_normal = ExtResource("24_yj4y7")
+texture_pressed = ExtResource("25_xlqbc")
+script = ExtResource("22_p4wsm")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]

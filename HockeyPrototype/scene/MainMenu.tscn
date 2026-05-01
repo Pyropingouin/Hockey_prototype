@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbevrfwi6bgkw"]
+
+[ext_resource type="Texture2D" uid="uid://bvm2debt5kubm" path="res://assets/Bubble_head/JohnSmith_BubbleHead.png" id="1_lnxie"]
+[ext_resource type="Script" uid="uid://bi7umx44b765q" path="res://scene/main_menu.gd" id="1_sks6p"]
+[ext_resource type="Texture2D" uid="uid://dwbtcrftbj0p3" path="res://assets/Bubble_head/MikeGeazel_BubbleHead.png" id="2_sks6p"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_sks6p")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 362.0
+offset_top = 192.0
+offset_right = 884.0
+offset_bottom = 585.0
+
+[node name="GameTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Sticks and Blades '95"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start Game
+"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer"]
+position = Vector2(80.99999, -1.5258789e-05)
+rotation = 0.2617994
+scale = Vector2(0.5388889, 0.54348165)
+texture = ExtResource("1_lnxie")
+
+[node name="Sprite2D2" type="Sprite2D" parent="VBoxContainer"]
+position = Vector2(459, 0)
+rotation = -0.2617994
+scale = Vector2(0.5888889, 0.5888889)
+texture = ExtResource("2_sks6p")
+
+[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
