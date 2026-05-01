@@ -468,6 +468,15 @@ func _compute_hit_targets_8(origin: Vector2i, recieved_pawn: Node2D) -> Array[Ve
 	return targets	
 
 
+func show_shot_preview(origin_cell, target_cell, max_range):
+	pass
+
+func clear_shot_preview():
+	pass		
+
+func _compute_shot_path(origin_cell, target_cell, max_range):
+	pass
+
 
 ### Algo Breadth-First Search (BFS)
 func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:

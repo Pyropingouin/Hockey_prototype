@@ -1,3 +1,17 @@
+# ActionFlow
+
+
+#shoot#
+# start shoot
+# pre eligible  ----> IceMapLayer.highlight_shoot_target + Devient ActionMode Shoot
+# handle action click
+# do_shoot
+# _shoot player!
+# IN PUCK SHOOT
+# type de tuile
+# goal_type
+# active_team_action_counter
+# Card_display.GD Selected Pawn ---- MEANING _on_game_manager_pawn_selected
 extends Node
 
 enum GameState { PLAYING, GOAL_PAUSE }
@@ -147,6 +161,7 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 
 	if drag_candidate == null:
 		selected_pawn = null
+		print("_on_left_mouse_down if drag_candidate")
 		emit_signal("pawn_selected", selected_pawn)
 		_refresh_action_buttons()
 		return
@@ -160,7 +175,7 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	selected_pawn = drag_candidate
 
 	
-		
+	print("_on_left_mouse_down")	
 	emit_signal("pawn_selected", selected_pawn)
 	drag_start_cell = active_pawn.current_cell
 	drag_start_mouse_pos = global_pos
@@ -176,10 +191,13 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	if not is_dragging:
 		
-		selected_pawn = active_pawn
+		# selected_pawn = active_pawn
 		
-		emit_signal("pawn_selected", selected_pawn)
+		print("_on_left_mouse_UP if not dragging")
+		# emit_signal("pawn_selected", selected_pawn)
 		
+
+
 		#Faire une variable selected_Pawn
 		#l'envoyer au pawn pour lui dire qu'il est sélectionner
 			#faire tourner le ring dans le pawn si selected
@@ -222,11 +240,16 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 func _on_right_mouse_down(global_pos: Vector2) -> void:
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
+	if action_mode != ActionMode.NONE:
+		_cancel_action_mode()
+	
+
 	target_pawn = null
 	target_pawn = IceMapLayer.pawn_at_cell(cell)
 
 	if (target_pawn == null):
 		selected_pawn = null
+		print("_on_right_mouse_down if target_pawn = null")
 		emit_signal("pawn_selected", selected_pawn)
 
 	print("Target_Pawn = ", target_pawn)
@@ -247,6 +270,7 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 
 		is_dragging = true
 		IceMapLayer.highlight_unreachable_from(drag_start_cell, active_pawn.move_range)
+		print("_on_mouse_drag")
 		emit_signal("pawn_selected", selected_pawn)
 		_refresh_action_buttons()
 
@@ -368,6 +392,8 @@ func _do_shoot(target_cell: Vector2i) -> void:
 	action_origin_cell = active_pawn.current_cell
 
 	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
+		print("Shoot target oustide of range")
+		_cancel_action_mode()
 		return
 
 	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
@@ -376,7 +402,13 @@ func _do_shoot(target_cell: Vector2i) -> void:
 
 	if action_pawn.has_method("_shoot"):
 		action_pawn._shoot(target_cell)
+		selected_pawn = null	
 
+
+		
+
+	emit_signal("pawn_selected", selected_pawn)
+	
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
@@ -389,6 +421,8 @@ func _do_pass(target_cell: Vector2i) -> void:
 	action_origin_cell = active_pawn.current_cell
 
 	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
+		print("PASS target oustide of range")
+		_cancel_action_mode()
 		return
 
 	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
@@ -403,7 +437,9 @@ func _do_pass(target_cell: Vector2i) -> void:
 
 	if action_pawn.has_method("_pass"):
 		action_pawn._pass(target_cell)
+		selected_pawn = null	
 
+	emit_signal("pawn_selected", selected_pawn)
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()

@@ -126,7 +126,8 @@ func _shoot(shootPosition) -> void:
 	if hasPuck:
 		hasPuck = false
 		print("_shoot player!")
-	
+
+		
 		emit_signal("shooting_puck", shootPosition)
 		
 	else: 
@@ -137,6 +138,8 @@ func _pass(passPosition) -> void:
 	if hasPuck:
 		hasPuck = false
 		print("_pass player!")
+
+		
 		emit_signal("passing_puck", passPosition)
 		
 	else: 
