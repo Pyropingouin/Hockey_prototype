@@ -74,39 +74,39 @@ offset_left = 14.0
 offset_right = 174.0
 offset_bottom = 80.0
 
-[node name="Stat1Label" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
+[node name="moveRangeLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
 layout_mode = 0
 offset_right = 61.0
 offset_bottom = 23.0
-text = "Force 4"
+text = "Speed 4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Stat2Label" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
+[node name="strengthLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
 layout_mode = 0
 offset_left = 93.0
 offset_right = 170.0
 offset_bottom = 23.0
-text = "Defence 4"
+text = "Strength 5"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Stat3Label" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
+[node name="reflexLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
 layout_mode = 0
 offset_top = 62.0
 offset_right = 61.0
 offset_bottom = 85.0
-text = "Speed 5"
+text = "Reflex 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Stat4Label" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
+[node name="healthLabel" type="Label" parent="MarginContainer/VBoxContainer/StatsPanel/StatsArea"]
 layout_mode = 0
 offset_left = 93.0
 offset_top = 62.0
 offset_right = 170.0
 offset_bottom = 85.0
-text = "Autre 6"
+text = "Health 3"
 horizontal_alignment = 1
 vertical_alignment = 1
 

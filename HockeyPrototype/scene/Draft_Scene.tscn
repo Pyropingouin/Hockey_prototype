@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8bjmy6ua2lfu"]
+
+[ext_resource type="PackedScene" uid="uid://cqava2l6f0ljv" path="res://scene/draft_card.tscn" id="1_on5aw"]
+
+[node name="Draft_Scene" type="Node2D"]
+
+[node name="CardContainer" type="Node" parent="."]
+
+[node name="DraftCard" parent="CardContainer" instance=ExtResource("1_on5aw")]
+
+[node name="DraftCard2" parent="CardContainer" instance=ExtResource("1_on5aw")]
+offset_left = 360.0
+offset_right = 574.0
+offset_bottom = 317.0
