@@ -53,4 +53,8 @@ func setup(player: Dictionary) -> void:
 
 func _on_click_card_button_pressed() -> void:
 	card_clicked.emit(player_data)
-	# self.queue_free()
+
+
+func set_clickable(value: bool) -> void:
+	$ClickCardButton.visible = value
+	$ClickCardButton.disabled = not value

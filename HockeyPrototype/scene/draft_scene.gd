@@ -13,6 +13,7 @@ var player_team_selected_players: Array = []
 var opposing_team_selected_players: Array = []
 
 @onready var card_container: HBoxContainer  = $CardContainer
+@onready var player_team_selected_players_container: HBoxContainer  = $HomeTeamContainer
 
 
 func _ready() -> void:
@@ -83,6 +84,8 @@ func _on_card_clicked(selected_player: Dictionary) -> void:
 	player_team_selected_players.append(selected_player)
 	print("Joueur ajouté à ton équipe :", selected_player["pawn_name"])
 
+	refresh_player_team_display()
+
 	var remaining_choices := []
 
 	for player in current_draft_choices:
@@ -99,3 +102,16 @@ func _on_card_clicked(selected_player: Dictionary) -> void:
 	print("Équipe adverse :", opposing_team_selected_players.size())
 
 	show_new_draft_choices()
+
+func refresh_player_team_display() -> void:
+	for child in player_team_selected_players_container.get_children():
+		child.queue_free()
+
+	for player in player_team_selected_players:
+		var image := TextureRect.new()
+		image.texture = player["image"]
+		image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		image.custom_minimum_size = Vector2(128, 128)
+
+		player_team_selected_players_container.add_child(image)
