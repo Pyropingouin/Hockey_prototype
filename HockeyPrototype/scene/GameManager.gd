@@ -22,6 +22,7 @@ var action_mode: ActionMode = ActionMode.NONE
 
 const max_action_counter: int = 4
 const DRAG_THRESHOLD_PX := 12.0
+const PAWN_SCENE := preload("res://scene/Pawn.tscn")
 
 var _active_team_action_counter: int = 0
 var active_team_action_counter:
@@ -77,6 +78,7 @@ var away_team_score:
 @onready var pass_button = $"../ActionButtonOverlay/PassButton"
 @onready var hit_button = $"../ActionButtonOverlay/HitButton"
 @onready var cancel_button = $"../ActionButtonOverlay/CancelButton"
+@onready var players_container: Node = $"../PlayersContainer"
 
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
 var drag_start_cell: Vector2i = Vector2i.ZERO
@@ -98,6 +100,8 @@ signal active_team_action_counter_changed(active_team_action_counter: int)
 func _ready() -> void:
 
 	print(GameData.player_team_selected_players)
+
+	spawn_teams_from_draft()
 
 
 	active_team_changed.emit(_active_team)
@@ -478,6 +482,56 @@ func _is_in_shoot_range(orgin_cell, target_cell, recieved_pawn):
 		return false
 	else:
 		return true
+
+
+
+
+func spawn_teams_from_draft() -> void:
+	for child in players_container.get_children():
+		child.queue_free()
+
+
+
+	#REVOIR POSITION 	
+
+	var home_start_cells: Array[Vector2i] = [
+		Vector2i(3, 4),
+		Vector2i(3, 5),
+		Vector2i(3, 6),
+		Vector2i(4, 4),
+		Vector2i(4, 5),
+		Vector2i(4, 6)
+	]
+
+	var away_start_cells: Array[Vector2i] = [
+		Vector2i(12, 4),
+		Vector2i(12, 5),
+		Vector2i(12, 6),
+		Vector2i(11, 4),
+		Vector2i(11, 5),
+		Vector2i(11, 6)
+	]
+
+	for i in range(GameData.player_team_selected_players.size()):
+		var player_data: Dictionary = GameData.player_team_selected_players[i]
+		var pawn = PAWN_SCENE.instantiate()
+
+		players_container.add_child(pawn)
+
+		var start_cell: Vector2i = home_start_cells[i]
+		pawn.setup(player_data, 1, start_cell)
+		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
+
+	for i in range(GameData.opposing_team_selected_players.size()):
+		var player_data: Dictionary = GameData.opposing_team_selected_players[i]
+		var pawn = PAWN_SCENE.instantiate()
+
+		players_container.add_child(pawn)
+
+		var start_cell: Vector2i = away_start_cells[i]
+		pawn.setup(player_data, 2, start_cell)
+		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
+
 
 func reset_board():
 	puck.reset_board()

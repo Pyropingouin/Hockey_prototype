@@ -95,6 +95,28 @@ func _process(delta: float) -> void:
 
 func get_current_cell() -> Vector2i:
 	return current_cell
+
+
+
+func setup(player_data: Dictionary, pawn_team_id: int, pawn_start_cell: Vector2i) -> void:
+	if player_data.has("pawn_name"):
+		pawn_name = player_data["pawn_name"]
+		name = pawn_name
+
+	if player_data.has("move_range"):
+		move_range = player_data["move_range"]
+
+	if player_data.has("strength"):
+		strength = player_data["strength"]
+
+	if player_data.has("reflex"):
+		reflex = player_data["reflex"]
+
+	if player_data.has("image"):
+		bubbleHeadTexture = player_data["image"]
+
+	team_id = pawn_team_id
+	start_cell = pawn_start_cell	
 	
 	
 func pick_up_puck(pawn) -> void:

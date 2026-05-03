@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=34 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="1_84jve"]
 [ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="2_pto03"]
@@ -12,12 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://qf5wabb6y5l1" path="res://assets/Tile/TileGlace_3.png" id="9_hnnr8"]
 [ext_resource type="Texture2D" uid="uid://dpmoe2nrvy8r4" path="res://assets/Tile/TileGlace_4.png" id="10_obi1p"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="11_48mqq"]
-[ext_resource type="PackedScene" uid="uid://3k4vl80vnul2" path="res://scene/pawn.tscn" id="12_g1aoe"]
-[ext_resource type="Texture2D" uid="uid://ckitveq3h1dcq" path="res://assets/JSPMinifullplayerTest.png" id="13_ga48g"]
-[ext_resource type="Texture2D" uid="uid://cgr1s0pcocxio" path="res://assets/personnage/DougDog.png" id="14_spa6w"]
-[ext_resource type="Texture2D" uid="uid://b4ma8wsq6ysua" path="res://assets/personnage/JSP.png" id="15_iegxr"]
-[ext_resource type="Texture2D" uid="uid://c7ipo7b1v0r6u" path="res://assets/personnage/JoshSoup.png" id="16_02sss"]
-[ext_resource type="Texture2D" uid="uid://u0557i1fp4lf" path="res://assets/personnage/LarryStone.png" id="17_5k64s"]
 [ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="18_fqyvk"]
 [ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="19_y5is6"]
 [ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="20_a1gg8"]
@@ -131,12 +125,6 @@ sources/9 = SubResource("TileSetAtlasSource_kv4hp")
 sources/10 = SubResource("TileSetAtlasSource_ww6yf")
 sources/11 = SubResource("TileSetAtlasSource_bhud1")
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yk3to"]
-load_path = "res://.godot/imported/CarloMonferato.png-75e3e4b9bf851e8575878c9a3ba4cb68.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8p2gu"]
-load_path = "res://.godot/imported/GarenGaspacini.png-52c8dbe34252dc77579183c571c6cd4c.ctex"
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jrd6n"]
 bg_color = Color(0, 0, 0, 0.80784315)
 
@@ -165,47 +153,6 @@ script = ExtResource("11_48mqq")
 visible = false
 
 [node name="PlayersContainer" type="Node" parent="."]
-
-[node name="Pawn" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
-bubbleHeadTexture = ExtResource("13_ga48g")
-fullBodyTexture = SubResource("CompressedTexture2D_yk3to")
-move_range = 3
-team_id = 1
-start_cell = Vector2i(4, 3)
-
-[node name="Pawn2" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
-bubbleHeadTexture = ExtResource("13_ga48g")
-fullBodyTexture = SubResource("CompressedTexture2D_8p2gu")
-team_id = 1
-start_cell = Vector2i(5, 3)
-
-[node name="Pawn3" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
-bubbleHeadTexture = ExtResource("13_ga48g")
-fullBodyTexture = ExtResource("14_spa6w")
-move_range = 3
-team_id = 1
-start_cell = Vector2i(6, 3)
-
-[node name="Pawn4" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
-bubbleHeadTexture = ExtResource("13_ga48g")
-fullBodyTexture = ExtResource("15_iegxr")
-move_range = 3
-team_id = 2
-start_cell = Vector2i(4, 4)
-
-[node name="Pawn5" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
-bubbleHeadTexture = ExtResource("13_ga48g")
-fullBodyTexture = ExtResource("16_02sss")
-move_range = 3
-team_id = 2
-start_cell = Vector2i(5, 4)
-
-[node name="Pawn6" parent="PlayersContainer" instance=ExtResource("12_g1aoe")]
-bubbleHeadTexture = ExtResource("13_ga48g")
-fullBodyTexture = ExtResource("17_5k64s")
-move_range = 3
-team_id = 2
-start_cell = Vector2i(6, 4)
 
 [node name="CardDisplay" parent="." instance=ExtResource("18_fqyvk")]
 position = Vector2(607, -9)
