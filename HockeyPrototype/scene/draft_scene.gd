@@ -115,3 +115,14 @@ func refresh_player_team_display() -> void:
 		image.custom_minimum_size = Vector2(128, 128)
 
 		player_team_selected_players_container.add_child(image)
+
+
+
+
+
+func _on_end_draft_button_pressed() -> void:
+	print("End Draft Button")
+	GameData.player_team_selected_players = player_team_selected_players
+	GameData.opposing_team_selected_players = opposing_team_selected_players
+
+	get_tree().change_scene_to_file("res://scene/Game_Scene.tscn")

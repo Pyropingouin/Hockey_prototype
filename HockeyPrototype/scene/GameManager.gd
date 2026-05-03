@@ -96,6 +96,10 @@ signal away_team_score_changed(away_team_score: int)
 signal active_team_action_counter_changed(active_team_action_counter: int)
 
 func _ready() -> void:
+
+	print(GameData.player_team_selected_players)
+
+
 	active_team_changed.emit(_active_team)
 	puck.goal_scored.connect(_on_goal_scored)
 
