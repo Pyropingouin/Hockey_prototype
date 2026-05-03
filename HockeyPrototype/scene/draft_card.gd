@@ -19,17 +19,26 @@ extends PanelContainer
 @onready var pawn_health_label: Label = $MarginContainer/VBoxContainer/StatsPanel/StatsArea/healthLabel
 
 
-signal card_clicked(card_id: int)
+signal card_clicked(player: Dictionary)
+
+
+var player_data: Dictionary
 
 
 
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready() -> void:
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func setup(player: Dictionary) -> void:
+
+
+	player_data = player
+
+
 	card_id = player["id"]
 	pawn_name_label.text = player["pawn_name"]
 
@@ -43,5 +52,5 @@ func setup(player: Dictionary) -> void:
 
 
 func _on_click_card_button_pressed() -> void:
-	card_clicked.emit(card_id)
+	card_clicked.emit(player_data)
 	# self.queue_free()
