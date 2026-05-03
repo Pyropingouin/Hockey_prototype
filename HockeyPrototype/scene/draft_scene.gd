@@ -4,6 +4,7 @@ extends Node2D
 const DRAFT_CARD_SCENE := preload("res://scene/draft_card.tscn")
 const PLAYERS_DB_PATH := "res://data/players.json"
 const DRAFT_CHOICES_COUNT := 3
+const DRAFT_CARDS_NUMBER_LIMIT:= 2
 
 
 var player_pool: Array = []          
@@ -32,15 +33,19 @@ func show_new_draft_choices() -> void:
 
 	var number_to_draw = min(DRAFT_CHOICES_COUNT, player_pool.size())
 
+	if player_team_selected_players.size() <= DRAFT_CARDS_NUMBER_LIMIT:
 
-	for i in range(number_to_draw):
-		var player = player_pool.pop_front()
-		current_draft_choices.append(player)
+		for i in range(number_to_draw):
+			var player = player_pool.pop_front()
+			current_draft_choices.append(player)
 
-		var card = DRAFT_CARD_SCENE.instantiate()
-		card_container.add_child(card)
-		card.setup(player)
-		card.card_clicked.connect(_on_card_clicked)
+			var card = DRAFT_CARD_SCENE.instantiate()
+			card_container.add_child(card)
+			card.setup(player)
+			card.card_clicked.connect(_on_card_clicked)
+
+	else:
+		$EndDraftButton.visible = true		
 
 	print("Joueurs restants dans le pool :", player_pool.size())
 	
