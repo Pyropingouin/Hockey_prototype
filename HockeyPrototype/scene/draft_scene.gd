@@ -2,55 +2,14 @@ extends Node2D
 
 
 const DRAFT_CARD_SCENE := preload("res://scene/draft_card.tscn")
+const PLAYERS_DB_PATH := "res://data/players.json"
 
 @onready var card_container: HBoxContainer  = $CardContainer
 
 
-
-var players := [
-	{
-		"id": 1,
-		"pawn_name": "Aaron White",
-		"image": preload("res://assets/Bubble_head/AaronWhite_Bubblehead.png"),
-		"stats": {
-			"move_range": 4,
-			"strength": 4,
-			"reflex": 5,
-			"health": 6
-		}
-	},
-	{
-		"id": 2,
-		"pawn_name": "Carlo Monferato",
-		"image": preload("res://assets/Bubble_head/CarloMonferato_Bubblehead.png"),
-		"stats": {
-			"move_range": 3,
-			"strength": 6,
-			"reflex": 4,
-			"health": 5
-		}
-	},
-	{
-		"id": 3,
-		"pawn_name": "Dan Demers",
-		"image": preload("res://assets/Bubble_head/DanDemers_BubbleaHead.png"),
-		"stats": {
-			"move_range": 5,
-			"strength": 3,
-			"reflex": 6,
-			"health": 4
-		}
-	}
-]
-
-
-
-
-
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
+	var players = load_players()
 	
 
 	for player in players:
@@ -59,6 +18,32 @@ func _ready() -> void:
 		card.setup(player)
 		card.card_clicked.connect(_on_card_clicked)
 
+
+
+func load_players() -> Array:
+	var file := FileAccess.open(PLAYERS_DB_PATH, FileAccess.READ)
+
+	if file == null:
+		push_error("Impossible d'ouvrir la DB de joueurs : " + PLAYERS_DB_PATH)
+		return []
+
+	var content := file.get_as_text()
+	var json := JSON.new()
+	var error := json.parse(content)
+
+	if error != OK:
+		push_error("Erreur JSON : " + json.get_error_message())
+		return []
+
+	var data = json.data
+
+
+	for player in data:
+		if player.has("image_path"):
+			player["image"] = load(player["image_path"])
+
+	return data		
+	
 
 
 

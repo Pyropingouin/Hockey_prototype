@@ -44,3 +44,4 @@ func setup(player: Dictionary) -> void:
 
 func _on_click_card_button_pressed() -> void:
 	card_clicked.emit(card_id)
+	# self.queue_free()
