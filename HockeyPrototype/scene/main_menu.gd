@@ -18,5 +18,5 @@ func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
 
-func _on_button_pressed() -> void:
-	print("Draft Mode not implemented yet")
+func _on_draft_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scene/Draft_Scene.tscn")

@@ -28,7 +28,7 @@ layout_mode = 2
 text = "Quick Game
 "
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="DraftButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Draft Mode"
 
@@ -50,5 +50,5 @@ scale = Vector2(0.5888889, 0.5888889)
 texture = ExtResource("2_sks6p")
 
 [connection signal="pressed" from="VBoxContainer/QuickGame" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/DraftButton" to="." method="_on_draft_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
