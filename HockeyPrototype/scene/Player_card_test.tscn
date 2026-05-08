@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ccmdim8ipnron" path="res://assets/personnage/AaronWhite.png" id="2_b6nuc"]
 
 [node name="Player_card_test" type="PanelContainer"]
-custom_minimum_size = Vector2(240, 300)
+custom_minimum_size = Vector2(240, 280)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,7 +25,7 @@ layout_mode = 2
 color = Color(0.74260795, 0.067861825, 0.6284407, 1)
 
 [node name="PortraitArea" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(220, 180)
+custom_minimum_size = Vector2(240, 180)
 layout_mode = 2
 
 [node name="TextureRectBackGround" type="TextureRect" parent="VBoxContainer/PortraitArea"]
@@ -46,9 +46,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -200.0
-offset_right = 100.0
+offset_left = -110.0
+offset_top = -220.0
+offset_right = 110.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("2_b6nuc")
@@ -61,9 +61,15 @@ color = Color(0.74260795, 0.067861825, 0.6284407, 1)
 
 [node name="NameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2627451, 0.2627451, 0.2627451, 1)
 text = "Nom du joueur"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_group_ = true
+
+[node name="Space" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(220, 0)
@@ -77,10 +83,12 @@ size_flags_horizontal = 3
 
 [node name="SpeedLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.26111263, 0.26111263, 0.2611126, 1)
 text = "Speed"
 
 [node name="StrengthLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2627451, 0.2627451, 0.2627451, 1)
 text = "Strength"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
@@ -89,11 +97,13 @@ size_flags_horizontal = 3
 
 [node name="ReflexLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2627451, 0.2627451, 0.2627451, 1)
 text = "Reflex"
 horizontal_alignment = 2
 
 [node name="HitLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.2627451, 0.2627451, 0.2627451, 1)
 text = "Hit"
 horizontal_alignment = 2
 
