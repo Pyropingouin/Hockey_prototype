@@ -1,0 +1,115 @@
+[gd_scene load_steps=4 format=3 uid="uid://2r3g8oonpdyv"]
+
+[ext_resource type="Texture2D" uid="uid://ccmdim8ipnron" path="res://assets/personnage/AaronWhite.png" id="1_0fbet"]
+[ext_resource type="Texture2D" uid="uid://bq3epf4yifni2" path="res://assets/TestStatCardGLACE.png" id="1_62e2m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtu10"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Player_card_test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+
+[node name="ColorRectTop" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+color = Color(0.74260795, 0.067861825, 0.6284407, 1)
+
+[node name="PortraitArea" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 180)
+layout_mode = 2
+
+[node name="TextureRectBackGround" type="TextureRect" parent="VBoxContainer/PortraitArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_62e2m")
+expand_mode = 1
+
+[node name="TextRectSprite" type="TextureRect" parent="VBoxContainer/PortraitArea"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 180.0
+texture = ExtResource("1_0fbet")
+expand_mode = 1
+
+[node name="IconTopLeftArea" type="Panel" parent="VBoxContainer/PortraitArea"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qtu10")
+
+[node name="IconTopLeftTexture" type="TextureRect" parent="VBoxContainer/PortraitArea/IconTopLeftArea"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="IconTopRightArea" type="Panel" parent="VBoxContainer/PortraitArea"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qtu10")
+
+[node name="IconTopRightTexture" type="TextureRect" parent="VBoxContainer/PortraitArea/IconTopRightArea"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Nom du joueur"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Strength"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Reflex"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Hit"
+horizontal_alignment = 2
+
+[node name="ColorRectBot" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+color = Color(0.74260795, 0.067861825, 0.6284407, 1)
