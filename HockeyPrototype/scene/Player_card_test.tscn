@@ -1,20 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://2r3g8oonpdyv"]
+[gd_scene load_steps=4 format=3 uid="uid://2r3g8oonpdyv"]
 
 [ext_resource type="Texture2D" uid="uid://bq3epf4yifni2" path="res://assets/TestStatCardGLACE.png" id="1_1oq2b"]
+[ext_resource type="Script" uid="uid://da5a3qdmjuf3r" path="res://scene/player_card_test.gd" id="1_b6nuc"]
 [ext_resource type="Texture2D" uid="uid://ccmdim8ipnron" path="res://assets/personnage/AaronWhite.png" id="2_b6nuc"]
 
-[node name="Player_card_test" type="Control"]
-layout_mode = 3
+[node name="Player_card_test" type="PanelContainer"]
+custom_minimum_size = Vector2(240, 300)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1040.0
+offset_bottom = -420.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_b6nuc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 220.0
-offset_bottom = 277.0
+layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="ColorRectTop" type="ColorRect" parent="VBoxContainer"]
@@ -31,6 +33,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 108.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_1oq2b")
@@ -43,15 +46,20 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -90.0
-offset_top = -180.0
-offset_right = 90.0
+offset_left = -100.0
+offset_top = -200.0
+offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("2_b6nuc")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="ColorRectBot" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+color = Color(0.74260795, 0.067861825, 0.6284407, 1)
+
+[node name="NameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Nom du joueur"
 horizontal_alignment = 1
@@ -67,11 +75,11 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="SpeedLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Speed"
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="StrengthLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Strength"
 
@@ -79,17 +87,18 @@ text = "Strength"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="ReflexLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Reflex"
 horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="HitLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Hit"
 horizontal_alignment = 2
 
-[node name="ColorRectBot" type="ColorRect" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 12)
+[node name="ClickCardButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-color = Color(0.74260795, 0.067861825, 0.6284407, 1)
+
+[connection signal="pressed" from="ClickCardButton" to="." method="_on_click_card_button_pressed"]
