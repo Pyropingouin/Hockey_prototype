@@ -120,6 +120,10 @@ func setup(player_data: Dictionary, pawn_team_id: int, pawn_start_cell: Vector2i
 
 	team_id = pawn_team_id
 	start_cell = pawn_start_cell	
+
+	print("name: ",name )
+	print("team: ",team_id)
+	print("start: ", start_cell)
 	
 	
 func pick_up_puck(pawn) -> void:

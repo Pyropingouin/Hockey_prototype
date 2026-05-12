@@ -390,7 +390,6 @@ text = "REFLEX"
 
 [node name="Puck" parent="." instance=ExtResource("20_a1gg8")]
 position = Vector2(1, 5)
-start_cell = Vector2i(7, 3)
 
 [node name="EndTurnButton" type="Button" parent="."]
 offset_left = 1684.0

@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var ice_map: TileMapLayer = $"../IceMapLayer"
 @onready var GameManager = $"../GameManager"
 
-@export var start_cell: Vector2i = Vector2i(0, 0):
+@export var start_cell: Vector2i = Vector2i(2, 0):
 	set(value):
 		start_cell = value
 		current_cell = value
@@ -14,7 +14,7 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 
 var current_cell = start_cell
-var reset_puck_position: Vector2i = Vector2i(7, 4)
+var reset_puck_position: Vector2i = Vector2i(2, 0)
 
 signal goal_scored(goal_type)
 

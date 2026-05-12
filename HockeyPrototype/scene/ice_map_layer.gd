@@ -71,7 +71,7 @@ func _ready() -> void:
 	place_puck_on_cell(puck, puck.current_cell)	
 	
 	update_occupancy()
-	print_map_data()	
+	# print_map_data()	
 
 
 # Retourne l'alt_id correct en préservant les flags de flip
