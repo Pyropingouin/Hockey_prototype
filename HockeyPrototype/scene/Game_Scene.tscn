@@ -44,152 +44,242 @@
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4n2k"]
 texture = ExtResource("2_8ms0i")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_le55p"]
 texture = ExtResource("3_rsjqm")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ti1si"]
 texture = ExtResource("2_6e22e")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhud1"]
 texture = ExtResource("5_pto03")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bkj41"]
 texture = ExtResource("4_5cukr")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_px2wc"]
 texture = ExtResource("5_8ms0i")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mre50"]
 texture = ExtResource("6_rsjqm")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p4gtq"]
 texture = ExtResource("7_o4n2k")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8gnwc"]
 texture = ExtResource("8_le55p")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7rhjr"]
 texture = ExtResource("9_yjwkp")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_03fbq"]
 texture = ExtResource("10_0nkqg")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jtdfa"]
 texture = ExtResource("11_qvvq8")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vxy3i"]
 texture = ExtResource("12_8ntsr")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grcuc"]
 texture = ExtResource("13_qt2vj")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_os4uk"]
 texture = ExtResource("14_ytlpu")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_am2jv"]
 texture = ExtResource("15_1xuri")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n7ia1"]
 texture = ExtResource("16_u330o")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2fw6h"]
 texture = ExtResource("17_smmgo")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahr4f"]
 texture = ExtResource("18_m22v3")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i6o6p"]
 texture = ExtResource("19_bd01w")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rqk4w"]
 texture = ExtResource("20_86wfa")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rc8l1"]
 texture = ExtResource("21_oua80")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4tiiu"]
 texture = ExtResource("22_n07oo")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_exsbq"]
 texture = ExtResource("23_bad6y")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5nkl1"]
 texture = ExtResource("24_whwuk")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fausg"]
 texture = ExtResource("25_h6gsk")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5yovj"]
 texture = ExtResource("26_l7nrv")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mt1y8"]
 texture = ExtResource("27_2wcpk")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cv4fh"]
 texture = ExtResource("28_uyuwg")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ircuw"]
 texture = ExtResource("29_uxxho")
 texture_region_size = Vector2i(64, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
 [sub_resource type="TileSet" id="TileSet_dbls1"]
 tile_shape = 3
