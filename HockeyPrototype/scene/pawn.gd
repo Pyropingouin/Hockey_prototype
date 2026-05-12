@@ -113,7 +113,10 @@ func setup(player_data: Dictionary, pawn_team_id: int, pawn_start_cell: Vector2i
 		reflex = player_data["reflex"]
 
 	if player_data.has("image"):
-		bubbleHeadTexture = player_data["image"]
+		fullBodyTexture = player_data["image"]
+
+	if player_data.has("bubblehead"):
+		bubbleHeadTexture = player_data["bubblehead"]	
 
 	team_id = pawn_team_id
 	start_cell = pawn_start_cell	

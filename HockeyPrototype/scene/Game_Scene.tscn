@@ -241,18 +241,20 @@ bg_color = Color(0, 0, 0, 0.80784315)
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_84jve")
 
-[node name="IceMapLayer2" type="TileMapLayer" parent="."]
+[node name="IceMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
+position = Vector2(600, 350)
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAD9/wAAFAAAAAAAAAD8////FQAAAAAAAAD8/wEAEwAAAAAAAAD9////FgAAAAAAAAD+/wAAFwAAAAAAAAD9/wEAFgAAAAAAACD8/wAACwAAAAAAAAD7/wAAEgAAAAAAAAD7/wIAEgAAAAAAAAD7//7/EgAAAAAAAAD7////CwAAAAAAAAD7/wEACwAAAAAAAAD//wAACwAAAAAAAAAAAAAACwAAAAAAAAABAAAACwAAAAAAAAADAAAACwAAAAAAAAAEAAAACwAAAAAAAAAFAAAACwAAAAAAAAAGAAAAFwAAAAAAABAHAAAAFAAAAAAAABAHAAEAEwAAAAAAABAHAP//FQAAAAAAABAGAP//FgAAAAAAABAGAAEAFgAAAAAAADAIAAAACwAAAAAAAAAJAAAAEgAAAAAAABAJAAIAEgAAAAAAABAJAP7/EgAAAAAAABAIAP//CwAAAAAAAAAIAAEACwAAAAAAAAD7//3/CwAAAAAAAAD8//z/CwAAAAAAAAD8//v/CwAAAAAAAAAIAP3/CwAAAAAAAAAIAPz/CwAAAAAAAAAHAPv/CwAAAAAAAAD6/wEAEQAAAAAAAAD6////EQAAAAAAAAD6//3/EQAAAAAAAAAJAAEAEQAAAAAAABAJAP//EQAAAAAAABAJAP3/EQAAAAAAABD8//7/CwAAAAAAAAD9//7/CwAAAAAAAAD+//7/CwAAAAAAAAD///7/CwAAAAAAAAAAAP7/CwAAAAAAAAAIAP7/CwAAAAAAAAAHAP7/CwAAAAAAAAAGAP7/CwAAAAAAAAAFAP7/CwAAAAAAAAAEAP7/CwAAAAAAAAD8/wIACwAAAAAAAAD9/wIACwAAAAAAAAD+/wIACwAAAAAAAAD//wIACwAAAAAAAAAAAAIACwAAAAAAAAAIAAIACwAAAAAAAAAHAAIACwAAAAAAAAAGAAIACwAAAAAAAAAFAAIACwAAAAAAAAAEAAIACwAAAAAAAAD6/wMAEQAAAAAAAAD7/wMACwAAAAAAAAD8/wQACwAAAAAAAAD9/wQACwAAAAAAAAD+/wQACwAAAAAAAAD//wQACwAAAAAAAAD8/wUAHgAAAAAAAAD+/wUAHgAAAAAAAAD//wUAHgAAAAAAAAAAAAUAHgAAAAAAAAABAAUAIAAAAAAAAAACAAUAIAAAAAAAABADAAUAHgAAAAAAAAAEAAUAHgAAAAAAAAAFAAUAHgAAAAAAAAAGAAUAHgAAAAAAAAAHAAUAHgAAAAAAAAD7/wQAEAAAAAAAAAD9/wUAHgAAAAAAAAD7/wUACgAAAAAAAAD8/wYADAAAAAAAAAAIAAMACwAAAAAAAAAHAAMACwAAAAAAAAAGAAMACwAAAAAAAAAFAAMACwAAAAAAAAAEAAMACwAAAAAAAAADAAMACwAAAAAAAAD8/wMACwAAAAAAAAD9/wMACwAAAAAAAAD+/wMACwAAAAAAAAD//wMACwAAAAAAAAAAAAMACwAAAAAAAAACAAQAAQAAAAAAAAACAAIAAQAAAAAAAAACAAAAAQAAAAAAAAACAP7/AQAAAAAAAAACAPz/AQAAAAAAAAAFAAQACwAAAAAAAAAGAAQACwAAAAAAAAAHAAQACwAAAAAAAAAIAAQACwAAAAAAAAAJAAMAEQAAAAAAABAJAAQAEAAAAAAAABAIAAUACgAAAAAAABAIAAYADAAAAAAAABAFAAEACwAAAAAAAAAEAAEACwAAAAAAAAAFAP//CwAAAAAAAAAEAP//CwAAAAAAAAD9/wYAHQAAAAAAAAD+/wYAHQAAAAAAAAD//wYAHQAAAAAAAAAAAAYAHQAAAAAAAAABAAYAHQAAAAAAAAACAAYAHQAAAAAAAAADAAYAHQAAAAAAAAAEAAYAHQAAAAAAAAAFAAYAHQAAAAAAAAAGAAYAHQAAAAAAAAAHAAYAHQAAAAAAAAD8/wcAGgAAAAAAAAD9/wcAGgAAAAAAAAD+/wcAGgAAAAAAAAD//wcAGgAAAAAAAAAAAAcAGgAAAAAAAAABAAcAGgAAAAAAAAACAAcAGgAAAAAAAAADAAcAGgAAAAAAAAAEAAcAGgAAAAAAAAAFAAcAGgAAAAAAAAAGAAcAGgAAAAAAAAAHAAcAGgAAAAAAAAD7/wcADwAAAAAAAAAIAAcADwAAAAAAABD7/wYADgAAAAAAAAAJAAYADgAAAAAAABD6/wUADQAAAAAAAAAJAAUADQAAAAAAABD7//z/BgAAAAAAAAAJAPz/BgAAAAAAABD7//v/BQAAAAAAAAAIAPv/BQAAAAAAABD8//r/BAAAAAAAAAAIAPr/BAAAAAAAABD9//r/GQAAAAAAAAD+//r/GQAAAAAAAAD///r/GQAAAAAAAAAAAPr/GQAAAAAAAAABAPr/GQAAAAAAAAADAPr/GQAAAAAAAAAEAPr/GQAAAAAAAAAFAPr/GQAAAAAAAAAGAPr/GQAAAAAAAAAHAPr/GQAAAAAAAAD6//v/EQAAAAAAAAAJAPv/EQAAAAAAABD7//n/BwAAAAAAAAD7//r/CAAAAAAAAAAJAPr/CAAAAAAAABAIAPn/BwAAAAAAABD8//j/CQAAAAAAAAAIAPj/CQAAAAAAABACAPr/GwAAAAAAAAD8//n/HAAAAAAAAAD9//n/HAAAAAAAAAD+//n/HAAAAAAAAAD///n/HAAAAAAAAAAAAPn/HAAAAAAAAAABAPn/HAAAAAAAAAACAPn/HAAAAAAAAAADAPn/HAAAAAAAAAAEAPn/HAAAAAAAAAAFAPn/HAAAAAAAAAAGAPn/HAAAAAAAAAAHAPn/HAAAAAAAAAAHAPj/HwAAAAAAAAAGAPj/HwAAAAAAAAAFAPj/HwAAAAAAAAAEAPj/HwAAAAAAAAADAPj/HwAAAAAAAAACAPj/HwAAAAAAAAABAPj/HwAAAAAAAAAAAPj/HwAAAAAAAAD///j/HwAAAAAAAAD+//j/HwAAAAAAAAD9//j/HwAAAAAAAAD8//3/CwAAAAAAAAD9//3/CwAAAAAAAAD+//3/CwAAAAAAAAD///3/CwAAAAAAAAD9//z/CwAAAAAAAAD+//z/CwAAAAAAAAD///z/CwAAAAAAAAAAAPz/CwAAAAAAAAD9//v/CwAAAAAAAAD+//v/CwAAAAAAAAD///v/CwAAAAAAAAAAAPv/CwAAAAAAAAAHAP3/CwAAAAAAAAAGAP3/CwAAAAAAAAAHAPz/CwAAAAAAAAAGAPz/CwAAAAAAAAAFAP3/CwAAAAAAAAAGAPv/CwAAAAAAAAAFAPv/CwAAAAAAAAAEAPv/CwAAAAAAAAAFAPz/CwAAAAAAAAAEAP3/CwAAAAAAAAAEAPz/CwAAAAAAAAD+////CwAAAAAAAAD/////CwAAAAAAAAD+/wEACwAAAAAAAAD//wEACwAAAAAAAAAAAAQACwAAAAAAAAABAAMAAAAAAAAAAAABAAEAAAAAAAAAAAABAP//AAAAAAAAAAABAP3/AAAAAAAAAAABAPv/AAAAAAAAAAACAAMAAAAAAAAAABACAAEAAAAAAAAAABACAP//AAAAAAAAABACAP3/AAAAAAAAABACAPv/AAAAAAAAABABAAQACwAAAAAAAAABAAIACwAAAAAAAAAAAAEACwAAAAAAAAAAAP//CwAAAAAAAAABAP7/CwAAAAAAAAAAAP3/CwAAAAAAAAABAPz/CwAAAAAAAAADAPv/CwAAAAAAAAADAPz/CwAAAAAAAAADAP3/CwAAAAAAAAADAP7/CwAAAAAAAAADAP//CwAAAAAAAAADAAEACwAAAAAAAAADAAIACwAAAAAAAAAEAAQACwAAAAAAAAADAAQACwAAAAAAAAA=")
 tile_set = SubResource("TileSet_dbls1")
 script = ExtResource("11_48mqq")
 
-[node name="CostOverlay" type="Node2D" parent="IceMapLayer2"]
+[node name="CostOverlay" type="Node2D" parent="IceMapLayer"]
 
 [node name="PlayersContainer" type="Node" parent="."]
 
 [node name="CardDisplay" parent="." instance=ExtResource("18_fqyvk")]
+visible = false
 position = Vector2(607, -9)
 scale = Vector2(1.004868, 1)
 script = ExtResource("19_y5is6")
@@ -283,62 +285,62 @@ position = Vector2(1, 5)
 start_cell = Vector2i(7, 3)
 
 [node name="EndTurnButton" type="Button" parent="."]
-offset_left = 1280.0
-offset_top = 621.0
-offset_right = 1504.0
-offset_bottom = 686.0
+offset_left = 1684.0
+offset_top = 977.0
+offset_right = 1908.0
+offset_bottom = 1042.0
 text = "End Turn"
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="."]
-offset_left = 1504.0
-offset_top = 621.0
-offset_right = 1638.0
-offset_bottom = 662.0
+offset_left = 1486.0
+offset_top = 883.0
+offset_right = 1620.0
+offset_bottom = 924.0
 text = "Tour de l'équipe :"
 horizontal_alignment = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="ActiveTeamLabel" type="Label" parent="."]
-offset_left = 1658.0
-offset_top = 621.0
-offset_right = 1704.0
-offset_bottom = 651.0
+offset_left = 1638.0
+offset_top = 883.0
+offset_right = 1684.0
+offset_bottom = 913.0
 text = "1"
 metadata/_edit_use_anchors_ = true
 
 [node name="HomeTeamLabel" type="Label" parent="."]
-offset_left = 1280.0
-offset_top = 686.0
-offset_right = 1362.0
-offset_bottom = 735.0
+offset_left = 1242.0
+offset_top = 834.0
+offset_right = 1324.0
+offset_bottom = 883.0
 text = "Home :
 "
 metadata/_edit_use_anchors_ = true
 
 [node name="AwayTeamLabel" type="Label" parent="."]
-offset_left = 1411.0
-offset_top = 686.0
-offset_right = 1493.0
-offset_bottom = 761.0
+offset_left = 1364.0
+offset_top = 834.0
+offset_right = 1446.0
+offset_bottom = 909.0
 text = "Away :
 
 "
 metadata/_edit_use_anchors_ = true
 
 [node name="HomeTeamScoreLabel" type="Label" parent="."]
-offset_left = 1356.0
-offset_top = 686.0
-offset_right = 1396.0
-offset_bottom = 709.0
+offset_left = 1324.0
+offset_top = 834.0
+offset_right = 1364.0
+offset_bottom = 857.0
 text = "0"
 metadata/_edit_use_anchors_ = true
 
 [node name="AwayTeamScoreLabel" type="Label" parent="."]
-offset_left = 1463.0
-offset_top = 686.0
-offset_right = 1503.0
-offset_bottom = 709.0
+offset_left = 1446.0
+offset_top = 834.0
+offset_right = 1486.0
+offset_bottom = 857.0
 text = "0"
 metadata/_edit_use_anchors_ = true
 
@@ -385,10 +387,10 @@ grow_vertical = 2
 text = "Continue "
 
 [node name="ActionCounterLabel" type="Label" parent="."]
-offset_left = 1504.0
-offset_top = 651.0
-offset_right = 1667.0
-offset_bottom = 707.0
+offset_left = 1486.0
+offset_top = 909.0
+offset_right = 1649.0
+offset_bottom = 965.0
 text = "action counter = 1 / 4"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -405,35 +407,35 @@ text = "Cancel Button"
 metadata/_edit_use_anchors_ = true
 
 [node name="ShootButton" type="TextureButton" parent="ActionButtonOverlay"]
-offset_left = 1280.0
-offset_top = 709.0
-offset_right = 1440.0
-offset_bottom = 869.0
+offset_left = 1010.0
+offset_top = 924.0
+offset_right = 1170.0
+offset_bottom = 1084.0
 texture_normal = ExtResource("21_w6c7q")
 script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
 
 [node name="PassButton" type="TextureButton" parent="ActionButtonOverlay"]
-offset_left = 1440.0
-offset_top = 709.0
-offset_right = 1600.0
-offset_bottom = 869.0
+offset_left = 1174.0
+offset_top = 924.0
+offset_right = 1334.0
+offset_bottom = 1084.0
 texture_normal = ExtResource("23_mjiv6")
 script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
 
 [node name="HitButton" type="TextureButton" parent="ActionButtonOverlay"]
-offset_left = 1600.0
-offset_top = 709.0
-offset_right = 1760.0
-offset_bottom = 869.0
+offset_left = 1334.0
+offset_top = 924.0
+offset_right = 1494.0
+offset_bottom = 1084.0
 texture_normal = ExtResource("24_yj4y7")
 texture_pressed = ExtResource("25_xlqbc")
 script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
-[connection signal="puck_is_picked_up" from="IceMapLayer2" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
+[connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="pressed" from="EndTurnButton" to="GameManager" method="_on_end_turn_button_pressed"]
 [connection signal="pressed" from="GoalOverlay/GoalPanel/ContinueButton" to="GameManager" method="_on_continue_button_pressed"]
 [connection signal="mouse_entered" from="ActionButtonOverlay/ShootButton" to="ActionButtonOverlay/ShootButton" method="_on_mouse_entered"]

@@ -36,7 +36,6 @@ signal puck_is_picked_up(pawn)
 @onready var puck := $"../Puck"
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
-@onready var action_menu = $"../CanvasLayer/PopupMenu"
 @onready var GameManager = $"../GameManager"
 
 
