@@ -340,6 +340,7 @@ tile_set = SubResource("TileSet_dbls1")
 script = ExtResource("11_48mqq")
 
 [node name="CostOverlay" type="Node2D" parent="IceMapLayer"]
+modulate = Color(0.9859647, 0.039099496, 0.013400756, 1)
 
 [node name="PlayersContainer" type="Node" parent="."]
 

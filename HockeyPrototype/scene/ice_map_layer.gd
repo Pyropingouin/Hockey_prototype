@@ -226,8 +226,10 @@ func _show_costs(reachable: Dictionary) -> void:
 		var label := Label.new()
 		label.text = str(dist)
 
-		var local_pos: Vector2 = map_to_local(cell)
-		label.position = local_pos - label.size * 0.5
+		var tile_center: Vector2 = map_to_local(cell)
+		var label_size: Vector2 = label.get_minimum_size()
+
+		label.position = tile_center - label_size * 0.5
 
 		cost_overlay.add_child(label)
 		
