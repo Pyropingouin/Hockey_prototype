@@ -1,110 +1,187 @@
-[gd_scene load_steps=34 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=69 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="1_84jve"]
-[ext_resource type="Texture2D" uid="uid://dn3rgdkaqjwj0" path="res://assets/Tile/TileGlace.png" id="2_pto03"]
-[ext_resource type="Texture2D" uid="uid://4w8puleoknd4" path="res://assets/Tile/Tileexterieur.png" id="3_bhud1"]
-[ext_resource type="Texture2D" uid="uid://pwwo7v34yhog" path="res://assets/Tile/DemiLigneRouge64_180.png" id="4_563h6"]
-[ext_resource type="Texture2D" uid="uid://dku5ajwvlga65" path="res://assets/Tile/LigneBleue64.png" id="5_63rlt"]
+[ext_resource type="Texture2D" uid="uid://bof21j07ossg5" path="res://assets/TileHexago/bandecoinback2.png" id="2_6e22e"]
+[ext_resource type="Texture2D" uid="uid://uxdtkhhq25ik" path="res://assets/TileHexago/bandecoinback3.png" id="4_5cukr"]
+[ext_resource type="Texture2D" uid="uid://px4mhpfsde6b" path="res://assets/TileHexago/bandecoinback4.png" id="5_8ms0i"]
 [ext_resource type="Texture2D" uid="uid://nnc4ua1luia5" path="res://assets/TileHexago/TestHexagone.png" id="5_pto03"]
-[ext_resource type="Texture2D" uid="uid://byj8gsibyqvxg" path="res://assets/Tile/DemiLigneRouge64.png" id="6_iudat"]
-[ext_resource type="Texture2D" uid="uid://dsuvk2d3ajh6h" path="res://assets/Tile/TileGlace_1.png" id="7_dc67i"]
-[ext_resource type="Texture2D" uid="uid://dim8sdbugs2o5" path="res://assets/Tile/TileGlace_2.png" id="8_qsdp0"]
-[ext_resource type="Texture2D" uid="uid://qf5wabb6y5l1" path="res://assets/Tile/TileGlace_3.png" id="9_hnnr8"]
-[ext_resource type="Texture2D" uid="uid://dpmoe2nrvy8r4" path="res://assets/Tile/TileGlace_4.png" id="10_obi1p"]
+[ext_resource type="Texture2D" uid="uid://cqg4xfgsaap7y" path="res://assets/TileHexago/bandecoinback5.png" id="6_rsjqm"]
+[ext_resource type="Texture2D" uid="uid://ct8m1gnadpq1g" path="res://assets/TileHexago/bandecoinback6.png" id="7_o4n2k"]
+[ext_resource type="Texture2D" uid="uid://dxae6ntvq6wqn" path="res://assets/TileHexago/bandecoinback.png" id="8_le55p"]
+[ext_resource type="Texture2D" uid="uid://d1ehma3jwyk1q" path="res://assets/TileHexago/bandevertical2.png" id="9_yjwkp"]
+[ext_resource type="Texture2D" uid="uid://cgtvq6uyhl4ln" path="res://assets/TileHexago/bandevertical.png" id="10_0nkqg"]
 [ext_resource type="Script" uid="uid://sf7hs0wcvmve" path="res://scene/ice_map_layer.gd" id="11_48mqq"]
+[ext_resource type="Texture2D" uid="uid://tx18oxdc1o0m" path="res://assets/TileHexago/BUTBOT.png" id="11_qvvq8"]
+[ext_resource type="Texture2D" uid="uid://4q7lnotqr7tt" path="res://assets/TileHexago/BUTMID.png" id="12_8ntsr"]
+[ext_resource type="Texture2D" uid="uid://o0nv2orq4xva" path="res://assets/TileHexago/BUTTOP.png" id="13_qt2vj"]
+[ext_resource type="Texture2D" uid="uid://dykxlt1bs07ao" path="res://assets/TileHexago/Hexagone_Gardien1.png" id="14_ytlpu"]
+[ext_resource type="Texture2D" uid="uid://cuh4dlklaqqri" path="res://assets/TileHexago/Hexagone_Gardien2.png" id="15_1xuri"]
+[ext_resource type="Texture2D" uid="uid://chelga3djf7se" path="res://assets/TileHexago/TestHexagone_BandeBas-export.png" id="16_u330o"]
+[ext_resource type="Texture2D" uid="uid://buovb3qqg64xp" path="res://assets/TileHexago/TestHexagone_BandeBasBACK.png" id="17_smmgo"]
 [ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="18_fqyvk"]
+[ext_resource type="Texture2D" uid="uid://cmx5mkycil2w7" path="res://assets/TileHexago/TestHexagone_BandeBasRouge-export.png" id="18_m22v3"]
+[ext_resource type="Texture2D" uid="uid://cbmnaabslrj3t" path="res://assets/TileHexago/TestHexagone_Bandehaut1.png" id="19_bd01w"]
 [ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="19_y5is6"]
+[ext_resource type="Texture2D" uid="uid://c4snt5orks7r4" path="res://assets/TileHexago/TestHexagone_Bandehaut1back.png" id="20_86wfa"]
 [ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="20_a1gg8"]
+[ext_resource type="Texture2D" uid="uid://c7l44pv815qlp" path="res://assets/TileHexago/TestHexagone_Bandehaut2Back.png" id="21_oua80"]
 [ext_resource type="Texture2D" uid="uid://dsavf7v6w6l8t" path="res://assets/tirer.png" id="21_w6c7q"]
+[ext_resource type="Texture2D" uid="uid://gc1v6sw38w1e" path="res://assets/TileHexago/TestHexagone_Bandehaut.png" id="22_n07oo"]
 [ext_resource type="Script" uid="uid://dgiu1sbeek6xv" path="res://scene/texture_button.gd" id="22_p4wsm"]
+[ext_resource type="Texture2D" uid="uid://lpqu3g2lh14j" path="res://assets/TileHexago/TestHexagone_Bandehaut_lignerougeback.png" id="23_bad6y"]
 [ext_resource type="Texture2D" uid="uid://k1aupt461k4t" path="res://assets/Passe.png" id="23_mjiv6"]
+[ext_resource type="Texture2D" uid="uid://bllwpv7ed3iei" path="res://assets/TileHexago/bandecoin1.png" id="24_whwuk"]
 [ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="24_yj4y7"]
+[ext_resource type="Texture2D" uid="uid://dglisgk3c8fg2" path="res://assets/TileHexago/bandecoin2.png" id="25_h6gsk"]
 [ext_resource type="Texture2D" uid="uid://bcx3y0pe8d3h7" path="res://assets/Hit_pressed.png" id="25_xlqbc"]
+[ext_resource type="Texture2D" uid="uid://dxscqd7fdme7f" path="res://assets/TileHexago/bandecoin3.png" id="26_l7nrv"]
+[ext_resource type="Texture2D" uid="uid://db5lqnrmkc2dc" path="res://assets/TileHexago/bandecoin4.png" id="27_2wcpk"]
+[ext_resource type="Texture2D" uid="uid://cwvcnk2p28x11" path="res://assets/TileHexago/bandecoin5.png" id="28_uyuwg"]
+[ext_resource type="Texture2D" uid="uid://bcsfdsgqaasr" path="res://assets/TileHexago/bandecoin6.png" id="29_uxxho"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5kiuu"]
-texture = ExtResource("2_pto03")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 6
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ti1si"]
+texture = ExtResource("2_6e22e")
+texture_region_size = Vector2i(64, 32)
 0:0/0 = 0
-0:0/0/custom_data_0 = "ice"
-0:0/0/custom_data_1 = 1
-0:0/1 = 1
-0:0/1/modulate = Color(0.27752772, 0.27752772, 0.27752772, 1)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dbls1"]
-texture = ExtResource("3_bhud1")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 2
-0:0/0 = 0
-0:0/0/custom_data_0 = "goal"
-0:0/0/custom_data_3 = "home"
-0:0/1 = 1
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ww6yf"]
-texture = ExtResource("4_563h6")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 2
-0:0/0 = 0
-0:0/1 = 1
-0:0/1/modulate = Color(0.26293245, 0.26293245, 0.26293245, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhud1"]
 texture = ExtResource("5_pto03")
 texture_region_size = Vector2i(64, 32)
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ca6q5"]
-texture = ExtResource("5_63rlt")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 2
-0:0/0 = 0
-0:0/0/custom_data_0 = "goal"
-0:0/0/custom_data_3 = "away"
-0:0/1 = 1
-0:0/1/modulate = Color(0.35906908, 0.35906908, 0.35906908, 1)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yerfe"]
-texture = ExtResource("6_iudat")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 6
-0:0/0 = 0
-0:0/1 = 1
-0:0/1/modulate = Color(0.27387273, 0.27387273, 0.27387273, 1)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_he4o3"]
-texture = ExtResource("2_pto03")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 2
-0:0/0 = 0
-0:0/1 = 1
-0:0/1/modulate = Color(0.28485027, 0.28485027, 0.28485027, 1)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yk3to"]
-texture = ExtResource("7_dc67i")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 2
-0:0/0 = 0
-0:0/1 = 1
-0:0/1/modulate = Color(0.26293245, 0.26293245, 0.26293245, 1)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0halo"]
-texture = ExtResource("8_qsdp0")
-texture_region_size = Vector2i(64, 64)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bkj41"]
+texture = ExtResource("4_5cukr")
+texture_region_size = Vector2i(64, 32)
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8p2gu"]
-texture = ExtResource("9_hnnr8")
-texture_region_size = Vector2i(64, 64)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_px2wc"]
+texture = ExtResource("5_8ms0i")
+texture_region_size = Vector2i(64, 32)
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kv4hp"]
-texture = ExtResource("10_obi1p")
-texture_region_size = Vector2i(64, 64)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mre50"]
+texture = ExtResource("6_rsjqm")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p4gtq"]
+texture = ExtResource("7_o4n2k")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8gnwc"]
+texture = ExtResource("8_le55p")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7rhjr"]
+texture = ExtResource("9_yjwkp")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_03fbq"]
+texture = ExtResource("10_0nkqg")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jtdfa"]
+texture = ExtResource("11_qvvq8")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vxy3i"]
+texture = ExtResource("12_8ntsr")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grcuc"]
+texture = ExtResource("13_qt2vj")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_os4uk"]
+texture = ExtResource("14_ytlpu")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_am2jv"]
+texture = ExtResource("15_1xuri")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n7ia1"]
+texture = ExtResource("16_u330o")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2fw6h"]
+texture = ExtResource("17_smmgo")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahr4f"]
+texture = ExtResource("18_m22v3")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i6o6p"]
+texture = ExtResource("19_bd01w")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rqk4w"]
+texture = ExtResource("20_86wfa")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rc8l1"]
+texture = ExtResource("21_oua80")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4tiiu"]
+texture = ExtResource("22_n07oo")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_exsbq"]
+texture = ExtResource("23_bad6y")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5nkl1"]
+texture = ExtResource("24_whwuk")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fausg"]
+texture = ExtResource("25_h6gsk")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5yovj"]
+texture = ExtResource("26_l7nrv")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mt1y8"]
+texture = ExtResource("27_2wcpk")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cv4fh"]
+texture = ExtResource("28_uyuwg")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ircuw"]
+texture = ExtResource("29_uxxho")
+texture_region_size = Vector2i(64, 32)
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_dbls1"]
 tile_shape = 3
-tile_size = Vector2i(32, 64)
+tile_size = Vector2i(64, 32)
 custom_data_layer_0/name = "type"
 custom_data_layer_0/type = 4
 custom_data_layer_1/name = "cost"
@@ -113,17 +190,34 @@ custom_data_layer_2/name = "blocked"
 custom_data_layer_2/type = 1
 custom_data_layer_3/name = "goal_type"
 custom_data_layer_3/type = 4
-sources/0 = SubResource("TileSetAtlasSource_5kiuu")
-sources/1 = SubResource("TileSetAtlasSource_dbls1")
-sources/2 = SubResource("TileSetAtlasSource_ca6q5")
-sources/3 = SubResource("TileSetAtlasSource_yerfe")
-sources/5 = SubResource("TileSetAtlasSource_he4o3")
-sources/6 = SubResource("TileSetAtlasSource_yk3to")
-sources/7 = SubResource("TileSetAtlasSource_0halo")
-sources/8 = SubResource("TileSetAtlasSource_8p2gu")
-sources/9 = SubResource("TileSetAtlasSource_kv4hp")
-sources/10 = SubResource("TileSetAtlasSource_ww6yf")
 sources/11 = SubResource("TileSetAtlasSource_bhud1")
+sources/4 = SubResource("TileSetAtlasSource_5nkl1")
+sources/5 = SubResource("TileSetAtlasSource_fausg")
+sources/6 = SubResource("TileSetAtlasSource_5yovj")
+sources/7 = SubResource("TileSetAtlasSource_mt1y8")
+sources/8 = SubResource("TileSetAtlasSource_cv4fh")
+sources/9 = SubResource("TileSetAtlasSource_ircuw")
+sources/10 = SubResource("TileSetAtlasSource_ti1si")
+sources/12 = SubResource("TileSetAtlasSource_bkj41")
+sources/13 = SubResource("TileSetAtlasSource_px2wc")
+sources/14 = SubResource("TileSetAtlasSource_mre50")
+sources/15 = SubResource("TileSetAtlasSource_p4gtq")
+sources/16 = SubResource("TileSetAtlasSource_8gnwc")
+sources/17 = SubResource("TileSetAtlasSource_7rhjr")
+sources/18 = SubResource("TileSetAtlasSource_03fbq")
+sources/19 = SubResource("TileSetAtlasSource_jtdfa")
+sources/20 = SubResource("TileSetAtlasSource_vxy3i")
+sources/21 = SubResource("TileSetAtlasSource_grcuc")
+sources/22 = SubResource("TileSetAtlasSource_os4uk")
+sources/23 = SubResource("TileSetAtlasSource_am2jv")
+sources/25 = SubResource("TileSetAtlasSource_n7ia1")
+sources/26 = SubResource("TileSetAtlasSource_2fw6h")
+sources/27 = SubResource("TileSetAtlasSource_ahr4f")
+sources/28 = SubResource("TileSetAtlasSource_i6o6p")
+sources/29 = SubResource("TileSetAtlasSource_rqk4w")
+sources/30 = SubResource("TileSetAtlasSource_rc8l1")
+sources/31 = SubResource("TileSetAtlasSource_4tiiu")
+sources/32 = SubResource("TileSetAtlasSource_exsbq")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jrd6n"]
 bg_color = Color(0, 0, 0, 0.80784315)
@@ -133,24 +227,14 @@ bg_color = Color(0, 0, 0, 0.80784315)
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_84jve")
 
-[node name="IceMapLayer" type="TileMapLayer" parent="."]
-visible = false
-texture_filter = 1
-scale = Vector2(2, 2)
-tile_map_data = PackedByteArray("AAABAAQAAwAAAAAAAAACAAQAAwAAAAAAAAADAAQAAwAAAAAAAAAEAAQAAwAAAAAAAAAFAAQAAwAAAAAAAAAGAAQAAwAAAAAAAAAHAAQAAwAAAAAAAAAIAAQAAwAAAAAAAAAJAAQAAwAAAAAAAAABAAUABgAAAAAAAAACAAUABgAAAAAAAGADAAUABgAAAAAAAAAEAAUABgAAAAAAAGAFAAUABgAAAAAAAAAGAAUABgAAAAAAAAAHAAUABgAAAAAAAAAIAAUABgAAAAAAAFAJAAUABgAAAAAAAAAJAAYABgAAAAAAAAAIAAYABgAAAAAAAAAHAAYABgAAAAAAAAAGAAYABgAAAAAAAAAFAAYABgAAAAAAAAAEAAYABgAAAAAAAFADAAYABgAAAAAAAFACAAYABgAAAAAAAAABAAYABgAAAAAAAAABAAIABgAAAAAAADACAAIABgAAAAAAAAADAAIABgAAAAAAAGAEAAIABgAAAAAAADAFAAIABgAAAAAAAAAGAAIABgAAAAAAAFAHAAIABgAAAAAAAAAIAAIABgAAAAAAAAAJAAIABQAAAAAAAAAJAAEABgAAAAAAAAAIAAEABgAAAAAAAAAHAAEABgAAAAAAAAAGAAEABgAAAAAAAAAFAAEABgAAAAAAAAAEAAEABgAAAAAAAGADAAEABgAAAAAAAAACAAEABgAAAAAAAAABAAEABgAAAAAAAGABAAMACgAAAAAAAAADAAMACgAAAAAAAAAFAAMACgAAAAAAAAAGAAMACgAAAAAAAAAJAAMACgAAAAAAAAAIAAMACgAAAAAAAAAHAAMACgAAAAAAAAAEAAMACgAAAAAAAAACAAMACgAAAAAAAAAFAAcAAQAAAAAAAAAFAAAAAgAAAAAAAAA=")
-tile_set = SubResource("TileSet_dbls1")
-script = ExtResource("11_48mqq")
-
-[node name="CostOverlay" type="Node2D" parent="IceMapLayer"]
-
 [node name="IceMapLayer2" type="TileMapLayer" parent="."]
 texture_filter = 1
 scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAD9/wAAFAAAAAAAAAD8////FQAAAAAAAAD8/wEAEwAAAAAAAAD9////FgAAAAAAAAD+/wAAFwAAAAAAAAD9/wEAFgAAAAAAACD8/wAACwAAAAAAAAD7/wAAEgAAAAAAAAD7/wIAEgAAAAAAAAD7//7/EgAAAAAAAAD7////CwAAAAAAAAD7/wEACwAAAAAAAAD//wAACwAAAAAAAAAAAAAACwAAAAAAAAABAAAACwAAAAAAAAADAAAACwAAAAAAAAAEAAAACwAAAAAAAAAFAAAACwAAAAAAAAAGAAAAFwAAAAAAABAHAAAAFAAAAAAAABAHAAEAEwAAAAAAABAHAP//FQAAAAAAABAGAP//FgAAAAAAABAGAAEAFgAAAAAAADAIAAAACwAAAAAAAAAJAAAAEgAAAAAAABAJAAIAEgAAAAAAABAJAP7/EgAAAAAAABAIAP//CwAAAAAAAAAIAAEACwAAAAAAAAD7//3/CwAAAAAAAAD8//z/CwAAAAAAAAD8//v/CwAAAAAAAAAIAP3/CwAAAAAAAAAIAPz/CwAAAAAAAAAHAPv/CwAAAAAAAAD6/wEAEQAAAAAAAAD6////EQAAAAAAAAD6//3/EQAAAAAAAAAJAAEAEQAAAAAAABAJAP//EQAAAAAAABAJAP3/EQAAAAAAABD8//7/CwAAAAAAAAD9//7/CwAAAAAAAAD+//7/CwAAAAAAAAD///7/CwAAAAAAAAAAAP7/CwAAAAAAAAAIAP7/CwAAAAAAAAAHAP7/CwAAAAAAAAAGAP7/CwAAAAAAAAAFAP7/CwAAAAAAAAAEAP7/CwAAAAAAAAD8/wIACwAAAAAAAAD9/wIACwAAAAAAAAD+/wIACwAAAAAAAAD//wIACwAAAAAAAAAAAAIACwAAAAAAAAAIAAIACwAAAAAAAAAHAAIACwAAAAAAAAAGAAIACwAAAAAAAAAFAAIACwAAAAAAAAAEAAIACwAAAAAAAAD6/wMAEQAAAAAAAAD7/wMACwAAAAAAAAD8/wQACwAAAAAAAAD9/wQACwAAAAAAAAD+/wQACwAAAAAAAAD//wQACwAAAAAAAAD8/wUAHgAAAAAAAAD+/wUAHgAAAAAAAAD//wUAHgAAAAAAAAAAAAUAHgAAAAAAAAABAAUAHgAAAAAAAAACAAUAHgAAAAAAAAADAAUAHgAAAAAAAAAEAAUAHgAAAAAAAAAFAAUAHgAAAAAAAAAGAAUAHgAAAAAAAAAHAAUAHgAAAAAAAAD7/wQAEAAAAAAAAAD9/wUAHgAAAAAAAAD7/wUACgAAAAAAAAD8/wYADAAAAAAAAAA=")
 tile_set = SubResource("TileSet_dbls1")
 script = ExtResource("11_48mqq")
 
 [node name="CostOverlay" type="Node2D" parent="IceMapLayer2"]
-visible = false
 
 [node name="PlayersContainer" type="Node" parent="."]
 
@@ -335,7 +419,6 @@ script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
-[connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="puck_is_picked_up" from="IceMapLayer2" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="pressed" from="EndTurnButton" to="GameManager" method="_on_end_turn_button_pressed"]
 [connection signal="pressed" from="GoalOverlay/GoalPanel/ContinueButton" to="GameManager" method="_on_continue_button_pressed"]
