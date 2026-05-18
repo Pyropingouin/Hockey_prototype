@@ -77,44 +77,9 @@ func _is_goal(puck_position):
 	print("goal_type: ", ice_map._get_goal_type(puck_position))
 	
 	if ice_map._get_type(puck_position) == "goal":
-		# var goal_type = ice_map._get_goal_type(puck_position)
-		# goal_scored.emit(goal_type)
-		# return true
-
-
-		## TEMPORAIRE, la puck ne devrait pas gérer le goaler
-		var goalerSavingRate = randi_range(1, 10)
-		if (goalerSavingRate <= 5):
-			var goal_type = ice_map._get_goal_type(puck_position)
-			goal_scored.emit(goal_type)
-			return true
- 
-		else:
-			var x = 0
-			var y = 0
-
-			if current_cell == Vector2i(5,0):
-				x = 4
-				y = 1
-			if current_cell == Vector2i(5,7):	
-				x = 4
-				y = 6
-
-			x += randi_range(0, 2)
-
-			current_cell = Vector2i(x,y)
-			ice_map.place_puck_on_cell(self, current_cell)
-
-
-			return false	
-		## FIN DU TEMPORAIRE, la puck ne devrait pas gérer le goaler
-
-		
-
-
-
-
-	
+		var goal_type = ice_map._get_goal_type(puck_position)
+		goal_scored.emit(goal_type)
+		return true
 	else:
 		return false	
 		
