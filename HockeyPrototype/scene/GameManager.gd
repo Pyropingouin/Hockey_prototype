@@ -237,10 +237,15 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	if IceMapLayer.can_move_pawn_to(active_pawn, drag_start_cell, target_cell):
 		IceMapLayer.apply_move(active_pawn, drag_start_cell, target_cell)
+
+
+		#Évite que si on annule le move ou si on drop sur la même case en hésistant
+		if (drag_start_cell != target_cell):
+			update_action_counter(1)
 	else:
 		IceMapLayer.reset_move(active_pawn, drag_start_cell)
 
-	update_action_counter(1)
+	
 	IceMapLayer.clear_highlight()
 	_cleanup_drag()
 	_refresh_action_buttons()
