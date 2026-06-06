@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const DRAFT_CARD_SCENE := preload("res://scene/player_card_test.tscn")
+const DRAFT_CARD_SCENE := preload("res://scene/player_card_template.tscn")
 const PLAYERS_DB_PATH := "res://data/players.json"
 const DRAFT_CHOICES_COUNT := 3
 const DRAFT_CARDS_NUMBER_LIMIT:= 2

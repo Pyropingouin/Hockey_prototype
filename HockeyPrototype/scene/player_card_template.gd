@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Control
 
 @export var card_id: int = 99
 @export var pawnImage: TextureRect
@@ -10,12 +10,12 @@ extends PanelContainer
 # @export var bubbleHeadTexture: Texture2D
 # @export var fullBodyTexture: Texture2D
 
-@onready var pawn_image: TextureRect = $VBoxContainer/PortraitArea/TextRectSprite
-@onready var pawn_name_label: Label = $VBoxContainer/NameLabel
-@onready var pawn_move_range_label: Label = $VBoxContainer/HBoxContainer/VBoxContainer/SpeedLabel
-@onready var pawn_strength_label: Label = $VBoxContainer/HBoxContainer/VBoxContainer/StrengthLabel
-@onready var pawn_reflex_label: Label = $VBoxContainer/HBoxContainer/VBoxContainer2/ReflexLabel
-@onready var pawn_health_label: Label = $VBoxContainer/HBoxContainer/VBoxContainer2/HitLabel
+@onready var pawn_image: TextureRect = $VBoxCardContainer/TopArea/TextureRectBubbleHead
+@onready var pawn_name_label: Label = $VBoxCardContainer/NameArea/NameLabel
+@onready var pawn_move_range_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/SpeedArea/SpeedLabel
+@onready var pawn_strength_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/ReflexArea/ReflexLabel
+@onready var pawn_reflex_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/StrengthArea/StrengthLabel
+@onready var pawn_health_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/HitArea/HitLabel
 
 
 signal card_clicked(player: Dictionary)
