@@ -237,10 +237,15 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	if IceMapLayer.can_move_pawn_to(active_pawn, drag_start_cell, target_cell):
 		IceMapLayer.apply_move(active_pawn, drag_start_cell, target_cell)
+
+
+		#Évite que si on annule le move ou si on drop sur la même case en hésistant
+		if (drag_start_cell != target_cell):
+			update_action_counter(1)
 	else:
 		IceMapLayer.reset_move(active_pawn, drag_start_cell)
 
-	update_action_counter(1)
+	
 	IceMapLayer.clear_highlight()
 	_cleanup_drag()
 	_refresh_action_buttons()
@@ -495,21 +500,21 @@ func spawn_teams_from_draft() -> void:
 	#REVOIR POSITION 	
 
 	var home_start_cells: Array[Vector2i] = [
-		Vector2i(3, 4),
-		Vector2i(3, 5),
-		Vector2i(3, 6),
-		Vector2i(4, 4),
-		Vector2i(4, 5),
-		Vector2i(4, 6)
+		Vector2i(3, 0),
+		Vector2i(3, -1),
+		Vector2i(3, 1),
+		Vector2i(4, -1),
+		Vector2i(4, 1),
+		
 	]
 
 	var away_start_cells: Array[Vector2i] = [
-		Vector2i(12, 4),
-		Vector2i(12, 5),
-		Vector2i(12, 6),
-		Vector2i(11, 4),
-		Vector2i(11, 5),
-		Vector2i(11, 6)
+		Vector2i(1, 0),
+		Vector2i(0, -1),
+		Vector2i(0, 1),
+		Vector2i(-1, -1),
+		Vector2i(-1, 1),
+		
 	]
 
 	for i in range(GameData.player_team_selected_players.size()):
@@ -523,6 +528,8 @@ func spawn_teams_from_draft() -> void:
 		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
 
 	for i in range(GameData.opposing_team_selected_players.size()):
+
+
 		var player_data: Dictionary = GameData.opposing_team_selected_players[i]
 		var pawn = PAWN_SCENE.instantiate()
 

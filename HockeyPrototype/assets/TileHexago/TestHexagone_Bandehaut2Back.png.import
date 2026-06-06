@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy26qghqcg2uj"
-path="res://.godot/imported/LeiptiModin_BubbleaHead.png-cc0a4bffb6489dacc7563e3b0d7c0fbd.ctex"
+uid="uid://c7l44pv815qlp"
+path="res://.godot/imported/TestHexagone_Bandehaut2Back.png-69a186d029f5541dac51775d82b91da4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/LeiptiModin_BubbleaHead.png"
-dest_files=["res://.godot/imported/LeiptiModin_BubbleaHead.png-cc0a4bffb6489dacc7563e3b0d7c0fbd.ctex"]
+source_file="res://assets/TileHexago/TestHexagone_Bandehaut2Back.png"
+dest_files=["res://.godot/imported/TestHexagone_Bandehaut2Back.png-69a186d029f5541dac51775d82b91da4.ctex"]
 
 [params]
 

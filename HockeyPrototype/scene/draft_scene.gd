@@ -80,6 +80,9 @@ func load_players() -> Array:
 		if player.has("image_path"):
 			player["image"] = load(player["image_path"])
 
+		if player.has("bubblehead_path"):
+			player["bubblehead"] = load(player["bubblehead_path"])	
+
 	return data
 	
 

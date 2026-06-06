@@ -7,6 +7,7 @@ class CellState extends RefCounted:
 	var is_occupied: bool = false
 	var is_puck_here: bool = false
 	var occupied_player_team: int = -1
+	var base_alt_id: int = 0
 	
 	
 	func _to_string() -> String:
@@ -21,8 +22,10 @@ var pawns: Array = []
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
 
 
-const ALT_NORMAL := 0
+const ALT_NORMAL  := 0
 const ALT_BLOCKED := 1
+const FLIP_H      := 4096
+const FLIP_V      := 8192
 const LAYER_TYPE   := 0
 const LAYER_COST   := 1
 const LAYER_BLOCKED := 2
@@ -36,36 +39,26 @@ signal puck_is_picked_up(pawn)
 @onready var puck := $"../Puck"
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
-@onready var action_menu = $"../CanvasLayer/PopupMenu"
 @onready var GameManager = $"../GameManager"
 
 
-func _process(_delta: float) -> void:
-	
-	pass
-
 func _ready() -> void:
-	
 
 	for cell in get_used_cells():
 		var state := CellState.new()
 		
-
-		
 		var tile_data := get_cell_tile_data(cell)
-		if tile_data :
+		if tile_data:
 			state.blocked = tile_data.get_custom_data("blocked")
 			state.is_occupied = false
 			state.occupied_player_team = -1
-			
+		state.base_alt_id = get_cell_alternative_tile(cell)
 	
 		map_data[cell] = state	
 
 	# Initialiser les pawns
 	for p in players_container.get_children():
 		pawns.append(p)
-		# Pour l’instant tu mets tout le monde à (0,0)
-		# Plus tard tu pourras donner une case de départ différente à chaque pion
 		
 		print(p.name, p.current_cell, p.start_cell)
 		
@@ -78,7 +71,14 @@ func _ready() -> void:
 	place_puck_on_cell(puck, puck.current_cell)	
 	
 	update_occupancy()
-	print_map_data()	
+	# print_map_data()	
+
+
+# Retourne l'alt_id correct en préservant les flags de flip
+func _get_highlight_alt(base_alt: int, blocked: bool) -> int:
+	var flip_flags := base_alt & (FLIP_H | FLIP_V)
+	var base := ALT_BLOCKED if blocked else ALT_NORMAL
+	return base | flip_flags
 
 
 func cell_from_global_pos(global_pos: Vector2) -> Vector2i:
@@ -140,12 +140,10 @@ func can_push_pawn_to(pawn: Node2D, target: Vector2i) -> bool:
 	return true
 
 func place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
-	# place visuellement + tu peux garder ton update_occupancy() ici
 	var local_pos := map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
 
 func apply_move(pawn: Node2D, origin: Vector2i, target: Vector2i) -> void:
-	# met à jour la donnée + place visuellement + occupancy + puck
 	pawn.current_cell = target
 	place_pawn_on_cell(pawn, target)
 	update_occupancy()
@@ -162,20 +160,15 @@ func show_move_reachability(origin: Vector2i, move_range: int) -> void:
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-
-		if reachable.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+		var is_reachable := reachable.has(cell)
+		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_reachable))
 
 	_show_costs(reachable)
 
 
-#   maintenant la fonction prend le pawn en paramètre
 func _place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 	var local_pos = map_to_local(cell)
 	pawn.global_position = to_global(local_pos)
-	
 	update_occupancy()
 	
 	
@@ -186,14 +179,12 @@ func place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 	var pawn_on_cell := get_pawn_on_cell(cell)
 	if pawn_on_cell != null and puck.isPickedUp == false:
 		emit_signal("puck_is_picked_up", pawn_on_cell)
-		# si tu veux que la puck "disparaisse" du sol immédiatement :
 		puck.isPickedUp = true
 		if map_data.has(cell):
 			map_data[cell].is_puck_here = false
 		
 
 func get_pawn_on_cell(cell: Vector2i) -> Node2D:
-	# tu peux utiliser pawns (ton array) ou players_container.get_children()
 	for p in pawns:
 		if p.current_cell == cell:
 			return p
@@ -205,21 +196,17 @@ func highlight_unreachable_from(origin: Vector2i, max_range: int) -> void:
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-
-		if reachable.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+		var is_reachable := reachable.has(cell)
+		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_reachable))
 
 	_show_costs(reachable)
-
 
 
 func clear_highlight() -> void:
 	for cell in get_used_cells():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-		set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
+		set_cell(cell, src_id, atlas_coords, map_data[cell].base_alt_id)
 		
 	_clear_cost_overlay()
 	
@@ -234,14 +221,15 @@ func _show_costs(reachable: Dictionary) -> void:
 	for cell in reachable.keys():
 		var dist: int = int(reachable[cell])
 		if dist == 0:
-			continue # optionnel: ne pas afficher sur la case de départ
+			continue
 
 		var label := Label.new()
 		label.text = str(dist)
 
-		# position au centre de la case
-		var local_pos: Vector2 = map_to_local(cell)
-		label.position = local_pos - label.size * 0.5  # petit centrage
+		var tile_center: Vector2 = map_to_local(cell)
+		var label_size: Vector2 = label.get_minimum_size()
+
+		label.position = tile_center - label_size * 0.5
 
 		cost_overlay.add_child(label)
 		
@@ -271,14 +259,12 @@ func clear_occupancy():
 		state.is_occupied = false
 		state.occupied_player_team = -1
 		state.is_puck_here = false
-		
-		
-		
-func update_occupancy():
 
+
+func update_occupancy():
 	clear_occupancy()
 
-   #Pawn
+	# Pawn
 	for pawn in players_container.get_children():
 		if not pawn.has_method("get_current_cell"):
 			continue
@@ -292,57 +278,46 @@ func update_occupancy():
 		state.is_occupied = true
 		state.occupied_player_team = pawn.team_id
 		
-	#Puck
+	# Puck
 	if puck != null and puck.has_method("get_current_cell"):
 		var puck_cell: Vector2i = puck.get_current_cell()
 		if map_data.has(puck_cell):
 			map_data[puck_cell].is_puck_here = true
-	
 	
 
 func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 	if not map_data.has(cell_to_check):
 		return
 	
-	
-	if puck.isPickedUp == false :
+	if puck.isPickedUp == false:
 		if map_data[cell_to_check].is_puck_here:
 			print("puck here")
-			
 			emit_signal("puck_is_picked_up", pawn)
-			
 			map_data[cell_to_check].is_puck_here = false
 			
 
 func highlight_shoot_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
 	var _range: int = recieved_pawn.move_range * 2
-	
 	var targets := _compute_shoot_targets(origin, _range)
 
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-
-		if targets.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
+		var is_target := targets.has(cell)
+		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
 			
 			
 func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
 	var targets: Array[Vector2i] = []
 
 	for cell in map_data.keys():
- 		# distance Manhattan
 		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
 		if dist == 0 or dist > max_range:
 			continue
 
- 		# mur logique
 		if map_data[cell].blocked:
 			continue
 
- 		# OK comme cible
 		targets.append(cell)
 
 	return targets			
@@ -355,12 +330,8 @@ func highlight_pass_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-
-		if targets.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)
-			
+		var is_target := targets.has(cell)
+		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
 			
 			
 func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
@@ -370,22 +341,15 @@ func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
 		if p == action_pawn:
 			continue
 
-
- 		## TODO Remettre pour équipe
- 		# règle équipe (ajuste selon ton gameplay)
- 		#if p.team_id != action_pawn.team_id:
- 			#continue
+		## TODO Remettre pour équipe
+		#if p.team_id != action_pawn.team_id:
+			#continue
 
 		var cell: Vector2i = p.current_cell
 
- 		# portée (Manhattan)
 		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
 		if dist > max_range:
 			continue
-
- 		# optionnel: pas à travers les murs (si tu veux)
- 		# if not _has_line_of_sight(origin, cell):
- 		#     continue
 
 		targets.append(cell)
 
@@ -393,18 +357,13 @@ func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
 			
 
 func highlight_hit_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
-	# Choisis UNE des deux lignes :
 	var targets := _compute_hit_targets_cross(origin, recieved_pawn)
-	# var targets := _compute_hit_targets_8(origin, recieved_pawn)
 
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-
-		if targets.has(cell):
-			set_cell(cell, src_id, atlas_coords, ALT_NORMAL)
-		else:
-			set_cell(cell, src_id, atlas_coords, ALT_BLOCKED)	
+		var is_target := targets.has(cell)
+		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
 
 
 func _compute_hit_targets_cross(origin: Vector2i, recieved_pawn: Node2D) -> Array[Vector2i]:
@@ -423,16 +382,11 @@ func _compute_hit_targets_cross(origin: Vector2i, recieved_pawn: Node2D) -> Arra
 		if map_data[cell].blocked:
 			continue
 
-		# Optionnel: frapper seulement si y'a un pawn
 		var p := get_pawn_on_cell(cell)
 		if p == null:
 			continue
 		if p == recieved_pawn:
 			continue
-
-		# Optionnel: frapper seulement ennemi
-		# if p.team_id == recieved_pawn.team_id:
-		#     continue
 
 		targets.append(cell)
 
@@ -459,10 +413,6 @@ func _compute_hit_targets_8(origin: Vector2i, recieved_pawn: Node2D) -> Array[Ve
 		if p == recieved_pawn:
 			continue
 
-		# Optionnel équipe
-		# if p.team_id == recieved_pawn.team_id:
-		#     continue
-
 		targets.append(cell)
 
 	return targets	
@@ -480,11 +430,9 @@ func _compute_shot_path(origin_cell, target_cell, max_range):
 
 ### Algo Breadth-First Search (BFS)
 func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
-	# Dictionary<Vector2i, int>  (cell -> distance)
-	var reachable: Dictionary = {} # Vector2i -> int
+	var reachable: Dictionary = {}
 	var queue: Array[Vector2i] = []
 
-	# Initialisation
 	reachable[origin] = 0
 	queue.append(origin)
 
@@ -502,22 +450,18 @@ func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
 		for dir in directions:
 			var next: Vector2i = current + dir
 
-			# 1) La cellule doit exister dans la map
 			if not map_data.has(next):
 				continue
 
 			var state: CellState = map_data[next]
 
-			# 2) Mur logique = bloqué OU occupé
 			if state.blocked or state.is_occupied:
 				continue
 
-			# 3) Distance max
 			var next_dist := current_dist + 1
 			if next_dist > max_range:
 				continue
 
-			# 4) Déjà visité avec une meilleure distance
 			if reachable.has(next):
 				continue
 
@@ -525,12 +469,13 @@ func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
 			queue.append(next)
 
 	return reachable	
-###DEBUG
+
+
+### DEBUG
 func print_map_data():
 	print("=== MAP DATA DUMP ===")
 	print("Cell count:", map_data.size())
 
 	for cell in map_data.keys():
 		var state: CellState = map_data[cell]
-		print(cell, "=>", state)	
-		
+		print(cell, "=>", state)

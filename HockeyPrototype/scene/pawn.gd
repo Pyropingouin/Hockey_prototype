@@ -56,6 +56,7 @@ var current_cell: Vector2i:
 signal hold_puck_is_moving
 signal shooting_puck
 signal passing_puck
+signal dropping_puck
 signal hitting_player(hit_cell: Vector2i, current_cell: Vector2i, pawn: Node2D)
 
 
@@ -113,10 +114,17 @@ func setup(player_data: Dictionary, pawn_team_id: int, pawn_start_cell: Vector2i
 		reflex = player_data["reflex"]
 
 	if player_data.has("image"):
-		bubbleHeadTexture = player_data["image"]
+		fullBodyTexture = player_data["image"]
+
+	if player_data.has("bubblehead"):
+		bubbleHeadTexture = player_data["bubblehead"]	
 
 	team_id = pawn_team_id
 	start_cell = pawn_start_cell	
+
+	print("name: ",name )
+	print("team: ",team_id)
+	print("start: ", start_cell)
 	
 	
 func pick_up_puck(pawn) -> void:
@@ -196,13 +204,28 @@ func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 	#Vérifier si il est possible de déplacer le joueur 
 
 	if (IceMapLayer.can_push_pawn_to(self, new_position_after_hit)):
+		var drop_puck_position = current_cell
 		current_cell = new_position_after_hit
 		#Ne pas call Icemap, trouve autre façon à traver GameManager
 		IceMapLayer.place_pawn_on_cell(self,current_cell)
-		
+
+		if hasPuck:
+			hasPuck = false
+			emit_signal("dropping_puck", drop_puck_position)
+
+	
 	else:
 		#TODO Trouver si stun ou déplacer ailleurs
 		print("stun!")
+	
+        
+		## TODO POTENTIEL BUG
+		if hasPuck:
+			hasPuck = false
+			emit_signal("dropping_puck", origin_cell)
+
+
+
 	
 	
 
@@ -267,4 +290,8 @@ func _auto_connect_to_puck() -> void:
 	# passing_puck -> puck
 	if has_signal("passing_puck") and puck.has_method("_on_pawn_passing_puck"):
 		connect("passing_puck", Callable(puck, "_on_pawn_passing_puck"))
+
+	# dropping_puck -> puck
+	if has_signal("dropping_puck") and puck.has_method("_on_pawn_dropping_puck"):
+		connect("dropping_puck", Callable(puck, "_on_pawn_dropping_puck"))	
 	

@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var ice_map: TileMapLayer = $"../IceMapLayer"
 @onready var GameManager = $"../GameManager"
 
-@export var start_cell: Vector2i = Vector2i(0, 0):
+@export var start_cell: Vector2i = Vector2i(2, 0):
 	set(value):
 		start_cell = value
 		current_cell = value
@@ -14,7 +14,7 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 
 var current_cell = start_cell
-var reset_puck_position: Vector2i = Vector2i(7, 4)
+var reset_puck_position: Vector2i = Vector2i(2, 0)
 
 signal goal_scored(goal_type)
 
@@ -72,49 +72,24 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 	ice_map.place_puck_on_cell(self, current_cell)
 
 
+func _on_pawn_dropping_puck(newDropPosition) -> void:
+	print("IN PUCK DROP", newDropPosition)
+	current_cell = newDropPosition
+
+	isPickedUp = false
+	sprite.visible = true
+
+	ice_map.place_puck_on_cell(self, current_cell)
+
+
 func _is_goal(puck_position):
 	print("type de tuile: ", ice_map._get_type(puck_position))
 	print("goal_type: ", ice_map._get_goal_type(puck_position))
 	
 	if ice_map._get_type(puck_position) == "goal":
-		# var goal_type = ice_map._get_goal_type(puck_position)
-		# goal_scored.emit(goal_type)
-		# return true
-
-
-		## TEMPORAIRE, la puck ne devrait pas gérer le goaler
-		var goalerSavingRate = randi_range(1, 10)
-		if (goalerSavingRate <= 5):
-			var goal_type = ice_map._get_goal_type(puck_position)
-			goal_scored.emit(goal_type)
-			return true
- 
-		else:
-			var x = 0
-			var y = 0
-
-			if current_cell == Vector2i(5,0):
-				x = 4
-				y = 1
-			if current_cell == Vector2i(5,7):	
-				x = 4
-				y = 6
-
-			x += randi_range(0, 2)
-
-			current_cell = Vector2i(x,y)
-			ice_map.place_puck_on_cell(self, current_cell)
-
-
-			return false	
-		## FIN DU TEMPORAIRE, la puck ne devrait pas gérer le goaler
-
-		
-
-
-
-
-	
+		var goal_type = ice_map._get_goal_type(puck_position)
+		goal_scored.emit(goal_type)
+		return true
 	else:
 		return false	
 		

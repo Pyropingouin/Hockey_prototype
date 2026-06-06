@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t8jnlixhcr8y"
-path="res://.godot/imported/AaronWhite_BubbleHead.png-c93f21cc85e96f61f6fd2a314f93d367.ctex"
+uid="uid://cmx5mkycil2w7"
+path="res://.godot/imported/TestHexagone_BandeBasRouge-export.png-41cc4d4b760da95de045f3207ddecdc1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/AaronWhite_BubbleHead.png"
-dest_files=["res://.godot/imported/AaronWhite_BubbleHead.png-c93f21cc85e96f61f6fd2a314f93d367.ctex"]
+source_file="res://assets/TileHexago/TestHexagone_BandeBasRouge-export.png"
+dest_files=["res://.godot/imported/TestHexagone_BandeBasRouge-export.png-41cc4d4b760da95de045f3207ddecdc1.ctex"]
 
 [params]
 

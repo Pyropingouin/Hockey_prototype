@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t8jnlixhcr8y"
-path="res://.godot/imported/AaronWhite_BubbleHead.png-c93f21cc85e96f61f6fd2a314f93d367.ctex"
+uid="uid://cy26qghqcg2uj"
+path="res://.godot/imported/LeiptiModin_BubbleHead.png-7af5ad5b3d2f26d45a3b4cf21e1a5769.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/AaronWhite_BubbleHead.png"
-dest_files=["res://.godot/imported/AaronWhite_BubbleHead.png-c93f21cc85e96f61f6fd2a314f93d367.ctex"]
+source_file="res://assets/Bubble_head/LeiptiModin_BubbleHead.png"
+dest_files=["res://.godot/imported/LeiptiModin_BubbleHead.png-7af5ad5b3d2f26d45a3b4cf21e1a5769.ctex"]
 
 [params]
 

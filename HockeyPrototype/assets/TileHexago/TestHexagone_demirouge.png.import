@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt8op0lklby0k"
-path="res://.godot/imported/DanDemers_BubbleaHead.png-91a0a171c3132aaa8bea5136ca91230f.ctex"
+uid="uid://f4e2wm2bs7wp"
+path="res://.godot/imported/TestHexagone_demirouge.png-944f9bf284b836ae9a1c739330a130b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/DanDemers_BubbleaHead.png"
-dest_files=["res://.godot/imported/DanDemers_BubbleaHead.png-91a0a171c3132aaa8bea5136ca91230f.ctex"]
+source_file="res://assets/TileHexago/TestHexagone_demirouge.png"
+dest_files=["res://.godot/imported/TestHexagone_demirouge.png-944f9bf284b836ae9a1c739330a130b3.ctex"]
 
 [params]
 
