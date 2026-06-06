@@ -57,5 +57,3 @@ func _on_click_card_button_pressed() -> void:
 func set_clickable(value: bool) -> void:
 	$ClickCardButton.visible = value
 	$ClickCardButton.disabled = not value
-
-
