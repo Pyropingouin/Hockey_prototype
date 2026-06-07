@@ -9,9 +9,9 @@ script = ExtResource("1_0pq21")
 theme_override_constants/separation = 8
 
 [node name="HomeTeamContainer" type="HBoxContainer" parent="."]
-offset_top = 402.0
+offset_top = 695.0
 offset_right = 40.0
-offset_bottom = 442.0
+offset_bottom = 735.0
 theme_override_constants/separation = 4
 
 [node name="EndDraftButton" type="Button" parent="."]

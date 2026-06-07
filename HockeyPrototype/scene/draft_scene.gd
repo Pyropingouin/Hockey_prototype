@@ -25,7 +25,6 @@ func _ready() -> void:
 	
 
 
-
 func show_new_draft_choices() -> void:
 	clear_current_cards()
 
@@ -92,6 +91,7 @@ func _on_card_clicked(selected_player: Dictionary) -> void:
 	player_team_selected_players.append(selected_player)
 	print("Joueur ajouté à ton équipe :", selected_player["pawn_name"])
 
+
 	refresh_player_team_display()
 
 	var remaining_choices := []
@@ -115,6 +115,8 @@ func refresh_player_team_display() -> void:
 	for child in player_team_selected_players_container.get_children():
 		child.queue_free()
 
+
+# Pour le visuel du player container
 	for player in player_team_selected_players:
 		var image := TextureRect.new()
 		image.texture = player["image"]
@@ -132,5 +134,8 @@ func _on_end_draft_button_pressed() -> void:
 	print("End Draft Button")
 	GameData.player_team_selected_players = player_team_selected_players
 	GameData.opposing_team_selected_players = opposing_team_selected_players
+
+	print(player_team_selected_players)
+	
 
 	get_tree().change_scene_to_file("res://scene/Game_Scene.tscn")

@@ -43,7 +43,7 @@ func setup(player: Dictionary) -> void:
 
 
 	var stats: Dictionary = player["stats"]
-	pawn_image.texture = player["image"]
+	pawn_image.texture = player["bubblehead"]
 	pawn_move_range_label.text = "Speed %s" % stats["move_range"]
 	pawn_strength_label.text = "Strength %s" % stats["strength"]
 	pawn_reflex_label.text = "Reflex %s" % stats["reflex"]
