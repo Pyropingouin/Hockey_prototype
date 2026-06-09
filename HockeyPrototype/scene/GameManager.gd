@@ -22,7 +22,7 @@ var action_mode: ActionMode = ActionMode.NONE
 
 const max_action_counter: int = 4
 const DRAG_THRESHOLD_PX := 12.0
-const PAWN_SCENE := preload("res://scene/Pawn.tscn")
+const PAWN_SCENE := preload("res://scene/pawn.tscn")
 
 var _active_team_action_counter: int = 0
 var active_team_action_counter:
