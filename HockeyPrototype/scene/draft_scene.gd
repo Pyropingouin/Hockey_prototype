@@ -15,7 +15,7 @@ var opposing_team_selected_players: Array = []
 
 @onready var card_container: HBoxContainer  = $CardContainer
 @onready var player_team_selected_players_container: HBoxContainer  = $HomeTeamContainer
-
+@onready var pause_menu: Node = $"PauseMenuOverlay/PauseMenu"
 
 func _ready() -> void:
 
@@ -139,3 +139,13 @@ func _on_end_draft_button_pressed() -> void:
 	
 
 	get_tree().change_scene_to_file("res://scene/Game_Scene.tscn")
+
+
+func _unhandled_input(event: InputEvent) -> void:
+
+	if event.is_action_pressed("ui_cancel"):
+		_pause_game()
+		pause_menu.visible = true
+
+func _pause_game() -> void:
+	get_tree().paused = true

@@ -1,22 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbevrfwi6bgkw"]
+[gd_scene load_steps=5 format=3 uid="uid://dbevrfwi6bgkw"]
 
-[ext_resource type="Texture2D" uid="uid://bvm2debt5kubm" path="res://assets/Bubble_head/JohnSmith_BubbleHead.png" id="1_lnxie"]
-[ext_resource type="Script" uid="uid://bi7umx44b765q" path="res://scene/main_menu.gd" id="1_sks6p"]
-[ext_resource type="Texture2D" uid="uid://dwbtcrftbj0p3" path="res://assets/Bubble_head/MikeGeazel_BubbleHead.png" id="2_sks6p"]
+[ext_resource type="Script" uid="uid://bi7umx44b765q" path="res://scene/main_menu.gd" id="1_02m7q"]
+[ext_resource type="Texture2D" uid="uid://bkyyqeohr67gw" path="res://assets/Menu.png" id="2_eao7r"]
+[ext_resource type="Texture2D" uid="uid://bvm2debt5kubm" path="res://assets/Bubble_head/JohnSmith_BubbleHead.png" id="3_3p5o1"]
+[ext_resource type="Texture2D" uid="uid://dwbtcrftbj0p3" path="res://assets/Bubble_head/MikeGeazel_BubbleHead.png" id="4_cpqrd"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_sks6p")
+script = ExtResource("1_02m7q")
+
+[node name="MenuBackGround" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_eao7r")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 362.0
-offset_top = 192.0
-offset_right = 884.0
-offset_bottom = 585.0
+offset_left = 716.0
+offset_top = 475.0
+offset_right = 1238.0
+offset_bottom = 868.0
 
 [node name="GameTitle" type="Label" parent="VBoxContainer"]
 layout_mode = 2
@@ -41,13 +49,13 @@ text = "Quit
 position = Vector2(80.99999, -1.5258789e-05)
 rotation = 0.2617994
 scale = Vector2(0.5388889, 0.54348165)
-texture = ExtResource("1_lnxie")
+texture = ExtResource("3_3p5o1")
 
 [node name="Sprite2D2" type="Sprite2D" parent="VBoxContainer"]
 position = Vector2(459, 0)
 rotation = -0.2617994
 scale = Vector2(0.5888889, 0.5888889)
-texture = ExtResource("2_sks6p")
+texture = ExtResource("4_cpqrd")
 
 [connection signal="pressed" from="VBoxContainer/QuickGame" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/DraftButton" to="." method="_on_draft_button_pressed"]

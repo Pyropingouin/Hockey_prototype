@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8bjmy6ua2lfu"]
+[gd_scene load_steps=3 format=3 uid="uid://b8bjmy6ua2lfu"]
 
 [ext_resource type="Script" uid="uid://ckblmerfu6n1h" path="res://scene/draft_scene.gd" id="1_0pq21"]
+[ext_resource type="PackedScene" path="res://scene/Pause_Menu.tscn" id="2_0pq21"]
 
 [node name="Draft_Scene" type="Node2D"]
 script = ExtResource("1_0pq21")
@@ -21,5 +22,10 @@ offset_top = 563.0
 offset_right = 1040.0
 offset_bottom = 594.0
 text = "End Draft"
+
+[node name="PauseMenuOverlay" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseMenuOverlay" instance=ExtResource("2_0pq21")]
+visible = false
 
 [connection signal="pressed" from="EndDraftButton" to="." method="_on_end_draft_button_pressed"]

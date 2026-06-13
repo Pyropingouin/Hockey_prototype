@@ -3,8 +3,10 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	pass
+
+	#Fonctionne UNIQUEMENT si le jeu est en pause
+	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
