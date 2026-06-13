@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=76 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="1_84jve"]
 [ext_resource type="Texture2D" uid="uid://bof21j07ossg5" path="res://assets/TileHexago/bandecoinback2.png" id="2_6e22e"]
@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://db5lqnrmkc2dc" path="res://assets/TileHexago/bandecoin4.png" id="27_2wcpk"]
 [ext_resource type="Texture2D" uid="uid://cwvcnk2p28x11" path="res://assets/TileHexago/bandecoin5.png" id="28_uyuwg"]
 [ext_resource type="Texture2D" uid="uid://bcsfdsgqaasr" path="res://assets/TileHexago/bandecoin6.png" id="29_uxxho"]
+[ext_resource type="PackedScene" path="res://scene/Pause_Menu.tscn" id="42_o4n2k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4n2k"]
 texture = ExtResource("2_8ms0i")
@@ -553,6 +554,11 @@ texture_normal = ExtResource("24_yj4y7")
 texture_pressed = ExtResource("25_xlqbc")
 script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenuOverlay" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseMenuOverlay" instance=ExtResource("42_o4n2k")]
+visible = false
 
 [connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]

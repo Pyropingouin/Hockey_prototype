@@ -79,6 +79,7 @@ var away_team_score:
 @onready var hit_button = $"../ActionButtonOverlay/HitButton"
 @onready var cancel_button = $"../ActionButtonOverlay/CancelButton"
 @onready var players_container: Node = $"../PlayersContainer"
+@onready var pause_menu: Node = $"../PauseMenuOverlay/PauseMenu"
 
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
 var drag_start_cell: Vector2i = Vector2i.ZERO
@@ -135,6 +136,10 @@ func _on_end_turn_button_pressed() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if game_state != GameState.PLAYING:
 		return
+
+	if event.is_action_pressed("ui_cancel"):
+		_pause_game()
+		pause_menu.visible = true
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -580,3 +585,7 @@ func _on_continue_button_pressed() -> void:
 	reset_board()
 	game_state = GameState.PLAYING
 	_refresh_action_buttons()
+
+
+func _pause_game() -> void:
+	get_tree().paused = true
