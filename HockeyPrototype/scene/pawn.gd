@@ -12,6 +12,7 @@ extends CharacterBody2D
 #DEBUG FOR TEAMS
 @onready var puck_ring: Sprite2D = $PuckRing
 @onready var active_team_ring: Sprite2D = $TeamRing
+@onready var hover_area: Area2D = $HoverArea
 
 
 @onready var GameManager = $"../../GameManager"
@@ -60,6 +61,7 @@ signal shooting_puck
 signal passing_puck
 signal dropping_puck
 signal hitting_player(hit_cell: Vector2i, current_cell: Vector2i, pawn: Node2D)
+signal hovering_pawn(pawn: Node2D)
 
 
 
@@ -68,6 +70,8 @@ signal hitting_player(hit_cell: Vector2i, current_cell: Vector2i, pawn: Node2D)
 func _ready() -> void:
 	current_cell = start_cell
 
+	hover_area.mouse_entered.connect(_on_hover_area_mouse_entered)
+	hover_area.mouse_exited.connect(_on_hover_area_mouse_exited)
 	call_deferred("_auto_connect_to_puck")
 	call_deferred("_connect_to_other_pawns")
 
@@ -277,6 +281,14 @@ func _on_pawn_selected(selected_pawn: Variant) -> void:
 			active_team_ring.modulate = Color.RED
 			
 					
+
+func _on_hover_area_mouse_entered() -> void:
+	
+	hovering_pawn.emit(self)
+
+func _on_hover_area_mouse_exited() -> void:
+
+	hovering_pawn.emit(null)			
 		
 func _connect_to_other_pawns() -> void:
 	var container = get_parent() #PlayerContainer

@@ -107,6 +107,7 @@ var is_dragging := false
 
 var target_pawn: Node2D = null
 var action_pawn: Node2D = null
+var hovered_pawn: Node2D = null
 var action_origin_cell: Vector2i = Vector2i.ZERO
 
 signal active_team_changed(active_team_id: int)
@@ -122,6 +123,7 @@ func _ready() -> void:
 	spawn_teams_from_draft()
 
 
+	
 	active_team_changed.emit(_active_team)
 	puck.goal_scored.connect(_on_goal_scored)
 
@@ -548,6 +550,8 @@ func spawn_teams_from_draft() -> void:
 
 		players_container.add_child(pawn)
 
+		pawn.hovering_pawn.connect(_on_pawn_hovered)
+
 		var start_cell: Vector2i = home_start_cells[i]
 		pawn.setup(player_data, 1, start_cell)
 		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
@@ -559,6 +563,8 @@ func spawn_teams_from_draft() -> void:
 		var pawn = PAWN_SCENE.instantiate()
 
 		players_container.add_child(pawn)
+
+		pawn.hovering_pawn.connect(_on_pawn_hovered)
 
 		var start_cell: Vector2i = away_start_cells[i]
 		pawn.setup(player_data, 2, start_cell)
@@ -609,6 +615,16 @@ func _on_continue_button_pressed() -> void:
 
 func _pause_game() -> void:
 	get_tree().paused = true
+
+
+func _on_pawn_hovered(pawn: Node2D) -> void:
+	hovered_pawn = pawn
+
+	if hovered_pawn == null:
+		print("Aucun joueur survolé")
+		return
+
+	print("Joueur survolé : ", hovered_pawn.pawn_name)	
 
 
 func _update_card_display() -> void:
