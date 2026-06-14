@@ -79,7 +79,7 @@ var selected_pawn: Node2D:
 		_selected_pawn = value
 
 		if is_node_ready():
-			_update_card_display()
+			_update_current_team_card_display()
 
 		pawn_selected.emit(_selected_pawn)
 
@@ -97,7 +97,8 @@ var selected_pawn: Node2D:
 @onready var cancel_button = $"../ActionButtonOverlay/CancelButton"
 @onready var players_container: Node = $"../PlayersContainer"
 @onready var pause_menu: Node = $"../PauseMenuOverlay/PauseMenu"
-@onready var card_display = $"../PlayerCardOverlay/Player_card_display"
+@onready var current_team_card_display = $"../PlayerCardOverlay/Current_Team_Player_Card_Display"
+@onready var opposing_team_card_display = $"../PlayerCardOverlay/Opposing_Team_Player_Card_Display"
 
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
 var drag_start_cell: Vector2i = Vector2i.ZERO
@@ -621,32 +622,56 @@ func _on_pawn_hovered(pawn: Node2D) -> void:
 	hovered_pawn = pawn
 
 	if hovered_pawn == null:
-		print("Aucun joueur survolé")
+		opposing_team_card_display.visible = false
+		return
+	if hovered_pawn.team_id == active_team:
+		opposing_team_card_display.visible = false
 		return
 
-	print("Joueur survolé : ", hovered_pawn.pawn_name)	
+
+	_update_opposing_team_card_display(hovered_pawn)
 
 
-func _update_card_display() -> void:
+func _update_current_team_card_display() -> void:
 	if selected_pawn == null:
-		card_display.visible = false
-		card_display.pawn_name_label.text = ""
-		card_display.pawn_image.texture = null
+		current_team_card_display.visible = false
+		current_team_card_display.pawn_name_label.text = ""
+		current_team_card_display.pawn_image.texture = null
 		return
 
-	card_display.visible = true
+	current_team_card_display.visible = true
 
-	card_display.pawn_name_label.text = selected_pawn.pawn_name
-	card_display.pawn_image.texture = selected_pawn.fullBodyTexture
+	current_team_card_display.pawn_name_label.text = selected_pawn.pawn_name
+	current_team_card_display.pawn_image.texture = selected_pawn.fullBodyTexture
 
-	card_display.pawn_move_range_label.text = \
+	current_team_card_display.pawn_move_range_label.text = \
 		"Speed: " + str(selected_pawn.move_range)
 
-	card_display.pawn_strength_label.text = \
+	current_team_card_display.pawn_strength_label.text = \
 		"Strength: " + str(selected_pawn.strength)
 
-	card_display.pawn_reflex_label.text = \
+	current_team_card_display.pawn_reflex_label.text = \
 		"Reflex: " + str(selected_pawn.reflex)
 
-	card_display.pawn_health_label.text = \
+	current_team_card_display.pawn_health_label.text = \
 		"Health: " + str(selected_pawn.health)
+
+
+func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
+	
+	opposing_team_card_display.visible = true
+
+	opposing_team_card_display.pawn_name_label.text = hovered_pawn.pawn_name
+	opposing_team_card_display.pawn_image.texture = hovered_pawn.fullBodyTexture
+
+	opposing_team_card_display.pawn_move_range_label.text = \
+		"Speed: " + str(hovered_pawn.move_range)
+
+	opposing_team_card_display.pawn_strength_label.text = \
+		"Strength: " + str(hovered_pawn.strength)
+
+	opposing_team_card_display.pawn_reflex_label.text = \
+		"Reflex: " + str(hovered_pawn.reflex)
+
+	opposing_team_card_display.pawn_health_label.text = \
+		"Health: " + str(hovered_pawn.health)		
