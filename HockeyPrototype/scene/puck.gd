@@ -82,10 +82,6 @@ func _on_pawn_dropping_puck(newDropPosition) -> void:
 	ice_map.place_puck_on_cell(self, current_cell)
 
 
-
-
-
-
 func _is_goal(puck_position):
 	print("type de tuile: ", ice_map._get_type(puck_position))
 	print("goal_type: ", ice_map._get_goal_type(puck_position))

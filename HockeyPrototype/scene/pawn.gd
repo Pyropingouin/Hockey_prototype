@@ -134,6 +134,12 @@ func setup(
 	print("Sprite trouvé: ", sprite != null)
 
 
+func reset_board():
+	current_cell = start_cell
+	IceMapLayer.place_pawn_on_cell(self, current_cell)
+
+
+
 func _update_pawn_texture() -> void:
 	if sprite == null:
 		push_error(

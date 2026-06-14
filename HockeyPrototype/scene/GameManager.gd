@@ -574,6 +574,13 @@ func spawn_teams_from_draft() -> void:
 
 func reset_board():
 	puck.reset_board()
+	active_team_action_counter = 0
+
+	
+
+	for pawn in players_container.get_children():
+		if pawn.has_method("reset_board"):
+			pawn.reset_board()
 
 func update_action_counter(action_cost: int):
 	active_team_action_counter += action_cost
