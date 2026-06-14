@@ -163,7 +163,7 @@ func pick_up_puck(pawn) -> void:
 	print(name, " a ramassé la puck")	
 	
 	if hasPuck == true:
-		puck_ring.modulate = Color.YELLOW
+		_update_ring_color()
 		
 func _on_current_cell_changed():
 	if hasPuck:

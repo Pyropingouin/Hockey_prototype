@@ -16,7 +16,9 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_w6ftl")
 
 [node name="PuckRing" type="Sprite2D" parent="."]
-scale = Vector2(0.08, 0.083)
+modulate = Color(0, 0, 0, 1)
+position = Vector2(2.999996, -0.4999988)
+scale = Vector2(0.20117188, 0.16308592)
 texture = ExtResource("3_08rbq")
 
 [node name="TeamRing" type="Sprite2D" parent="."]
