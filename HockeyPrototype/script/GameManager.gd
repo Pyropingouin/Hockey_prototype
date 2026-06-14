@@ -430,26 +430,32 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		_cancel_action_mode()
 		return
 
-	action_origin_cell = active_pawn.current_cell
+	action_origin_cell = action_pawn.current_cell
 
-	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
-		print("Shoot target oustide of range")
+	if not _is_in_shoot_range(
+		action_origin_cell,
+		target_cell,
+		action_pawn
+	):
+		print("Tir refusé : cible hors de portée.")
 		_cancel_action_mode()
 		return
 
+	if not IceMapLayer.is_shot_path_clear(
+		action_origin_cell,
+		target_cell
+	):
+		print("Tir refusé : un joueur bloque la trajectoire.")
+		return
+
 	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
-		print("Shoot refusé: case occupée par un pawn.")
+		print("Tir refusé : la case ciblée est occupée.")
 		return
 
 	if action_pawn.has_method("_shoot"):
 		action_pawn._shoot(target_cell)
-		selected_pawn = null	
+		selected_pawn = null
 
-
-		
-
-	emit_signal("pawn_selected", selected_pawn)
-	
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
@@ -507,14 +513,19 @@ func _do_hit(target_cell: Vector2i) -> void:
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 
-func _is_in_shoot_range(orgin_cell, target_cell, recieved_pawn):
-	var _range: int = recieved_pawn.move_range * 2
-	var dist: int = abs(target_cell.x - orgin_cell.x) + abs(target_cell.y - orgin_cell.y)
+func _is_in_shoot_range(
+	origin_cell: Vector2i,
+	target_cell: Vector2i,
+	received_pawn: Node2D
+) -> bool:
+	var shoot_range: int = received_pawn.move_range * 2
 
-	if dist == 0 or dist > _range:
-		return false
-	else:
-		return true
+	var distance: int = IceMapLayer.get_hex_distance(
+		origin_cell,
+		target_cell
+	)
+
+	return distance > 0 and distance <= shoot_range
 
 
 

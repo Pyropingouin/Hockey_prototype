@@ -109,22 +109,38 @@ func is_cell_occupied(cell: Vector2i, ignore_pawn: Node2D = null) -> bool:
 		return false
 	return map_data[cell].is_occupied
 
-func is_in_move_range(pawn: Node2D, origin: Vector2i, target: Vector2i) -> bool:
-	var d := target - origin
-	var dist: int = abs(d.x) + abs(d.y)
-	return dist <= pawn.move_range
+func is_in_move_range(
+	pawn: Node2D,
+	origin: Vector2i,
+	target: Vector2i
+) -> bool:
+	var reachable := _compute_reachable_cells(
+		origin,
+		pawn.move_range
+	)
 
-func can_move_pawn_to(pawn: Node2D, origin: Vector2i, target: Vector2i) -> bool:
+	return reachable.has(target)
+
+func can_move_pawn_to(
+	pawn: Node2D,
+	origin: Vector2i,
+	target: Vector2i
+) -> bool:
 	if pawn == null:
 		return false
+
 	if not cell_exists(target):
 		return false
+
 	if is_cell_blocked(target):
 		return false
+
 	if is_cell_occupied(target, pawn):
 		return false
+
 	if not is_in_move_range(pawn, origin, target):
 		return false
+
 	return true
 
 
@@ -307,115 +323,131 @@ func highlight_shoot_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
 		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
 			
 			
-func _compute_shoot_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
+func _compute_shoot_targets(
+	origin: Vector2i,
+	max_range: int
+) -> Array[Vector2i]:
 	var targets: Array[Vector2i] = []
 
 	for cell in map_data.keys():
-		var dist:int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
-		if dist == 0 or dist > max_range:
+		if cell == origin:
 			continue
 
 		if map_data[cell].blocked:
 			continue
 
-		targets.append(cell)
+		var distance := get_hex_distance(origin, cell)
 
-	return targets			
-	
-
-func highlight_pass_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:	
-	var _range: int = recieved_pawn.move_range * 2
-	var targets := _compute_pass_targets(origin, _range)
-
-	for cell in map_data.keys():
-		var src_id := get_cell_source_id(cell)
-		var atlas_coords := get_cell_atlas_coords(cell)
-		var is_target := targets.has(cell)
-		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
-			
-			
-func _compute_pass_targets(origin: Vector2i, max_range: int) -> Array[Vector2i]:
-	var targets: Array[Vector2i] = []
-
-	for p in pawns:
-		if p == action_pawn:
+		if distance == -1:
 			continue
 
-		## TODO Remettre pour équipe
-		#if p.team_id != action_pawn.team_id:
-			#continue
-
-		var cell: Vector2i = p.current_cell
-
-		var dist: int = abs(cell.x - origin.x) + abs(cell.y - origin.y)
-		if dist > max_range:
+		if distance > max_range:
 			continue
 
-		targets.append(cell)
-
-	return targets
-			
-
-func highlight_hit_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
-	var targets := _compute_hit_targets_cross(origin, recieved_pawn)
-
-	for cell in map_data.keys():
-		var src_id := get_cell_source_id(cell)
-		var atlas_coords := get_cell_atlas_coords(cell)
-		var is_target := targets.has(cell)
-		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
-
-
-func _compute_hit_targets_cross(origin: Vector2i, recieved_pawn: Node2D) -> Array[Vector2i]:
-	var targets: Array[Vector2i] = []
-	var directions := [
-		Vector2i.LEFT,
-		Vector2i.RIGHT,
-		Vector2i.UP,
-		Vector2i.DOWN
-	]
-
-	for dir in directions:
-		var cell: Vector2i = origin + dir
-		if not map_data.has(cell):
-			continue
-		if map_data[cell].blocked:
-			continue
-
-		var p := get_pawn_on_cell(cell)
-		if p == null:
-			continue
-		if p == recieved_pawn:
-			continue
-
-		targets.append(cell)
-
-	return targets
-
-
-func _compute_hit_targets_8(origin: Vector2i, recieved_pawn: Node2D) -> Array[Vector2i]:
-	var targets: Array[Vector2i] = []
-	var directions := [
-		Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1),
-		Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(1, 1)
-	]
-
-	for dir in directions:
-		var cell: Vector2i = origin + dir
-		if not map_data.has(cell):
-			continue
-		if map_data[cell].blocked:
-			continue
-
-		var p := get_pawn_on_cell(cell)
-		if p == null:
-			continue
-		if p == recieved_pawn:
+		if not is_shot_path_clear(origin, cell):
 			continue
 
 		targets.append(cell)
 
 	return targets	
+	
+
+func highlight_pass_targets(
+	origin: Vector2i,
+	received_pawn: Node2D
+) -> void:
+	var pass_range: int = received_pawn.move_range * 2
+
+	var targets := _compute_pass_targets(
+		origin,
+		pass_range,
+		received_pawn
+	)
+
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+		var is_target := targets.has(cell)
+
+		set_cell(
+			cell,
+			src_id,
+			atlas_coords,
+			_get_highlight_alt(
+				map_data[cell].base_alt_id,
+				not is_target
+			)
+		)
+			
+			
+func _compute_pass_targets(
+	origin: Vector2i,
+	max_range: int,
+	passing_pawn: Node2D
+) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
+
+	for pawn in pawns:
+		if not is_instance_valid(pawn):
+			continue
+
+		if pawn == passing_pawn:
+			continue
+
+		if pawn.team_id != passing_pawn.team_id:
+			continue
+
+		var distance := get_hex_distance(
+			origin,
+			pawn.current_cell
+		)
+
+		if distance == -1:
+			continue
+
+		if distance > max_range:
+			continue
+
+		targets.append(pawn.current_cell)
+
+	return targets
+			
+
+func highlight_hit_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
+	var targets := _compute_hit_targets(origin, recieved_pawn)
+
+	for cell in map_data.keys():
+		var src_id := get_cell_source_id(cell)
+		var atlas_coords := get_cell_atlas_coords(cell)
+		var is_target := targets.has(cell)
+		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
+
+
+func _compute_hit_targets(
+	origin: Vector2i,
+	received_pawn: Node2D
+) -> Array[Vector2i]:
+	var targets: Array[Vector2i] = []
+
+	for cell in get_surrounding_cells(origin):
+		if not map_data.has(cell):
+			continue
+
+		if map_data[cell].blocked:
+			continue
+
+		var target_pawn := get_pawn_on_cell(cell)
+
+		if target_pawn == null:
+			continue
+
+		if target_pawn == received_pawn:
+			continue
+
+		targets.append(cell)
+
+	return targets
+
 
 
 func show_shot_preview(origin_cell, target_cell, max_range):
@@ -429,46 +461,133 @@ func _compute_shot_path(origin_cell, target_cell, max_range):
 
 
 ### Algo Breadth-First Search (BFS)
-func _compute_reachable_cells(origin: Vector2i, max_range: int) -> Dictionary:
+func _compute_reachable_cells(
+	origin: Vector2i,
+	max_range: int
+) -> Dictionary:
 	var reachable: Dictionary = {}
 	var queue: Array[Vector2i] = []
 
 	reachable[origin] = 0
 	queue.append(origin)
 
-	var directions = [
-		Vector2i.LEFT,
-		Vector2i.RIGHT,
-		Vector2i.UP,
-		Vector2i.DOWN
-	]
-
-	while queue.size() > 0:
+	while not queue.is_empty():
 		var current: Vector2i = queue.pop_front()
 		var current_dist: int = reachable[current]
 
-		for dir in directions:
-			var next: Vector2i = current + dir
-
-			if not map_data.has(next):
+		for next_cell in get_surrounding_cells(current):
+			if not map_data.has(next_cell):
 				continue
 
-			var state: CellState = map_data[next]
+			var state: CellState = map_data[next_cell]
 
-			if state.blocked or state.is_occupied:
+			if state.blocked:
 				continue
 
-			var next_dist := current_dist + 1
+			if state.is_occupied:
+				continue
+
+			var next_dist: int = current_dist + 1
+
 			if next_dist > max_range:
 				continue
 
-			if reachable.has(next):
+			if reachable.has(next_cell):
 				continue
 
-			reachable[next] = next_dist
-			queue.append(next)
+			reachable[next_cell] = next_dist
+			queue.append(next_cell)
 
-	return reachable	
+	return reachable
+
+
+func get_hex_distance(
+	origin: Vector2i,
+	target: Vector2i
+) -> int:
+	if origin == target:
+		return 0
+
+	var visited: Dictionary = {}
+	var queue: Array[Vector2i] = []
+
+	visited[origin] = 0
+	queue.append(origin)
+
+	while not queue.is_empty():
+		var current: Vector2i = queue.pop_front()
+		var current_distance: int = visited[current]
+
+		for neighbor in get_surrounding_cells(current):
+			if not map_data.has(neighbor):
+				continue
+
+			if visited.has(neighbor):
+				continue
+
+			var distance: int = current_distance + 1
+
+			if neighbor == target:
+				return distance
+
+			visited[neighbor] = distance
+			queue.append(neighbor)
+
+	return -1	
+
+
+func get_cells_on_line(
+	origin: Vector2i,
+	target: Vector2i
+) -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+
+	var origin_position: Vector2 = map_to_local(origin)
+	var target_position: Vector2 = map_to_local(target)
+
+	var hex_distance: int = get_hex_distance(origin, target)
+
+	if hex_distance <= 0:
+		return [origin]
+
+	# Plusieurs échantillons par hexagone pour éviter de sauter une cellule.
+	var sample_count: int = hex_distance * 12
+
+	for i in range(sample_count + 1):
+		var weight: float = float(i) / float(sample_count)
+
+		var sampled_position: Vector2 = origin_position.lerp(
+			target_position,
+			weight
+		)
+
+		var sampled_cell: Vector2i = local_to_map(sampled_position)
+
+		if not cells.has(sampled_cell):
+			cells.append(sampled_cell)
+
+	return cells
+
+
+func is_shot_path_clear(
+	origin: Vector2i,
+	target: Vector2i
+) -> bool:
+	var cells_on_line := get_cells_on_line(origin, target)
+
+	for cell in cells_on_line:
+		# Le tireur ne bloque pas son propre tir.
+		if cell == origin:
+			continue
+
+		# La cible finale est gérée séparément par le GameManager.
+		if cell == target:
+			continue
+
+		if get_pawn_on_cell(cell) != null:
+			return false
+
+	return true
 
 
 ### DEBUG
