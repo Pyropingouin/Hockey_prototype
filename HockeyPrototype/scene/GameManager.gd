@@ -66,6 +66,23 @@ var away_team_score:
 		_away_team_score = value
 		away_team_score_changed.emit(_away_team_score)
 
+
+var _selected_pawn: Node2D = null
+
+var selected_pawn: Node2D:
+	get:
+		return _selected_pawn
+	set(value):
+		if _selected_pawn == value:
+			return
+
+		_selected_pawn = value
+
+		if is_node_ready():
+			_update_card_display()
+
+		pawn_selected.emit(_selected_pawn)
+
 @onready var activeTeamLabel: Label = $"../ActiveTeamLabel"
 @onready var homeTeamScoreLabel: Label = $"../HomeTeamScoreLabel"
 @onready var awayTeamScoreLabel: Label = $"../AwayTeamScoreLabel"
@@ -90,7 +107,6 @@ var is_dragging := false
 
 var target_pawn: Node2D = null
 var action_pawn: Node2D = null
-var selected_pawn: Node2D = null
 var action_origin_cell: Vector2i = Vector2i.ZERO
 
 signal active_team_changed(active_team_id: int)
@@ -194,7 +210,7 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	drag_start_cell = active_pawn.current_cell
 	drag_start_mouse_pos = global_pos
 	is_dragging = false
-	_update_card_display()
+	
 
 	_refresh_action_buttons()
 
@@ -358,6 +374,8 @@ func _refresh_action_buttons() -> void:
 	pass_button.update_visual()
 	hit_button.update_visual()
 	# cancel_button.update_visual()	
+
+
 
 
 func _start_action_shoot() -> void:
@@ -595,9 +613,12 @@ func _pause_game() -> void:
 
 func _update_card_display() -> void:
 	if selected_pawn == null:
+		card_display.visible = false
 		card_display.pawn_name_label.text = ""
 		card_display.pawn_image.texture = null
 		return
+
+	card_display.visible = true
 
 	card_display.pawn_name_label.text = selected_pawn.pawn_name
 	card_display.pawn_image.texture = selected_pawn.fullBodyTexture
