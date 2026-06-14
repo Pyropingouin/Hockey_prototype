@@ -80,6 +80,7 @@ var away_team_score:
 @onready var cancel_button = $"../ActionButtonOverlay/CancelButton"
 @onready var players_container: Node = $"../PlayersContainer"
 @onready var pause_menu: Node = $"../PauseMenuOverlay/PauseMenu"
+@onready var card_display = $"../PlayerCardOverlay/Player_card_display"
 
 var drag_start_mouse_pos: Vector2 = Vector2.ZERO
 var drag_start_cell: Vector2i = Vector2i.ZERO
@@ -193,6 +194,7 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	drag_start_cell = active_pawn.current_cell
 	drag_start_mouse_pos = global_pos
 	is_dragging = false
+	_update_card_display()
 
 	_refresh_action_buttons()
 
@@ -589,3 +591,25 @@ func _on_continue_button_pressed() -> void:
 
 func _pause_game() -> void:
 	get_tree().paused = true
+
+
+func _update_card_display() -> void:
+	if selected_pawn == null:
+		card_display.pawn_name_label.text = ""
+		card_display.pawn_image.texture = null
+		return
+
+	card_display.pawn_name_label.text = selected_pawn.pawn_name
+	card_display.pawn_image.texture = selected_pawn.fullBodyTexture
+
+	card_display.pawn_move_range_label.text = \
+		"Speed: " + str(selected_pawn.move_range)
+
+	card_display.pawn_strength_label.text = \
+		"Strength: " + str(selected_pawn.strength)
+
+	card_display.pawn_reflex_label.text = \
+		"Reflex: " + str(selected_pawn.reflex)
+
+	card_display.pawn_health_label.text = \
+		"Health: " + str(selected_pawn.health)

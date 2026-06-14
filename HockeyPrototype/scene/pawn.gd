@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
+@export var health: int = 2
 @export var team_id: int = 0
 @onready var sprite: Sprite2D = $Sprite2D
 #DEBUG FOR TEAMS
@@ -112,6 +113,9 @@ func setup(player_data: Dictionary, pawn_team_id: int, pawn_start_cell: Vector2i
 
 	if player_data.has("reflex"):
 		reflex = player_data["reflex"]
+
+	if player_data.has("health"):
+		health = player_data["health"]	
 
 	if player_data.has("image"):
 		fullBodyTexture = player_data["image"]

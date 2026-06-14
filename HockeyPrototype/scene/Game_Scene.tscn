@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=75 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://scene/GameManager.gd" id="1_84jve"]
 [ext_resource type="Texture2D" uid="uid://bof21j07ossg5" path="res://assets/TileHexago/bandecoinback2.png" id="2_6e22e"]
@@ -20,10 +20,8 @@
 [ext_resource type="Texture2D" uid="uid://chelga3djf7se" path="res://assets/TileHexago/TestHexagone_BandeBas-export.png" id="16_u330o"]
 [ext_resource type="Texture2D" uid="uid://cqrua8dq72nc6" path="res://assets/TileHexago/BUTMID_Away.png" id="17_rsjqm"]
 [ext_resource type="Texture2D" uid="uid://buovb3qqg64xp" path="res://assets/TileHexago/TestHexagone_BandeBasBACK.png" id="17_smmgo"]
-[ext_resource type="PackedScene" uid="uid://cli8otel0gk0i" path="res://scene/card_display.tscn" id="18_fqyvk"]
 [ext_resource type="Texture2D" uid="uid://cmx5mkycil2w7" path="res://assets/TileHexago/TestHexagone_BandeBasRouge-export.png" id="18_m22v3"]
 [ext_resource type="Texture2D" uid="uid://cbmnaabslrj3t" path="res://assets/TileHexago/TestHexagone_Bandehaut1.png" id="19_bd01w"]
-[ext_resource type="Script" uid="uid://bj8wvbnntpgl3" path="res://scene/card_display.gd" id="19_y5is6"]
 [ext_resource type="Texture2D" uid="uid://c4snt5orks7r4" path="res://assets/TileHexago/TestHexagone_Bandehaut1back.png" id="20_86wfa"]
 [ext_resource type="PackedScene" uid="uid://40rq7tisbrq8" path="res://scene/puck.tscn" id="20_a1gg8"]
 [ext_resource type="Texture2D" uid="uid://c7l44pv815qlp" path="res://assets/TileHexago/TestHexagone_Bandehaut2Back.png" id="21_oua80"]
@@ -41,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://db5lqnrmkc2dc" path="res://assets/TileHexago/bandecoin4.png" id="27_2wcpk"]
 [ext_resource type="Texture2D" uid="uid://cwvcnk2p28x11" path="res://assets/TileHexago/bandecoin5.png" id="28_uyuwg"]
 [ext_resource type="Texture2D" uid="uid://bcsfdsgqaasr" path="res://assets/TileHexago/bandecoin6.png" id="29_uxxho"]
+[ext_resource type="PackedScene" uid="uid://ccvn2h6me8tk6" path="res://scene/player_card_display.tscn" id="41_rsjqm"]
 [ext_resource type="PackedScene" path="res://scene/Pause_Menu.tscn" id="42_o4n2k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4n2k"]
@@ -375,33 +374,6 @@ modulate = Color(0.9859647, 0.039099496, 0.013400756, 1)
 
 [node name="PlayersContainer" type="Node" parent="."]
 
-[node name="CardDisplay" parent="." instance=ExtResource("18_fqyvk")]
-visible = false
-position = Vector2(607, -9)
-scale = Vector2(1.004868, 1)
-script = ExtResource("19_y5is6")
-
-[node name="Move" type="Label" parent="CardDisplay"]
-offset_left = 698.0
-offset_top = 548.0
-offset_right = 745.0
-offset_bottom = 571.0
-text = "MOVE"
-
-[node name="Strength" type="Label" parent="CardDisplay"]
-offset_left = 852.0
-offset_top = 548.0
-offset_right = 935.0
-offset_bottom = 571.0
-text = "STRENGTH"
-
-[node name="Reflex" type="Label" parent="CardDisplay"]
-offset_left = 1026.0
-offset_top = 548.0
-offset_right = 1082.0
-offset_bottom = 571.0
-text = "REFLEX"
-
 [node name="Puck" parent="." instance=ExtResource("20_a1gg8")]
 position = Vector2(1, 5)
 
@@ -560,7 +532,14 @@ metadata/_edit_use_anchors_ = true
 [node name="PauseMenu" parent="PauseMenuOverlay" instance=ExtResource("42_o4n2k")]
 visible = false
 
-[connection signal="pawn_selected" from="GameManager" to="CardDisplay" method="_on_game_manager_pawn_selected"]
+[node name="PlayerCardOverlay" type="CanvasLayer" parent="."]
+
+[node name="Player_card_display" parent="PlayerCardOverlay" instance=ExtResource("41_rsjqm")]
+offset_left = 1.0
+offset_top = 595.0
+offset_right = -1559.0
+offset_bottom = -5.0
+
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
 [connection signal="pressed" from="EndTurnButton" to="GameManager" method="_on_end_turn_button_pressed"]
 [connection signal="pressed" from="GoalOverlay/GoalPanel/ContinueButton" to="GameManager" method="_on_continue_button_pressed"]
