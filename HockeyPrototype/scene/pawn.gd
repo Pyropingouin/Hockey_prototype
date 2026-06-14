@@ -8,10 +8,11 @@ extends CharacterBody2D
 @export var reflex: int = 3
 @export var health: int = 2
 @export var team_id: int = 0
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 #DEBUG FOR TEAMS
 @onready var puck_ring: Sprite2D = $PuckRing
 @onready var active_team_ring: Sprite2D = $TeamRing
+
 
 @onready var GameManager = $"../../GameManager"
 @onready var IceMapLayer = $"../../IceMapLayer"
@@ -64,24 +65,19 @@ signal hitting_player(hit_cell: Vector2i, current_cell: Vector2i, pawn: Node2D)
 
 
 
-func _ready():
+func _ready() -> void:
 	current_cell = start_cell
 
 	call_deferred("_auto_connect_to_puck")
 	call_deferred("_connect_to_other_pawns")
-	
+
 	GameManager.active_team_changed.connect(_on_active_team_changed)
 	_on_active_team_changed(GameManager.active_team)
-	
+
 	GameManager.pawn_selected.connect(_on_pawn_selected)
 
+	_update_pawn_texture()
 
-	
-
-
-	if bubbleHeadTexture:
-		sprite.texture = bubbleHeadTexture
-		
 func _process(delta: float) -> void:
 	if _is_selected_pawn:
 		hue += delta * 0.5
@@ -100,35 +96,53 @@ func get_current_cell() -> Vector2i:
 
 
 
-func setup(player_data: Dictionary, pawn_team_id: int, pawn_start_cell: Vector2i) -> void:
-	if player_data.has("pawn_name"):
-		pawn_name = player_data["pawn_name"]
-		name = pawn_name
+func setup(
+	player_data: Dictionary,
+	pawn_team_id: int,
+	pawn_start_cell: Vector2i
+) -> void:
+	pawn_name = player_data.get("pawn_name", "Unnamed Pawn")
+	name = pawn_name
 
-	if player_data.has("move_range"):
-		move_range = player_data["move_range"]
+	var stats: Dictionary = player_data.get("stats", {})
 
-	if player_data.has("strength"):
-		strength = player_data["strength"]
+	move_range = int(stats.get("move_range", move_range))
+	strength = int(stats.get("strength", strength))
+	reflex = int(stats.get("reflex", reflex))
+	health = int(stats.get("health", health))
 
-	if player_data.has("reflex"):
-		reflex = player_data["reflex"]
-
-	if player_data.has("health"):
-		health = player_data["health"]	
-
-	if player_data.has("image"):
-		fullBodyTexture = player_data["image"]
-
-	if player_data.has("bubblehead"):
-		bubbleHeadTexture = player_data["bubblehead"]	
+	fullBodyTexture = player_data.get("image", null)
+	bubbleHeadTexture = player_data.get("bubblehead", null)
 
 	team_id = pawn_team_id
-	start_cell = pawn_start_cell	
+	start_cell = pawn_start_cell
 
-	print("name: ",name )
-	print("team: ",team_id)
-	print("start: ", start_cell)
+	# setup() peut être appelé avant ou après _ready()
+	if is_node_ready():
+		_update_pawn_texture()
+
+	print("--- PAWN SETUP ---")
+	print("Nom: ", pawn_name)
+	print("Speed: ", move_range)
+	print("Strength: ", strength)
+	print("Reflex: ", reflex)
+	print("Health: ", health)
+	print("Sprite trouvé: ", sprite != null)
+
+
+func _update_pawn_texture() -> void:
+	if sprite == null:
+		push_error(
+			"Le Sprite2D du pawn est introuvable. Vérifie son chemin dans pawn.tscn."
+		)
+		return
+
+	if bubbleHeadTexture != null:
+		sprite.texture = bubbleHeadTexture
+	elif fullBodyTexture != null:
+		sprite.texture = fullBodyTexture
+	else:
+		push_warning("Aucune texture trouvée pour le pawn : " + pawn_name)	
 	
 	
 func pick_up_puck(pawn) -> void:
@@ -222,7 +236,7 @@ func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 		#TODO Trouver si stun ou déplacer ailleurs
 		print("stun!")
 	
-        
+		
 		## TODO POTENTIEL BUG
 		if hasPuck:
 			hasPuck = false
