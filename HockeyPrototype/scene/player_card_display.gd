@@ -18,25 +18,7 @@ extends Control
 @onready var pawn_health_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/HitArea/HitLabel
 
 
-signal card_clicked(player: Dictionary)
-
-
-var player_data: Dictionary
-
-
-
-
-
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-
 func setup(player: Dictionary) -> void:
-
-
-	player_data = player
-
 
 	card_id = player["id"]
 	pawn_name_label.text = player["pawn_name"]
@@ -48,12 +30,3 @@ func setup(player: Dictionary) -> void:
 	pawn_strength_label.text = "Strength %s" % stats["strength"]
 	pawn_reflex_label.text = "Reflex %s" % stats["reflex"]
 	pawn_health_label.text = "Health %s" % stats["health"]
-
-
-func _on_click_card_button_pressed() -> void:
-	card_clicked.emit(player_data)
-
-
-func set_clickable(value: bool) -> void:
-	$ClickCardButton.visible = value
-	$ClickCardButton.disabled = not value

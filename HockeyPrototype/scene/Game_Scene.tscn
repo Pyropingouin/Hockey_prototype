@@ -535,9 +535,9 @@ visible = false
 [node name="PlayerCardOverlay" type="CanvasLayer" parent="."]
 
 [node name="Player_card_display" parent="PlayerCardOverlay" instance=ExtResource("41_rsjqm")]
-offset_left = 1.0
+offset_left = 22.0
 offset_top = 595.0
-offset_right = -1559.0
+offset_right = -1538.0
 offset_bottom = -5.0
 
 [connection signal="puck_is_picked_up" from="IceMapLayer" to="Puck" method="_on_ice_map_layer_puck_is_picked_up"]
