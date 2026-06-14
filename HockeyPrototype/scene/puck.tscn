@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://40rq7tisbrq8"]
 
-[ext_resource type="Script" uid="uid://5hih23ub0wkx" path="res://scene/puck.gd" id="1_e5w2v"]
+[ext_resource type="Script" uid="uid://5hih23ub0wkx" path="res://script/puck.gd" id="1_e5w2v"]
 [ext_resource type="Texture2D" uid="uid://difseew2bb0q7" path="res://assets/Puck64.png" id="2_e5w2v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_brc0n"]
