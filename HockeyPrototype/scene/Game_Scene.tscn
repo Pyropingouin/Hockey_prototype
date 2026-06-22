@@ -1,6 +1,7 @@
-[gd_scene load_steps=75 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=76 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://script/GameManager.gd" id="1_84jve"]
+[ext_resource type="Script" uid="uid://ev8hg70yht7f" path="res://script/input_controller.gd" id="1_o4n2k"]
 [ext_resource type="Texture2D" uid="uid://bof21j07ossg5" path="res://assets/TileHexago/bandecoinback2.png" id="2_6e22e"]
 [ext_resource type="Texture2D" uid="uid://f4e2wm2bs7wp" path="res://assets/TileHexago/TestHexagone_demirouge.png" id="2_8ms0i"]
 [ext_resource type="Texture2D" uid="uid://da8yw7kbq37tp" path="res://assets/TileHexago/TestHexagone_rouge-export-export.png" id="3_rsjqm"]
@@ -357,6 +358,13 @@ sources/33 = SubResource("TileSetAtlasSource_0nkqg")
 bg_color = Color(0, 0, 0, 0.80784315)
 
 [node name="Game" type="Node2D"]
+
+[node name="InputController" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_o4n2k")
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_84jve")

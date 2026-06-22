@@ -21,7 +21,6 @@ var game_state: GameState = GameState.PLAYING
 var action_mode: ActionMode = ActionMode.NONE
 
 const max_action_counter: int = 4
-const DRAG_THRESHOLD_PX := 12.0
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
 
 var _active_team_action_counter: int = 0
@@ -106,7 +105,7 @@ var drag_candidate: Node2D = null
 var active_pawn: Node2D = null
 var is_dragging := false
 
-var target_pawn: Node2D = null
+
 var action_pawn: Node2D = null
 var hovered_pawn: Node2D = null
 var action_origin_cell: Vector2i = Vector2i.ZERO
@@ -142,9 +141,6 @@ func _ready() -> void:
 
 	_refresh_action_buttons()
 
-func _process(delta: float) -> void:
-	pass
-
 func _on_end_turn_button_pressed() -> void:
 	if active_team == 1:
 		active_team = 2
@@ -157,183 +153,181 @@ func _unhandled_input(event: InputEvent) -> void:
 	if game_state != GameState.PLAYING:
 		return
 
-	if event.is_action_pressed("ui_cancel"):
-		_pause_game()
-		pause_menu.visible = true
+	# if event.is_action_pressed("ui_cancel"):
+	# 	_pause_game()
+	# 	pause_menu.visible = true
 
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_on_left_mouse_down(event.position)
-		else:
-			_on_left_mouse_up(event.position)
+	# if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	# 	if event.pressed:
+	# 		_on_left_mouse_down(event.position)
+	# 	else:
+	# 		_on_left_mouse_up(event.position)
 
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
-		if event.pressed:
-			_on_right_mouse_down(event.position)
-		else:
-			_on_right_mouse_up(event.position)
+	# if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+	# 	if event.pressed:
+	# 		_on_right_mouse_down(event.position)
+	# 	else:
+	# 		_on_right_mouse_up(event.position)
 
-	if event.is_action_pressed("ui_cancel") and action_mode != ActionMode.NONE:
-		_cancel_action_mode()
-		return
+	# if event.is_action_pressed("ui_cancel") and action_mode != ActionMode.NONE:
+	# 	_cancel_action_mode()
+	# 	return
 
-	if event is InputEventMouseMotion and drag_candidate:
-		_on_mouse_drag(event.position)
+	# if event is InputEventMouseMotion and drag_candidate:
+	# 	_on_mouse_drag(event.position)
 
-func _on_left_mouse_down(global_pos: Vector2) -> void:
-	if action_mode != ActionMode.NONE:
-		_handle_action_click(global_pos)
-		return
+# func _on_left_mouse_down(global_pos: Vector2) -> void:
+# 	if action_mode != ActionMode.NONE:
+# 		_handle_action_click(global_pos)
+# 		return
 
-	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
-
-	
-
-	active_pawn = null
-	drag_candidate = IceMapLayer.pawn_at_cell(cell)
-
-	if drag_candidate == null:
-		selected_pawn = null
-		print("_on_left_mouse_down if drag_candidate")
-		emit_signal("pawn_selected", selected_pawn)
-		_refresh_action_buttons()
-		return
-
-	if drag_candidate.team_id != active_team:
-		drag_candidate = null
-		_refresh_action_buttons()
-		return
-
-	active_pawn = drag_candidate
-	selected_pawn = drag_candidate
+# 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
 	
-	print("_on_left_mouse_down")	
-	emit_signal("pawn_selected", selected_pawn)
-	drag_start_cell = active_pawn.current_cell
-	drag_start_mouse_pos = global_pos
-	is_dragging = false
+
+# 	active_pawn = null
+# 	drag_candidate = IceMapLayer.pawn_at_cell(cell)
+
+# 	if drag_candidate == null:
+# 		selected_pawn = null
+# 		print("_on_left_mouse_down if drag_candidate")
+# 		emit_signal("pawn_selected", selected_pawn)
+# 		_refresh_action_buttons()
+# 		return
+
+# 	if drag_candidate.team_id != active_team:
+# 		drag_candidate = null
+# 		_refresh_action_buttons()
+# 		return
+
+# 	active_pawn = drag_candidate
+# 	selected_pawn = drag_candidate
+
+	
+# 	print("_on_left_mouse_down")	
+# 	emit_signal("pawn_selected", selected_pawn)
+# 	drag_start_cell = active_pawn.current_cell
+# 	drag_start_mouse_pos = global_pos
+# 	is_dragging = false
 	
 
-	_refresh_action_buttons()
+# 	_refresh_action_buttons()
 
-func _on_left_mouse_up(global_pos: Vector2) -> void:
-	if active_pawn == null:
-		drag_candidate = null
-		_refresh_action_buttons()
-		return
+# func _on_left_mouse_up(global_pos: Vector2) -> void:
+# 	if active_pawn == null:
+# 		drag_candidate = null
+# 		_refresh_action_buttons()
+# 		return
 
-	if not is_dragging:
+# 	if not is_dragging:
 		
-		# selected_pawn = active_pawn
+# 		# selected_pawn = active_pawn
 		
-		print("_on_left_mouse_UP if not dragging")
-		# emit_signal("pawn_selected", selected_pawn)
+# 		print("_on_left_mouse_UP if not dragging")
+# 		# emit_signal("pawn_selected", selected_pawn)
 		
 
 
-		#Faire une variable selected_Pawn
-		#l'envoyer au pawn pour lui dire qu'il est sélectionner
-			#faire tourner le ring dans le pawn si selected
-		#l'envoyer au card display aussu	
-		#Tant qu'il est selected, on change pas
-		#Si PLUS selected, 
-			#dire au selected Pawn qu'il n'est plus selected
-		#Selected_pawn = null
-			#dire au card display que selected pawn = null
+# 		#Faire une variable selected_Pawn
+# 		#l'envoyer au pawn pour lui dire qu'il est sélectionner
+# 			#faire tourner le ring dans le pawn si selected
+# 		#l'envoyer au card display aussu	
+# 		#Tant qu'il est selected, on change pas
+# 		#Si PLUS selected, 
+# 			#dire au selected Pawn qu'il n'est plus selected
+# 		#Selected_pawn = null
+# 			#dire au card display que selected pawn = null
 			
-		#Qu'est-ce qui trigger la fin du selected pawn?
-		#1) Selecté un autre pawn
-		#2) juste cancel le présent pawn (Click à coté??)
+# 		#Qu'est-ce qui trigger la fin du selected pawn?
+# 		#1) Selecté un autre pawn
+# 		#2) juste cancel le présent pawn (Click à coté??)
 		
-			
-		
-			
-			
-			
-		
-		
-		_refresh_action_buttons()
-		_cleanup_drag()
-		return
 
-	is_dragging = false
+# 		_refresh_action_buttons()
+# 		_cleanup_drag()
+# 		return
 
-	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
+# 	is_dragging = false
 
-	if IceMapLayer.can_move_pawn_to(active_pawn, drag_start_cell, target_cell):
-		IceMapLayer.apply_move(active_pawn, drag_start_cell, target_cell)
+# 	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
+
+# 	if IceMapLayer.can_move_pawn_to(active_pawn, drag_start_cell, target_cell):
+# 		IceMapLayer.apply_move(active_pawn, drag_start_cell, target_cell)
 
 
-		#Évite que si on annule le move ou si on drop sur la même case en hésistant
-		if (drag_start_cell != target_cell):
-			update_action_counter(1)
-	else:
-		IceMapLayer.reset_move(active_pawn, drag_start_cell)
+# 		#Évite que si on annule le move ou si on drop sur la même case en hésistant
+# 		if (drag_start_cell != target_cell):
+# 			update_action_counter(1)
+# 	else:
+# 		IceMapLayer.reset_move(active_pawn, drag_start_cell)
 
 	
-	IceMapLayer.clear_highlight()
-	_cleanup_drag()
-	_refresh_action_buttons()
+# 	IceMapLayer.clear_highlight()
+# 	_cleanup_drag()
+# 	_refresh_action_buttons()
 
-func _on_right_mouse_down(global_pos: Vector2) -> void:
-	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
+# func _on_right_mouse_down(global_pos: Vector2) -> void:
+# 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
-	if action_mode != ActionMode.NONE:
-		_cancel_action_mode()
+# 	if action_mode != ActionMode.NONE:
+# 		_cancel_action_mode()
 	
 
-	target_pawn = null
-	target_pawn = IceMapLayer.pawn_at_cell(cell)
+# 	target_pawn = null
+# 	target_pawn = IceMapLayer.pawn_at_cell(cell)
 
-	if (target_pawn == null):
-		selected_pawn = null
-		print("_on_right_mouse_down if target_pawn = null")
-		emit_signal("pawn_selected", selected_pawn)
+# 	if (target_pawn == null):
+# 		selected_pawn = null
+# 		print("_on_right_mouse_down if target_pawn = null")
+# 		emit_signal("pawn_selected", selected_pawn)
 
-	print("Target_Pawn = ", target_pawn)
+# 	print("Target_Pawn = ", target_pawn)
 	
 
-func _on_right_mouse_up(global_pos: Vector2) -> void:
-	print("left up")
-	print(global_pos)
+# func _on_right_mouse_up(global_pos: Vector2) -> void:
+# 	print("left up")
+# 	print(global_pos)
 
-func _on_mouse_drag(global_pos: Vector2) -> void:
-	if active_pawn == null:
-		return
+# func _on_mouse_drag(global_pos: Vector2) -> void:
+# 	if active_pawn == null:
+# 		return
 
-	if not is_dragging:
-		var dist := drag_start_mouse_pos.distance_to(global_pos)
-		if dist < DRAG_THRESHOLD_PX:
-			return
+# 	if not is_dragging:
+# 		var dist := drag_start_mouse_pos.distance_to(global_pos)
+# 		if dist < DRAG_THRESHOLD_PX:
+# 			return
 
-		is_dragging = true
-		IceMapLayer.highlight_unreachable_from(drag_start_cell, active_pawn.move_range)
-		print("_on_mouse_drag")
-		emit_signal("pawn_selected", selected_pawn)
-		_refresh_action_buttons()
+# 		is_dragging = true
+# 		IceMapLayer.highlight_unreachable_from(drag_start_cell, active_pawn.move_range)
+# 		print("_on_mouse_drag")
+# 		emit_signal("pawn_selected", selected_pawn)
+# 		_refresh_action_buttons()
 
-	active_pawn.global_position = global_pos
+# 	active_pawn.global_position = global_pos
 
-func _cleanup_drag() -> void:
-	drag_candidate = null
+# func _cleanup_drag() -> void:
+# 	drag_candidate = null
 
-func _handle_action_click(global_pos: Vector2) -> void:
-	print("handle action click")
 
-	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
+# ##INPUT
+# func _handle_action_click(global_pos: Vector2) -> void:
+# 	print("handle action click")
 
-	if IceMapLayer.get_ice_map_layer_cell_id(target_cell) == -1:
-		_cancel_action_mode()
-		return
+# 	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
-	match action_mode:
-		ActionMode.SHOOT:
-			_do_shoot(target_cell)
-		ActionMode.PASS:
-			_do_pass(target_cell)
-		ActionMode.HIT:
-			_do_hit(target_cell)
+# 	if IceMapLayer.get_ice_map_layer_cell_id(target_cell) == -1:
+# 		_cancel_action_mode()
+# 		return
+
+# 	match action_mode:
+# 		ActionMode.SHOOT:
+# 			_do_shoot(target_cell)
+# 		ActionMode.PASS:
+# 			_do_pass(target_cell)
+# 		ActionMode.HIT:
+# 			_do_hit(target_cell)
+
+
 
 func _cancel_action_mode() -> void:
 	# Soit disable le bouton si on est pas dans un action
@@ -601,7 +595,7 @@ func _end_turn():
 	action_mode = ActionMode.NONE
 	action_pawn = null
 	active_pawn = null
-	target_pawn = null
+	# target_pawn = null
 	drag_candidate = null
 	is_dragging = false
 	IceMapLayer.clear_highlight()
