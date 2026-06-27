@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 @onready var GameManager = $"../GameManager"
 @onready var IceMapLayer = $"../IceMapLayer"
@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_on_left_mouse_up(event.position)
 
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT: 
 		if event.pressed:
 			_on_right_mouse_down(event.position)
 		else:
@@ -173,6 +173,8 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 
 func _cleanup_drag() -> void:
 	drag_candidate = null
+	GameManager.active_pawn = null
+	is_dragging = false
 
 func _handle_action_click(global_pos: Vector2) -> void:
 	print("handle action click")
