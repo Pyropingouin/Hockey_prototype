@@ -150,22 +150,23 @@ func _on_end_turn_button_pressed() -> void:
 
 	if active_team == 2:
 		print("TEAM 2")
+		print("active_team", active_team)
 		ai_turn()
-
-
 
 	activeTeamLabel.text = str(active_team)
 
 
 func ai_turn() -> void:
 	if active_team == 1:
+		print("BUG")
 		return
 
-	while active_team == 2 and active_team_action_counter < max_action_counter:
+	
 
-		print("counter", active_team_action_counter)
-		print("ai_turn")
-		AiController.turn_inside_ai()
+		
+	AiController.turn_inside_ai()
+
+	print("FIN AI TURN")	
 
 
 
@@ -439,10 +440,11 @@ func _end_turn():
 	# target_pawn = null
 	drag_candidate = null
 	is_dragging = false
+	active_team_action_counter = 0
 	IceMapLayer.clear_highlight()
 
 	_on_end_turn_button_pressed()
-	active_team_action_counter = 0
+
 	_refresh_action_buttons()
 
 func _on_goal_scored(goal_type):

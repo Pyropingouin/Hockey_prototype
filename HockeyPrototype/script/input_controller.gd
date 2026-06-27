@@ -1,7 +1,8 @@
-extends Control
+extends Node
 
 @onready var GameManager = $"../GameManager"
 @onready var IceMapLayer = $"../IceMapLayer"
+@onready var ActionManager = $"../ActionManager"
 
 
 enum GameState { PLAYING, GOAL_PAUSE }
@@ -42,6 +43,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and drag_candidate:
 		_on_mouse_drag(event.position)
 
+
+		
+
 func _on_left_mouse_down(global_pos: Vector2) -> void:
 	if GameManager.action_mode != ActionMode.NONE:
 		_handle_action_click(global_pos)
@@ -50,13 +54,14 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
 	
-
 	GameManager.active_pawn = null
 	drag_candidate = IceMapLayer.pawn_at_cell(cell)
 
+
+
+#Cas ou ça ne marche pas
 	if drag_candidate == null:
 		GameManager.selected_pawn = null
-		print("_on_left_mouse_down if drag_candidate")
 		GameManager.emit_signal("pawn_selected", GameManager.selected_pawn)
 		GameManager._refresh_action_buttons()
 		return
@@ -65,12 +70,13 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 		drag_candidate = null
 		GameManager._refresh_action_buttons()
 		return
+#Fin cas ou ça ne marche pas		
+
 
 	GameManager.active_pawn = drag_candidate
 	GameManager.selected_pawn = drag_candidate
 
-	
-	print("_on_left_mouse_down")	
+
 	GameManager.emit_signal("pawn_selected", GameManager.selected_pawn)
 	drag_start_cell = GameManager.active_pawn.current_cell
 	drag_start_mouse_pos = global_pos
@@ -87,28 +93,7 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	if not is_dragging:
 		
-		# selected_pawn = active_pawn
-		
 		print("_on_left_mouse_UP if not dragging")
-		# emit_signal("pawn_selected", selected_pawn)
-		
-
-
-		#Faire une variable selected_Pawn
-		#l'envoyer au pawn pour lui dire qu'il est sélectionner
-			#faire tourner le ring dans le pawn si selected
-		#l'envoyer au card display aussu	
-		#Tant qu'il est selected, on change pas
-		#Si PLUS selected, 
-			#dire au selected Pawn qu'il n'est plus selected
-		#Selected_pawn = null
-			#dire au card display que selected pawn = null
-			
-		#Qu'est-ce qui trigger la fin du selected pawn?
-		#1) Selecté un autre pawn
-		#2) juste cancel le présent pawn (Click à coté??)
-		
-
 		GameManager._refresh_action_buttons()
 		_cleanup_drag()
 		return
@@ -117,20 +102,12 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
-	if IceMapLayer.can_move_pawn_to(GameManager.active_pawn, drag_start_cell, target_cell):
-		IceMapLayer.apply_move(GameManager.active_pawn, drag_start_cell, target_cell)
+	ActionManager.attempt_move(GameManager.active_pawn, drag_start_cell, target_cell)
 
-
-		#Évite que si on annule le move ou si on drop sur la même case en hésistant
-		if (drag_start_cell != target_cell):
-			GameManager.update_action_counter(1)
-	else:
-		IceMapLayer.reset_move(GameManager.active_pawn, drag_start_cell)
-
-	
 	IceMapLayer.clear_highlight()
 	_cleanup_drag()
 	GameManager._refresh_action_buttons()
+
 
 func _on_right_mouse_down(global_pos: Vector2) -> void:
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
