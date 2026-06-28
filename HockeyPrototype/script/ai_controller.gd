@@ -4,29 +4,83 @@ extends Node
 @onready var GameManager = $"../GameManager"
 @onready var ActionManager = $"../ActionManager"
 @onready var players_container: Node = $"../PlayersContainer"
+@onready var puck := $"../Puck"
+
+var ai_player_pawn_list: Array = []
+var human_player_pawn_list: Array = []
 
 
 func turn_inside_ai() -> void:
 
-   var ai_player_pawn_list: Array = []
-   var human_player_pawn_list: Array = []
 
+   #Connaitre tout les pawn, alliés et ennemies
    for pawn in players_container.get_children():
       if pawn.team_id ==2:
          ai_player_pawn_list.append(pawn)
       if pawn.team_id ==1:
          human_player_pawn_list.append(pawn)   
 
-   
 
+
+
+   
 
    while GameManager.active_team == 2 and GameManager.active_team_action_counter < GameManager.max_action_counter:
 
-      await get_tree().create_timer(1.0).timeout
+      #Connaitre la puck
+      var puck_position = puck.current_cell
+      var is_puck_held = puck.isPickedUp
 
+
+      await get_tree().create_timer(1.0).timeout
+     
+
+      
+
+
+      if(is_puck_held == false):
+         move_ai_toward_free_puck(puck_position)
+
+
+
+
+      elif(is_puck_held == true):
+         pass
+         # Check si c'est qui a la puck
+
+
+         # if(ally_in_puck_position == true)
+
+
+      
+      # print("puck position ", puck_position) 
+      # print("is_puck_held ", is_puck_held)
+
+
+
+
+      else:
+       move_ai_random()
+
+
+
+
+      print(ai_player_pawn_list)
+      print("Ai controller")
+
+      # return   
+
+
+
+
+# Move a random pawn in a random tile
+func move_ai_random() -> void:
+
+      print("AI move at random")
+   
       var destination_cell = Vector2i(randi_range(0, 5), randi_range(0, 5))
 
-      var selected_ai_pawn = ai_player_pawn_list[randi_range(0, 3)]
+      var selected_ai_pawn = ai_player_pawn_list[randi_range(0, ai_player_pawn_list.size()-1)]
 
       print("AI pawns count: ", ai_player_pawn_list.size())
       print("Selected AI pawn: ", selected_ai_pawn.pawn_name)
@@ -37,16 +91,5 @@ func turn_inside_ai() -> void:
 
       ActionManager.attempt_move(selected_ai_pawn,selected_ai_pawn.current_cell, destination_cell)
       
-      
-
-      
-   
-
-
-
-  
-	
-   print(ai_player_pawn_list)
-   print("Ai controller")
-
-   return   
+func move_ai_toward_free_puck(puck_position) -> void:
+   print("move toward puck at position ", puck_position)      
