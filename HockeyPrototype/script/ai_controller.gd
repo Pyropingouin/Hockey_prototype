@@ -3,6 +3,7 @@ extends Node
 
 @onready var GameManager = $"../GameManager"
 @onready var ActionManager = $"../ActionManager"
+@onready var IceMapLayer = $"../IceMapLayer"
 @onready var players_container: Node = $"../PlayersContainer"
 @onready var puck := $"../Puck"
 
@@ -92,4 +93,35 @@ func move_ai_random() -> void:
       ActionManager.attempt_move(selected_ai_pawn,selected_ai_pawn.current_cell, destination_cell)
       
 func move_ai_toward_free_puck(puck_position) -> void:
-   print("move toward puck at position ", puck_position)      
+   print("move toward puck at position ", puck_position)
+
+   
+   var shortest_distance = 999
+   var chosen_ai_pawn = null
+
+   for pawn in ai_player_pawn_list:
+      # trouver la distance entre la puck et le joueur
+      var pawn_distance_with_puck = IceMapLayer.get_hex_distance(pawn.current_cell, puck_position)
+
+      print("Pawn test ",pawn )
+
+      # si le joueur actuelle est plus proche, garder ça distance en mémoire
+      if pawn_distance_with_puck < shortest_distance:
+         shortest_distance = pawn_distance_with_puck
+         chosen_ai_pawn = pawn
+
+
+   print("chosen pawn ",chosen_ai_pawn)
+   print("shortest_distance ", shortest_distance) 
+
+   #faire bouger le joueur
+
+   GameManager.active_pawn = chosen_ai_pawn
+   ActionManager.attempt_move(chosen_ai_pawn,chosen_ai_pawn.current_cell, puck_position)
+
+
+
+## ATTENTION, peut-être que le pawn ne marchera pas
+
+      
+
