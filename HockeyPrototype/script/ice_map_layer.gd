@@ -164,6 +164,7 @@ func apply_move(pawn: Node2D, origin: Vector2i, target: Vector2i) -> void:
 	place_pawn_on_cell(pawn, target)
 	update_occupancy()
 	_check_for_puck_on_ice(target, pawn)
+	
 
 func reset_move(pawn: Node2D, origin: Vector2i) -> void:
 	pawn.current_cell = origin

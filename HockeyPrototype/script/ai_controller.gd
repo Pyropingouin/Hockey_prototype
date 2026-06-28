@@ -9,6 +9,10 @@ extends Node
 
 var ai_player_pawn_list: Array = []
 var human_player_pawn_list: Array = []
+var chosen_ai_pawn = null
+
+const RightNetPosition = Vector2i(7,0)
+const LeftNetPosition = Vector2i(-3,0)
 
 
 func turn_inside_ai() -> void:
@@ -46,11 +50,47 @@ func turn_inside_ai() -> void:
 
 
       elif(is_puck_held == true):
-         pass
+
+         var ai_pawn_puck_carrier = null
+         var human_pawn_puck_carrier = null
+
+
+         for ai_pawn in ai_player_pawn_list:
+            if ai_pawn.hasPuck == true:
+               ai_pawn_puck_carrier = ai_pawn
+
+         for human_pawn in human_player_pawn_list:
+            if human_pawn.hasPuck == true:
+               human_pawn_puck_carrier = human_pawn
+
+         if ai_pawn_puck_carrier != null:
+            print("L'IA a la puck: ", ai_pawn_puck_carrier.pawn_name)
+
+            var is_shoot_successful = ActionManager.ai_attempt_shoot(RightNetPosition, ai_pawn_puck_carrier)
+            if (is_shoot_successful == false):
+               move_ai_random()
+
+
+
+
+         elif human_pawn_puck_carrier != null:
+            print("Le joueur humain a la puck: ", human_pawn_puck_carrier.pawn_name)
+
+            ##Modifier après avoir mis hit
+            move_ai_random()      
+
+
+
+
+
+            
+
+
+
+         # ActionManager.ai_do_shoot()
+         # move_ai_random()
          # Check si c'est qui a la puck
 
-
-         # if(ally_in_puck_position == true)
 
 
       
@@ -87,17 +127,17 @@ func move_ai_random() -> void:
       print("Selected AI pawn: ", selected_ai_pawn.pawn_name)
       print("From: ", selected_ai_pawn.current_cell, " To: ", destination_cell)
 
-      GameManager.active_pawn = selected_ai_pawn
+      # GameManager.active_pawn = selected_ai_pawn
 
 
-      ActionManager.attempt_move(selected_ai_pawn,selected_ai_pawn.current_cell, destination_cell)
+      ActionManager.ai_attempt_move(selected_ai_pawn,selected_ai_pawn.current_cell, destination_cell)
       
 func move_ai_toward_free_puck(puck_position) -> void:
    print("move toward puck at position ", puck_position)
 
    
    var shortest_distance = 999
-   var chosen_ai_pawn = null
+  
 
    for pawn in ai_player_pawn_list:
       # trouver la distance entre la puck et le joueur
@@ -116,8 +156,11 @@ func move_ai_toward_free_puck(puck_position) -> void:
 
    #faire bouger le joueur
 
-   GameManager.active_pawn = chosen_ai_pawn
-   ActionManager.attempt_move(chosen_ai_pawn,chosen_ai_pawn.current_cell, puck_position)
+   # GameManager.active_pawn = chosen_ai_pawn
+   var is_move_successful = ActionManager.ai_attempt_move(chosen_ai_pawn,chosen_ai_pawn.current_cell, puck_position)
+
+   if (is_move_successful == false):
+      move_ai_random()
 
 
 
