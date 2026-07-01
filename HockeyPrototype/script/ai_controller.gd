@@ -79,9 +79,21 @@ func turn_inside_ai() -> void:
 
 
             chosen_ai_pawn = calculate_distance(human_pawn_puck_carrier.current_cell)         
-            var is_hit_successful = ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
-            if (is_hit_successful == false):
+
+            # Si la distance entre le target et le pawn est sous 1, on frappe
+            if IceMapLayer.get_hex_distance(chosen_ai_pawn.current_cell, human_pawn_puck_carrier.current_cell) > 1:
+
+               var is_hit_successful = ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
+
+               # Si la frappe est un échec, move at random
+               if (is_hit_successful == false):
+                  move_ai_random()
+
+             # Si la distance entre le target et le pawn est plus grand que 1, move at random
+             # Mettre qu'un joueur s'approche du puck carrier
+            else:
                move_ai_random()
+
 
 
 
