@@ -148,6 +148,7 @@ func _on_end_turn_button_pressed() -> void:
 		ai_turn()
 
 	activeTeamLabel.text = str(active_team)
+	active_team_action_counter = 0
 
 
 func ai_turn() -> void:
@@ -159,8 +160,6 @@ func ai_turn() -> void:
 
 		
 	AiController.turn_inside_ai()
-
-	print("FIN AI TURN")	
 
 
 
@@ -175,7 +174,6 @@ func _cancel_action_mode() -> void:
 	_refresh_action_buttons()
 
 func _refresh_action_buttons() -> void:
-	print("refresh selected_pawn = ", selected_pawn)
 
 	shoot_button.disabled = true
 	pass_button.disabled = true
@@ -344,8 +342,14 @@ func _do_hit(target_cell: Vector2i) -> void:
 		print("Plaquage: tu ne peux pas te plaquer toi-même.")
 		return
 
+	if IceMapLayer.get_hex_distance(action_pawn.current_cell, target_cell) > 1:
+		return
+
 	if action_pawn.has_method("_hit"):
 		action_pawn._hit(target_cell)
+
+
+
 
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()

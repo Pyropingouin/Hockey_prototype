@@ -40,15 +40,13 @@ func turn_inside_ai() -> void:
       await get_tree().create_timer(1.0).timeout
      
 
-      
-
-
+      # Si la puck est libre, on fonce dessus
       if(is_puck_held == false):
          move_ai_toward_free_puck(puck_position)
 
 
 
-
+      # Si la puck n'est pas libre
       elif(is_puck_held == true):
 
          var ai_pawn_puck_carrier = null
@@ -63,53 +61,32 @@ func turn_inside_ai() -> void:
             if human_pawn.hasPuck == true:
                human_pawn_puck_carrier = human_pawn
 
+         # Si la puck est detenu par un joueur AI, on essaye de shoot
          if ai_pawn_puck_carrier != null:
             print("L'IA a la puck: ", ai_pawn_puck_carrier.pawn_name)
 
             var is_shoot_successful = ActionManager.ai_attempt_shoot(RightNetPosition, ai_pawn_puck_carrier)
+            
+            # Si impossible de tirer, on bouge at random
             if (is_shoot_successful == false):
                move_ai_random()
 
 
 
-
+         # Si la puck est detenu par un joueur human
          elif human_pawn_puck_carrier != null:
             print("Le joueur humain a la puck: ", human_pawn_puck_carrier.pawn_name)
 
-            ##Modifier après avoir mis hit
-            move_ai_random()      
 
-
-
-
-
-            
-
-
-
-         # ActionManager.ai_do_shoot()
-         # move_ai_random()
-         # Check si c'est qui a la puck
-
-
-
-      
-      # print("puck position ", puck_position) 
-      # print("is_puck_held ", is_puck_held)
-
+            chosen_ai_pawn = calculate_distance(human_pawn_puck_carrier.current_cell)         
+            var is_hit_successful = ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
+            if (is_hit_successful == false):
+               move_ai_random()
 
 
 
       else:
        move_ai_random()
-
-
-
-
-      print(ai_player_pawn_list)
-      print("Ai controller")
-
-      # return   
 
 
 
@@ -123,7 +100,6 @@ func move_ai_random() -> void:
 
       var selected_ai_pawn = ai_player_pawn_list[randi_range(0, ai_player_pawn_list.size()-1)]
 
-      print("AI pawns count: ", ai_player_pawn_list.size())
       print("Selected AI pawn: ", selected_ai_pawn.pawn_name)
       print("From: ", selected_ai_pawn.current_cell, " To: ", destination_cell)
 
@@ -134,24 +110,9 @@ func move_ai_random() -> void:
 func move_ai_toward_free_puck(puck_position) -> void:
    print("move toward puck at position ", puck_position)
 
-   
-   var shortest_distance = 999
   
+   chosen_ai_pawn = calculate_distance(puck_position)
 
-   for pawn in ai_player_pawn_list:
-      # trouver la distance entre la puck et le joueur
-      var pawn_distance_with_puck = IceMapLayer.get_hex_distance(pawn.current_cell, puck_position)
-
-      print("Pawn test ",pawn )
-
-      # si le joueur actuelle est plus proche, garder ça distance en mémoire
-      if pawn_distance_with_puck < shortest_distance:
-         shortest_distance = pawn_distance_with_puck
-         chosen_ai_pawn = pawn
-
-
-   print("chosen pawn ",chosen_ai_pawn)
-   print("shortest_distance ", shortest_distance) 
 
    #faire bouger le joueur
    var is_move_successful = ActionManager.ai_attempt_move(chosen_ai_pawn,chosen_ai_pawn.current_cell, puck_position)
@@ -162,6 +123,29 @@ func move_ai_toward_free_puck(puck_position) -> void:
 
 
 ## ATTENTION, peut-être que le pawn ne marchera pas
+
+
+
+func calculate_distance(target_position):
+
+   var shortest_distance = 999
+   var closest_pawn: Node2D = null
+   
+   for pawn in ai_player_pawn_list:
+      #    # trouver la distance entre la puck et le joueur
+      var pawn_distance_with_target: int = IceMapLayer.get_hex_distance(pawn.current_cell, target_position)
+
+      if pawn_distance_with_target < shortest_distance:
+         shortest_distance = pawn_distance_with_target
+         closest_pawn = pawn
+
+   return closest_pawn      
+
+    
+
+
+
+
 
       
 
