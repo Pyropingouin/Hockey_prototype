@@ -181,6 +181,8 @@ func _cancel_action_mode() -> void:
 	_refresh_action_buttons()
 
 func _refresh_action_buttons() -> void:
+
+	
 	shoot_button.disabled = true
 	pass_button.disabled = true
 	hit_button.disabled = true
@@ -196,13 +198,13 @@ func _refresh_action_buttons() -> void:
 		return
 
 	# Aucun joueur sélectionné
-	if active_pawn == null:
+	if selected_pawn == null:
 		return
 
 	# Joueur sélectionné, mode normal
 	cancel_button.disabled = false
 
-	if active_pawn.hasPuck:
+	if selected_pawn.hasPuck:
 		shoot_button.disabled = false
 		pass_button.disabled = false
 	else:
@@ -219,43 +221,42 @@ func _refresh_action_buttons() -> void:
 
 func _start_action_shoot() -> void:
 	print("start shoot")
+	print("selected_pawn = ", selected_pawn)
+	print("hasPuck = ", selected_pawn.hasPuck if selected_pawn != null else "NO PAWN")
 
-	if active_pawn == null or not active_pawn.hasPuck:
+	if selected_pawn == null or not selected_pawn.hasPuck:
 		return
 
 	action_mode = ActionMode.SHOOT
-	action_pawn = active_pawn
-	action_origin_cell = active_pawn.current_cell
+	action_pawn = selected_pawn
+	action_origin_cell = selected_pawn.current_cell
 
 	_refresh_action_buttons()
 
 	print("pre eligible", action_origin_cell, action_pawn)
 	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn)
 
-
 func _start_action_pass() -> void:
-	if active_pawn == null or not active_pawn.hasPuck:
+	if selected_pawn == null or not selected_pawn.hasPuck:
 		return
 
 	action_mode = ActionMode.PASS
-	action_pawn = active_pawn
-	action_origin_cell = active_pawn.current_cell
+	action_pawn = selected_pawn
+	action_origin_cell = selected_pawn.current_cell
 
 	_refresh_action_buttons()
-
 	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn)
 
 
 func _start_action_hit() -> void:
-	if active_pawn == null or active_pawn.hasPuck:
+	if selected_pawn == null or selected_pawn.hasPuck:
 		return
 
 	action_mode = ActionMode.HIT
-	action_pawn = active_pawn
-	action_origin_cell = active_pawn.current_cell
+	action_pawn = selected_pawn
+	action_origin_cell = selected_pawn.current_cell
 
 	_refresh_action_buttons()
-
 	IceMapLayer.highlight_hit_targets(action_origin_cell, action_pawn)
 
 

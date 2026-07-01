@@ -5,6 +5,9 @@ extends Node
 
 ## HUMAN ACTIONS
 func attempt_move(active_pawn, starting_cell, destination_cell):
+
+
+  print("active pawn in attempt move ", active_pawn)
  
 
   if IceMapLayer.can_move_pawn_to(active_pawn, starting_cell, destination_cell):
