@@ -30,7 +30,7 @@ func turn_inside_ai() -> void:
 
    
 
-   while GameManager.active_team == 2 and GameManager.active_team_action_counter < GameManager.max_action_counter:
+   while GameManager.active_team == 2 and GameManager.active_team_action_counter < GameManager.max_action_counter and GameManager.game_state != GameManager.GameState.GOAL_PAUSE:
 
       #Connaitre la puck
       var puck_position = puck.current_cell

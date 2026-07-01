@@ -97,3 +97,4 @@ func _is_goal(puck_position):
 func reset_board():
 	current_cell = reset_puck_position
 	ice_map.place_puck_on_cell(self, reset_puck_position)
+	isPickedUp = false

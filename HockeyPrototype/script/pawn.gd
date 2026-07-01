@@ -137,6 +137,7 @@ func setup(
 func reset_board():
 	current_cell = start_cell
 	IceMapLayer.place_pawn_on_cell(self, current_cell)
+	hasPuck = false
 
 
 
