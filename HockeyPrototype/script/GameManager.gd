@@ -99,12 +99,6 @@ var selected_pawn: Node2D:
 @onready var current_team_card_display = $"../PlayerCardOverlay/Current_Team_Player_Card_Display"
 @onready var opposing_team_card_display = $"../PlayerCardOverlay/Opposing_Team_Player_Card_Display"
 
-var drag_start_mouse_pos: Vector2 = Vector2.ZERO
-var drag_start_cell: Vector2i = Vector2i.ZERO
-var drag_candidate: Node2D = null
-var active_pawn: Node2D = null
-var is_dragging := false
-
 
 var action_pawn: Node2D = null
 var hovered_pawn: Node2D = null
@@ -181,27 +175,25 @@ func _cancel_action_mode() -> void:
 	_refresh_action_buttons()
 
 func _refresh_action_buttons() -> void:
+	print("refresh selected_pawn = ", selected_pawn)
 
-	
 	shoot_button.disabled = true
 	pass_button.disabled = true
 	hit_button.disabled = true
 	cancel_button.disabled = true
 
-	# Pendant pause but: tout désactivé
 	if game_state != GameState.PLAYING:
 		return
 
-	# S'il y a un mode d'action actif, seul cancel reste actif
 	if action_mode != ActionMode.NONE:
 		cancel_button.disabled = false
+		_update_action_buttons_visual()
 		return
 
-	# Aucun joueur sélectionné
 	if selected_pawn == null:
+		_update_action_buttons_visual()
 		return
 
-	# Joueur sélectionné, mode normal
 	cancel_button.disabled = false
 
 	if selected_pawn.hasPuck:
@@ -210,11 +202,7 @@ func _refresh_action_buttons() -> void:
 	else:
 		hit_button.disabled = false
 
-
-	shoot_button.update_visual()
-	pass_button.update_visual()
-	hit_button.update_visual()
-	# cancel_button.update_visual()	
+	_update_action_buttons_visual()
 
 
 
@@ -222,9 +210,13 @@ func _refresh_action_buttons() -> void:
 func _start_action_shoot() -> void:
 	print("start shoot")
 	print("selected_pawn = ", selected_pawn)
-	print("hasPuck = ", selected_pawn.hasPuck if selected_pawn != null else "NO PAWN")
 
-	if selected_pawn == null or not selected_pawn.hasPuck:
+	if selected_pawn == null:
+		print("Shoot refusé : aucun pawn sélectionné.")
+		return
+
+	if not selected_pawn.hasPuck:
+		print("Shoot refusé : le pawn sélectionné n'a pas la rondelle.")
 		return
 
 	action_mode = ActionMode.SHOOT
@@ -237,7 +229,12 @@ func _start_action_shoot() -> void:
 	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn)
 
 func _start_action_pass() -> void:
-	if selected_pawn == null or not selected_pawn.hasPuck:
+	if selected_pawn == null:
+		print("Pass refusée : aucun pawn sélectionné.")
+		return
+
+	if not selected_pawn.hasPuck:
+		print("Pass refusée : le pawn sélectionné n'a pas la rondelle.")
 		return
 
 	action_mode = ActionMode.PASS
@@ -249,7 +246,12 @@ func _start_action_pass() -> void:
 
 
 func _start_action_hit() -> void:
-	if selected_pawn == null or selected_pawn.hasPuck:
+	if selected_pawn == null:
+		print("Hit refusé : aucun pawn sélectionné.")
+		return
+
+	if selected_pawn.hasPuck:
+		print("Hit refusé : le pawn sélectionné a la rondelle.")
 		return
 
 	action_mode = ActionMode.HIT
@@ -302,7 +304,7 @@ func _do_pass(target_cell: Vector2i) -> void:
 		_cancel_action_mode()
 		return
 
-	action_origin_cell = active_pawn.current_cell
+	action_origin_cell = action_pawn.current_cell
 
 	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
 		print("PASS target oustide of range")
@@ -323,7 +325,6 @@ func _do_pass(target_cell: Vector2i) -> void:
 		action_pawn._pass(target_cell)
 		selected_pawn = null	
 
-	emit_signal("pawn_selected", selected_pawn)
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
@@ -363,6 +364,13 @@ func _is_in_shoot_range(
 	)
 
 	return distance > 0 and distance <= shoot_range
+
+
+func _update_action_buttons_visual() -> void:
+	shoot_button.update_visual()
+	pass_button.update_visual()
+	hit_button.update_visual()
+
 
 
 
@@ -432,15 +440,11 @@ func reset_board():
 
 func update_action_counter(action_cost: int):
 	active_team_action_counter += action_cost
-
+	
 func _end_turn():
-	# Nettoyage de l'état de tour
 	action_mode = ActionMode.NONE
 	action_pawn = null
-	active_pawn = null
-	# target_pawn = null
-	drag_candidate = null
-	is_dragging = false
+	selected_pawn = null
 	active_team_action_counter = 0
 	IceMapLayer.clear_highlight()
 

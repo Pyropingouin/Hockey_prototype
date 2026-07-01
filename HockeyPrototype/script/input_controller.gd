@@ -57,65 +57,44 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 		return
 
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
-
-	#cleanup du active_pawn pour pouvoir en selectionner un nouveau
-	GameManager.active_pawn = null
-
 	drag_candidate = IceMapLayer.pawn_at_cell(cell)
 
-###### Cas ou ça ne marche pas ##########
 	if drag_candidate == null:
-
-		#pourquoi on a besoin de le mettre null?
-		#Est-ce que c'est pour refresh image joueur?
 		GameManager.selected_pawn = null
 		GameManager._refresh_action_buttons()
 		return
 
-	# Si on choisir la mauvaise équipe, on ne peut pas bouger et on remet le drag_candidate a null
 	if drag_candidate.team_id != GameManager.active_team:
 		drag_candidate = null
 		GameManager._refresh_action_buttons()
 		return
-###### Fin cas ou ça ne marche pas ########
 
-
-
-	# Pourquoi selected et active sont le meme pion?
-	GameManager.active_pawn = drag_candidate
 	GameManager.selected_pawn = drag_candidate
 
-
-	drag_start_cell = GameManager.active_pawn.current_cell
+	drag_start_cell = drag_candidate.current_cell
 	drag_start_mouse_pos = global_pos
 	is_dragging = false
-	
 
 	GameManager._refresh_action_buttons()
-
-
-
 
 #LEFT MOUSE UP
 
 func _on_left_mouse_up(global_pos: Vector2) -> void:
-	if GameManager.active_pawn == null:
-		drag_candidate = null
+	if drag_candidate == null:
 		GameManager._refresh_action_buttons()
 		return
 
 	if not is_dragging:
-		
-		print("_on_left_mouse_UP if not dragging")
-		GameManager._refresh_action_buttons()
+		print("_on_left_mouse_up without dragging")
 		_cleanup_drag()
+		GameManager._refresh_action_buttons()
 		return
 
 	is_dragging = false
 
 	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
-	ActionManager.attempt_move(GameManager.active_pawn, drag_start_cell, target_cell)
+	ActionManager.attempt_move(drag_candidate, drag_start_cell, target_cell)
 
 	IceMapLayer.clear_highlight()
 	_cleanup_drag()
@@ -125,20 +104,20 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 
 
 #RIGHT MOUSE DOWN
+
 func _on_right_mouse_down(global_pos: Vector2) -> void:
 	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 
 	if GameManager.action_mode != ActionMode.NONE:
 		GameManager._cancel_action_mode()
-	
 
-	target_pawn = null
 	target_pawn = IceMapLayer.pawn_at_cell(cell)
 
-	if (target_pawn == null):
+	if target_pawn == null:
 		GameManager.selected_pawn = null
-		print("_on_right_mouse_down if target_pawn = null")
-		emit_signal("pawn_selected", GameManager.selected_pawn)
+		print("_on_right_mouse_down if target_pawn == null")
+		GameManager._refresh_action_buttons()
+		return
 
 	print("Target_Pawn = ", target_pawn)
 
@@ -150,7 +129,7 @@ func _on_right_mouse_up(global_pos: Vector2) -> void:
 	pass
 
 func _on_mouse_drag(global_pos: Vector2) -> void:
-	if GameManager.active_pawn == null:
+	if drag_candidate == null:
 		return
 
 	if not is_dragging:
@@ -159,15 +138,14 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 			return
 
 		is_dragging = true
-		IceMapLayer.highlight_unreachable_from(drag_start_cell, GameManager.active_pawn.move_range)
+		IceMapLayer.highlight_unreachable_from(drag_start_cell, drag_candidate.move_range)
 		print("_on_mouse_drag")
 		GameManager._refresh_action_buttons()
 
-	GameManager.active_pawn.global_position = global_pos
+	drag_candidate.global_position = global_pos
 
 func _cleanup_drag() -> void:
 	drag_candidate = null
-	GameManager.active_pawn = null
 	is_dragging = false
 
 func _handle_action_click(global_pos: Vector2) -> void:

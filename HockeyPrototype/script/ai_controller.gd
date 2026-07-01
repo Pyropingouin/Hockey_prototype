@@ -127,7 +127,6 @@ func move_ai_random() -> void:
       print("Selected AI pawn: ", selected_ai_pawn.pawn_name)
       print("From: ", selected_ai_pawn.current_cell, " To: ", destination_cell)
 
-      # GameManager.active_pawn = selected_ai_pawn
 
 
       ActionManager.ai_attempt_move(selected_ai_pawn,selected_ai_pawn.current_cell, destination_cell)
@@ -155,8 +154,6 @@ func move_ai_toward_free_puck(puck_position) -> void:
    print("shortest_distance ", shortest_distance) 
 
    #faire bouger le joueur
-
-   # GameManager.active_pawn = chosen_ai_pawn
    var is_move_successful = ActionManager.ai_attempt_move(chosen_ai_pawn,chosen_ai_pawn.current_cell, puck_position)
 
    if (is_move_successful == false):

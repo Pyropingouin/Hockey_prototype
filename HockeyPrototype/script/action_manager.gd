@@ -4,22 +4,16 @@ extends Node
 @onready var IceMapLayer = $"../IceMapLayer"
 
 ## HUMAN ACTIONS
-func attempt_move(active_pawn, starting_cell, destination_cell):
+func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vector2i) -> void:
+  print("pawn in attempt_move ", pawn)
 
+  if IceMapLayer.can_move_pawn_to(pawn, starting_cell, destination_cell):
+    IceMapLayer.apply_move(pawn, starting_cell, destination_cell)
 
-  print("active pawn in attempt move ", active_pawn)
- 
-
-  if IceMapLayer.can_move_pawn_to(active_pawn, starting_cell, destination_cell):
-    IceMapLayer.apply_move(active_pawn, starting_cell, destination_cell)
-
-    #Évite que si on annule le move ou si on drop sur la même case en hésistant
-    if (starting_cell != destination_cell):
-        GameManager.update_action_counter(1)
-
-	  
+    if starting_cell != destination_cell:
+      GameManager.update_action_counter(1)
   else:
-    IceMapLayer.reset_move(active_pawn, starting_cell)
+    IceMapLayer.reset_move(pawn, starting_cell)
 
 
 
