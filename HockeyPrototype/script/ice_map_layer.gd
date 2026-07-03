@@ -3,7 +3,7 @@ extends TileMapLayer
 var action_pawn: Node2D = null
 
 class CellState extends RefCounted:
-	var blocked:bool = false
+	var blocked: bool = false
 	var is_occupied: bool = false
 	var is_puck_here: bool = false
 	var occupied_player_team: int = -1
@@ -22,12 +22,12 @@ var pawns: Array = []
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
 
 
-const ALT_NORMAL  := 0
+const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
-const FLIP_H      := 4096
-const FLIP_V      := 8192
-const LAYER_TYPE   := 0
-const LAYER_COST   := 1
+const FLIP_H := 4096
+const FLIP_V := 8192
+const LAYER_TYPE := 0
+const LAYER_COST := 1
 const LAYER_BLOCKED := 2
 
 
@@ -43,7 +43,6 @@ signal puck_is_picked_up(pawn)
 
 
 func _ready() -> void:
-
 	for cell in get_used_cells():
 		var state := CellState.new()
 		
@@ -54,7 +53,7 @@ func _ready() -> void:
 			state.occupied_player_team = -1
 		state.base_alt_id = get_cell_alternative_tile(cell)
 	
-		map_data[cell] = state	
+		map_data[cell] = state
 
 	# Initialiser les pawns
 	for p in players_container.get_children():
@@ -68,7 +67,7 @@ func _ready() -> void:
 			
 		_place_pawn_on_cell(p, p.current_cell)
 		
-	place_puck_on_cell(puck, puck.current_cell)	
+	place_puck_on_cell(puck, puck.current_cell)
 	
 	update_occupancy()
 	# print_map_data()	
@@ -262,7 +261,7 @@ func _get_type(cell: Vector2i) -> String:
 	return str(_get_custom(cell, "type"))
 
 func _get_goal_type(cell: Vector2i) -> String:
-	return str(_get_custom(cell, "goal_type"))	
+	return str(_get_custom(cell, "goal_type"))
 
 func _get_cost(cell: Vector2i) -> int:
 	return int(_get_custom(cell, "cost"))
@@ -350,7 +349,7 @@ func _compute_shoot_targets(
 
 		targets.append(cell)
 
-	return targets	
+	return targets
 	
 
 func highlight_pass_targets(
@@ -449,13 +448,29 @@ func _compute_hit_targets(
 
 	return targets
 
+func get_usable_surrounding_cells(origin: Vector2i) -> Array[Vector2i]:
+	var usable_cells: Array[Vector2i] = []
+
+	for cell in get_surrounding_cells(origin):
+		if not map_data.has(cell):
+			continue
+
+		if map_data[cell].blocked:
+			continue
+
+		if map_data[cell].is_occupied:
+			continue
+
+		usable_cells.append(cell)
+
+	return usable_cells
 
 
 func show_shot_preview(origin_cell, target_cell, max_range):
 	pass
 
 func clear_shot_preview():
-	pass		
+	pass
 
 func _compute_shot_path(origin_cell, target_cell, max_range):
 	pass
@@ -534,7 +549,7 @@ func get_hex_distance(
 			visited[neighbor] = distance
 			queue.append(neighbor)
 
-	return -1	
+	return -1
 
 
 func get_cells_on_line(

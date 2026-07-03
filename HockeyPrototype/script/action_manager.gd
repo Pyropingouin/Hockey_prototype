@@ -89,15 +89,18 @@ func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D):
 
 func ai_attempt_hit( chosen_ai_pawn: Node2D, target_cell: Vector2i):
   if chosen_ai_pawn == null or chosen_ai_pawn.hasPuck:
+    print("pas de chosen ai")
     return false
 
   var hitTarget: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)    
 
 ## OU UN ALLIÉ
   if hitTarget == null:
+    print("hit target == null")
     return false
 
   if hitTarget == chosen_ai_pawn:
+    print("hit target == son propre chosen ai")
     return false
 
 
