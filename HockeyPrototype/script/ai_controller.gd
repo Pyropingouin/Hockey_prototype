@@ -129,20 +129,33 @@ func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
 
 
 	for cell in usable_cells:
+		if not IceMapLayer.can_move_pawn_to(ai_pawn, ai_pawn.current_cell, cell):
+			continue
+
 		var pawn_distance_with_target: int = IceMapLayer.get_hex_distance(ai_pawn.current_cell, cell)
+
+		if pawn_distance_with_target == -1:
+			continue
 
 		if pawn_distance_with_target < best_distance:
 			best_distance = best_distance
 			best_cell = cell
 
 
-	print("best_cell", best_cell)
+	print("Final best_cell: ", best_cell)
+	print("Final best_distance: ", best_distance)
 
-	if best_cell != ai_pawn.current_cell:
-		var is_move_successful = ActionManager.ai_attempt_move(ai_pawn, ai_pawn.current_cell, best_cell)
 
-		if (is_move_successful == false):
-			move_ai_random()
+	if best_cell == ai_pawn.current_cell:
+		print("Aucune case valide trouvée autour de la cible")
+		move_ai_random()
+		return
+
+	
+	var is_move_successful = ActionManager.ai_attempt_move(ai_pawn, ai_pawn.current_cell, best_cell)
+
+	if (is_move_successful == false):
+		move_ai_random()
 
 
 ## ATTENTION, peut-être que le pawn ne marchera pas
