@@ -517,6 +517,57 @@ func _compute_reachable_cells(
 	return reachable
 
 
+func find_path(
+	origin: Vector2i,
+	target: Vector2i,
+	ignore_occupied_target: bool = true
+) -> Array[Vector2i]:
+	var came_from: Dictionary = {}
+	var queue: Array[Vector2i] = []
+
+	came_from[origin] = null
+	queue.append(origin)
+
+	while not queue.is_empty():
+		var current: Vector2i = queue.pop_front()
+
+		if current == target:
+			break
+
+		for next_cell in get_surrounding_cells(current):
+			if not map_data.has(next_cell):
+				continue
+
+			if came_from.has(next_cell):
+				continue
+
+			var state: CellState = map_data[next_cell]
+
+			if state.blocked:
+				continue
+
+			# On bloque les cases occupées,
+			# sauf si c'est la target finale et qu'on l'autorise.
+			if state.is_occupied:
+				if not (ignore_occupied_target and next_cell == target):
+					continue
+
+			came_from[next_cell] = current
+			queue.append(next_cell)
+
+	if not came_from.has(target):
+		return []
+
+	var path: Array[Vector2i] = []
+	var current = target
+
+	while current != null:
+		path.push_front(current)
+		current = came_from[current]
+
+	return path
+
+
 func get_hex_distance(
 	origin: Vector2i,
 	target: Vector2i

@@ -2,8 +2,8 @@
   {
 	"id": 1,
 	"pawn_name": "Aaron White",
-	"image_path": "res://assets/personnage/AaronWhite.png",
-	"bubblehead_path": "res://assets/Bubble_head/AaronWhite_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 4,
 	  "strength": 4,
@@ -14,20 +14,18 @@
   {
 	"id": 2,
 	"pawn_name": "Carlo Monferato",
-	"image_path": "res://assets/personnage/CarloMonferato.png",
-	"bubblehead_path": "res://assets/Bubble_head/CarloMonferato_BubbleHead.png",
-	"stats": {
-	  "move_range": 3,
-	  "strength": 6,
-	  "reflex": 4,
-	  "health": 5
-	}
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"move_range": 3,
+	"strength": 6,
+	"reflex": 4,
+	"health": 5
   },
   {
 	"id": 3,
 	"pawn_name": "Dan Demers",
-	"image_path": "res://assets/personnage/DanDemers.png",
-	"bubblehead_path": "res://assets/Bubble_head/DanDemers_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -38,8 +36,8 @@
   {
 	"id": 4,
 	"pawn_name": "Donald Monroe",
-	"image_path": "res://assets/personnage/DonaldMonroe.png",
-	"bubblehead_path": "res://assets/Bubble_head/DonaldMonroe_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -50,8 +48,8 @@
   {
 	"id": 5,
 	"pawn_name": "Doug Dog",
-	"image_path": "res://assets/personnage/DougDog.png",
-	"bubblehead_path": "res://assets/Bubble_head/DougDog_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -62,8 +60,8 @@
   {
 	"id": 6,
 	"pawn_name": "Douli Ham",
-	"image_path": "res://assets/personnage/DouliHam.png",
-	"bubblehead_path": "res://assets/Bubble_head/DouliHam_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -74,8 +72,8 @@
   {
 	"id": 7,
 	"pawn_name": "Garen Gaspacini",
-	"image_path": "res://assets/personnage/GarenGaspacini.png",
-	"bubblehead_path": "res://assets/Bubble_head/GarenGaspacini_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -86,8 +84,8 @@
   {
 	"id": 8,
 	"pawn_name": "Glorp Thorpe",
-	"image_path": "res://assets/personnage/GlorpThorpe.png",
-	"bubblehead_path": "res://assets/Bubble_head/GlorpThorpe_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -98,8 +96,8 @@
   {
 	"id": 9,
 	"pawn_name": "Gordon Mickey",
-	"image_path": "res://assets/personnage/GordonMickey.png",
-	"bubblehead_path": "res://assets/Bubble_head/GordonMickey_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -110,8 +108,8 @@
   {
 	"id": 10,
 	"pawn_name": "Gui Gagnon",
-	"image_path": "res://assets/personnage/GuiGagnon.png",
-	"bubblehead_path": "res://assets/Bubble_head/GuiGagnon_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -122,8 +120,8 @@
   {
 	"id": 11,
 	"pawn_name": "Henry Ducker",
-	"image_path": "res://assets/personnage/HenryDucker.png",
-	"bubblehead_path": "res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -134,8 +132,8 @@
   {
 	"id": 12,
 	"pawn_name": "Jacques Celere",
-	"image_path": "res://assets/personnage/JacquesCelere.png",
-	"bubblehead_path": "res://assets/Bubble_head/JacquesCelere_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -146,8 +144,8 @@
   {
 	"id": 13,
 	"pawn_name": "Jean-Francois Macedoine",
-	"image_path": "res://assets/personnage/JeanFrancoisMacedoine.png",
-	"bubblehead_path": "res://assets/Bubble_head/JeanFrancoisMacedoine_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -158,8 +156,8 @@
   {
 	"id": 14,
 	"pawn_name": "John Smith",
-	"image_path": "res://assets/personnage/JohnSmith.png",
-	"bubblehead_path": "res://assets/Bubble_head/JohnSmith_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -170,8 +168,8 @@
   {
 	"id": 15,
 	"pawn_name": "Josh Soup",
-	"image_path": "res://assets/personnage/JoshSoup.png",
-	"bubblehead_path": "res://assets/Bubble_head/JoshSoup_BubbleHead.png",
+	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -182,8 +180,8 @@
   {
 	"id": 16,
 	"pawn_name": "Jésus-Synje Pethlässen",
-	"image_path": "res://assets/personnage/JSP.png",
-	"bubblehead_path": "res://assets/Bubble_head/JSP_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -194,8 +192,8 @@
   {
 	"id": 17,
 	"pawn_name": "Larry Stone",
-	"image_path": "res://assets/personnage/LarryStone.png",
-	"bubblehead_path": "res://assets/Bubble_head/LarryStone_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -206,8 +204,8 @@
   {
 	"id": 18,
 	"pawn_name": "Leipti Modin",
-	"image_path": "res://assets/personnage/LeiptiModin.png",
-	"bubblehead_path": "res://assets/Bubble_head/LeiptiModin_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -218,8 +216,8 @@
   {
 	"id": 19,
 	"pawn_name": "Mark VanDoven",
-	"image_path": "res://assets/personnage/MarkVanDoven.png",
-	"bubblehead_path": "res://assets/Bubble_head/MarkVanDoven_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -230,8 +228,8 @@
   {
 	"id": 20,
 	"pawn_name": "Meter Pacloud",
-	"image_path": "res://assets/personnage/MeterPacloud.png",
-	"bubblehead_path": "res://assets/Bubble_head/MeterPacloud_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -242,8 +240,8 @@
   {
 	"id": 21,
 	"pawn_name": "Mike Geazel",
-	"image_path": "res://assets/personnage/MikeGeazel.png",
-	"bubblehead_path": "res://assets/Bubble_head/MikeGeazel_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -254,8 +252,8 @@
   {
 	"id": 22,
 	"pawn_name": "Oli Vomicheck",
-	"image_path": "res://assets/personnage/OliVomicheck.png",
-	"bubblehead_path": "res://assets/Bubble_head/OliVomicheck_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -266,8 +264,8 @@
   {
 	"id": 23,
 	"pawn_name": "Orian Maduro",
-	"image_path": "res://assets/personnage/OrianMaduro.png",
-	"bubblehead_path": "res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -278,8 +276,8 @@
   {
 	"id": 24,
 	"pawn_name": "Patrick Loring",
-	"image_path": "res://assets/personnage/PatrickLoring.png",
-	"bubblehead_path": "res://assets/Bubble_head/PatrickLoring_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -290,8 +288,8 @@
   {
 	"id": 25,
 	"pawn_name": "Steeve Dog",
-	"image_path": "res://assets/personnage/SteeveDog.png",
-	"bubblehead_path": "res://assets/Bubble_head/SteeveDog_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -302,8 +300,8 @@
   {
 	"id": 26,
 	"pawn_name": "Vaclav Antropov",
-	"image_path": "res://assets/personnage/VaclavAntropov.png",
-	"bubblehead_path": "res://assets/Bubble_head/VaclavAntropov_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -314,8 +312,8 @@
   {
 	"id": 27,
 	"pawn_name": "Vincent Palady",
-	"image_path": "res://assets/personnage/VincentPalady.png",
-	"bubblehead_path": "res://assets/Bubble_head/VincentPalady_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -326,8 +324,8 @@
   {
 	"id": 28,
 	"pawn_name": "Voznan Wojcik",
-	"image_path": "res://assets/personnage/VoznanWojcik.png",
-	"bubblehead_path": "res://assets/Bubble_head/VoznanWojcik_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -338,8 +336,8 @@
   {
 	"id": 29,
 	"pawn_name": "Wale Deise",
-	"image_path": "res://assets/personnage/WaleDeise.png",
-	"bubblehead_path": "res://assets/Bubble_head/WaleDeise_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,
@@ -350,8 +348,8 @@
   {
 	"id": 30,
 	"pawn_name": "Zoran Dew-Fingers",
-	"image_path": "res://assets/personnage/ZoranDewFingers.png",
-	"bubblehead_path": "res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",
+	"image_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
+	"bubblehead_path": "res://assets/CARLOMONFERATOFULLPLAYERHOME.png",
 	"stats": {
 	  "move_range": 5,
 	  "strength": 3,

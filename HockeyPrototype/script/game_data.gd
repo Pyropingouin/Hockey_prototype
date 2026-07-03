@@ -5,11 +5,9 @@ var opposing_team_selected_players: Array = []
 
 
 # Create default team if no draft is selected
-func _ready() ->void:
+func _ready() -> void:
 	set_default_teams()
 	set_default_opposing_team()
-
-
 
 
 func set_default_teams() -> void:
@@ -19,7 +17,7 @@ func set_default_teams() -> void:
 			"Glorp Thorpe",
 			"res://assets/personnage/GlorpThorpe.png",
 			"res://assets/Bubble_head/GlorpThorpe_BubbleHead.png",
-			5,
+			3,
 			3,
 			6,
 			4
@@ -29,7 +27,7 @@ func set_default_teams() -> void:
 			"Zoran Dew-Fingers",
 			"res://assets/personnage/ZoranDewFingers.png",
 			"res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",
-			5,
+			3,
 			3,
 			6,
 			4
@@ -39,7 +37,7 @@ func set_default_teams() -> void:
 			"Josh Soup",
 			"res://assets/personnage/JoshSoup.png",
 			"res://assets/Bubble_head/JoshSoup_BubbleHead.png",
-			5,
+			3,
 			3,
 			6,
 			4
@@ -53,7 +51,7 @@ func set_default_opposing_team() -> void:
 			"Wale Deise",
 			"res://assets/personnage/WaleDeise.png",
 			"res://assets/Bubble_head/WaleDeise_BubbleHead.png",
-			5,
+			3,
 			3,
 			6,
 			4
@@ -63,7 +61,7 @@ func set_default_opposing_team() -> void:
 			"Orian Maduro",
 			"res://assets/personnage/OrianMaduro.png",
 			"res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
-			5,
+			3,
 			3,
 			6,
 			4
@@ -73,7 +71,7 @@ func set_default_opposing_team() -> void:
 			"Henry Ducker",
 			"res://assets/personnage/HenryDucker.png",
 			"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
-			5,
+			3,
 			3,
 			6,
 			4

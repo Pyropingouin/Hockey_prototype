@@ -81,6 +81,13 @@ func turn_inside_ai() -> void:
 				elif temporary_distance_to_target <= AGGRESSIVITY_LEVEL:
 					move_ai_toward_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
 
+
+				elif temporary_distance_to_target > AGGRESSIVITY_LEVEL:
+					move_ai_closer_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell, chosen_ai_pawn.move_range)
+					
+					#Le joueur le plus proche se rapproche le plus possible du porteur de la rondnell
+					#sinon,move_ai_random()
+
 				# Si la distance entre le target et le pawn est plus grand que 1 et plus grand que le AGGRESSIVITY_LEVEL, move at random
 				# Mettre qu'un joueur s'approche du puck carrier
 				else:
@@ -119,7 +126,7 @@ func move_ai_toward_free_puck(puck_position) -> void:
 
 
 func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
-	print("move_ai_toward_target")
+	print("move_ai_TOWARD_target")
 
 	var usable_cells: Array = IceMapLayer.get_usable_surrounding_cells(target_cell)
 	print("Usable cells around target: ", usable_cells)
@@ -158,7 +165,44 @@ func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
 		move_ai_random()
 
 
-## ATTENTION, peut-être que le pawn ne marchera pas
+func move_ai_closer_target(
+	ai_pawn: Node2D,
+	target_cell: Vector2i,
+	ai_pawn_move_range: int
+) -> void:
+	var start_cell: Vector2i = ai_pawn.current_cell
+
+	var usable_cells: Array[Vector2i] = IceMapLayer.get_usable_surrounding_cells(target_cell)
+
+	if usable_cells.is_empty():
+		print("Aucune case libre autour du target")
+		return
+
+	var best_path: Array[Vector2i] = []
+
+	for cell in usable_cells:
+		var path: Array[Vector2i] = IceMapLayer.find_path(start_cell, cell, false)
+
+		if path.is_empty():
+			continue
+
+		if best_path.is_empty() or path.size() < best_path.size():
+			best_path = path
+
+	if best_path.is_empty():
+		print("Aucun chemin trouvé vers une case autour du target")
+		return
+
+	# best_path[0] = position actuelle
+	# best_path[1] = première case de déplacement
+	# best_path[-1] = case libre autour du target
+	var destination_index: int = min(ai_pawn_move_range, best_path.size() - 1)
+	var destination_cell: Vector2i = best_path[destination_index]
+
+	print("Best path vers target: ", best_path)
+	print("Destination choisie: ", destination_cell)
+
+	ActionManager.attempt_move(ai_pawn, start_cell, destination_cell)
 
 
 func calculate_distance(target_position):
