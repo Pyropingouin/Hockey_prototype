@@ -55,7 +55,23 @@ func turn_inside_ai() -> void:
 
 				# Si impossible de tirer, on bouge at random
 				if (is_shoot_successful == false):
-					move_ai_random()
+					# move_ai_random()
+					var pass_target_pawn = choosing_pass_target(ai_pawn_puck_carrier)
+					print("Pass target selection par AI ", pass_target_pawn)
+
+
+					##FAIRE ATTEMPT PASS DANS ACTION MANAGER
+					##GERER LE PASS DISTANCE DANS GAMEMANAGER
+					var is_pass_successfull = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn)
+
+					if is_pass_successfull == false:
+						chosen_ai_pawn = choosing_pass_target(ai_pawn_puck_carrier, pass_target_pawn)
+
+						is_pass_successfull = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn)
+
+						if is_pass_successfull == false:
+							move_ai_random()
+
 
 			# Si la puck est detenu par un joueur human
 			elif human_pawn_puck_carrier != null:
@@ -82,14 +98,12 @@ func turn_inside_ai() -> void:
 					move_ai_toward_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
 
 
+				#Le joueur le plus proche se rapproche le plus possible du porteur de la rondnell
 				elif temporary_distance_to_target > AGGRESSIVITY_LEVEL:
 					move_ai_closer_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell, chosen_ai_pawn.move_range)
 					
-					#Le joueur le plus proche se rapproche le plus possible du porteur de la rondnell
-					#sinon,move_ai_random()
 
-				# Si la distance entre le target et le pawn est plus grand que 1 et plus grand que le AGGRESSIVITY_LEVEL, move at random
-				# Mettre qu'un joueur s'approche du puck carrier
+				#Sinon, move at random
 				else:
 					print("else1")
 					move_ai_random()
@@ -202,7 +216,10 @@ func move_ai_closer_target(
 	print("Best path vers target: ", best_path)
 	print("Destination choisie: ", destination_cell)
 
-	ActionManager.attempt_move(ai_pawn, start_cell, destination_cell)
+	var is_move_successful = ActionManager.ai_attempt_move(ai_pawn, start_cell, destination_cell)
+
+	if (is_move_successful == false):
+		move_ai_random()
 
 
 func calculate_distance(target_position):
@@ -218,3 +235,28 @@ func calculate_distance(target_position):
 			closest_pawn = pawn
 
 	return closest_pawn
+
+
+func choosing_pass_target(ai_pawn_puck_carrier: Node2D, removable_pawn: Node2D = null):
+	var best_dist: int = 9999
+	var best_pawn: Node2D
+
+	print("DANS CHOOSING PASS TARGET")
+	print("puck carrier ", ai_pawn_puck_carrier)
+	print("removable pawn ", removable_pawn)
+
+
+	#Check tout tes allié et garde leur distance face au but dans un array
+	for ai_pawn in ai_player_pawn_list:
+		if ai_pawn == ai_pawn_puck_carrier:
+			continue
+		if ai_pawn == removable_pawn:
+			continue
+
+		var current_dist: int = IceMapLayer.get_hex_distance(ai_pawn.current_cell, RIGHT_NET_POSITION)
+
+		if current_dist < best_dist:
+			best_dist = current_dist
+			best_pawn = ai_pawn
+
+		return best_pawn
