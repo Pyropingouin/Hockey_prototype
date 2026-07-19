@@ -89,7 +89,7 @@ func set_default_player_goalie() -> void:
 		"Glove Johnson",
 		"res://assets/personnage/HenryDucker.png",
 		"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
-		6
+		10
 	)
 
 
@@ -99,7 +99,7 @@ func set_default_opposing_goalie() -> void:
 		"Blocko",
 		"res://assets/personnage/HenryDucker.png",
 		"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
-		5
+		10
 	)
 
 func create_player(

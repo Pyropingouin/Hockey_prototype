@@ -39,6 +39,47 @@ func setup(
 	goalie_sprite.texture = bubbleHeadTexture
 
 
+func attempt_save(shooter_reflex: int) -> bool:
+	var save_difference: int = save_power - shooter_reflex
+
+	print(
+		goalie_name,
+		" tente un arrêt. Save Power: ",
+		save_power,
+		" | Reflex du tireur: ",
+		shooter_reflex,
+		" | Différence: ",
+		save_difference
+	)
+
+	# Le goalie n'a aucune chance si son save_power
+	# n'est pas supérieur au reflex du tireur.
+	if save_difference < 1:
+		return false
+
+	var save_chance: float = min(
+		float(save_difference) * 0.20,
+		0.90
+	)
+
+	var random_roll: float = randf()
+	var save_successful: bool = random_roll < save_chance
+
+	print(
+		"Chance d'arrêt: ",
+		save_chance * 100.0,
+		"% | Jet: ",
+		random_roll,
+		" | Réussite: ",
+		save_successful
+	)
+
+	return save_successful
+
+
+	
+
+
 
 func reset_board() -> void:
 	current_cell = start_cell

@@ -420,18 +420,17 @@ func _resolve_shot_against_goalie(
 
 	shooter.hasPuck = false
 
-
-	var goal_scored: bool = _is_goal_successful(
-		shooter,
-		goalie
+	var save_successful: bool = goalie.attempt_save(
+		shooter.reflex
 	)
 
-	if goal_scored:
-		_score_goal_against_goalie(goalie)
-		return true
+	if save_successful:
+		_rebound_puck_around_goalie(goalie)
+		return false
 
-	_rebound_puck_around_goalie(goalie)
-	return false
+	_score_goal_against_goalie(goalie)
+	return true
+
 
 
 func _score_goal_against_goalie(goalie: Goalie) -> void:
@@ -442,13 +441,6 @@ func _score_goal_against_goalie(goalie: Goalie) -> void:
 		# Le filet de l'équipe AI a été atteint.
 		_on_goal_scored("away")
 
-func _is_goal_successful(
-	_shooter: Node2D,
-	_goalie: Goalie
-) -> bool:
-	# TODO : calcul entre la puissance du tireur
-	# et goalie.save_power.
-	return false
 
 func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 	# Actualiser les cases occupées avant de choisir le rebond.
