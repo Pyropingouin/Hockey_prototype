@@ -4,7 +4,11 @@ extends Node
 @onready var IceMapLayer = $"../IceMapLayer"
 
 
+####
+###
 ## HUMAN ACTIONS
+###
+####
 func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vector2i) -> void:
 	print("pawn in attempt_move ", pawn)
 
@@ -20,7 +24,13 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 	GameManager.update_action_counter(1)
 
 
+
+
+####
+###
 ## AI ACTIONS
+###
+####
 func ai_attempt_move(chosen_ai_pawn: Node2D, starting_cell: Vector2i, destination_cell: Vector2i) -> bool:
 	if starting_cell == destination_cell:
 		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
@@ -67,7 +77,7 @@ func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
 	return true
 
 
-func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D) -> bool:
+func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D, ai_player_array: Array = []) -> bool:
 	if pass_target == null:
 		return false
 	if pass_target == chosen_ai_pawn:
@@ -89,9 +99,8 @@ func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D) -> bool:
 	if not IceMapLayer.is_shot_path_clear(chosen_ai_pawn.current_cell, pass_target.current_cell):
 		return false	
 	
-
-	# if pass_target != ally:
-	# 	return false
+	if not ai_player_array.has(pass_target):
+		return false
 
 
 

@@ -41,6 +41,8 @@ func setup(player: Dictionary) -> void:
 	card_id = player["id"]
 	pawn_name_label.text = player["pawn_name"]
 
+	print("SETUP ", player)
+
 
 	var stats: Dictionary = player["stats"]
 	pawn_image.texture = player["bubblehead"]

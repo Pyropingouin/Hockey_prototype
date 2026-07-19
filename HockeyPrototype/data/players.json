@@ -16,10 +16,12 @@
 	"pawn_name": "Carlo Monferato",
 	"image_path": "res://assets/JSPFULLPLAYERHOME.png",
 	"bubblehead_path": "res://assets/JSPFULLPLAYERHOME.png",
-	"move_range": 3,
-	"strength": 6,
-	"reflex": 4,
-	"health": 5
+	"stats": {
+	  "move_range": 3,
+	  "strength": 6,
+	  "reflex": 4,
+	  "health": 5
+	}
   },
   {
 	"id": 3,
