@@ -554,14 +554,14 @@ func spawn_goalie(
 	IceMapLayer.place_pawn_on_cell(goalie, start_cell)
 
 func reset_board():
-	puck.reset_board()
-	active_team_action_counter = 0
-
 	
+	active_team_action_counter = 0
 
 	for pawn in players_container.get_children():
 		if pawn.has_method("reset_board"):
 			pawn.reset_board()
+
+	puck.reset_board()		
 
 func update_action_counter(action_cost: int):
 	active_team_action_counter += action_cost

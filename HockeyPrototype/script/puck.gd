@@ -101,7 +101,7 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 	isPickedUp = false
 	current_cell = new_cell
 
-	visible = true
+	
 	sprite.visible = true
 
 	ice_map.place_puck_on_cell(
@@ -122,6 +122,11 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 		
 
 func reset_board():
+	print("puck reset board")
 	current_cell = reset_puck_position
+
+	
+	sprite.visible = true
+
 	ice_map.place_puck_on_cell(self, reset_puck_position)
 	isPickedUp = false
