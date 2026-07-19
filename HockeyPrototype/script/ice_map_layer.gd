@@ -88,10 +88,7 @@ func get_ice_map_layer_cell_id(cell):
 	return get_cell_source_id(cell)
 
 func pawn_at_cell(cell: Vector2i) -> Node2D:
-	for p in pawns:
-		if p.current_cell == cell:
-			return p
-	return null
+	return get_pawn_on_cell(cell)
 
 func cell_exists(cell: Vector2i) -> bool:
 	return get_cell_source_id(cell) != -1
@@ -201,9 +198,13 @@ func place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 		
 
 func get_pawn_on_cell(cell: Vector2i) -> Node2D:
-	for p in pawns:
-		if p.current_cell == cell:
-			return p
+	for character in players_container.get_children():
+		if not character.has_method("get_current_cell"):
+			continue
+
+		if character.get_current_cell() == cell:
+			return character
+
 	return null
 
 func highlight_unreachable_from(origin: Vector2i, max_range: int) -> void:
@@ -312,20 +313,37 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 			map_data[cell_to_check].is_puck_here = false
 			
 
-func highlight_shoot_targets(origin: Vector2i, recieved_pawn: Node2D) -> void:
-	var _range: int = recieved_pawn.move_range * 2
-	var targets := _compute_shoot_targets(origin, _range)
+func highlight_shoot_targets(
+	origin: Vector2i,
+	received_pawn: Node2D
+) -> void:
+	var shoot_range: int = received_pawn.move_range * 2
+
+	var targets := _compute_shoot_targets(
+		origin,
+		shoot_range,
+		received_pawn
+	)
 
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 		var is_target := targets.has(cell)
-		set_cell(cell, src_id, atlas_coords, _get_highlight_alt(map_data[cell].base_alt_id, !is_target))
-			
+
+		set_cell(
+			cell,
+			src_id,
+			atlas_coords,
+			_get_highlight_alt(
+				map_data[cell].base_alt_id,
+				not is_target
+			)
+		)
 			
 func _compute_shoot_targets(
 	origin: Vector2i,
-	max_range: int
+	max_range: int,
+	shooting_pawn: Node2D
 ) -> Array[Vector2i]:
 	var targets: Array[Vector2i] = []
 
@@ -336,7 +354,7 @@ func _compute_shoot_targets(
 		if map_data[cell].blocked:
 			continue
 
-		var distance := get_hex_distance(origin, cell)
+		var distance: int = get_hex_distance(origin, cell)
 
 		if distance == -1:
 			continue
@@ -347,7 +365,22 @@ func _compute_shoot_targets(
 		if not is_shot_path_clear(origin, cell):
 			continue
 
-		targets.append(cell)
+		var character_on_target: Node2D = get_pawn_on_cell(cell)
+
+		# Une case vide demeure une cible valide.
+		if character_on_target == null:
+			targets.append(cell)
+			continue
+
+		# Une case occupée est valide uniquement si elle contient
+		# le goalie de l'équipe adverse.
+		var is_enemy_goalie: bool = (
+			character_on_target is Goalie
+			and character_on_target.team_id != shooting_pawn.team_id
+		)
+
+		if is_enemy_goalie:
+			targets.append(cell)
 
 	return targets
 	

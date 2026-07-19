@@ -17,6 +17,7 @@ var current_cell = start_cell
 var reset_puck_position: Vector2i = Vector2i(2, 0)
 
 signal goal_scored(goal_type)
+signal puck_rebounded(new_cell: Vector2i)
 
 @export var team_id: int = 0
 
@@ -92,6 +93,32 @@ func _is_goal(puck_position):
 		return true
 	else:
 		return false	
+
+
+func rebound_to_cell(new_cell: Vector2i) -> void:
+	print("La puck rebondit sur la glace vers : ", new_cell)
+
+	isPickedUp = false
+	current_cell = new_cell
+
+	visible = true
+	sprite.visible = true
+
+	ice_map.place_puck_on_cell(
+		self,
+		current_cell
+	)
+
+	print(
+		"Puck visible : ",
+		visible,
+		" | Sprite visible : ",
+		sprite.visible,
+		" | Position : ",
+		global_position
+	)
+
+	puck_rebounded.emit(new_cell)
 		
 
 func reset_board():

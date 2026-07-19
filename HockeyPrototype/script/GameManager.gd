@@ -21,6 +21,9 @@ var action_mode: ActionMode = ActionMode.NONE
 
 const max_action_counter: int = 4
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
+const GOALIE_SCENE := preload("res://scene/goalie.tscn")
+const RIGHT_NET_POSITION = Vector2i(7, 0)
+const LEFT_NET_POSITION = Vector2i(-3, 0)
 
 var _active_team_action_counter: int = 0
 var active_team_action_counter:
@@ -263,6 +266,7 @@ func _start_action_hit() -> void:
 func _do_shoot(target_cell: Vector2i) -> void:
 	print("do_shoot")
 
+
 	if action_pawn == null or not action_pawn.hasPuck:
 		_cancel_action_mode()
 		return
@@ -285,9 +289,37 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		print("Tir refusé : un joueur bloque la trajectoire.")
 		return
 
-	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
-		print("Tir refusé : la case ciblée est occupée.")
+	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+
+	print("GAMEMANAGER TARGET CHARACTER FOR SHOOT ", target_character)
+
+	if target_character is Goalie:
+		var target_goalie: Goalie = target_character
+
+		if target_goalie.team_id == action_pawn.team_id:
+			print("Tir refusé : impossible de tirer sur son propre goalie.")
+			return
+
+		var goal_scored: bool = _resolve_shot_against_goalie(
+			action_pawn,
+			target_goalie
+		)
+
+		selected_pawn = null
+
+		# On compte une action seulement si le goalie a fait l'arrêt.
+		# Lors d'un but, la partie passe directement en GOAL_PAUSE.
+		if not goal_scored:
+			update_action_counter(1)	
+
+		IceMapLayer.update_occupancy()
+		_cancel_action_mode()
 		return
+
+	if target_character != null:
+		print("Tir refusé : la case ciblée est occupée.")
+		return	
+		
 
 	if action_pawn.has_method("_shoot"):
 		action_pawn._shoot(target_cell)
@@ -376,6 +408,75 @@ func _update_action_buttons_visual() -> void:
 	hit_button.update_visual()
 
 
+func _resolve_shot_against_goalie(
+	shooter: Node2D,
+	goalie: Goalie
+) -> bool:
+	print(
+		shooter.pawn_name,
+		" tire sur ",
+		goalie.goalie_name
+	)
+
+	shooter.hasPuck = false
+
+
+	var goal_scored: bool = _is_goal_successful(
+		shooter,
+		goalie
+	)
+
+	if goal_scored:
+		_score_goal_against_goalie(goalie)
+		return true
+
+	_rebound_puck_around_goalie(goalie)
+	return false
+
+
+func _score_goal_against_goalie(goalie: Goalie) -> void:
+	if goalie.team_id == 1:
+		# Le filet de l'équipe humaine a été atteint.
+		_on_goal_scored("home")
+	else:
+		# Le filet de l'équipe AI a été atteint.
+		_on_goal_scored("away")
+
+func _is_goal_successful(
+	_shooter: Node2D,
+	_goalie: Goalie
+) -> bool:
+	# TODO : calcul entre la puissance du tireur
+	# et goalie.save_power.
+	return false
+
+func _rebound_puck_around_goalie(goalie: Goalie) -> void:
+	# Actualiser les cases occupées avant de choisir le rebond.
+	IceMapLayer.update_occupancy()
+
+	var empty_cells: Array[Vector2i] = (
+		IceMapLayer.get_usable_surrounding_cells(
+			goalie.current_cell
+		)
+	)
+
+	if empty_cells.is_empty():
+		push_warning(
+			"Aucune case vide autour du goalie pour le rebond."
+		)
+		return
+
+	var rebound_cell: Vector2i = empty_cells.pick_random()
+
+	print(
+		goalie.goalie_name,
+		" effectue l'arrêt. La puck rebondit vers ",
+		rebound_cell
+	)
+
+	puck.rebound_to_cell(rebound_cell)
+
+	IceMapLayer.update_occupancy()
 
 
 
@@ -431,6 +532,34 @@ func spawn_teams_from_draft() -> void:
 		pawn.setup(player_data, 2, start_cell)
 		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
 
+
+	spawn_goalie(
+		GameData.player_team_goalie,
+		1,
+		Vector2i(RIGHT_NET_POSITION)
+	)
+
+	spawn_goalie(
+		GameData.opposing_team_goalie,
+		2,
+		Vector2i(LEFT_NET_POSITION)
+	)	
+
+
+func spawn_goalie(
+	goalie_data: Dictionary,
+	team_id: int,
+	start_cell: Vector2i
+) -> void:
+	var goalie: Goalie = GOALIE_SCENE.instantiate()
+
+	# Le goalie entre d'abord dans l'arbre.
+	players_container.add_child(goalie)
+
+	# Les variables @onready sont maintenant disponibles.
+	goalie.setup(goalie_data, team_id, start_cell)
+
+	IceMapLayer.place_pawn_on_cell(goalie, start_cell)
 
 func reset_board():
 	puck.reset_board()

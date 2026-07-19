@@ -3,11 +3,16 @@ extends Node
 var player_team_selected_players: Array = []
 var opposing_team_selected_players: Array = []
 
+var player_team_goalie: Dictionary = {}
+var opposing_team_goalie: Dictionary = {}
+
 
 # Create default team if no draft is selected
 func _ready() -> void:
 	set_default_teams()
 	set_default_opposing_team()
+	set_default_player_goalie()
+	set_default_opposing_goalie()
 
 
 func set_default_teams() -> void:
@@ -78,6 +83,25 @@ func set_default_opposing_team() -> void:
 		)
 	]
 
+func set_default_player_goalie() -> void:
+	player_team_goalie = create_goalie(
+		100,
+		"Glove Johnson",
+		"res://assets/personnage/HenryDucker.png",
+		"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+		6
+	)
+
+
+func set_default_opposing_goalie() -> void:
+	opposing_team_goalie = create_goalie(
+		101,
+		"Blocko",
+		"res://assets/personnage/HenryDucker.png",
+		"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+		5
+	)
+
 func create_player(
 	id: int,
 	pawn_name: String,
@@ -99,6 +123,22 @@ func create_player(
 			"reflex": reflex,
 			"health": health
 		},
+		"image": load(image_path),
+		"bubblehead": load(bubblehead_path)
+	}
+
+
+func create_goalie(
+	id: int,
+	goalie_name: String,
+	image_path: String,
+	bubblehead_path: String,
+	save_power: int
+) -> Dictionary:
+	return {
+		"id": id,
+		"goalie_name": goalie_name,
+		"save_power": save_power,
 		"image": load(image_path),
 		"bubblehead": load(bubblehead_path)
 	}

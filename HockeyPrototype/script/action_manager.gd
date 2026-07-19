@@ -50,24 +50,59 @@ func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
 	print("ai attempt shoot")
 
 	if chosen_ai_pawn == null:
+		print("chosen_ai_pawn == null")
 		return false
 
 	if not chosen_ai_pawn.hasPuck:
+		print("not chosen_ai_pawn.hasPuck")
 		return false
 
 	var action_origin_cell: Vector2i = chosen_ai_pawn.current_cell
 
 	if not GameManager._is_in_shoot_range(action_origin_cell, target_cell, chosen_ai_pawn):
+		print("Ai not in shoot range")
 		return false
 
+	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+
+	if target_character is Goalie:
+		var target_goalie: Goalie = target_character
+
+		if target_goalie.team_id == chosen_ai_pawn.team_id:
+			print("Tir refusé : impossible de tirer sur son propre goalie.")
+			return false
+
+		
+		var goal_scored: bool = GameManager._resolve_shot_against_goalie(
+		chosen_ai_pawn,
+		target_goalie
+		)
+
+		if not goal_scored:
+			GameManager.update_action_counter(1)
+			return true	
+
+	if target_character != null:
+		print("AI Tir refusé : la case ciblée est occupée.")
+		print("AI  TARGET CHARACTER FOR SHOOT ", target_character)
+		return false		
+
+
 	if not IceMapLayer.is_shot_path_clear(action_origin_cell, target_cell):
+		print("Ai not in shoot path clear")
 		return false
 
 	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
+		print("IceMapLayer.get_pawn_on_cell(target_cell) != null")
 		return false
 
 	if not chosen_ai_pawn.has_method("_shoot"):
+		print("not chosen_ai_pawn.has_method(_shoot)")
+		
 		return false
+
+	
+		
 
 	chosen_ai_pawn._shoot(target_cell)
 

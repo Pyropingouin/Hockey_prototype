@@ -125,6 +125,10 @@ func turn_inside_ai() -> void:
 
 	# Connaître tous les pawns alliés et ennemis.
 	for pawn in players_container.get_children():
+
+		if pawn is Goalie:
+			continue
+
 		if pawn.team_id == 2:
 			ai_player_pawn_list.append(pawn)
 		elif pawn.team_id == 1:

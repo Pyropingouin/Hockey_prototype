@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca3x08syoc1xy"]
+
+[ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="1_j8wbc"]
+[ext_resource type="Script" uid="uid://8j6v2e8mreki" path="res://scene/goalie.gd" id="1_lupdt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j8wbc"]
+radius = 60.133186
+
+[node name="goalie" type="CharacterBody2D"]
+script = ExtResource("1_lupdt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.000004, -4.000004)
+scale = Vector2(0.475, 0.475)
+texture = ExtResource("1_j8wbc")
+
+[node name="HoverArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea"]
+shape = SubResource("CircleShape2D_j8wbc")
