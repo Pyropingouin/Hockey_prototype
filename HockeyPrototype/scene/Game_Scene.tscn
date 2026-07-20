@@ -43,7 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://cwvcnk2p28x11" path="res://assets/TileHexago/bandecoin5.png" id="28_uyuwg"]
 [ext_resource type="Texture2D" uid="uid://bcsfdsgqaasr" path="res://assets/TileHexago/bandecoin6.png" id="29_uxxho"]
 [ext_resource type="PackedScene" uid="uid://ccvn2h6me8tk6" path="res://scene/player_card_display.tscn" id="41_rsjqm"]
-[ext_resource type="PackedScene" uid="uid://3fy2awg3rh18" path="res://scene/Pause_Menu.tscn" id="42_o4n2k"]
+[ext_resource type="PackedScene" uid="uid://3fy2awg3rh18" path="res://scene/pause_menu.tscn" id="42_o4n2k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4n2k"]
 texture = ExtResource("2_8ms0i")

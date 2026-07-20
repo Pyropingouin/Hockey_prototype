@@ -15,109 +15,6 @@ const LEFT_NET_POSITION = Vector2i(-3, 0)
 const AGGRESSIVITY_LEVEL: int = 2
 
 
-# func turn_inside_ai() -> void:
-# 	#Connaitre tout les pawn, alliés et ennemies
-# 	for pawn in players_container.get_children():
-# 		if pawn.team_id == 2:
-# 			ai_player_pawn_list.append(pawn)
-# 		if pawn.team_id == 1:
-# 			human_player_pawn_list.append(pawn)
-
-# 	while GameManager.active_team == 2 and GameManager.active_team_action_counter < GameManager.max_action_counter and GameManager.game_state != GameManager.GameState.GOAL_PAUSE:
-# 		#Connaitre la puck
-# 		var puck_position = puck.current_cell
-# 		var is_puck_held = puck.isPickedUp
-
-# 		await get_tree().create_timer(1.0).timeout
-
-# 		# Si la puck est libre, on fonce dessus
-# 		if (is_puck_held == false):
-# 			move_ai_toward_free_puck(puck_position)
-
-# 		# Si la puck n'est pas libre
-# 		elif (is_puck_held == true):
-# 			var ai_pawn_puck_carrier = null
-# 			var human_pawn_puck_carrier = null
-
-# 			for ai_pawn in ai_player_pawn_list:
-# 				if ai_pawn.hasPuck == true:
-# 					ai_pawn_puck_carrier = ai_pawn
-
-# 			for human_pawn in human_player_pawn_list:
-# 				if human_pawn.hasPuck == true:
-# 					human_pawn_puck_carrier = human_pawn
-
-# 			# Si la puck est detenu par un joueur AI, on essaye de shoot
-# 			if ai_pawn_puck_carrier != null:
-# 				print("L'IA a la puck: ", ai_pawn_puck_carrier.pawn_name)
-
-# 				var is_shoot_successful = ActionManager.ai_attempt_shoot(RIGHT_NET_POSITION, ai_pawn_puck_carrier)
-
-# 				if (is_shoot_successful == false):
-
-# 					var failed_pass_target: Array = [] 
-# 					for i in range(ai_player_pawn_list.size() -1 ):
-			
-# 						# move_ai_random()
-# 						var pass_target_pawn = choosing_pass_target(ai_pawn_puck_carrier, failed_pass_target)
-# 						print("Pass target selection par AI ", pass_target_pawn)
-			
-# 						var is_pass_successfull = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn, ai_player_pawn_list)
-# 						if(is_pass_successfull):
-# 							return 
-
-# 						else:
-# 							failed_pass_target.append(pass_target_pawn)	
-
-# 						# if is_pass_successfull == false:
-# 						# 	failed_pass_target.append(pass_target_pawn)
-# 						# 	chosen_ai_pawn = choosing_pass_target(ai_pawn_puck_carrier, failed_pass_target)
-# 						# 	is_pass_successfull = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn, ai_player_pawn_list)
-
-# ### lopop end
-# 				move_ai_random()
-
-
-# 			# Si la puck est detenu par un joueur human
-# 			elif human_pawn_puck_carrier != null:
-# 				print("Le joueur humain a la puck: ", human_pawn_puck_carrier.pawn_name)
-
-# 				chosen_ai_pawn = calculate_distance(human_pawn_puck_carrier.current_cell)
-
-# 				print("Chosen_Ai_pawn_to Hit ", chosen_ai_pawn)
-
-# 				var temporary_distance_to_target: int = IceMapLayer.get_hex_distance(chosen_ai_pawn.current_cell, human_pawn_puck_carrier.current_cell)
-# 				print("temporary_distance_to_target ", temporary_distance_to_target)
-
-# 				# # Si le joueur AI est adjacent au porteur de puck, on frappe
-# 				if temporary_distance_to_target == 1:
-# 					print("tente une frappe")
-# 					var is_hit_successful = ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
-
-# 					# Si la frappe est un échec, move at random
-# 					if (is_hit_successful == false):
-# 						print("échec sur frappe")
-# 						move_ai_random()
-
-# 				elif temporary_distance_to_target <= AGGRESSIVITY_LEVEL:
-# 					move_ai_toward_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
-
-
-# 				#Le joueur le plus proche se rapproche le plus possible du porteur de la rondnell
-# 				elif temporary_distance_to_target > AGGRESSIVITY_LEVEL:
-# 					move_ai_closer_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell, chosen_ai_pawn.move_range)
-					
-
-# 				#Sinon, move at random
-# 				else:
-# 					print("else1")
-# 					move_ai_random()
-
-# 		else:
-# 			print("else2")
-# 			move_ai_random()
-
-
 func turn_inside_ai() -> void:
 	# Évite d'ajouter les mêmes joueurs plusieurs fois si la fonction est rappelée.
 	ai_player_pawn_list.clear()
@@ -160,7 +57,13 @@ func turn_inside_ai() -> void:
 
 		# Si la puck est détenue par un joueur AI.
 		if ai_pawn_puck_carrier != null:
-			print("L'IA a la puck: ", ai_pawn_puck_carrier.pawn_name)
+
+
+			DebugLogger.log(
+				DebugLogger.DebugType.AI,
+				"L'IA a la puck: %s" % ai_pawn_puck_carrier.pawn_name
+			)
+		
 
 			var is_shoot_successful: bool = ActionManager.ai_attempt_shoot(RIGHT_NET_POSITION, ai_pawn_puck_carrier)
 
@@ -174,7 +77,16 @@ func turn_inside_ai() -> void:
 			for _i in range(ai_player_pawn_list.size() - 1):
 				var pass_target_pawn = choosing_pass_target(ai_pawn_puck_carrier, failed_pass_targets)
 
-				print("Pass target sélectionnée par AI: ", pass_target_pawn)
+
+
+
+				DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"Pass target sélectionnée par AI: %s" % pass_target_pawn
+				)
+
+
+				
 
 				# Il ne reste aucune cible disponible.
 				if pass_target_pawn == null:
@@ -197,29 +109,58 @@ func turn_inside_ai() -> void:
 
 		# Si la puck est détenue par un joueur humain.
 		if human_pawn_puck_carrier != null:
-			print("Le joueur humain a la puck: ", human_pawn_puck_carrier.pawn_name)
+
+
+
+			DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"Le joueur humain a la puck: %s" % human_pawn_puck_carrier.pawn_name
+				)
+		
 
 			chosen_ai_pawn = calculate_distance(human_pawn_puck_carrier.current_cell)
 
 			if chosen_ai_pawn == null:
-				print("Aucun joueur AI disponible")
+				DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"Aucun joueur AI disponible"
+				)
+
 				move_ai_random()
 				continue
 
-			print("Chosen AI pawn to hit: ", chosen_ai_pawn)
+
+				DebugLogger.log(
+						DebugLogger.DebugType.AI,
+						"Chosen AI pawn to hit: %s" % chosen_ai_pawn
+					)	
 
 			var temporary_distance_to_target: int = IceMapLayer.get_hex_distance(chosen_ai_pawn.current_cell, human_pawn_puck_carrier.current_cell)
 
-			print("temporary_distance_to_target: ", temporary_distance_to_target)
+			DebugLogger.log(
+						DebugLogger.DebugType.AI,
+						"temporary_distance_to_target: %s" % str(temporary_distance_to_target)
+					)	
+		
 
 			# Le joueur AI est adjacent au porteur de la puck.
 			if temporary_distance_to_target == 1:
-				print("Tente une frappe")
+				DebugLogger.log(
+						DebugLogger.DebugType.AI,
+						"Tente une frappe"
+					)	
+				
 
 				var is_hit_successful: bool = ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
 
 				if not is_hit_successful:
-					print("Échec sur frappe")
+
+					DebugLogger.log(
+						DebugLogger.DebugType.AI,
+						"Échec sur frappe"
+					)	
+					
+
 					move_ai_random()
 
 			elif temporary_distance_to_target <= AGGRESSIVITY_LEVEL:
@@ -237,20 +178,37 @@ func turn_inside_ai() -> void:
 
 # Move a random pawn in a random tile
 func move_ai_random() -> void:
-	print("AI move at random")
+
+	DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"AI move at random"
+					)	
 
 	var destination_cell = Vector2i(randi_range(0, 5), randi_range(0, 5))
 
 	var selected_ai_pawn = ai_player_pawn_list[randi_range(0, ai_player_pawn_list.size() - 1)]
 
-	print("Selected AI pawn: ", selected_ai_pawn.pawn_name)
-	print("From: ", selected_ai_pawn.current_cell, " To: ", destination_cell)
+
+	DebugLogger.log(
+	DebugLogger.DebugType.AI,
+	"Selected AI pawn: %s | From : %s | To : %s" % [
+		selected_ai_pawn.pawn_name,
+		selected_ai_pawn.current_cell,
+		destination_cell
+	]
+)					
+
 
 	ActionManager.ai_attempt_move(selected_ai_pawn, selected_ai_pawn.current_cell, destination_cell)
 
 
 func move_ai_toward_free_puck(puck_position) -> void:
-	print("move toward puck at position ", puck_position)
+
+	DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"move toward puck at position %s" % puck_position
+					)	
+	
 
 	chosen_ai_pawn = calculate_distance(puck_position)
 
@@ -262,10 +220,21 @@ func move_ai_toward_free_puck(puck_position) -> void:
 
 
 func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
-	print("move_ai_TOWARD_target")
+
+	DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"move_ai_TOWARD_target"
+					)	
 
 	var usable_cells: Array = IceMapLayer.get_usable_surrounding_cells(target_cell)
-	print("Usable cells around target: ", usable_cells)
+
+	DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"Usable cells around target: %s" % usable_cells
+					)	
+
+	
+	
 
 	var best_cell: Vector2i
 	var best_distance: int = 999999
@@ -285,12 +254,26 @@ func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
 			best_cell = cell
 
 
-	print("Final best_cell: ", best_cell)
-	print("Final best_distance: ", best_distance)
+	DebugLogger.log(
+	DebugLogger.DebugType.AI,
+	"Final best_cell: %s | Final best_distance : %s" % [
+		best_cell,
+		best_distance
+		
+	]
+)					
+		
+
+
 
 
 	if best_cell == ai_pawn.current_cell:
-		print("Aucune case valide trouvée autour de la cible")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.AI,
+					"Aucune case valide trouvée autour de la cible"
+					)	
+
 		move_ai_random()
 		return
 
@@ -311,7 +294,12 @@ func move_ai_closer_target(
 	var usable_cells: Array[Vector2i] = IceMapLayer.get_usable_surrounding_cells(target_cell)
 
 	if usable_cells.is_empty():
-		print("Aucune case libre autour du target")
+
+		DebugLogger.log(
+						DebugLogger.DebugType.AI,
+						"Aucune case libre autour du target"
+						)		
+
 		return
 
 	var best_path: Array[Vector2i] = []
@@ -326,7 +314,12 @@ func move_ai_closer_target(
 			best_path = path
 
 	if best_path.is_empty():
-		print("Aucun chemin trouvé vers une case autour du target")
+
+		DebugLogger.log(
+						DebugLogger.DebugType.AI,
+						"Aucun chemin trouvé vers une case autour du target"
+						)		
+
 		return
 
 	# best_path[0] = position actuelle
@@ -335,8 +328,15 @@ func move_ai_closer_target(
 	var destination_index: int = min(ai_pawn_move_range, best_path.size() - 1)
 	var destination_cell: Vector2i = best_path[destination_index]
 
-	print("Best path vers target: ", best_path)
-	print("Destination choisie: ", destination_cell)
+
+	DebugLogger.log(
+	DebugLogger.DebugType.AI,
+	"Best path vers target: %s | Destination choisie : %s" % [
+		best_path,
+		destination_cell		
+	]
+	)
+
 
 	var is_move_successful = ActionManager.ai_attempt_move(ai_pawn, start_cell, destination_cell)
 
@@ -363,9 +363,16 @@ func choosing_pass_target(ai_pawn_puck_carrier: Node2D, removable_pawn_array: Ar
 	var best_dist: int = IceMapLayer.get_hex_distance(ai_pawn_puck_carrier.current_cell, RIGHT_NET_POSITION)
 	var best_pawn: Node2D = null
 
-	print("DANS CHOOSING PASS TARGET")
-	print("puck carrier ", ai_pawn_puck_carrier)
-	print("removable pawn array ", removable_pawn_array)
+
+	DebugLogger.log(
+	DebugLogger.DebugType.AI,
+	"DANS CHOOSING PASS TARGET \nPuck carrier: %s | Removable pawn array : %s" % [
+		ai_pawn_puck_carrier,
+		removable_pawn_array		
+	]
+	)
+
+	
 
 
 	#Check tout tes allié et garde leur distance face au but dans un array

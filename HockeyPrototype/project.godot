@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameData="*res://script/game_data.gd"
+DebugLogger="*res://script/debug_logger.gd"
 
 [display]
 
