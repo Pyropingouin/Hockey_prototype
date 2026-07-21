@@ -59,7 +59,14 @@ func _ready() -> void:
 	for p in players_container.get_children():
 		pawns.append(p)
 		
-		print(p.name, p.current_cell, p.start_cell)
+		DebugLogger.log(
+			DebugLogger.DebugType.ICE_MAP_LAYER,
+			"Initialisation de %s | Current cell: %s | Start cell: %s" % [
+				p.name,
+				p.current_cell,
+				p.start_cell
+			]
+		)
 		
 		# Connexion dynamique
 		if p.has_method("pick_up_puck"):
@@ -308,7 +315,13 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 	
 	if puck.isPickedUp == false:
 		if map_data[cell_to_check].is_puck_here:
-			print("puck here")
+			DebugLogger.log(
+				DebugLogger.DebugType.ICE_MAP_LAYER,
+				"Puck trouvée sur la case %s par %s" % [
+					cell_to_check,
+					pawn.name
+				]
+			)
 			emit_signal("puck_is_picked_up", pawn)
 			map_data[cell_to_check].is_puck_here = false
 			
@@ -691,10 +704,16 @@ func is_shot_path_clear(
 
 
 ### DEBUG
-func print_map_data():
-	print("=== MAP DATA DUMP ===")
-	print("Cell count:", map_data.size())
+func print_map_data() -> void:
+	DebugLogger.log(
+		DebugLogger.DebugType.ICE_MAP_LAYER,
+		"=== MAP DATA DUMP === | Cell count: %s" % map_data.size()
+	)
 
 	for cell in map_data.keys():
 		var state: CellState = map_data[cell]
-		print(cell, "=>", state)
+
+		DebugLogger.log(
+			DebugLogger.DebugType.ICE_MAP_LAYER,
+			"Cell %s => %s" % [cell, state]
+		)

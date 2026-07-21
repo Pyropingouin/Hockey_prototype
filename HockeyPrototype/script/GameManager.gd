@@ -32,7 +32,7 @@ var active_team_action_counter:
 	set(value):
 
 		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
+			DebugLogger.DebugType.GAME_MANAGER,
 			"active_team_action_counter: %s  -> : %s" % [
 				_active_team_action_counter,
 				value
@@ -52,7 +52,7 @@ var active_team:
 		return _active_team
 	set(value):
 		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
+			DebugLogger.DebugType.GAME_MANAGER,
 			"active_team: %s  -> : %s" % [
 				_active_team,
 				value
@@ -71,7 +71,7 @@ var home_team_score:
 	set(value):
 
 		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
+			DebugLogger.DebugType.GAME_MANAGER,
 			"home_team_score: %s  -> : %s" % [
 				_home_team_score,
 				value
@@ -90,7 +90,7 @@ var away_team_score:
 
 	
 		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
+			DebugLogger.DebugType.GAME_MANAGER,
 			"away_team_score: %s  -> : %s" % [
 				_away_team_score,
 				value
@@ -150,9 +150,11 @@ func _ready() -> void:
 
 
 	DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-				GameData.player_team_selected_players
-		)	
+		DebugLogger.DebugType.GAME_MANAGER,
+		"Joueurs de l'équipe humaine : %s" % [
+			GameData.player_team_selected_players
+		]
+	)	
 
 
 	spawn_teams_from_draft()
@@ -186,10 +188,9 @@ func _on_end_turn_button_pressed() -> void:
 	if active_team == 2:
 
 		DebugLogger.log(
-				DebugLogger.DebugType.ACTION_MANAGER,
-				"active_team %s  -> : %s" % 
-					active_team,
-			)		
+			DebugLogger.DebugType.GAME_MANAGER,
+			"L'équipe active est maintenant : %s" % active_team
+		)
 
 		ai_turn()
 
@@ -199,7 +200,10 @@ func _on_end_turn_button_pressed() -> void:
 
 func ai_turn() -> void:
 	if active_team == 1:
-		print("BUG")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"ai_turn() annulé : l'équipe active est l'équipe humaine."
+		)
 		return
 
 	
@@ -252,15 +256,23 @@ func _refresh_action_buttons() -> void:
 
 
 func _start_action_shoot() -> void:
-	print("start shoot")
-	print("selected_pawn = ", selected_pawn)
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"Début de l'action SHOOT | Pawn sélectionné : %s" % selected_pawn
+	)
 
 	if selected_pawn == null:
-		print("Shoot refusé : aucun pawn sélectionné.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Shoot refusé : aucun pawn sélectionné."
+		)
 		return
 
 	if not selected_pawn.hasPuck:
-		print("Shoot refusé : le pawn sélectionné n'a pas la rondelle.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Shoot refusé : le pawn sélectionné n'a pas la rondelle."
+		)
 		return
 
 	action_mode = ActionMode.SHOOT
@@ -269,16 +281,28 @@ func _start_action_shoot() -> void:
 
 	_refresh_action_buttons()
 
-	print("pre eligible", action_origin_cell, action_pawn)
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"Calcul des cibles de tir | Origine : %s | Pawn : %s" % [
+			action_origin_cell,
+			action_pawn
+		]
+	)
 	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn)
 
 func _start_action_pass() -> void:
 	if selected_pawn == null:
-		print("Pass refusée : aucun pawn sélectionné.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Pass refusée : aucun pawn sélectionné."
+		)
 		return
 
 	if not selected_pawn.hasPuck:
-		print("Pass refusée : le pawn sélectionné n'a pas la rondelle.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Pass refusée : le pawn sélectionné n'a pas la rondelle."
+		)
 		return
 
 	action_mode = ActionMode.PASS
@@ -291,11 +315,17 @@ func _start_action_pass() -> void:
 
 func _start_action_hit() -> void:
 	if selected_pawn == null:
-		print("Hit refusé : aucun pawn sélectionné.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Hit refusé : aucun pawn sélectionné."
+		)
 		return
 
 	if selected_pawn.hasPuck:
-		print("Hit refusé : le pawn sélectionné a la rondelle.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Hit refusé : le pawn sélectionné a la rondelle."
+		)
 		return
 
 	action_mode = ActionMode.HIT
@@ -307,7 +337,10 @@ func _start_action_hit() -> void:
 
 
 func _do_shoot(target_cell: Vector2i) -> void:
-	print("do_shoot")
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"Exécution de _do_shoot() | Cible : %s" % target_cell
+	)
 
 
 	if action_pawn == null or not action_pawn.hasPuck:
@@ -321,7 +354,10 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		target_cell,
 		action_pawn
 	):
-		print("Tir refusé : cible hors de portée.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Tir refusé : cible hors de portée."
+		)
 		_cancel_action_mode()
 		return
 
@@ -329,18 +365,30 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		action_origin_cell,
 		target_cell
 	):
-		print("Tir refusé : un joueur bloque la trajectoire.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Tir refusé : un joueur bloque la trajectoire."
+		)
 		return
 
 	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
-	print("GAMEMANAGER TARGET CHARACTER FOR SHOOT ", target_character)
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"Cible trouvée sur la case %s : %s" % [
+			target_cell,
+			target_character
+		]
+	)
 
 	if target_character is Goalie:
 		var target_goalie: Goalie = target_character
 
 		if target_goalie.team_id == action_pawn.team_id:
-			print("Tir refusé : impossible de tirer sur son propre goalie.")
+			DebugLogger.log(
+				DebugLogger.DebugType.GAME_MANAGER,
+				"Tir refusé : impossible de tirer sur son propre goalie."
+			)
 			return
 
 		var goal_scored: bool = _resolve_shot_against_goalie(
@@ -360,7 +408,10 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		return
 
 	if target_character != null:
-		print("Tir refusé : la case ciblée est occupée.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Tir refusé : la case ciblée est occupée par %s." % target_character
+		)
 		return	
 		
 
@@ -380,18 +431,27 @@ func _do_pass(target_cell: Vector2i) -> void:
 	action_origin_cell = action_pawn.current_cell
 
 	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
-		print("PASS target oustide of range")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Passe refusée : cible hors de portée."
+		)
 		_cancel_action_mode()
 		return
 
 	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
 	if receiver == null:
-		print("Passe refusée: aucun pawn sur la case visée.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Passe refusée : aucun pawn sur la case visée."
+		)
 		return
 
 	if receiver == action_pawn:
-		print("Passe refusée: tu ne peux pas te passer à toi-même.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Passe refusée : un pawn ne peut pas se passer à lui-même."
+		)
 		return
 
 	if action_pawn.has_method("_pass"):
@@ -410,11 +470,17 @@ func _do_hit(target_cell: Vector2i) -> void:
 	var hitTarget: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
 	if hitTarget == null:
-		print("Plaquage refusé: aucun pawn sur la case visée.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Plaquage refusé : aucun pawn sur la case visée."
+		)
 		return
 
 	if hitTarget == action_pawn:
-		print("Plaquage: tu ne peux pas te plaquer toi-même.")
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Plaquage refusé : un pawn ne peut pas se plaquer lui-même."
+		)
 		return
 
 	if IceMapLayer.get_hex_distance(action_pawn.current_cell, target_cell) > 1:
@@ -455,10 +521,12 @@ func _resolve_shot_against_goalie(
 	shooter: Node2D,
 	goalie: Goalie
 ) -> bool:
-	print(
-		shooter.pawn_name,
-		" tire sur ",
-		goalie.goalie_name
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"%s tire sur %s" % [
+			shooter.pawn_name,
+			goalie.goalie_name
+		]
 	)
 
 	shooter.hasPuck = false
@@ -496,17 +564,20 @@ func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 	)
 
 	if empty_cells.is_empty():
-		push_warning(
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
 			"Aucune case vide autour du goalie pour le rebond."
 		)
 		return
 
 	var rebound_cell: Vector2i = empty_cells.pick_random()
 
-	print(
-		goalie.goalie_name,
-		" effectue l'arrêt. La puck rebondit vers ",
-		rebound_cell
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"%s effectue l'arrêt | Rebond de la puck vers : %s" % [
+			goalie.goalie_name,
+			rebound_cell
+		]
 	)
 
 	puck.rebound_to_cell(rebound_cell)
@@ -621,7 +692,10 @@ func _end_turn():
 	_refresh_action_buttons()
 
 func _on_goal_scored(goal_type):
-	print("But marqué dans le filet de: ", goal_type)
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"But marqué dans le filet de : %s" % goal_type
+	)
 
 	if goal_type == "away":
 		home_team_score += 1

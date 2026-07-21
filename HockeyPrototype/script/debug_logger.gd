@@ -9,7 +9,8 @@ enum DebugType {
 	GOALIE,
 	DRAFT,
 	ACTION_MANAGER,
-	GAME_MANAGER
+	GAME_MANAGER,
+	ICE_MAP_LAYER
 }
 
 # Interrupteur principal pour tous les logs.
@@ -25,7 +26,9 @@ var enabled_types: Dictionary = {
 	DebugType.GOALIE: true,
 	DebugType.DRAFT: true,
 	DebugType.ACTION_MANAGER: true,
-	DebugType.GAME_MANAGER: true
+	DebugType.GAME_MANAGER: true,
+	DebugType.ICE_MAP_LAYER: true
+	
 }
 
 

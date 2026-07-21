@@ -167,9 +167,9 @@ func pick_up_puck(pawn) -> void:
 	
 	hasPuck = true
 	DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					name % " a ramassé la puck"
-					)	
+		DebugLogger.DebugType.PAWN,
+		"%s a ramassé la puck" % name
+	)
 	
 	if hasPuck == true:
 		_update_ring_color()
