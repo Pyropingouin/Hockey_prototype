@@ -20,7 +20,7 @@ func set_default_teams() -> void:
 		create_player(
 			8,
 			"Glorp Thorpe",
-			"res://assets/personnage/GlorpThorpe.png",
+			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/GlorpThorpe_BubbleHead.png",
 			3,
 			3,
@@ -30,7 +30,7 @@ func set_default_teams() -> void:
 		create_player(
 			30,
 			"Zoran Dew-Fingers",
-			"res://assets/personnage/ZoranDewFingers.png",
+			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",
 			3,
 			3,
@@ -40,7 +40,7 @@ func set_default_teams() -> void:
 		create_player(
 			15,
 			"Josh Soup",
-			"res://assets/personnage/JoshSoup.png",
+			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/JoshSoup_BubbleHead.png",
 			3,
 			3,
@@ -54,7 +54,7 @@ func set_default_opposing_team() -> void:
 		create_player(
 			29,
 			"Wale Deise",
-			"res://assets/personnage/WaleDeise.png",
+			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/WaleDeise_BubbleHead.png",
 			3,
 			3,
@@ -64,7 +64,7 @@ func set_default_opposing_team() -> void:
 		create_player(
 			23,
 			"Orian Maduro",
-			"res://assets/personnage/OrianMaduro.png",
+			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
 			3,
 			3,
@@ -74,7 +74,7 @@ func set_default_opposing_team() -> void:
 		create_player(
 			11,
 			"Henry Ducker",
-			"res://assets/personnage/HenryDucker.png",
+			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
 			3,
 			3,

@@ -153,12 +153,14 @@ func _update_pawn_texture() -> void:
 		)
 		return
 
-	if bubbleHeadTexture != null:
-		sprite.texture = bubbleHeadTexture
-	elif fullBodyTexture != null:
+	if fullBodyTexture != null:
 		sprite.texture = fullBodyTexture
+	elif bubbleHeadTexture != null:
+		sprite.texture = bubbleHeadTexture
 	else:
-		push_warning("Aucune texture trouvée pour le pawn : " + pawn_name)	
+		push_warning(
+			"Aucune texture trouvée pour le pawn : %s" % pawn_name
+		)
 	
 	
 func pick_up_puck(pawn) -> void:
@@ -167,9 +169,9 @@ func pick_up_puck(pawn) -> void:
 	
 	hasPuck = true
 	DebugLogger.log(
-		DebugLogger.DebugType.PAWN,
-		"%s a ramassé la puck" % name
-	)
+					DebugLogger.DebugType.PAWN,
+					name % " a ramassé la puck"
+					)	
 	
 	if hasPuck == true:
 		_update_ring_color()
