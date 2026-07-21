@@ -17,7 +17,12 @@ func _process(delta: float) -> void:
 
 
 func _on_resume_button_pressed() -> void:
-	print("resume")
+
+	DebugLogger.log(
+					DebugLogger.DebugType.GENERAL,
+					"resume " 
+					)	
+
 	visible = false
 	get_tree().paused = false
 
@@ -28,10 +33,18 @@ func _on_main_menu_button_pressed() -> void:
 	
 
 func _on_settings_button_pressed() -> void:
-	print("pause menu setting button pressed")
+
+	DebugLogger.log(
+				DebugLogger.DebugType.GENERAL,
+				"pause menu setting button pressed " 
+				)	
 
 	
 func _on_quit_button_pressed() -> void:
-	print("Quit")
+
+	DebugLogger.log(
+					DebugLogger.DebugType.GENERAL,
+					"Quit " 
+					)	
 	get_tree().quit()
 

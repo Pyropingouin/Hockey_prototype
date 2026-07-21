@@ -85,7 +85,11 @@ func _on_left_mouse_up(global_pos: Vector2) -> void:
 		return
 
 	if not is_dragging:
-		print("_on_left_mouse_up without dragging")
+		DebugLogger.log(
+					DebugLogger.DebugType.GENERAL,
+					"_on_left_mouse_up without dragging"
+					)		
+
 		_cleanup_drag()
 		GameManager._refresh_action_buttons()
 		return
@@ -115,11 +119,20 @@ func _on_right_mouse_down(global_pos: Vector2) -> void:
 
 	if target_pawn == null:
 		GameManager.selected_pawn = null
-		print("_on_right_mouse_down if target_pawn == null")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.GENERAL,
+					"on_right_mouse_down if target_pawn == null"
+					)			
+
 		GameManager._refresh_action_buttons()
 		return
 
-	print("Target_Pawn = ", target_pawn)
+	DebugLogger.log(
+					DebugLogger.DebugType.GENERAL,
+					"Target_Pawn =   %s" % target_pawn
+					)			
+					
 
 
 
@@ -139,7 +152,12 @@ func _on_mouse_drag(global_pos: Vector2) -> void:
 
 		is_dragging = true
 		IceMapLayer.highlight_unreachable_from(drag_start_cell, drag_candidate.move_range)
-		print("_on_mouse_drag")
+		DebugLogger.log(
+						DebugLogger.DebugType.GENERAL,
+						"_on_mouse_drag"
+						)	
+
+	
 		GameManager._refresh_action_buttons()
 
 	drag_candidate.global_position = global_pos
@@ -149,7 +167,12 @@ func _cleanup_drag() -> void:
 	is_dragging = false
 
 func _handle_action_click(global_pos: Vector2) -> void:
-	print("handle action click")
+
+
+	DebugLogger.log(
+						DebugLogger.DebugType.GENERAL,
+						"handle action click"
+						)		
 
 	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 

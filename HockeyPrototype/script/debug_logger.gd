@@ -3,9 +3,13 @@ extends Node
 enum DebugType {
 	GENERAL,
 	AI,
-	PLAYER_PLACEMENT,
+	PAWN,
+	SETUP,
 	PUCK,
-	GOALIE
+	GOALIE,
+	DRAFT,
+	ACTION_MANAGER,
+	GAME_MANAGER
 }
 
 # Interrupteur principal pour tous les logs.
@@ -13,11 +17,15 @@ var enabled: bool = true
 
 # Activation individuelle des catégories.
 var enabled_types: Dictionary = {
-	DebugType.GENERAL: true,
+	DebugType.GENERAL: false,
+	DebugType.PAWN: true,
 	DebugType.AI: true,
-	DebugType.PLAYER_PLACEMENT: true,
+	DebugType.SETUP: true,
 	DebugType.PUCK: true,
-	DebugType.GOALIE: true
+	DebugType.GOALIE: true,
+	DebugType.DRAFT: true,
+	DebugType.ACTION_MANAGER: true,
+	DebugType.GAME_MANAGER: true
 }
 
 

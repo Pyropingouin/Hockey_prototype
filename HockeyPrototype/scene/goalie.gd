@@ -42,15 +42,17 @@ func setup(
 func attempt_save(shooter_reflex: int) -> bool:
 	var save_difference: int = save_power - shooter_reflex
 
-	print(
+
+	
+	DebugLogger.log(
+	DebugLogger.DebugType.GOALIE,
+	"%s tente un arrêt. Save Power:  %s |  Reflex du tireur:  %s | Différence: %s  " % [
 		goalie_name,
-		" tente un arrêt. Save Power: ",
 		save_power,
-		" | Reflex du tireur: ",
 		shooter_reflex,
-		" | Différence: ",
 		save_difference
-	)
+	]
+)		
 
 	# Le goalie n'a aucune chance si son save_power
 	# n'est pas supérieur au reflex du tireur.
@@ -65,14 +67,16 @@ func attempt_save(shooter_reflex: int) -> bool:
 	var random_roll: float = randf()
 	var save_successful: bool = random_roll < save_chance
 
-	print(
-		"Chance d'arrêt: ",
+
+	DebugLogger.log(
+	DebugLogger.DebugType.GOALIE,
+	"Chance d'arrêt: %s%% | Jet:  %s  | Réussite:  %s" % [
 		save_chance * 100.0,
-		"% | Jet: ",
 		random_roll,
-		" | Réussite: ",
 		save_successful
-	)
+		]
+	)		
+
 
 	return save_successful
 

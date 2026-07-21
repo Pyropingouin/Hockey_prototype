@@ -229,9 +229,9 @@ func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
 	var usable_cells: Array = IceMapLayer.get_usable_surrounding_cells(target_cell)
 
 	DebugLogger.log(
-					DebugLogger.DebugType.AI,
-					"Usable cells around target: %s" % usable_cells
-					)	
+		DebugLogger.DebugType.AI,
+		"Usable cells around target: " + str(usable_cells)
+	)
 
 	
 	

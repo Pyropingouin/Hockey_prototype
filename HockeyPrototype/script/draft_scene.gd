@@ -44,9 +44,13 @@ func show_new_draft_choices() -> void:
 			card.card_clicked.connect(_on_card_clicked)
 
 	else:
-		$EndDraftButton.visible = true		
+		$EndDraftButton.visible = true
 
-	print("Joueurs restants dans le pool :", player_pool.size())
+	DebugLogger.log(
+					DebugLogger.DebugType.DRAFT,
+					"Joueurs restants dans le pool : %s" % player_pool.size()
+					)				
+
 	
 
 
@@ -89,7 +93,13 @@ func load_players() -> Array:
 
 func _on_card_clicked(selected_player: Dictionary) -> void:
 	player_team_selected_players.append(selected_player)
-	print("Joueur ajouté à ton équipe :", selected_player["pawn_name"])
+
+	DebugLogger.log(
+					DebugLogger.DebugType.DRAFT,
+					"Joueur ajouté à ton équipe : %s" % selected_player["pawn_name"]
+					)	
+
+	
 
 
 	refresh_player_team_display()
@@ -104,10 +114,22 @@ func _on_card_clicked(selected_player: Dictionary) -> void:
 		remaining_choices.shuffle()
 		var opposing_player = remaining_choices[0]
 		opposing_team_selected_players.append(opposing_player)
-		print("Joueur ajouté à l'équipe adverse :", opposing_player["pawn_name"])
 
-	print("Ton équipe :", player_team_selected_players.size())
-	print("Équipe adverse :", opposing_team_selected_players.size())
+
+
+		DebugLogger.log(
+						DebugLogger.DebugType.DRAFT,
+						"Joueur ajouté à l'équipe adverse : %s" % opposing_player["pawn_name"]
+						)	
+
+
+		DebugLogger.log(
+			DebugLogger.DebugType.DRAFT,
+			"Taille de ton équipe :: %s | Taille équipe adverse %s" % [
+				player_team_selected_players.size(),
+				opposing_team_selected_players.size()
+			]
+		)	
 
 	show_new_draft_choices()
 
@@ -131,11 +153,18 @@ func refresh_player_team_display() -> void:
 
 
 func _on_end_draft_button_pressed() -> void:
-	print("End Draft Button")
+	
 	GameData.player_team_selected_players = player_team_selected_players
 	GameData.opposing_team_selected_players = opposing_team_selected_players
 
-	print(player_team_selected_players)
+	DebugLogger.log(
+					DebugLogger.DebugType.DRAFT,
+					"End Draft Button : %s" % player_team_selected_players
+					)	
+
+
+
+
 	
 
 	get_tree().change_scene_to_file("res://scene/Game_Scene.tscn")

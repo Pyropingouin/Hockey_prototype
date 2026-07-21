@@ -10,7 +10,13 @@ extends Node
 ###
 ####
 func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vector2i) -> void:
-	print("pawn in attempt_move ", pawn)
+
+	DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"pawn in attempt_move %s" % pawn
+					)	
+
+
 
 	if starting_cell == destination_cell:
 		IceMapLayer.reset_move(pawn, starting_cell)
@@ -47,20 +53,39 @@ func ai_attempt_move(chosen_ai_pawn: Node2D, starting_cell: Vector2i, destinatio
 
 
 func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
-	print("ai attempt shoot")
+
+	DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"ai attempt shoot"
+					)	
 
 	if chosen_ai_pawn == null:
-		print("chosen_ai_pawn == null")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"chosen_ai_pawn == null"
+					)	
+
 		return false
 
 	if not chosen_ai_pawn.hasPuck:
-		print("not chosen_ai_pawn.hasPuck")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"not chosen_ai_pawn.hasPuck"
+					)	
+		
 		return false
 
 	var action_origin_cell: Vector2i = chosen_ai_pawn.current_cell
 
 	if not GameManager._is_in_shoot_range(action_origin_cell, target_cell, chosen_ai_pawn):
-		print("Ai not in shoot range")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"AI not in shoot range"
+					)	
+		
 		return false
 
 	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
@@ -69,7 +94,11 @@ func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
 		var target_goalie: Goalie = target_character
 
 		if target_goalie.team_id == chosen_ai_pawn.team_id:
-			print("Tir refusé : impossible de tirer sur son propre goalie.")
+
+			DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"AI Tir refusé : impossible de tirer sur son propre goalie."
+					)	
 			return false
 
 		
@@ -83,21 +112,37 @@ func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
 			return true	
 
 	if target_character != null:
-		print("AI Tir refusé : la case ciblée est occupée.")
-		print("AI  TARGET CHARACTER FOR SHOOT ", target_character)
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"AI Tir refusé : la case ciblée est occupée. /n  AI  TARGET CHARACTER FOR SHOOT: %s" % target_character 
+					)	
+
 		return false		
 
 
 	if not IceMapLayer.is_shot_path_clear(action_origin_cell, target_cell):
-		print("Ai not in shoot path clear")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"AI not in shoot path clear"
+					)	
 		return false
 
 	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
-		print("IceMapLayer.get_pawn_on_cell(target_cell) != null")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"IceMapLayer.get_pawn_on_cell(target_cell) != null"
+					)	
 		return false
 
 	if not chosen_ai_pawn.has_method("_shoot"):
-		print("not chosen_ai_pawn.has_method(_shoot)")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"not chosen_ai_pawn.has_method(_shoot)"
+					)	
 		
 		return false
 
@@ -150,21 +195,37 @@ func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D, ai_player_arra
 
 func ai_attempt_hit(chosen_ai_pawn: Node2D, target_cell: Vector2i) -> bool:
 	if chosen_ai_pawn == null:
-		print("pas de chosen ai")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"pas de chosen ai"
+					)	
 		return false
 
 	if chosen_ai_pawn.hasPuck:
-		print("le chosen ai possède la puck")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"Le chosen ai possède la puck"
+					)	
 		return false
 
 	var hit_target: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
 	if hit_target == null:
-		print("hit target == null")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"hit target == null"
+					)	
 		return false
 
 	if hit_target == chosen_ai_pawn:
-		print("hit target == son propre chosen ai")
+
+		DebugLogger.log(
+					DebugLogger.DebugType.ACTION_MANAGER,
+					"hit target == son propre chosen ai"
+					)	
 		return false
 
 	if IceMapLayer.get_hex_distance(chosen_ai_pawn.current_cell, hit_target.current_cell) > 1:

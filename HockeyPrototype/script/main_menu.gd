@@ -3,8 +3,14 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("Viewport size: ", get_viewport().get_visible_rect().size)
-	print("Window size: ", DisplayServer.window_get_size())
+
+	DebugLogger.log(
+	DebugLogger.DebugType.GENERAL,
+	"Viewport size: %s | Window size:  %s" % [
+		get_viewport().get_visible_rect().size,
+		DisplayServer.window_get_size()
+	]
+)					
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

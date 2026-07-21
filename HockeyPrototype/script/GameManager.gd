@@ -30,7 +30,15 @@ var active_team_action_counter:
 	get:
 		return _active_team_action_counter
 	set(value):
-		print("active_team_action_counter:", _active_team_action_counter, "->", value)
+
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"active_team_action_counter: %s  -> : %s" % [
+				_active_team_action_counter,
+				value
+			]
+		)	
+
 		_active_team_action_counter = value
 		active_team_action_counter_changed.emit(_active_team_action_counter)
 		actionCounterLabel.text = "Actions: " + str(_active_team_action_counter) + "/" + str(max_action_counter)
@@ -43,7 +51,14 @@ var active_team:
 	get:
 		return _active_team
 	set(value):
-		print("active_team:", _active_team, "->", value)
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"active_team: %s  -> : %s" % [
+				_active_team,
+				value
+			]
+		)	
+
 		_active_team = value
 		active_team_changed.emit(_active_team)
 		selected_pawn = null
@@ -54,7 +69,16 @@ var home_team_score:
 	get:
 		return _home_team_score
 	set(value):
-		print("home_team_score:", _home_team_score, "->", value)
+
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"home_team_score: %s  -> : %s" % [
+				_home_team_score,
+				value
+			]
+		)	
+
+
 		_home_team_score = value
 		home_team_score_changed.emit(_home_team_score)
 
@@ -63,7 +87,16 @@ var away_team_score:
 	get:
 		return _away_team_score
 	set(value):
-		print("away_team_score:", _away_team_score, "->", value)
+
+	
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"away_team_score: %s  -> : %s" % [
+				_away_team_score,
+				value
+			]
+		)	
+
 		_away_team_score = value
 		away_team_score_changed.emit(_away_team_score)
 
@@ -115,7 +148,12 @@ signal active_team_action_counter_changed(active_team_action_counter: int)
 
 func _ready() -> void:
 
-	print(GameData.player_team_selected_players)
+
+	DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+				GameData.player_team_selected_players
+		)	
+
 
 	spawn_teams_from_draft()
 
@@ -146,8 +184,13 @@ func _on_end_turn_button_pressed() -> void:
 
 
 	if active_team == 2:
-		print("TEAM 2")
-		print("active_team", active_team)
+
+		DebugLogger.log(
+				DebugLogger.DebugType.ACTION_MANAGER,
+				"active_team %s  -> : %s" % 
+					active_team,
+			)		
+
 		ai_turn()
 
 	activeTeamLabel.text = str(active_team)

@@ -26,7 +26,6 @@ func _ready():
 	add_to_group("puck")
 
 func _process(_delta: float) -> void:
-	#print(current_cell)
 	pass
 	
 
@@ -44,7 +43,12 @@ func _on_pawn_hold_puck_is_moving(pawn_position: Vector2i) -> void:
 	current_cell = pawn_position
 
 func _on_pawn_shooting_puck(newShootPosition) -> void:
-	print("IN PUCK SHOOT", newShootPosition)
+	
+	DebugLogger.log(
+					DebugLogger.DebugType.PUCK,
+					"IN PUCK SHOOT: %s" % newShootPosition
+					)	
+	
 	
 	current_cell = newShootPosition
 	isPickedUp = false
@@ -59,7 +63,14 @@ func _on_pawn_shooting_puck(newShootPosition) -> void:
 	
 	
 func _on_pawn_passing_puck(newPassPosition) -> void:
-	print("IN PUCK PASS", newPassPosition)
+
+
+	DebugLogger.log(
+					DebugLogger.DebugType.PUCK,
+					"IN PUCK PASS: %s" % newPassPosition
+					)	
+	
+
 	
 	current_cell = newPassPosition
 	isPickedUp = false
@@ -74,7 +85,13 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 
 
 func _on_pawn_dropping_puck(newDropPosition) -> void:
-	print("IN PUCK DROP", newDropPosition)
+
+
+	DebugLogger.log(
+					DebugLogger.DebugType.PUCK,
+					"IN PUCK DROP: %s" % newDropPosition
+					)	
+
 	current_cell = newDropPosition
 
 	isPickedUp = false
@@ -84,8 +101,16 @@ func _on_pawn_dropping_puck(newDropPosition) -> void:
 
 
 func _is_goal(puck_position):
-	print("type de tuile: ", ice_map._get_type(puck_position))
-	print("goal_type: ", ice_map._get_goal_type(puck_position))
+
+	DebugLogger.log(
+	DebugLogger.DebugType.AI,
+	"type de tuile: %s | goal_type: : %s " % [
+		ice_map._get_type(puck_position),
+		ice_map._get_goal_type(puck_position)
+		
+	]
+)					
+
 	
 	if ice_map._get_type(puck_position) == "goal":
 		var goal_type = ice_map._get_goal_type(puck_position)
@@ -96,7 +121,12 @@ func _is_goal(puck_position):
 
 
 func rebound_to_cell(new_cell: Vector2i) -> void:
-	print("La puck rebondit sur la glace vers : ", new_cell)
+
+	DebugLogger.log(
+				DebugLogger.DebugType.PUCK,
+				"La puck rebondit sur la glace vers : %s" % new_cell
+				)	
+
 
 	isPickedUp = false
 	current_cell = new_cell
@@ -109,20 +139,29 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 		current_cell
 	)
 
-	print(
-		"Puck visible : ",
-		visible,
-		" | Sprite visible : ",
-		sprite.visible,
-		" | Position : ",
-		global_position
-	)
+
+	DebugLogger.log(
+		DebugLogger.DebugType.AI,
+		"tPuck visible :  %s | Sprite visible :  %s | Position : %s " % [
+			visible,
+			sprite.visible,
+			global_position
+			
+		]
+	)					
+
 
 	puck_rebounded.emit(new_cell)
 		
 
 func reset_board():
-	print("puck reset board")
+
+	DebugLogger.log(
+				DebugLogger.DebugType.PUCK,
+				"puck reset board"
+				)		
+
+
 	current_cell = reset_puck_position
 
 	
