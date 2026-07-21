@@ -1,32 +1,36 @@
 [gd_scene load_steps=5 format=3 uid="uid://3k4vl80vnul2"]
 
 [ext_resource type="Script" uid="uid://ijwoicjnn5y0" path="res://script/pawn.gd" id="1_b0spm"]
-[ext_resource type="Texture2D" uid="uid://xf3ulgovp6hl" path="res://assets/Bubble_head/CarloMonferato_BubbleHead.png" id="2_w6ftl"]
+[ext_resource type="Texture2D" uid="uid://hhk6khdgx1eq" path="res://assets/FullBody/DougDogAway.png" id="2_w6ftl"]
 [ext_resource type="Texture2D" uid="uid://ru2kqb6wj3fb" path="res://assets/ring.png" id="3_08rbq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w6ftl"]
-radius = 38.0
+radius = 62.1289
 
 [node name="Pawn" type="CharacterBody2D"]
 script = ExtResource("1_b0spm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+position = Vector2(9, -53)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_w6ftl")
 
 [node name="PuckRing" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 1)
-position = Vector2(2.999996, -0.4999988)
-scale = Vector2(0.20117188, 0.16308592)
+position = Vector2(4.999995, -30.750004)
+scale = Vector2(0.19726561, 0.15869139)
 texture = ExtResource("3_08rbq")
 
 [node name="TeamRing" type="Sprite2D" parent="."]
-position = Vector2(-3.0517578e-05, 0)
-scale = Vector2(0.1, -0.104)
+visible = false
+position = Vector2(7, -33)
+scale = Vector2(0.2529297, -0.22753909)
 texture = ExtResource("3_08rbq")
 
 [node name="HoverArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea"]
+position = Vector2(7, -33)
 shape = SubResource("CircleShape2D_w6ftl")
