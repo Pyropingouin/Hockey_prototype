@@ -153,14 +153,14 @@ func _update_pawn_texture() -> void:
 		)
 		return
 
-	if fullBodyTexture != null:
-		sprite.texture = fullBodyTexture
-	elif bubbleHeadTexture != null:
-		sprite.texture = bubbleHeadTexture
-	else:
-		push_warning(
-			"Aucune texture trouvée pour le pawn : %s" % pawn_name
-		)
+	# if fullBodyTexture != null:
+	sprite.texture = fullBodyTexture
+	# elif bubbleHeadTexture != null:
+	sprite.texture = bubbleHeadTexture
+	# else:
+	# 	push_warning(
+	# 		"Aucune texture trouvée pour le pawn : %s" % pawn_name
+	# 	)
 	
 	
 func pick_up_puck(pawn) -> void:
@@ -169,9 +169,9 @@ func pick_up_puck(pawn) -> void:
 	
 	hasPuck = true
 	DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					name % " a ramassé la puck"
-					)	
+		DebugLogger.DebugType.PAWN,
+		"%s a ramassé la puck" % name
+	)	
 	
 	if hasPuck == true:
 		_update_ring_color()
@@ -180,9 +180,9 @@ func _on_current_cell_changed():
 	if hasPuck:
 		
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					"hold_puck_is_moving %s" % _current_cell
-					)		
+			DebugLogger.DebugType.PAWN,
+			"hold_puck_is_moving %s" % _current_cell
+		)		
 	
 	
 func _update_ring_color() -> void:
@@ -199,9 +199,9 @@ func _shoot(shootPosition) -> void:
 	if hasPuck:
 		hasPuck = false
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					"_shoot player!"
-					)		
+			DebugLogger.DebugType.PAWN,
+			"_shoot player!"
+		)		
 		
 
 
@@ -210,60 +210,60 @@ func _shoot(shootPosition) -> void:
 		
 	else: 
 		DebugLogger.log(
-						DebugLogger.DebugType.PAWN,
-						"I dont have the puck" 
-						)			
+			DebugLogger.DebugType.PAWN,
+			"I dont have the puck"
+		)			
 		
 
 func _pass(passPosition) -> void:
 	if hasPuck:
 		hasPuck = false
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					"_pass player! "
-					)		
+			DebugLogger.DebugType.PAWN,
+			"_pass player! "
+		)		
 		
 		emit_signal("passing_puck", passPosition)
 		
 	else: 
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					"I dont have the puck"
-					)		
+			DebugLogger.DebugType.PAWN,
+			"I dont have the puck"
+		)		
 		
 		
 		
 func _hit(hit_cell) -> void:
-	if  not hasPuck:
+	if not hasPuck:
 		
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-				name %  " tente un hit sur %s" % hit_cell
-					)		
+			DebugLogger.DebugType.PAWN,
+			"%s tente un hit sur %s" % [name, hit_cell]
+		)		
 		emit_signal("hitting_player", hit_cell, current_cell, self)
 		
 	else: 
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					"I have the puck, I can't hit" 
-					)		
+			DebugLogger.DebugType.PAWN,
+			"I have the puck, I can't hit"
+		)		
 		
 		
 func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 
 	DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					name % " a été FRAPPÉ ✅  par %s" % aggressorPawn.name
-					)	
+		DebugLogger.DebugType.PAWN,
+		"%s a été FRAPPÉ ✅ par %s" % [name, aggressorPawn.name]
+	)	
 	DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					" Force de l'agresseur %s" % aggressorPawn.strength
-					)			
+		DebugLogger.DebugType.PAWN,
+		" Force de l'agresseur %s" % aggressorPawn.strength
+	)			
 
 	
 	
 	var push_direction: Vector2i = current_cell - origin_cell
-	var new_position_after_hit : Vector2i  = current_cell + push_direction
+	var new_position_after_hit: Vector2i = current_cell + push_direction
 
 	DebugLogger.log(
 		DebugLogger.DebugType.PAWN,
@@ -291,9 +291,9 @@ func _being_hit(aggressorPawn: Node2D, origin_cell) -> void:
 		#TODO Trouver si stun ou déplacer ailleurs
 
 		DebugLogger.log(
-					DebugLogger.DebugType.PAWN,
-					"stun!" 
-					)		
+			DebugLogger.DebugType.PAWN,
+			"stun!"
+		)		
 	
 		
 		## TODO POTENTIEL BUG
@@ -376,4 +376,3 @@ func _auto_connect_to_puck() -> void:
 	# dropping_puck -> puck
 	if has_signal("dropping_puck") and puck.has_method("_on_pawn_dropping_puck"):
 		connect("dropping_puck", Callable(puck, "_on_pawn_dropping_puck"))	
-	

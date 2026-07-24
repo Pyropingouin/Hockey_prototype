@@ -1,8 +1,73 @@
-[gd_scene load_steps=5 format=3 uid="uid://3k4vl80vnul2"]
+[gd_scene load_steps=15 format=3 uid="uid://3k4vl80vnul2"]
 
 [ext_resource type="Script" uid="uid://ijwoicjnn5y0" path="res://script/pawn.gd" id="1_b0spm"]
+[ext_resource type="Texture2D" uid="uid://bcrg2igq5wk3x" path="res://assets/FullBody/DougDog_PatinAway_animation.png" id="2_08rbq"]
 [ext_resource type="Texture2D" uid="uid://hhk6khdgx1eq" path="res://assets/FullBody/DougDogAway.png" id="2_w6ftl"]
 [ext_resource type="Texture2D" uid="uid://ru2kqb6wj3fb" path="res://assets/ring.png" id="3_08rbq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1g4w"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(0, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4xl0"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(360, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hyw4"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(720, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxeud"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(1080, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcocu"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(1440, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7720"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(1800, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvc5m"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(2160, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e08ys"]
+atlas = ExtResource("2_08rbq")
+region = Rect2(2520, 0, 360, 360)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a2dqe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1g4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4xl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hyw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxeud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcocu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7720")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvc5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e08ys")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 8.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w6ftl"]
 radius = 62.1289
@@ -10,7 +75,17 @@ radius = 62.1289
 [node name="Pawn" type="CharacterBody2D"]
 script = ExtResource("1_b0spm")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1.7881393e-07, -54)
+scale = Vector2(0.47638887, 0.49583334)
+sprite_frames = SubResource("SpriteFrames_a2dqe")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.23355937
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 position = Vector2(9, -53)
 scale = Vector2(0.5, 0.5)
@@ -32,5 +107,5 @@ texture = ExtResource("3_08rbq")
 [node name="HoverArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea"]
-position = Vector2(7, -33)
+position = Vector2(0, -32)
 shape = SubResource("CircleShape2D_w6ftl")
