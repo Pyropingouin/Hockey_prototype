@@ -11,8 +11,8 @@ extends CharacterBody2D
 @export var team_id: int = 0
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 #DEBUG FOR TEAMS
-@onready var puck_ring: Sprite2D = $PuckRing
-@onready var active_team_ring: Sprite2D = $TeamRing
+# @onready var puck_ring: Sprite2D = $PuckRing
+# @onready var active_team_ring: Sprite2D = $TeamRing
 @onready var hover_area: Area2D = $HoverArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -28,13 +28,14 @@ var _hasPuck: bool = false
 		if _hasPuck == value:
 			return
 		_hasPuck = value
-		_update_ring_color()
+		_update_puck_control_color()
 
 
 
 var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
+var puck_color_tween: Tween
 
 
 
@@ -85,17 +86,20 @@ func _ready() -> void:
 	_update_pawn_texture()
 
 func _process(delta: float) -> void:
-	if _is_selected_pawn:
-		hue += delta * 0.5
-		if hue > 1.0:
-			hue -= 1.0
-		
-		active_team_ring.modulate = Color.from_hsv(hue, 1.0, 1.0, 1.0)
-	else:
-		if GameManager.active_team == team_id:
-			active_team_ring.modulate = Color.BLUE
-		else:
-			active_team_ring.modulate = Color.RED		
+	pass
+	## REMETTRE SI ON VEUT DE LA COULEUR SUR SELECTED PAWN
+	# if _is_selected_pawn:
+	# 	hue += delta * 0.5
+
+	# 	if hue > 1.0:
+	# 		hue -= 1.0
+
+	# 	animated_sprite.modulate = Color.from_hsv(
+	# 		hue,
+	# 		1.0,
+	# 		1.0,
+	# 		1.0
+	# 	)	
 
 func get_current_cell() -> Vector2i:
 	return current_cell
@@ -207,7 +211,7 @@ func pick_up_puck(pawn) -> void:
 	)	
 	
 	if hasPuck == true:
-		_update_ring_color()
+		_update_puck_control_color()
 		
 func _on_current_cell_changed():
 	if hasPuck:
@@ -218,14 +222,39 @@ func _on_current_cell_changed():
 		)		
 	
 	
-func _update_ring_color() -> void:
-	if puck_ring == null:
-		return
+func _update_puck_control_color() -> void:
+	if puck_color_tween:
+		puck_color_tween.kill()
 
 	if hasPuck:
-		puck_ring.modulate = Color.YELLOW
+		puck_color_tween = create_tween()
+		puck_color_tween.set_loops()
+		puck_color_tween.set_trans(Tween.TRANS_SINE)
+		puck_color_tween.set_ease(Tween.EASE_IN_OUT)
+
+		puck_color_tween.tween_property(
+			animated_sprite,
+			"modulate",
+			Color.RED,
+			0.8
+		)
+
+		puck_color_tween.tween_property(
+			animated_sprite,
+			"modulate",
+			_get_base_color(),
+			0.4
+		)
+
 	else:
-		puck_ring.modulate = Color.BLACK
+		animated_sprite.modulate = _get_base_color()
+
+
+func _get_base_color() -> Color:
+	if GameManager.active_team == team_id:
+		return Color.WHITE
+
+	return Color(0.65, 0.65, 0.65, 1.0)		
 
 		
 func _shoot(shootPosition) -> void:
@@ -343,28 +372,23 @@ func _on_other_pawn_hit_attempt(hit_cell: Vector2i, origin_cell: Vector2i, aggre
 
 	_being_hit(aggressorPawn, origin_cell)
 
-func _on_active_team_changed(active_team_id: int) -> void:
-	if active_team_id == team_id:
-		active_team_ring.modulate = Color.BLUE
-	else: 	
-		active_team_ring.modulate = Color.RED
+func _on_active_team_changed(_active_team_id: int) -> void:
+	if _is_selected_pawn:
+		return
+
+	if hasPuck:
+		_update_puck_control_color()
+	else:
+		animated_sprite.modulate = _get_base_color()
 		
 func _on_pawn_selected(selected_pawn: Variant) -> void:
-	if(selected_pawn == self):
-		_is_selected_pawn = true
-	else: 	
-		_is_selected_pawn = false
-	
-	
-	#Change color et pas remplacer le team ring !
-	if _is_selected_pawn:
-		active_team_ring.modulate = Color.YELLOW
-	else:
-		if GameManager.active_team == team_id:
-			active_team_ring.modulate = Color.BLUE
-		else: 	
-			active_team_ring.modulate = Color.RED
-			
+	_is_selected_pawn = selected_pawn == self
+
+	if not _is_selected_pawn:
+		if hasPuck:
+			_update_puck_control_color()
+		else:
+			animated_sprite.modulate = _get_base_color()
 					
 
 func _on_hover_area_mouse_entered() -> void:

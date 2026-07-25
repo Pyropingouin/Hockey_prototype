@@ -14,10 +14,13 @@ var opposing_team_goalie: Dictionary = {}
 func _ready() -> void:
 	var players := load_players()
 
-	print("Nombre de joueurs : ", players.size())
 
 	if not players.is_empty():
-		print(players[0])
+		DebugLogger.log(
+					DebugLogger.DebugType.SETUP,
+					"SETUP: %s" % players[0]
+					)	
+	
 
 
 	set_random_quickplay_teams()
