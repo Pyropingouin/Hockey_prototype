@@ -176,14 +176,24 @@ func _update_pawn_texture() -> void:
 		)
 		return
 
-	animated_sprite.play(animations[0])
+	var animation_name: StringName = animations[0]
+
+	animated_sprite.play(animation_name)
+
+	var frame_count: int = fullBodyAnimation.get_frame_count(
+		animation_name
+	)
+
+	if frame_count > 0:
+		animated_sprite.frame = randi_range(
+			0,
+			frame_count - 1
+		)
 
 	if sprite != null:
 		sprite.visible = false
 
 	animated_sprite.visible = true
-
-	return
 	
 	
 func pick_up_puck(pawn) -> void:
