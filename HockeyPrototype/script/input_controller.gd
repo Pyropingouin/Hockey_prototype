@@ -56,8 +56,13 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 		_handle_action_click(global_pos)
 		return
 
-	var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
-	drag_candidate = IceMapLayer.pawn_at_cell(cell)
+	# Priorité au Pawn directement sous la souris
+	if GameManager.hovered_pawn != null:
+		drag_candidate = GameManager.hovered_pawn
+	else:
+		# Sinon on utilise la case comme avant
+		var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
+		drag_candidate = IceMapLayer.pawn_at_cell(cell)
 
 	if drag_candidate == null:
 		GameManager.selected_pawn = null
