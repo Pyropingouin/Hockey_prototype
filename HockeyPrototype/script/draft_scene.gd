@@ -2,7 +2,6 @@ extends Node2D
 
 
 const DRAFT_CARD_SCENE := preload("res://scene/player_card_template.tscn")
-const PLAYERS_DB_PATH := "res://data/players.json"
 const DRAFT_CHOICES_COUNT := 3
 const DRAFT_CARDS_NUMBER_LIMIT:= 2
 
@@ -19,7 +18,7 @@ var opposing_team_selected_players: Array = []
 
 func _ready() -> void:
 
-	player_pool = load_players()
+	player_pool = GameData.load_players()
 	player_pool.shuffle()
 	show_new_draft_choices()
 	
@@ -59,38 +58,6 @@ func show_new_draft_choices() -> void:
 func clear_current_cards() -> void:
 	for child in card_container.get_children():
 		child.queue_free()
-
-
-
-func load_players() -> Array:
-	var file := FileAccess.open(PLAYERS_DB_PATH, FileAccess.READ)
-
-	if file == null:
-		push_error("Impossible d'ouvrir la DB de joueurs : " + PLAYERS_DB_PATH)
-		return []
-
-	var content := file.get_as_text()
-	var json := JSON.new()
-	var error := json.parse(content)
-
-	if error != OK:
-		push_error("Erreur JSON : " + json.get_error_message())
-		return []
-
-	var data = json.data
-
-	for player in data:
-		if player.has("image_path"):
-			player["image"] = load(player["image_path"])
-
-		if player.has("bubblehead_path"):
-			player["bubblehead"] = load(player["bubblehead_path"])
-
-		if player.has("fullBodyAnimation_path"):
-			player["fullBodyAnimation"] = load(player["fullBodyAnimation_path"])			
-
-	return data
-	
 
 
 

@@ -79,14 +79,21 @@ func prepare_player(player_data: Dictionary) -> Dictionary:
 		""
 	)
 
+	var animation_path: String = player.get(
+		"fullBodyAnimation_path",
+		""
+	)
+
 	if not image_path.is_empty():
 		player["image"] = load(image_path)
 
 	if not bubblehead_path.is_empty():
 		player["bubblehead"] = load(bubblehead_path)
 
-	return player	
+	if not animation_path.is_empty():
+		player["fullBodyAnimation"] = load(animation_path)
 
+	return player
 
 
 
