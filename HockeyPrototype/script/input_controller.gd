@@ -64,6 +64,12 @@ func _on_left_mouse_down(global_pos: Vector2) -> void:
 		var cell: Vector2i = IceMapLayer.cell_from_global_pos(global_pos)
 		drag_candidate = IceMapLayer.pawn_at_cell(cell)
 
+	if drag_candidate is Goalie:
+		drag_candidate = null
+		GameManager.selected_pawn = null
+		GameManager._refresh_action_buttons()
+		return	
+
 	if drag_candidate == null:
 		GameManager.selected_pawn = null
 		GameManager._refresh_action_buttons()
