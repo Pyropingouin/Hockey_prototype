@@ -91,7 +91,18 @@ func prepare_player(player_data: Dictionary) -> Dictionary:
 		player["bubblehead"] = load(bubblehead_path)
 
 	if not animation_path.is_empty():
-		player["fullBodyAnimation"] = load(animation_path)
+		var animation_resource = load(animation_path)
+
+		if animation_resource is SpriteFrames:
+			player["fullBodyAnimation"] = animation_resource
+		else:
+			push_error(
+				"L'animation de %s n'est pas un SpriteFrames : %s"
+				% [
+					player.get("pawn_name", "Unknown"),
+					animation_path
+				]
+			)
 
 	return player
 

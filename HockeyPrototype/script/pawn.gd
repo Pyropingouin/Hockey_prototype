@@ -35,7 +35,6 @@ var _hasPuck: bool = false
 var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
-var default_animation: StringName = &""
 
 
 
@@ -120,23 +119,9 @@ func setup(
 
 	fullBodyTexture = player_data.get("image", null)
 	bubbleHeadTexture = player_data.get("bubblehead", null)
+	fullBodyAnimation = player_data.get("fullBodyAnimation", null)
 
-	var animation_data = player_data.get("fullBodyAnimation", null)
-
-	if animation_data is SpriteFrames:
-		# Quick Play : déjà chargé avec load()
-		fullBodyAnimation = animation_data
-
-	elif animation_data is String:
-		# Draft : le JSON fournit le chemin
-		fullBodyAnimation = load(animation_data) as SpriteFrames
-
-		default_animation = StringName(
-			str(player_data.get("default_animation", ""))
-		)
-
-
-
+	
 	team_id = pawn_team_id
 	start_cell = pawn_start_cell
 
