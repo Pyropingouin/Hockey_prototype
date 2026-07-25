@@ -84,7 +84,10 @@ func load_players() -> Array:
 			player["image"] = load(player["image_path"])
 
 		if player.has("bubblehead_path"):
-			player["bubblehead"] = load(player["bubblehead_path"])	
+			player["bubblehead"] = load(player["bubblehead_path"])
+
+		if player.has("fullBodyAnimation_path"):
+			player["fullBodyAnimation"] = load(player["fullBodyAnimation_path"])			
 
 	return data
 	

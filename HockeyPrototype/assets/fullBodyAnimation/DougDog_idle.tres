@@ -1,0 +1,68 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://bsjsavou7j4ln"]
+
+[ext_resource type="Texture2D" uid="uid://bcrg2igq5wk3x" path="res://assets/FullBody/DougDog_PatinAway_animation.png" id="1_5l1gp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1g4w"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(0, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4xl0"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(360, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hyw4"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(720, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxeud"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(1080, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcocu"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(1440, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7720"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(1800, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvc5m"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(2160, 0, 360, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e08ys"]
+atlas = ExtResource("1_5l1gp")
+region = Rect2(2520, 0, 360, 360)
+
+[resource]
+resource_name = "idle"
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1g4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4xl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hyw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxeud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcocu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7720")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvc5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e08ys")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]

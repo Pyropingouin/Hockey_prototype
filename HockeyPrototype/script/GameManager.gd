@@ -616,12 +616,16 @@ func spawn_teams_from_draft() -> void:
 		var player_data: Dictionary = GameData.player_team_selected_players[i]
 		var pawn = PAWN_SCENE.instantiate()
 
+		var start_cell: Vector2i = home_start_cells[i]
+
+		# Donne d'abord les données au Pawn.
+		pawn.setup(player_data, 1, start_cell)
+
+		# Ensuite, le Pawn entre dans l'arbre et exécute _ready().
 		players_container.add_child(pawn)
 
 		pawn.hovering_pawn.connect(_on_pawn_hovered)
 
-		var start_cell: Vector2i = home_start_cells[i]
-		pawn.setup(player_data, 1, start_cell)
 		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
 
 	for i in range(GameData.opposing_team_selected_players.size()):
@@ -630,12 +634,14 @@ func spawn_teams_from_draft() -> void:
 		var player_data: Dictionary = GameData.opposing_team_selected_players[i]
 		var pawn = PAWN_SCENE.instantiate()
 
+		var start_cell: Vector2i = away_start_cells[i]
+
+		pawn.setup(player_data, 2, start_cell)
+
 		players_container.add_child(pawn)
 
 		pawn.hovering_pawn.connect(_on_pawn_hovered)
 
-		var start_cell: Vector2i = away_start_cells[i]
-		pawn.setup(player_data, 2, start_cell)
 		IceMapLayer.place_pawn_on_cell(pawn, start_cell)
 
 
@@ -744,7 +750,7 @@ func _update_current_team_card_display() -> void:
 	current_team_card_display.visible = true
 
 	current_team_card_display.pawn_name_label.text = selected_pawn.pawn_name
-	current_team_card_display.pawn_image.texture = selected_pawn.fullBodyTexture
+	current_team_card_display.pawn_image.texture = selected_pawn.bubbleHeadTexture
 
 	current_team_card_display.pawn_move_range_label.text = \
 		"Speed: " + str(selected_pawn.move_range)
@@ -764,7 +770,7 @@ func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
 	opposing_team_card_display.visible = true
 
 	opposing_team_card_display.pawn_name_label.text = hovered_pawn.pawn_name
-	opposing_team_card_display.pawn_image.texture = hovered_pawn.fullBodyTexture
+	opposing_team_card_display.pawn_image.texture = hovered_pawn.bubbleHeadTexture
 
 	opposing_team_card_display.pawn_move_range_label.text = \
 		"Speed: " + str(hovered_pawn.move_range)

@@ -7,7 +7,6 @@ var player_team_goalie: Dictionary = {}
 var opposing_team_goalie: Dictionary = {}
 
 
-# Create default team if no draft is selected
 func _ready() -> void:
 	set_default_teams()
 	set_default_opposing_team()
@@ -22,6 +21,7 @@ func set_default_teams() -> void:
 			"Glorp Thorpe",
 			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/GlorpThorpe_BubbleHead.png",
+			"res://assets/fullBodyAnimation/DougDog_idle.tres",
 			3,
 			3,
 			6,
@@ -32,6 +32,7 @@ func set_default_teams() -> void:
 			"Zoran Dew-Fingers",
 			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",
+			"res://assets/fullBodyAnimation/DougDog_idle.tres",
 			3,
 			3,
 			6,
@@ -42,13 +43,15 @@ func set_default_teams() -> void:
 			"Josh Soup",
 			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/JoshSoup_BubbleHead.png",
+			"res://assets/fullBodyAnimation/DougDog_idle.tres",
 			3,
 			3,
 			6,
 			4
 		)
 	]
-	
+
+
 func set_default_opposing_team() -> void:
 	opposing_team_selected_players = [
 		create_player(
@@ -56,6 +59,7 @@ func set_default_opposing_team() -> void:
 			"Wale Deise",
 			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/WaleDeise_BubbleHead.png",
+			"res://assets/fullBodyAnimation/DougDog_idle.tres",
 			3,
 			3,
 			6,
@@ -66,6 +70,7 @@ func set_default_opposing_team() -> void:
 			"Orian Maduro",
 			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
+			"res://assets/fullBodyAnimation/DougDog_idle.tres",
 			3,
 			3,
 			6,
@@ -76,12 +81,14 @@ func set_default_opposing_team() -> void:
 			"Henry Ducker",
 			"res://assets/FullBody/DougDogAway.png",
 			"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+			"res://assets/fullBodyAnimation/DougDog_idle.tres",
 			3,
 			3,
 			6,
 			4
 		)
 	]
+
 
 func set_default_player_goalie() -> void:
 	player_team_goalie = create_goalie(
@@ -102,11 +109,13 @@ func set_default_opposing_goalie() -> void:
 		8
 	)
 
+
 func create_player(
 	id: int,
 	pawn_name: String,
 	image_path: String,
 	bubblehead_path: String,
+	fullBodyAnimation_path: String,
 	move_range: int,
 	strength: int,
 	reflex: int,
@@ -117,14 +126,18 @@ func create_player(
 		"pawn_name": pawn_name,
 		"image_path": image_path,
 		"bubblehead_path": bubblehead_path,
+		"fullBodyAnimation_path": fullBodyAnimation_path,
+
 		"stats": {
 			"move_range": move_range,
 			"strength": strength,
 			"reflex": reflex,
 			"health": health
 		},
+
 		"image": load(image_path),
-		"bubblehead": load(bubblehead_path)
+		"bubblehead": load(bubblehead_path),
+		"fullBodyAnimation": load(fullBodyAnimation_path)
 	}
 
 

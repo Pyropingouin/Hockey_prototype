@@ -18,15 +18,19 @@ extends Control
 @onready var pawn_health_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/HitArea/HitLabel
 
 
-func setup(player: Dictionary) -> void:
+# func setup(player: Dictionary) -> void:
+# 	print("setup Card")
 
-	card_id = player["id"]
-	pawn_name_label.text = player["pawn_name"]
+# 	card_id = player["id"]
+# 	pawn_name_label.text = player["pawn_name"]
 
 
-	var stats: Dictionary = player["stats"]
-	pawn_image.texture = player["bubblehead"]
-	pawn_move_range_label.text = "Speed %s" % stats["move_range"]
-	pawn_strength_label.text = "Strength %s" % stats["strength"]
-	pawn_reflex_label.text = "Reflex %s" % stats["reflex"]
-	pawn_health_label.text = "Health %s" % stats["health"]
+# 	var stats: Dictionary = player["stats"]
+# 	pawn_image.texture = player["bubblehead"]
+# 	pawn_move_range_label.text = "Speed %s" % stats["move_range"]
+# 	pawn_strength_label.text = "Strength %s" % stats["strength"]
+# 	pawn_reflex_label.text = "Reflex %s" % stats["reflex"]
+# 	pawn_health_label.text = "Health %s" % stats["health"]
+
+
+# 	print("CARD DISPLAY", pawn_image.texture)
