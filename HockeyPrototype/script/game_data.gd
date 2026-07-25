@@ -1,5 +1,7 @@
 extends Node
 
+const PLAYER_JSON_PATH := "res://data/players.json"
+
 var player_team_selected_players: Array = []
 var opposing_team_selected_players: Array = []
 
@@ -7,87 +9,110 @@ var player_team_goalie: Dictionary = {}
 var opposing_team_goalie: Dictionary = {}
 
 
+
+
 func _ready() -> void:
-	set_default_teams()
-	set_default_opposing_team()
+	var players := load_players()
+
+	print("Nombre de joueurs : ", players.size())
+
+	if not players.is_empty():
+		print(players[0])
+
+
+	set_random_quickplay_teams()
 	set_default_player_goalie()
-	set_default_opposing_goalie()
+	set_default_opposing_goalie()		
 
 
-func set_default_teams() -> void:
+
+func load_players() -> Array:
+	if not FileAccess.file_exists(PLAYER_JSON_PATH):
+		push_error(
+			"Player.json introuvable : %s"
+			% PLAYER_JSON_PATH
+		)
+		return []
+
+	var file := FileAccess.open(
+		PLAYER_JSON_PATH,
+		FileAccess.READ
+	)
+
+	if file == null:
+		push_error("Impossible d'ouvrir Player.json")
+		return []
+
+	var json_text := file.get_as_text()
+	var players = JSON.parse_string(json_text)
+
+	if players == null:
+		push_error("Erreur lors de la lecture de Player.json")
+		return []
+
+	if not players is Array:
+		push_error("Player.json doit contenir un Array")
+		return []
+
+	var prepared_players: Array = []
+
+	for player_data in players:
+		if player_data is Dictionary:
+			prepared_players.append(
+				prepare_player(player_data)
+			)
+
+	return prepared_players	
+
+
+
+func prepare_player(player_data: Dictionary) -> Dictionary:
+	var player := player_data.duplicate(true)
+
+	var image_path: String = player.get(
+		"image_path",
+		""
+	)
+
+	var bubblehead_path: String = player.get(
+		"bubblehead_path",
+		""
+	)
+
+	if not image_path.is_empty():
+		player["image"] = load(image_path)
+
+	if not bubblehead_path.is_empty():
+		player["bubblehead"] = load(bubblehead_path)
+
+	return player	
+
+
+
+
+func set_random_quickplay_teams() -> void:
+	var players: Array = load_players()
+
+	if players.size() < 6:
+		push_error(
+			"Il faut au moins 6 joueurs pour le Quick Play"
+		)
+		return
+
+	players.shuffle()
+
 	player_team_selected_players = [
-		create_player(
-			8,
-			"Glorp Thorpe",
-			"res://assets/FullBody/DougDogAway.png",
-			"res://assets/Bubble_head/GlorpThorpe_BubbleHead.png",
-			"res://assets/fullBodyAnimation/DougDog_idle.tres",
-			3,
-			3,
-			6,
-			4
-		),
-		create_player(
-			30,
-			"Zoran Dew-Fingers",
-			"res://assets/FullBody/DougDogAway.png",
-			"res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",
-			"res://assets/fullBodyAnimation/DougDog_idle.tres",
-			3,
-			3,
-			6,
-			4
-		),
-		create_player(
-			15,
-			"Josh Soup",
-			"res://assets/FullBody/DougDogAway.png",
-			"res://assets/Bubble_head/JoshSoup_BubbleHead.png",
-			"res://assets/fullBodyAnimation/DougDog_idle.tres",
-			3,
-			3,
-			6,
-			4
-		)
+		players[0],
+		players[1],
+		players[2]
 	]
 
-
-func set_default_opposing_team() -> void:
 	opposing_team_selected_players = [
-		create_player(
-			29,
-			"Wale Deise",
-			"res://assets/FullBody/DougDogAway.png",
-			"res://assets/Bubble_head/WaleDeise_BubbleHead.png",
-			"res://assets/fullBodyAnimation/DougDog_idle.tres",
-			3,
-			3,
-			6,
-			4
-		),
-		create_player(
-			23,
-			"Orian Maduro",
-			"res://assets/FullBody/DougDogAway.png",
-			"res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
-			"res://assets/fullBodyAnimation/DougDog_idle.tres",
-			3,
-			3,
-			6,
-			4
-		),
-		create_player(
-			11,
-			"Henry Ducker",
-			"res://assets/FullBody/DougDogAway.png",
-			"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
-			"res://assets/fullBodyAnimation/DougDog_idle.tres",
-			3,
-			3,
-			6,
-			4
-		)
-	]
+		players[3],
+		players[4],
+		players[5]
+	]	
+
 
 
 func set_default_player_goalie() -> void:
@@ -109,36 +134,6 @@ func set_default_opposing_goalie() -> void:
 		8
 	)
 
-
-func create_player(
-	id: int,
-	pawn_name: String,
-	image_path: String,
-	bubblehead_path: String,
-	fullBodyAnimation_path: String,
-	move_range: int,
-	strength: int,
-	reflex: int,
-	health: int
-) -> Dictionary:
-	return {
-		"id": id,
-		"pawn_name": pawn_name,
-		"image_path": image_path,
-		"bubblehead_path": bubblehead_path,
-		"fullBodyAnimation_path": fullBodyAnimation_path,
-
-		"stats": {
-			"move_range": move_range,
-			"strength": strength,
-			"reflex": reflex,
-			"health": health
-		},
-
-		"image": load(image_path),
-		"bubblehead": load(bubblehead_path),
-		"fullBodyAnimation": load(fullBodyAnimation_path)
-	}
 
 
 func create_goalie(
