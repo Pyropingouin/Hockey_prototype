@@ -361,7 +361,7 @@ func _do_shoot(target_cell: Vector2i) -> void:
 		_cancel_action_mode()
 		return
 
-	if not IceMapLayer.is_shot_path_clear(
+	if not IceMapLayer.is_path_clear(
 		action_origin_cell,
 		target_cell
 	):
@@ -437,6 +437,17 @@ func _do_pass(target_cell: Vector2i) -> void:
 		)
 		_cancel_action_mode()
 		return
+
+	if not IceMapLayer.is_path_clear(
+		action_origin_cell,
+		target_cell
+	):
+		DebugLogger.log(
+			DebugLogger.DebugType.GAME_MANAGER,
+			"Passe refusé : un joueur bloque la trajectoire."
+		)
+		return
+	
 
 	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 

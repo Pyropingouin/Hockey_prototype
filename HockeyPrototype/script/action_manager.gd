@@ -121,7 +121,7 @@ func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
 		return false		
 
 
-	if not IceMapLayer.is_shot_path_clear(action_origin_cell, target_cell):
+	if not IceMapLayer.is_path_clear(action_origin_cell, target_cell):
 
 		DebugLogger.log(
 					DebugLogger.DebugType.ACTION_MANAGER,
@@ -176,7 +176,7 @@ func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D, ai_player_arra
 		return false
 
 	
-	if not IceMapLayer.is_shot_path_clear(chosen_ai_pawn.current_cell, pass_target.current_cell):
+	if not IceMapLayer.is_path_clear(chosen_ai_pawn.current_cell, pass_target.current_cell):
 		return false	
 	
 	if not ai_player_array.has(pass_target):

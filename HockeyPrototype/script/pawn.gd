@@ -11,8 +11,6 @@ extends CharacterBody2D
 @export var team_id: int = 0
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 #DEBUG FOR TEAMS
-# @onready var puck_ring: Sprite2D = $PuckRing
-# @onready var active_team_ring: Sprite2D = $TeamRing
 @onready var hover_area: Area2D = $HoverArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 

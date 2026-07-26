@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://3k4vl80vnul2"]
+[gd_scene load_steps=4 format=3 uid="uid://3k4vl80vnul2"]
 
 [ext_resource type="Script" uid="uid://ijwoicjnn5y0" path="res://script/pawn.gd" id="1_b0spm"]
 [ext_resource type="Texture2D" uid="uid://hhk6khdgx1eq" path="res://assets/FullBody/DougDogAway.png" id="2_w6ftl"]
-[ext_resource type="Texture2D" uid="uid://ru2kqb6wj3fb" path="res://assets/ring.png" id="3_08rbq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w6ftl"]
 radius = 26.0
@@ -24,19 +23,6 @@ texture_filter = 1
 position = Vector2(9, -53)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_w6ftl")
-
-[node name="PuckRing" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(0, 0, 0, 1)
-position = Vector2(4.999995, -30.750004)
-scale = Vector2(0.19726561, 0.15869139)
-texture = ExtResource("3_08rbq")
-
-[node name="TeamRing" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(7, -33)
-scale = Vector2(0.2529297, -0.22753909)
-texture = ExtResource("3_08rbq")
 
 [node name="HoverArea" type="Area2D" parent="."]
 

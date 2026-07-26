@@ -375,7 +375,7 @@ func _compute_shoot_targets(
 		if distance > max_range:
 			continue
 
-		if not is_shot_path_clear(origin, cell):
+		if not is_path_clear(origin, cell):
 			continue
 
 		var character_on_target: Node2D = get_pawn_on_cell(cell)
@@ -410,11 +410,14 @@ func highlight_pass_targets(
 		received_pawn
 	)
 
+	
+
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
 		var is_target := targets.has(cell)
 
+		
 		set_cell(
 			cell,
 			src_id,
@@ -452,6 +455,12 @@ func _compute_pass_targets(
 			continue
 
 		if distance > max_range:
+			continue
+
+		if not is_path_clear(
+			origin,
+			pawn.current_cell
+		):
 			continue
 
 		targets.append(pawn.current_cell)
@@ -682,21 +691,24 @@ func get_cells_on_line(
 	return cells
 
 
-func is_shot_path_clear(
+func is_path_clear(
 	origin: Vector2i,
 	target: Vector2i
 ) -> bool:
 	var cells_on_line := get_cells_on_line(origin, target)
 
 	for cell in cells_on_line:
-		# Le tireur ne bloque pas son propre tir.
 		if cell == origin:
 			continue
 
-		# La cible finale est gérée séparément par le GameManager.
 		if cell == target:
 			continue
 
+		# Les obstacles bloquent la trajectoire
+		if map_data.has(cell) and map_data[cell].blocked:
+			return false
+
+		# Les personnages bloquent aussi la trajectoire
 		if get_pawn_on_cell(cell) != null:
 			return false
 
