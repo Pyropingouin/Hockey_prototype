@@ -40,6 +40,8 @@ signal puck_is_picked_up(pawn)
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var GameManager = $"../GameManager"
+@onready var shot_preview: Line2D = $ShotPreview
+@onready var arrow_head: Polygon2D = $ShotPreview/ArrowHead
 
 
 func _ready() -> void:
@@ -328,9 +330,10 @@ func _check_for_puck_on_ice(cell_to_check: Vector2i, pawn: Node2D):
 
 func highlight_shoot_targets(
 	origin: Vector2i,
-	received_pawn: Node2D
+	received_pawn: Node2D,
+	range: int
 ) -> void:
-	var shoot_range: int = received_pawn.move_range * 2
+	var shoot_range: int = range
 
 	var targets := _compute_shoot_targets(
 		origin,
@@ -400,9 +403,10 @@ func _compute_shoot_targets(
 
 func highlight_pass_targets(
 	origin: Vector2i,
-	received_pawn: Node2D
+	received_pawn: Node2D,
+	range
 ) -> void:
-	var pass_range: int = received_pawn.move_range * 2
+	var pass_range: int = range
 
 	var targets := _compute_pass_targets(
 		origin,
@@ -520,15 +524,85 @@ func get_usable_surrounding_cells(origin: Vector2i) -> Array[Vector2i]:
 
 	return usable_cells
 
+func show_shot_preview(
+	origin_cell: Vector2i,
+	target_cell: Vector2i,
+	max_range: int,
+	shooting_pawn: Node2D
+) -> void:
+	var valid_targets := _compute_shoot_targets(
+		origin_cell,
+		max_range,
+		shooting_pawn
+	)
 
-func show_shot_preview(origin_cell, target_cell, max_range):
-	pass
+	if not valid_targets.has(target_cell):
+		clear_shot_preview()
+		return
 
-func clear_shot_preview():
-	pass
+	_draw_trajectory_preview(
+		origin_cell,
+		target_cell
+	)
+
+func clear_shot_preview() -> void:
+	shot_preview.clear_points()
+	shot_preview.visible = false
+	arrow_head.visible = false
+
+
+func show_pass_preview(
+	origin_cell: Vector2i,
+	target_cell: Vector2i,
+	max_range: int,
+	passing_pawn: Node2D
+) -> void:
+	var valid_targets := _compute_pass_targets(
+		origin_cell,
+		max_range,
+		passing_pawn
+	)
+
+	if not valid_targets.has(target_cell):
+		clear_shot_preview()
+		return
+
+	_draw_trajectory_preview(
+		origin_cell,
+		target_cell
+	)	
 
 func _compute_shot_path(origin_cell, target_cell, max_range):
 	pass
+
+
+func _draw_trajectory_preview(
+	origin_cell: Vector2i,
+	target_cell: Vector2i
+) -> void:
+	var origin_pos: Vector2 = map_to_local(origin_cell)
+	var target_pos: Vector2 = map_to_local(target_cell)
+
+	var direction: Vector2 = (
+		target_pos - origin_pos
+	).normalized()
+
+	var arrow_length := 18.0
+
+	var line_end: Vector2 = (
+		target_pos
+		- direction * arrow_length
+	)
+
+	shot_preview.clear_points()
+	shot_preview.add_point(origin_pos)
+	shot_preview.add_point(line_end)
+
+	arrow_head.position = target_pos
+	arrow_head.rotation = direction.angle()
+
+	shot_preview.visible = true
+	arrow_head.visible = true	
 
 
 ### Algo Breadth-First Search (BFS)

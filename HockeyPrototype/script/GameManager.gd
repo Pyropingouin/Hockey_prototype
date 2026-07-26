@@ -219,12 +219,12 @@ func ai_turn() -> void:
 
 
 func _cancel_action_mode() -> void:
-	# Soit disable le bouton si on est pas dans un action
-	# soit permettre de ne plus selectionner le joueurs
-
 	action_mode = ActionMode.NONE
 	action_pawn = null
+
 	IceMapLayer.clear_highlight()
+	IceMapLayer.clear_shot_preview()
+
 	_refresh_action_buttons()
 
 func _refresh_action_buttons() -> void:
@@ -279,6 +279,7 @@ func _start_action_shoot() -> void:
 		)
 		return
 
+	IceMapLayer.clear_shot_preview()
 	action_mode = ActionMode.SHOOT
 	action_pawn = selected_pawn
 	action_origin_cell = selected_pawn.current_cell
@@ -292,7 +293,7 @@ func _start_action_shoot() -> void:
 			action_pawn
 		]
 	)
-	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn)
+	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn, SHOOT_RANGE_TEMPO)
 
 func _start_action_pass() -> void:
 	if selected_pawn == null:
@@ -314,7 +315,7 @@ func _start_action_pass() -> void:
 	action_origin_cell = selected_pawn.current_cell
 
 	_refresh_action_buttons()
-	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn)
+	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, PASS_RANGE_TEMPO)
 
 
 func _start_action_hit() -> void:

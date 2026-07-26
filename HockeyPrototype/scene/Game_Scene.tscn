@@ -384,6 +384,16 @@ script = ExtResource("11_48mqq")
 [node name="CostOverlay" type="Node2D" parent="IceMapLayer"]
 modulate = Color(0.9859647, 0.039099496, 0.013400756, 1)
 
+[node name="ShotPreview" type="Line2D" parent="IceMapLayer"]
+visible = false
+width = 6.0
+default_color = Color(0.83569616, 0.00017673612, 9.57802e-05, 1)
+
+[node name="ArrowHead" type="Polygon2D" parent="IceMapLayer/ShotPreview"]
+color = Color(0.8352941, 0, 0, 1)
+polygon = PackedVector2Array(18, 0, -12, -10, -12, 10)
+uv = PackedVector2Array(-101.5, -29.5)
+
 [node name="PlayersContainer" type="Node" parent="."]
 
 [node name="Puck" parent="." instance=ExtResource("20_a1gg8")]

@@ -42,9 +42,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		GameManager._cancel_action_mode()
 		return
 
-	if event is InputEventMouseMotion and drag_candidate:
-		_on_mouse_drag(event.position)
+	if event is InputEventMouseMotion:
+		if drag_candidate:
+			_on_mouse_drag(event.position)
 
+		if (
+			GameManager.action_mode == ActionMode.SHOOT
+			or GameManager.action_mode == ActionMode.PASS
+		):
+			_update_action_preview(event.position)
 
 		
 
@@ -198,3 +204,59 @@ func _handle_action_click(global_pos: Vector2) -> void:
 			GameManager._do_pass(target_cell)
 		ActionMode.HIT:
 			GameManager._do_hit(target_cell)
+
+func _update_shoot_preview(global_pos: Vector2) -> void:
+	if GameManager.action_pawn == null:
+		IceMapLayer.clear_shot_preview()
+		return
+
+	var target_cell: Vector2i = \
+		IceMapLayer.cell_from_global_pos(global_pos)
+
+	var origin_cell: Vector2i = \
+		GameManager.action_pawn.current_cell
+
+	var max_range: int = \
+		GameManager.action_pawn.move_range * 2
+
+	IceMapLayer.show_shot_preview(
+		origin_cell,
+		target_cell,
+		max_range,
+		GameManager.action_pawn
+	)
+
+func _update_action_preview(global_pos: Vector2) -> void:
+	if GameManager.action_pawn == null:
+		IceMapLayer.clear_shot_preview()
+		return
+
+	var pawn: Node2D = GameManager.action_pawn
+
+	var origin_cell: Vector2i = pawn.current_cell
+
+	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(
+		global_pos
+	)
+
+	var max_range: int = pawn.move_range * 2
+
+	match GameManager.action_mode:
+		ActionMode.SHOOT:
+			IceMapLayer.show_shot_preview(
+				origin_cell,
+				target_cell,
+				max_range,
+				pawn
+			)
+
+		ActionMode.PASS:
+			IceMapLayer.show_pass_preview(
+				origin_cell,
+				target_cell,
+				max_range,
+				pawn
+			)
+
+		_:
+			IceMapLayer.clear_shot_preview()				
