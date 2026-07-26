@@ -25,6 +25,10 @@ const GOALIE_SCENE := preload("res://scene/goalie.tscn")
 const RIGHT_NET_POSITION = Vector2i(7, 0)
 const LEFT_NET_POSITION = Vector2i(-3, 0)
 
+const SHOOT_RANGE_TEMPO = 3
+const PASS_RANGE_TEMPO = 3
+
+
 var _active_team_action_counter: int = 0
 var active_team_action_counter:
 	get:
@@ -430,7 +434,7 @@ func _do_pass(target_cell: Vector2i) -> void:
 
 	action_origin_cell = action_pawn.current_cell
 
-	if not _is_in_shoot_range(action_origin_cell, target_cell, action_pawn):
+	if not _is_in_pass_range(action_origin_cell, target_cell, action_pawn):
 		DebugLogger.log(
 			DebugLogger.DebugType.GAME_MANAGER,
 			"Passe refusée : cible hors de portée."
@@ -512,7 +516,7 @@ func _is_in_shoot_range(
 	target_cell: Vector2i,
 	received_pawn: Node2D
 ) -> bool:
-	var shoot_range: int = received_pawn.move_range * 2
+	var shoot_range: int = SHOOT_RANGE_TEMPO
 
 	var distance: int = IceMapLayer.get_hex_distance(
 		origin_cell,
@@ -520,6 +524,23 @@ func _is_in_shoot_range(
 	)
 
 	return distance > 0 and distance <= shoot_range
+
+
+
+
+func _is_in_pass_range(
+	origin_cell: Vector2i,
+	target_cell: Vector2i,
+	received_pawn: Node2D
+) -> bool:
+	var shoot_range: int = PASS_RANGE_TEMPO
+
+	var distance: int = IceMapLayer.get_hex_distance(
+		origin_cell,
+		target_cell
+	)
+
+	return distance > 0 and distance <= shoot_range	
 
 
 func _update_action_buttons_visual() -> void:

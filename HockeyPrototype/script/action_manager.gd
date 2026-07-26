@@ -172,7 +172,7 @@ func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D, ai_player_arra
 	if not chosen_ai_pawn.has_method("_pass"):
 		return false
 
-	if not GameManager._is_in_shoot_range(chosen_ai_pawn.current_cell, pass_target.current_cell, chosen_ai_pawn):
+	if not GameManager._is_in_pass_range(chosen_ai_pawn.current_cell, pass_target.current_cell, chosen_ai_pawn):
 		return false
 
 	
