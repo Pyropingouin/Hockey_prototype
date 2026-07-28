@@ -240,6 +240,7 @@ texture = ExtResource("22_n07oo")
 texture_region_size = Vector2i(64, 32)
 0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/0/custom_data_2 = true
 0:0/1 = 1
 0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
@@ -275,6 +276,7 @@ texture = ExtResource("25_h6gsk")
 texture_region_size = Vector2i(64, 32)
 0:0/next_alternative_id = 2
 0:0/0 = 0
+0:0/0/custom_data_2 = true
 0:0/1 = 1
 0:0/1/modulate = Color(0.2627451, 0.2627451, 0.2627451, 1)
 
