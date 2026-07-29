@@ -8,15 +8,19 @@ class CellState extends RefCounted:
 	var is_puck_here: bool = false
 	var occupied_player_team: int = -1
 	var base_alt_id: int = 0
+	var is_behind_goal: bool = false
+	var goal_type: String = ""
 	
 	
 	func _to_string() -> String:
-		return "CellState(blocked=%s, is_occupied=%s, puck=%s, team=%d)" % [
+		return "CellState(blocked=%s, is_occupied=%s, puck=%s, team=%d, is_behind_goal=%s, goal_type=%s)" % [
 			str(blocked),
 			str(is_occupied),
 			str(is_puck_here),
-			occupied_player_team
-		]
+			occupied_player_team,
+			str(is_behind_goal),
+			goal_type
+	]
 
 var pawns: Array = []
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
@@ -45,15 +49,27 @@ signal puck_is_picked_up(pawn)
 
 
 func _ready() -> void:
+	
 	for cell in get_used_cells():
 		var state := CellState.new()
 		
 		var tile_data := get_cell_tile_data(cell)
 		if tile_data:
-			state.blocked = tile_data.get_custom_data("blocked")
+			state.blocked = bool(
+				tile_data.get_custom_data("blocked")
+			)
+
+			state.is_behind_goal = bool(
+				tile_data.get_custom_data("is_behind_goal")
+			)
+
+			state.goal_type = str(
+				tile_data.get_custom_data("goal_type")
+			)
+
 			state.is_occupied = false
 			state.occupied_player_team = -1
-		state.base_alt_id = get_cell_alternative_tile(cell)
+			state.base_alt_id = get_cell_alternative_tile(cell)
 	
 		map_data[cell] = state
 
@@ -79,7 +95,7 @@ func _ready() -> void:
 	place_puck_on_cell(puck, puck.current_cell)
 	
 	update_occupancy()
-	# print_map_data()	
+	print_map_data()	
 
 
 # Retourne l'alt_id correct en préservant les flags de flip
@@ -270,8 +286,11 @@ func _get_custom(cell: Vector2i, layer_name: String):
 func _get_type(cell: Vector2i) -> String:
 	return str(_get_custom(cell, "type"))
 
-func _get_goal_type(cell: Vector2i) -> String:
-	return str(_get_custom(cell, "goal_type"))
+func get_goal_type(cell: Vector2i) -> String:
+	if not map_data.has(cell):
+		return ""
+
+	return map_data[cell].goal_type
 
 func _get_cost(cell: Vector2i) -> int:
 	return int(_get_custom(cell, "cost"))
@@ -383,13 +402,12 @@ func _compute_shoot_targets(
 
 		var character_on_target: Node2D = get_pawn_on_cell(cell)
 
-		# Une case vide demeure une cible valide.
+		# Case vide
 		if character_on_target == null:
 			targets.append(cell)
 			continue
 
-		# Une case occupée est valide uniquement si elle contient
-		# le goalie de l'équipe adverse.
+		# Gardien adverse
 		var is_enemy_goalie: bool = (
 			character_on_target is Goalie
 			and character_on_target.team_id != shooting_pawn.team_id
@@ -732,6 +750,22 @@ func get_hex_distance(
 	return -1
 
 
+func _is_behind_goal(cell: Vector2i) -> bool:
+	if not map_data.has(cell):
+		return false
+
+	return map_data[cell].is_behind_goal
+
+
+
+func _is_goal_cell(cell: Vector2i) -> bool:
+	if not map_data.has(cell):
+		return false
+
+	return map_data[cell].goal_type != ""	
+	
+
+
 func get_cells_on_line(
 	origin: Vector2i,
 	target: Vector2i
@@ -769,6 +803,12 @@ func is_path_clear(
 	origin: Vector2i,
 	target: Vector2i
 ) -> bool:
+
+	# Depuis derrière le but, impossible de viser directement
+	# une case appartenant au but.
+	if _is_behind_goal(origin) and _is_goal_cell(target):
+		return false
+
 	var cells_on_line := get_cells_on_line(origin, target)
 
 	for cell in cells_on_line:
@@ -778,11 +818,15 @@ func is_path_clear(
 		if cell == target:
 			continue
 
-		# Les obstacles bloquent la trajectoire
+		# Le filet bloque la trajectoire.
+		if _is_goal_cell(cell):
+			return false
+
+		# Les obstacles bloquent la trajectoire.
 		if map_data.has(cell) and map_data[cell].blocked:
 			return false
 
-		# Les personnages bloquent aussi la trajectoire
+		# Les personnages bloquent aussi la trajectoire.
 		if get_pawn_on_cell(cell) != null:
 			return false
 

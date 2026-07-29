@@ -106,14 +106,14 @@ func _is_goal(puck_position):
 	DebugLogger.DebugType.AI,
 	"type de tuile: %s | goal_type: : %s " % [
 		ice_map._get_type(puck_position),
-		ice_map._get_goal_type(puck_position)
+		ice_map.get_goal_type(puck_position)
 		
 	]
 )					
 
 	
 	if ice_map._get_type(puck_position) == "goal":
-		var goal_type = ice_map._get_goal_type(puck_position)
+		var goal_type = ice_map.get_goal_type(puck_position)
 		goal_scored.emit(goal_type)
 		return true
 	else:

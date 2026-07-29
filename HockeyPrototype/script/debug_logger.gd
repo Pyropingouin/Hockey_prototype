@@ -27,7 +27,7 @@ var enabled_types: Dictionary = {
 	DebugType.DRAFT: false,
 	DebugType.ACTION_MANAGER: false,
 	DebugType.GAME_MANAGER: false,
-	DebugType.ICE_MAP_LAYER: false
+	DebugType.ICE_MAP_LAYER: true
 	
 }
 
