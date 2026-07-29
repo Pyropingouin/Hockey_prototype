@@ -816,3 +816,7 @@ func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
 
 	opposing_team_card_display.pawn_health_label.text = \
 		"Health: " + str(hovered_pawn.health)		
+
+
+func regenActionEconomy(current_active_team: int) -> void:
+	pass

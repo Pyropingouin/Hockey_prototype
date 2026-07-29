@@ -19,7 +19,7 @@ var enabled: bool = true
 # Activation individuelle des catégories.
 var enabled_types: Dictionary = {
 	DebugType.GENERAL: false,
-	DebugType.PAWN: false,
+	DebugType.PAWN: true,
 	DebugType.AI: false,
 	DebugType.SETUP: false,
 	DebugType.PUCK: false,
@@ -27,7 +27,7 @@ var enabled_types: Dictionary = {
 	DebugType.DRAFT: false,
 	DebugType.ACTION_MANAGER: false,
 	DebugType.GAME_MANAGER: false,
-	DebugType.ICE_MAP_LAYER: true
+	DebugType.ICE_MAP_LAYER: false
 	
 }
 

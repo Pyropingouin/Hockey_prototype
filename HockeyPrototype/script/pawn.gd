@@ -9,6 +9,7 @@ extends CharacterBody2D
 @export var reflex: int = 3
 @export var health: int = 2
 @export var team_id: int = 0
+@export var fatigueMax: int = 0
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 #DEBUG FOR TEAMS
 @onready var hover_area: Area2D = $HoverArea
@@ -118,6 +119,7 @@ func setup(
 	strength = int(stats.get("strength", strength))
 	reflex = int(stats.get("reflex", reflex))
 	health = int(stats.get("health", health))
+	fatigueMax =int(stats.get("fatigueMax", fatigueMax))
 
 	fullBodyTexture = player_data.get("image", null)
 	bubbleHeadTexture = player_data.get("bubblehead", null)
@@ -134,12 +136,13 @@ func setup(
 
 	DebugLogger.log(
 		DebugLogger.DebugType.PAWN,
-		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Health: %s  |  Sprite trouvé:  %s   " % [
+		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Health: %s  | FatigueMax: %s|  Sprite trouvé:  %s   " % [
 			pawn_name,
 			move_range,
 			strength,
 			reflex,
 			health,
+			fatigueMax,
 			sprite != null
 		]
 	)			
