@@ -27,6 +27,7 @@ const LEFT_NET_POSITION = Vector2i(-3, 0)
 
 const SHOOT_RANGE_TEMPO = 3
 const PASS_RANGE_TEMPO = 3
+const SPENT_ENERGY_AMOUNT_TEMPO = 1
 
 
 var _active_team_action_counter: int = 0
@@ -164,10 +165,10 @@ func _ready() -> void:
 	spawn_teams_from_draft()
 
 
-	
+	active_team_changed.connect(regenActionEconomy)
 	active_team_changed.emit(_active_team)
 	puck.goal_scored.connect(_on_goal_scored)
-
+	
 	# Connexions des boutons UI
 	shoot_button.pressed.connect(_start_action_shoot)
 	pass_button.pressed.connect(_start_action_pass)
@@ -351,6 +352,7 @@ func _do_shoot(target_cell: Vector2i) -> void:
 	if action_pawn == null or not action_pawn.hasPuck:
 		_cancel_action_mode()
 		return
+
 
 	action_origin_cell = action_pawn.current_cell
 
@@ -819,4 +821,21 @@ func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
 
 
 func regenActionEconomy(current_active_team: int) -> void:
-	pass
+	for player in players_container.get_children():
+
+		if player.team_id != current_active_team:
+			continue
+
+		if not player.has_method("regenEnergy"):
+			continue
+
+		player.regenEnergy()
+
+
+func canPawnSendEnergy(spentEnergyAmount: int, pawnSpendingEnergy: Node2D) -> bool:
+
+	spentEnergyAmount	= SPENT_ENERGY_AMOUNT_TEMPO
+
+	var result = pawnSpendingEnergy.spendEnergy(spentEnergyAmount)
+
+	return result

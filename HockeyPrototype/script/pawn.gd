@@ -9,7 +9,8 @@ extends CharacterBody2D
 @export var reflex: int = 3
 @export var health: int = 2
 @export var team_id: int = 0
-@export var fatigueMax: int = 0
+@export var maxEnergy: int = 0
+
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 #DEBUG FOR TEAMS
 @onready var hover_area: Area2D = $HoverArea
@@ -35,6 +36,7 @@ var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
 var puck_color_tween: Tween
+var current_energy: int 
 
 
 
@@ -71,6 +73,7 @@ signal hovering_pawn(pawn: Node2D)
 
 func _ready() -> void:
 	current_cell = start_cell
+	current_energy = maxEnergy
 
 	hover_area.mouse_entered.connect(_on_hover_area_mouse_entered)
 	hover_area.mouse_exited.connect(_on_hover_area_mouse_exited)
@@ -119,7 +122,7 @@ func setup(
 	strength = int(stats.get("strength", strength))
 	reflex = int(stats.get("reflex", reflex))
 	health = int(stats.get("health", health))
-	fatigueMax =int(stats.get("fatigueMax", fatigueMax))
+	maxEnergy =int(stats.get("maxEnergy", maxEnergy))
 
 	fullBodyTexture = player_data.get("image", null)
 	bubbleHeadTexture = player_data.get("bubblehead", null)
@@ -136,13 +139,13 @@ func setup(
 
 	DebugLogger.log(
 		DebugLogger.DebugType.PAWN,
-		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Health: %s  | FatigueMax: %s|  Sprite trouvé:  %s   " % [
+		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Health: %s  | maxEnergy: %s|  Sprite trouvé:  %s   " % [
 			pawn_name,
 			move_range,
 			strength,
 			reflex,
 			health,
-			fatigueMax,
+			maxEnergy,
 			sprite != null
 		]
 	)			
@@ -399,6 +402,40 @@ func _on_hover_area_mouse_entered() -> void:
 func _on_hover_area_mouse_exited() -> void:
 
 	hovering_pawn.emit(null)			
+
+
+func regenEnergy() -> void:
+
+	DebugLogger.log(
+		DebugLogger.DebugType.PAWN,
+		"Name: %s | current_energy : %s | maxEnergy : %s" % [
+			pawn_name,
+			current_energy,
+			maxEnergy
+		]
+	)	
+
+	current_energy += 1
+
+	if current_energy > maxEnergy:
+		current_energy = maxEnergy
+
+func spendEnergy(spentEnergyAmount: int) -> bool:
+
+	if current_energy < spentEnergyAmount:
+		print("not enough energy")
+		return false
+
+	if  current_energy < 0:
+		current_energy = 0
+	
+
+	current_energy -= spentEnergyAmount
+	return true
+
+
+
+
 		
 func _connect_to_other_pawns() -> void:
 	var container = get_parent() #PlayerContainer
