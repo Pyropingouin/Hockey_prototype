@@ -33,6 +33,7 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 
 
 	IceMapLayer.apply_move(pawn, starting_cell, destination_cell)
+	GameManager.pawnSendEnergy(1, pawn)
 	GameManager.update_action_counter(1)
 
 
