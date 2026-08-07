@@ -15,6 +15,8 @@ extends CharacterBody2D
 #DEBUG FOR TEAMS
 @onready var hover_area: Area2D = $HoverArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var energy_bar: ProgressBar = $EnergyBar
+@onready var energy_label: Label = $EnergyBar/EnergyLabel
 
 
 @onready var GameManager = $"../../GameManager"
@@ -36,9 +38,28 @@ var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
 var puck_color_tween: Tween
-var current_energy: int 
 
+var _current_energy: int = 0
 
+var current_energy: int:
+	get:
+		return _current_energy
+
+	set(value):
+		_current_energy = clampi(
+			value,
+			0,
+			maxEnergy
+		)
+
+		if is_instance_valid(energy_bar):
+			energy_bar.value = _current_energy
+
+		if is_instance_valid(energy_label):
+			energy_label.text = "%d/%d" % [
+				_current_energy,
+				maxEnergy
+			]
 
 
 @export var start_cell: Vector2i:
@@ -74,6 +95,7 @@ signal hovering_pawn(pawn: Node2D)
 func _ready() -> void:
 	current_cell = start_cell
 	current_energy = maxEnergy
+	initialize_energy()
 
 	hover_area.mouse_entered.connect(_on_hover_area_mouse_entered)
 	hover_area.mouse_exited.connect(_on_hover_area_mouse_exited)
@@ -129,12 +151,15 @@ func setup(
 	fullBodyAnimation = player_data.get("fullBodyAnimation", null)
 
 	
+
+	
 	team_id = pawn_team_id
 	start_cell = pawn_start_cell
 
 	# setup() peut être appelé avant ou après _ready()
 	if is_node_ready():
 		_update_pawn_texture()
+		initialize_energy()
 
 
 	DebugLogger.log(
@@ -420,6 +445,12 @@ func regenEnergy() -> void:
 	if current_energy > maxEnergy:
 		current_energy = maxEnergy
 
+
+func regenAllEnergy() -> void:
+	current_energy = maxEnergy
+
+
+
 func spendEnergy(spentEnergyAmount: int) -> bool:
 
 	if current_energy < spentEnergyAmount:
@@ -433,6 +464,17 @@ func spendEnergy(spentEnergyAmount: int) -> bool:
 	current_energy -= spentEnergyAmount
 	return true
 
+
+func initialize_energy() -> void:
+	current_energy = maxEnergy
+
+	if not is_instance_valid(energy_bar):
+		return
+
+	energy_bar.min_value = 0
+	energy_bar.max_value = maxEnergy
+	energy_bar.step = 1
+	energy_bar.value = current_energy
 
 
 

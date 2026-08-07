@@ -748,6 +748,7 @@ func _on_goal_scored(goal_type):
 
 	game_state = GameState.GOAL_PAUSE
 	GoalOverlay.show()
+	_refresh_al_player_energy()
 	_refresh_action_buttons()
 
 func _on_continue_button_pressed() -> void:
@@ -830,6 +831,18 @@ func regenActionEconomy(current_active_team: int) -> void:
 			continue
 
 		player.regenEnergy()
+
+func _refresh_al_player_energy() -> void:
+
+	for player in players_container.get_children():
+
+		
+		if not player.has_method("regenAllEnergy"):
+			continue
+
+		player.regenAllEnergy()
+
+	
 
 
 func canPawnSendEnergy(spentEnergyAmount: int, pawnSpendingEnergy: Node2D) -> bool:
