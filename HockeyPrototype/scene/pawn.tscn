@@ -41,6 +41,7 @@ debug_color = Color(0.9409436, 0.13380575, 0.5131118, 0.41960785)
 offset_left = -48.0
 offset_right = 49.0
 offset_bottom = 27.0
+mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_b0spm")
 theme_override_styles/fill = SubResource("StyleBoxFlat_w6ftl")
 max_value = 3.0
@@ -50,7 +51,5 @@ show_percentage = false
 
 [node name="EnergyLabel" type="Label" parent="EnergyBar"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 4.0
-offset_right = 92.0
-offset_bottom = 27.0
+offset_right = 86.0
+offset_bottom = 23.0
