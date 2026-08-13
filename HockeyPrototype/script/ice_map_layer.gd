@@ -24,6 +24,7 @@ class CellState extends RefCounted:
 
 var pawns: Array = []
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
+var current_shoot_targets: Array[Vector2i] = []
 
 
 const ALT_NORMAL := 0
@@ -354,7 +355,7 @@ func highlight_shoot_targets(
 ) -> void:
 	var shoot_range: int = range
 
-	var targets := _compute_shoot_targets(
+	current_shoot_targets = _compute_shoot_targets(
 		origin,
 		shoot_range,
 		received_pawn
@@ -363,7 +364,7 @@ func highlight_shoot_targets(
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-		var is_target := targets.has(cell)
+		var is_target := current_shoot_targets.has(cell)
 
 		set_cell(
 			cell,
@@ -548,13 +549,8 @@ func show_shot_preview(
 	max_range: int,
 	shooting_pawn: Node2D
 ) -> void:
-	var valid_targets := _compute_shoot_targets(
-		origin_cell,
-		max_range,
-		shooting_pawn
-	)
 
-	if not valid_targets.has(target_cell):
+	if not current_shoot_targets.has(target_cell):
 		clear_shot_preview()
 		return
 
