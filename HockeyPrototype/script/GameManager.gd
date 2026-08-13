@@ -842,30 +842,3 @@ func _refresh_al_player_energy() -> void:
 
 		player.regenAllEnergy()
 
-	
-
-### ça prend une fct pour tester si t'as assez energy
-### ça prend un fct pour spend
-
-
-
-func canPawnSendEnergy(spentEnergyAmount: int, pawnSpendingEnergy: Node2D) -> bool:
-
-	print("Test to spend")
-
-	spentEnergyAmount	= SPENT_ENERGY_AMOUNT_TEMPO
-
-	if pawnSpendingEnergy.current_energy < spentEnergyAmount:
-		return false
-
-
-	return true
-
-
-
-func pawnSendEnergy(spentEnergyAmount: int, pawnSpendingEnergy: Node2D) -> void:
-
-	print("Actually spending")
-	spentEnergyAmount	= SPENT_ENERGY_AMOUNT_TEMPO
-	pawnSpendingEnergy.spendEnergy(spentEnergyAmount)
-

@@ -22,7 +22,7 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 		IceMapLayer.reset_move(pawn, starting_cell)
 		return
 
-	if not GameManager.canPawnSendEnergy(1, pawn):
+	if not pawn.canSpendEnergy(1):
 		IceMapLayer.reset_move(pawn, starting_cell)
 		return
 
@@ -33,7 +33,7 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 
 
 	IceMapLayer.apply_move(pawn, starting_cell, destination_cell)
-	GameManager.pawnSendEnergy(1, pawn)
+	pawn.spendEnergy(1)
 	GameManager.update_action_counter(1)
 
 

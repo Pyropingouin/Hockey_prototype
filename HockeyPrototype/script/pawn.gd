@@ -450,6 +450,14 @@ func regenAllEnergy() -> void:
 	current_energy = maxEnergy
 
 
+func canSpendEnergy(energyAmount) -> bool:
+	 
+	if energyAmount > current_energy:
+		return false
+
+	else:
+		return true	
+
 
 func spendEnergy(spentEnergyAmount: int) -> bool:
 
