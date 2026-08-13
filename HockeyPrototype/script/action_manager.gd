@@ -53,7 +53,12 @@ func ai_attempt_move(chosen_ai_pawn: Node2D, starting_cell: Vector2i, destinatio
 		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
 		return false
 
+	if not chosen_ai_pawn.canSpendEnergy(1):
+		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
+		return false
+
 	IceMapLayer.apply_move(chosen_ai_pawn, starting_cell, destination_cell)
+	chosen_ai_pawn.spendEnergy(1)
 	GameManager.update_action_counter(1)
 
 	return true
