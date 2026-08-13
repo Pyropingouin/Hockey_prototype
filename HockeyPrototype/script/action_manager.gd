@@ -4,6 +4,12 @@ extends Node
 @onready var IceMapLayer = $"../IceMapLayer"
 
 
+
+
+const MOVE_ENERGY_COST: int = 1
+const HIT_ENERGY_COST: int = 1
+
+
 ####
 ###
 ## HUMAN ACTIONS
@@ -22,7 +28,7 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 		IceMapLayer.reset_move(pawn, starting_cell)
 		return
 
-	if not pawn.canSpendEnergy(1):
+	if not pawn.canSpendEnergy(MOVE_ENERGY_COST):
 		IceMapLayer.reset_move(pawn, starting_cell)
 		return
 
@@ -33,7 +39,7 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 
 
 	IceMapLayer.apply_move(pawn, starting_cell, destination_cell)
-	pawn.spendEnergy(1)
+	pawn.spendEnergy(MOVE_ENERGY_COST)
 	GameManager.update_action_counter(1)
 
 
@@ -53,12 +59,12 @@ func ai_attempt_move(chosen_ai_pawn: Node2D, starting_cell: Vector2i, destinatio
 		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
 		return false
 
-	if not chosen_ai_pawn.canSpendEnergy(1):
+	if not chosen_ai_pawn.canSpendEnergy(MOVE_ENERGY_COST):
 		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
 		return false
 
 	IceMapLayer.apply_move(chosen_ai_pawn, starting_cell, destination_cell)
-	chosen_ai_pawn.spendEnergy(1)
+	chosen_ai_pawn.spendEnergy(MOVE_ENERGY_COST)
 	GameManager.update_action_counter(1)
 
 	return true
@@ -246,8 +252,12 @@ func ai_attempt_hit(chosen_ai_pawn: Node2D, target_cell: Vector2i) -> bool:
 	if not chosen_ai_pawn.has_method("_hit"):
 		return false
 
+	if not chosen_ai_pawn.canSpendEnergy(HIT_ENERGY_COST):
+		return false	
+
 	chosen_ai_pawn._hit(target_cell)
 
+	chosen_ai_pawn.spendEnergy(HIT_ENERGY_COST)
 	GameManager.update_action_counter(1)
 	IceMapLayer.update_occupancy()
 

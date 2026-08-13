@@ -28,6 +28,7 @@ const LEFT_NET_POSITION = Vector2i(-3, 0)
 const SHOOT_RANGE_TEMPO = 3
 const PASS_RANGE_TEMPO = 3
 const SPENT_ENERGY_AMOUNT_TEMPO = 1
+const HIT_ENERGY_COST = 1
 
 
 var _active_team_action_counter: int = 0
@@ -504,12 +505,16 @@ func _do_hit(target_cell: Vector2i) -> void:
 	if IceMapLayer.get_hex_distance(action_pawn.current_cell, target_cell) > 1:
 		return
 
+
+	if 	not action_pawn.canSpendEnergy(HIT_ENERGY_COST):
+		return
+
 	if action_pawn.has_method("_hit"):
 		action_pawn._hit(target_cell)
 
 
 
-
+	action_pawn.spendEnergy(HIT_ENERGY_COST)
 	update_action_counter(1)
 	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
