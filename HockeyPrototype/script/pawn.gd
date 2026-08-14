@@ -81,6 +81,14 @@ var current_cell: Vector2i:
 		_current_cell = value
 		_on_current_cell_changed()
 
+
+#Higher = Stronger
+const NO_ENERGY_STRENGH := 15.0
+#Lower = Faster
+const NO_ENERGY_SPEED := 0.04	
+const SPEND_ENERGY_STRENGH := 3
+const SPEND_ENERGY_SPEED := 0.06	
+
 signal hold_puck_is_moving
 signal shooting_puck
 signal passing_puck
@@ -453,6 +461,7 @@ func regenAllEnergy() -> void:
 func canSpendEnergy(energyAmount) -> bool:
 	 
 	if energyAmount > current_energy:
+		shake_energy_bar(NO_ENERGY_STRENGH, NO_ENERGY_SPEED)
 		return false
 
 	else:
@@ -461,14 +470,15 @@ func canSpendEnergy(energyAmount) -> bool:
 
 func spendEnergy(spentEnergyAmount: int) -> bool:
 
+	if  current_energy < 0:
+		current_energy = 0
+
 	if current_energy < spentEnergyAmount:
 		print("not enough energy")
 		return false
 
-	if  current_energy < 0:
-		current_energy = 0
-	
 
+	shake_energy_bar(SPEND_ENERGY_STRENGH, SPEND_ENERGY_SPEED)
 	current_energy -= spentEnergyAmount
 	return true
 
@@ -521,3 +531,46 @@ func _auto_connect_to_puck() -> void:
 	# dropping_puck -> puck
 	if has_signal("dropping_puck") and puck.has_method("_on_pawn_dropping_puck"):
 		connect("dropping_puck", Callable(puck, "_on_pawn_dropping_puck"))	
+
+
+func shake_energy_bar(shake_strength, shake_speed) -> void:
+	var original_position = energy_bar.position
+
+
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(-shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(-shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position,
+		shake_speed
+	)
