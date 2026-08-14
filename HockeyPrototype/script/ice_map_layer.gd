@@ -46,7 +46,9 @@ signal puck_is_picked_up(pawn)
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var GameManager = $"../GameManager"
 @onready var shot_preview: Line2D = $ShotPreview
-@onready var arrow_head: Polygon2D = $ShotPreview/ArrowHead
+@onready var shot_arrow_head: Polygon2D = $ShotPreview/ShotArrowHead
+@onready var pass_preview: Line2D = $PassPreview
+@onready var pass_arrow_head: Polygon2D = $PassPreview/PassArrowHead
 
 
 func _ready() -> void:
@@ -554,7 +556,7 @@ func show_shot_preview(
 		clear_shot_preview()
 		return
 
-	_draw_trajectory_preview(
+	_draw_shot_trajectory_preview(
 		origin_cell,
 		target_cell
 	)
@@ -562,7 +564,13 @@ func show_shot_preview(
 func clear_shot_preview() -> void:
 	shot_preview.clear_points()
 	shot_preview.visible = false
-	arrow_head.visible = false
+	shot_arrow_head.visible = false
+
+
+func clear_pass_preview() -> void:
+	pass_preview.clear_points()
+	pass_preview.visible = false
+	pass_arrow_head.visible = false	
 
 
 func show_pass_preview(
@@ -578,19 +586,16 @@ func show_pass_preview(
 	)
 
 	if not valid_targets.has(target_cell):
-		clear_shot_preview()
+		clear_pass_preview()
 		return
 
-	_draw_trajectory_preview(
+	_draw_pass_trajectory_preview(
 		origin_cell,
 		target_cell
 	)	
 
-func _compute_shot_path(origin_cell, target_cell, max_range):
-	pass
 
-
-func _draw_trajectory_preview(
+func _draw_shot_trajectory_preview(
 	origin_cell: Vector2i,
 	target_cell: Vector2i
 ) -> void:
@@ -612,11 +617,40 @@ func _draw_trajectory_preview(
 	shot_preview.add_point(origin_pos)
 	shot_preview.add_point(line_end)
 
-	arrow_head.position = target_pos
-	arrow_head.rotation = direction.angle()
+	shot_arrow_head.position = target_pos
+	shot_arrow_head.rotation = direction.angle()
 
 	shot_preview.visible = true
-	arrow_head.visible = true	
+	shot_arrow_head.visible = true	
+
+
+func _draw_pass_trajectory_preview(
+	origin_cell: Vector2i,
+	target_cell: Vector2i
+) -> void:
+	var origin_pos: Vector2 = map_to_local(origin_cell)
+	var target_pos: Vector2 = map_to_local(target_cell)
+
+	var direction: Vector2 = (
+		target_pos - origin_pos
+	).normalized()
+
+	var arrow_length := 18.0
+
+	var line_end: Vector2 = (
+		target_pos
+		- direction * arrow_length
+	)
+
+	pass_preview.clear_points()
+	pass_preview.add_point(origin_pos)
+	pass_preview.add_point(line_end)
+
+	pass_arrow_head.position = target_pos
+	pass_arrow_head.rotation = direction.angle()
+
+	pass_preview.visible = true
+	pass_arrow_head.visible = true		
 
 
 ### Algo Breadth-First Search (BFS)

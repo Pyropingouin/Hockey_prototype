@@ -407,8 +407,18 @@ visible = false
 width = 6.0
 default_color = Color(0.83569616, 0.00017673612, 9.57802e-05, 1)
 
-[node name="ArrowHead" type="Polygon2D" parent="IceMapLayer/ShotPreview"]
+[node name="ShotArrowHead" type="Polygon2D" parent="IceMapLayer/ShotPreview"]
 color = Color(0.8352941, 0, 0, 1)
+polygon = PackedVector2Array(18, 0, -12, -10, -12, 10)
+uv = PackedVector2Array(-101.5, -29.5)
+
+[node name="PassPreview" type="Line2D" parent="IceMapLayer"]
+visible = false
+width = 6.0
+default_color = Color(0.0034774467, 0.47564203, 0.79988575, 1)
+
+[node name="PassArrowHead" type="Polygon2D" parent="IceMapLayer/PassPreview"]
+color = Color(0.003921569, 0.4745098, 0.8, 1)
 polygon = PackedVector2Array(18, 0, -12, -10, -12, 10)
 uv = PackedVector2Array(-101.5, -29.5)
 
