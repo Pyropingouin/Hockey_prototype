@@ -422,34 +422,70 @@ func _compute_shoot_targets(
 	return targets
 	
 
+func _compute_pass_range(
+	origin: Vector2i,
+	max_range: int
+) -> Array[Vector2i]:
+
+	var range_cells: Array[Vector2i] = []
+
+	for cell in map_data.keys():
+
+		if cell == origin:
+			continue
+
+		if map_data[cell].blocked:
+			continue
+
+		var distance: int = get_hex_distance(
+			origin,
+			cell
+		)
+
+		if distance == -1:
+			continue
+
+		if distance > max_range:
+			continue
+
+		# La trajectoire doit être libre
+		if not is_path_clear(
+			origin,
+			cell
+		):
+			continue
+
+		range_cells.append(cell)
+
+	return range_cells
+
 func highlight_pass_targets(
 	origin: Vector2i,
 	received_pawn: Node2D,
-	range
+	range: int
 ) -> void:
+
 	var pass_range: int = range
 
-	var targets := _compute_pass_targets(
+	var range_cells := _compute_pass_range(
 		origin,
-		pass_range,
-		received_pawn
+		pass_range
 	)
 
-	
-
 	for cell in map_data.keys():
+
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-		var is_target := targets.has(cell)
 
-		
+		var is_in_range := range_cells.has(cell)
+
 		set_cell(
 			cell,
 			src_id,
 			atlas_coords,
 			_get_highlight_alt(
 				map_data[cell].base_alt_id,
-				not is_target
+				not is_in_range
 			)
 		)
 			
@@ -459,13 +495,19 @@ func _compute_pass_targets(
 	max_range: int,
 	passing_pawn: Node2D
 ) -> Array[Vector2i]:
+
 	var targets: Array[Vector2i] = []
 
 	for pawn in pawns:
+
 		if not is_instance_valid(pawn):
 			continue
 
 		if pawn == passing_pawn:
+			continue
+
+		# Un goalie ne peut jamais recevoir une passe
+		if pawn is Goalie:
 			continue
 
 		if pawn.team_id != passing_pawn.team_id:

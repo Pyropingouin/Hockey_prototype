@@ -9,7 +9,7 @@ extends Node
 const MOVE_ENERGY_COST: int = 1
 const HIT_ENERGY_COST: int = 1
 const SHOOT_RANGE: int = 3
-const PASS_RANGE: int = 10
+const PASS_RANGE: int = 5
 
 
 ####
@@ -208,6 +208,13 @@ func attempt_pass(
 			"Passe refusée : la cible appartient à l'autre équipe."
 		)
 		return false
+
+	if pass_target is Goalie:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : impossible de passer au goalie."
+		)
+		return false	
 
 
 	if not is_in_pass_range(

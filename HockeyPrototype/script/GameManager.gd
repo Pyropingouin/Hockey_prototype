@@ -27,8 +27,7 @@ const GOALIE_SCENE := preload("res://scene/goalie.tscn")
 const RIGHT_NET_POSITION = Vector2i(7, 0)
 const LEFT_NET_POSITION = Vector2i(-3, 0)
 
-const SHOOT_RANGE_TEMPO = 3
-const PASS_RANGE_TEMPO = 3
+
 const SPENT_ENERGY_AMOUNT_TEMPO = 1
 const HIT_ENERGY_COST = 1
 
@@ -298,7 +297,7 @@ func _start_action_shoot() -> void:
 			action_pawn
 		]
 	)
-	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn, SHOOT_RANGE_TEMPO)
+	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn, ActionManager.SHOOT_RANGE)
 
 func _start_action_pass() -> void:
 	if selected_pawn == null:
@@ -321,7 +320,7 @@ func _start_action_pass() -> void:
 
 	IceMapLayer.clear_pass_preview()
 	_refresh_action_buttons()
-	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, PASS_RANGE_TEMPO)
+	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, ActionManager.PASS_RANGE)
 
 
 func _start_action_hit() -> void:
