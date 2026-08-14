@@ -246,7 +246,7 @@ func _update_action_preview(global_pos: Vector2) -> void:
 			IceMapLayer.show_shot_preview(
 				origin_cell,
 				target_cell,
-				max_range,
+				ActionManager.SHOOT_RANGE,
 				pawn
 			)
 
@@ -254,7 +254,7 @@ func _update_action_preview(global_pos: Vector2) -> void:
 			IceMapLayer.show_pass_preview(
 				origin_cell,
 				target_cell,
-				max_range,
+				ActionManager.PASS_RANGE,
 				pawn
 			)
 
