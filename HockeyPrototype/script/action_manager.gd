@@ -9,7 +9,7 @@ extends Node
 const MOVE_ENERGY_COST: int = 1
 const HIT_ENERGY_COST: int = 1
 const SHOOT_RANGE: int = 3
-const PASS_RANGE: int = 3
+const PASS_RANGE: int = 10
 
 
 ####

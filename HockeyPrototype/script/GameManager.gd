@@ -228,6 +228,7 @@ func _cancel_action_mode() -> void:
 
 	IceMapLayer.clear_highlight()
 	IceMapLayer.clear_shot_preview()
+	IceMapLayer.clear_pass_preview()
 
 	_refresh_action_buttons()
 
@@ -318,6 +319,7 @@ func _start_action_pass() -> void:
 	action_pawn = selected_pawn
 	action_origin_cell = selected_pawn.current_cell
 
+	IceMapLayer.clear_pass_preview()
 	_refresh_action_buttons()
 	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, PASS_RANGE_TEMPO)
 
