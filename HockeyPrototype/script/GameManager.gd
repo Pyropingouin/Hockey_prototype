@@ -19,6 +19,8 @@ enum ActionMode { NONE, SHOOT, PASS, HIT }
 var game_state: GameState = GameState.PLAYING
 var action_mode: ActionMode = ActionMode.NONE
 
+@onready var ActionManager = $"../ActionManager"
+
 const max_action_counter: int = 4
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
 const GOALIE_SCENE := preload("res://scene/goalie.tscn")
@@ -344,211 +346,78 @@ func _start_action_hit() -> void:
 
 
 func _do_shoot(target_cell: Vector2i) -> void:
-	DebugLogger.log(
-		DebugLogger.DebugType.GAME_MANAGER,
-		"Exécution de _do_shoot() | Cible : %s" % target_cell
-	)
 
-
-	if action_pawn == null or not action_pawn.hasPuck:
+	if action_pawn == null:
 		_cancel_action_mode()
 		return
 
 
-	action_origin_cell = action_pawn.current_cell
-
-	if not _is_in_shoot_range(
-		action_origin_cell,
-		target_cell,
-		action_pawn
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Tir refusé : cible hors de portée."
-		)
-		_cancel_action_mode()
-		return
-
-	if not IceMapLayer.is_path_clear(
-		action_origin_cell,
-		target_cell
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Tir refusé : un joueur bloque la trajectoire."
-		)
-		return
-
-	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
-
-	DebugLogger.log(
-		DebugLogger.DebugType.GAME_MANAGER,
-		"Cible trouvée sur la case %s : %s" % [
-			target_cell,
-			target_character
-		]
-	)
-
-	if target_character is Goalie:
-		var target_goalie: Goalie = target_character
-
-		if target_goalie.team_id == action_pawn.team_id:
-			DebugLogger.log(
-				DebugLogger.DebugType.GAME_MANAGER,
-				"Tir refusé : impossible de tirer sur son propre goalie."
-			)
-			return
-
-		var goal_scored: bool = _resolve_shot_against_goalie(
+	var shoot_successful: bool = \
+		ActionManager.attempt_shoot(
 			action_pawn,
-			target_goalie
+			target_cell
 		)
 
-		selected_pawn = null
 
-		# On compte une action seulement si le goalie a fait l'arrêt.
-		# Lors d'un but, la partie passe directement en GOAL_PAUSE.
-		if not goal_scored:
-			update_action_counter(1)	
-
-		IceMapLayer.update_occupancy()
-		_cancel_action_mode()
+	if not shoot_successful:
 		return
 
-	if target_character != null:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Tir refusé : la case ciblée est occupée par %s." % target_character
-		)
-		return	
-		
 
-	if action_pawn.has_method("_shoot"):
-		action_pawn._shoot(target_cell)
-		selected_pawn = null
+	selected_pawn = null
 
-	update_action_counter(1)
-	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 
 func _do_pass(target_cell: Vector2i) -> void:
-	if action_pawn == null or not action_pawn.hasPuck:
+
+	if action_pawn == null:
 		_cancel_action_mode()
 		return
 
-	action_origin_cell = action_pawn.current_cell
 
-	if not _is_in_pass_range(action_origin_cell, target_cell, action_pawn):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusée : cible hors de portée."
+	var pass_target: Node2D = \
+		IceMapLayer.get_pawn_on_cell(target_cell)
+
+
+	var pass_successful: bool = \
+		ActionManager.attempt_pass(
+			action_pawn,
+			pass_target
 		)
-		_cancel_action_mode()
+
+
+	if not pass_successful:
 		return
 
-	if not IceMapLayer.is_path_clear(
-		action_origin_cell,
-		target_cell
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusé : un joueur bloque la trajectoire."
-		)
-		return
-	
 
-	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+	selected_pawn = null
 
-	if receiver == null:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusée : aucun pawn sur la case visée."
-		)
-		return
-
-	if receiver == action_pawn:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusée : un pawn ne peut pas se passer à lui-même."
-		)
-		return
-
-	if action_pawn.has_method("_pass"):
-		action_pawn._pass(target_cell)
-		selected_pawn = null	
-
-	update_action_counter(1)
-	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 
 func _do_hit(target_cell: Vector2i) -> void:
-	if action_pawn == null or action_pawn.hasPuck:
+
+	if action_pawn == null:
 		_cancel_action_mode()
 		return
 
-	var hitTarget: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
-	if hitTarget == null:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Plaquage refusé : aucun pawn sur la case visée."
+	var hit_target: Node2D = \
+		IceMapLayer.get_pawn_on_cell(target_cell)
+
+
+	var hit_successful: bool = \
+		ActionManager.attempt_hit(
+			action_pawn,
+			hit_target
 		)
-		return
 
-	if hitTarget == action_pawn:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Plaquage refusé : un pawn ne peut pas se plaquer lui-même."
-		)
-		return
 
-	if IceMapLayer.get_hex_distance(action_pawn.current_cell, target_cell) > 1:
+	if not hit_successful:
 		return
 
 
-	if 	not action_pawn.canSpendEnergy(HIT_ENERGY_COST):
-		return
+	selected_pawn = null
 
-	if action_pawn.has_method("_hit"):
-		action_pawn._hit(target_cell)
-
-
-
-	action_pawn.spendEnergy(HIT_ENERGY_COST)
-	update_action_counter(1)
-	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
-
-func _is_in_shoot_range(
-	origin_cell: Vector2i,
-	target_cell: Vector2i,
-	received_pawn: Node2D
-) -> bool:
-	var shoot_range: int = SHOOT_RANGE_TEMPO
-
-	var distance: int = IceMapLayer.get_hex_distance(
-		origin_cell,
-		target_cell
-	)
-
-	return distance > 0 and distance <= shoot_range
-
-
-
-
-func _is_in_pass_range(
-	origin_cell: Vector2i,
-	target_cell: Vector2i,
-	received_pawn: Node2D
-) -> bool:
-	var shoot_range: int = PASS_RANGE_TEMPO
-
-	var distance: int = IceMapLayer.get_hex_distance(
-		origin_cell,
-		target_cell
-	)
-
-	return distance > 0 and distance <= shoot_range	
 
 
 func _update_action_buttons_visual() -> void:

@@ -92,7 +92,7 @@ func turn_inside_ai() -> void:
 				if pass_target_pawn == null:
 					break
 
-				is_pass_successful = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn, ai_player_pawn_list)
+				is_pass_successful = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn)
 
 				if is_pass_successful:
 					break
