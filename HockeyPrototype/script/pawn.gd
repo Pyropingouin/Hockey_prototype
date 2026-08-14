@@ -86,8 +86,8 @@ var current_cell: Vector2i:
 const NO_ENERGY_STRENGH := 15.0
 #Lower = Faster
 const NO_ENERGY_SPEED := 0.04	
-const SPEND_ENERGY_STRENGH := 3
-const SPEND_ENERGY_SPEED := 0.06	
+const SPEND_ENERGY_STRENGH := 1
+const SPEND_ENERGY_SPEED := 0.04	
 
 signal hold_puck_is_moving
 signal shooting_puck
