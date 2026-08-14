@@ -29,6 +29,7 @@ var current_shoot_targets: Array[Vector2i] = []
 
 const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
+const ALT_PASS_TARGET := 2
 const FLIP_H := 4096
 const FLIP_V := 8192
 const LAYER_TYPE := 0
@@ -467,9 +468,17 @@ func highlight_pass_targets(
 
 	var pass_range: int = range
 
+	# Toutes les cases où une passe peut théoriquement aller
 	var range_cells := _compute_pass_range(
 		origin,
 		pass_range
+	)
+
+	# Seulement les vrais receveurs possibles
+	var targets := _compute_pass_targets(
+		origin,
+		pass_range,
+		received_pawn
 	)
 
 	for cell in map_data.keys():
@@ -478,14 +487,16 @@ func highlight_pass_targets(
 		var atlas_coords := get_cell_atlas_coords(cell)
 
 		var is_in_range := range_cells.has(cell)
+		var is_target := targets.has(cell)
 
 		set_cell(
 			cell,
 			src_id,
 			atlas_coords,
-			_get_highlight_alt(
+			_get_pass_highlight_alt(
 				map_data[cell].base_alt_id,
-				not is_in_range
+				is_in_range,
+				is_target
 			)
 		)
 			
@@ -903,6 +914,23 @@ func is_path_clear(
 			return false
 
 	return true
+
+
+func _get_pass_highlight_alt(
+	base_alt: int,
+	is_in_range: bool,
+	is_target: bool
+) -> int:
+
+	var flip_flags := base_alt & (FLIP_H | FLIP_V)
+
+	if is_target:
+		return ALT_PASS_TARGET | flip_flags
+
+	if is_in_range:
+		return ALT_NORMAL | flip_flags
+
+	return ALT_BLOCKED | flip_flags	
 
 
 ### DEBUG
