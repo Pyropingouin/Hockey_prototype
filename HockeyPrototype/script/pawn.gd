@@ -38,6 +38,7 @@ var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
 var puck_color_tween: Tween
+var energy_bar_original_position 
 
 var _current_energy: int = 0
 
@@ -103,6 +104,7 @@ signal hovering_pawn(pawn: Node2D)
 func _ready() -> void:
 	current_cell = start_cell
 	current_energy = maxEnergy
+	energy_bar_original_position = energy_bar.position 
 	initialize_energy()
 
 	hover_area.mouse_entered.connect(_on_hover_area_mouse_entered)
@@ -448,7 +450,7 @@ func regenEnergy() -> void:
 		]
 	)	
 
-	current_energy += 1
+	current_energy += randi_range(1,2)
 
 	if current_energy > maxEnergy:
 		current_energy = maxEnergy
@@ -534,9 +536,7 @@ func _auto_connect_to_puck() -> void:
 
 
 func shake_energy_bar(shake_strength, shake_speed) -> void:
-	var original_position = energy_bar.position
-
-
+	var original_position = energy_bar_original_position
 
 	var tween = create_tween()
 
