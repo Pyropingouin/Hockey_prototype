@@ -1,0 +1,80 @@
+[
+  {
+    "id": 3.0,
+    "pawn_name": "Dan Demers",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/DanDemers_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 5.0,
+      "strength": 3.0,
+      "reflex": 6.0,
+      "health": 4.0,
+      "maxEnergy": 3.0
+    }
+  },
+  {
+    "id": 4.0,
+    "pawn_name": "Donald Monroe",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/DonaldMonroe_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 5.0,
+      "strength": 3.0,
+      "reflex": 6.0,
+      "health": 4.0,
+      "maxEnergy": 3.0
+    }
+  },
+
+  {
+    "id": 28.0,
+    "pawn_name": "Voznan Wojcik",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/VoznanWojcik_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 5.0,
+      "strength": 3.0,
+      "reflex": 6.0,
+      "health": 4.0,
+      "maxEnergy": 3.0
+    }
+  },
+
+  {
+    "id": 17.0,
+    "pawn_name": "Larry Stone",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/LarryStone_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 5.0,
+      "strength": 3.0,
+      "reflex": 6.0,
+      "health": 4.0,
+      "maxEnergy": 3.0
+    }
+  },
+
+  {
+    "id": 11.0,
+    "pawn_name": "Henry Ducker",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 5.0,
+      "strength": 3.0,
+      "reflex": 6.0,
+      "health": 4.0,
+      "maxEnergy": 3.0
+    }
+  }
+]
