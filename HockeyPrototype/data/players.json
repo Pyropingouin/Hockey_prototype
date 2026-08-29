@@ -274,7 +274,7 @@
 	"pawn_name": "Mark VanDoven",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/MarkVanDoven_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/MarkVanDoven/MarkVanDovenAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -289,7 +289,7 @@
 	"pawn_name": "Meter Pacloud",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/MeterPacloud_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/MeterPacloud/MeterPacloudAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -304,7 +304,7 @@
 	"pawn_name": "Mike Geazel",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/MikeGeazel_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/MikeGeazel/MikeGeazelAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -319,7 +319,7 @@
 	"pawn_name": "Oli Vomicheck",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/OliVomicheck_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/OliVomicheck/OliVomicheckAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -334,7 +334,7 @@
 	"pawn_name": "Orian Maduro",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/OrianMaduro/OrianMaduroAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -349,7 +349,7 @@
 	"pawn_name": "Patrick Loring",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/PatrickLoring_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/PatrickLoring/PatrickLoringAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -364,7 +364,7 @@
 	"pawn_name": "Steeve Dog",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/SteeveDog_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/SteeveDog/SteeveDogAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -379,7 +379,7 @@
 	"pawn_name": "Vaclav Antropov",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/VaclavAntropov_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/VaclavAntropov/VaclavAntropovAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -394,7 +394,7 @@
 	"pawn_name": "Vincent Palady",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/VincentPalady_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/VincentPalady/VincentPaladyAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -424,7 +424,7 @@
 	"pawn_name": "Wale Deise",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/WaleDeise_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/WaleDeise/WaleDeiseAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
@@ -439,7 +439,7 @@
 	"pawn_name": "Zoran Dew-Fingers",
 	"image_path": "res://assets/FullBody/DougDogAway.png",
 	"bubblehead_path": "res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",
-	"animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+	"animationResourcePath": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingersAnimationResource.tres",
 	"default_animation": "idleHome",
 	"stats": {
 	  "move_range": 5.0,
