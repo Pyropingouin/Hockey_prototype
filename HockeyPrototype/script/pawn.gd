@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var bubbleHeadTexture: Texture2D
 @export var fullBodyTexture: Texture2D
-@export var fullBodyAnimation: SpriteFrames
+
 @export var pawn_name: String
 @export var move_range: int = 2
 @export var strength: int = 2
@@ -33,7 +33,7 @@ var _hasPuck: bool = false
 		_update_puck_control_color()
 
 
-
+var animationResource: SpriteFrames
 var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
@@ -158,7 +158,27 @@ func setup(
 
 	fullBodyTexture = player_data.get("image", null)
 	bubbleHeadTexture = player_data.get("bubblehead", null)
-	fullBodyAnimation = player_data.get("fullBodyAnimation", null)
+	var animation_resource_path: String = player_data.get(
+	"animationResourcePath",
+    ""
+)
+
+	if animation_resource_path.is_empty():
+		push_error(
+			"Aucune animationResourcePath pour %s"
+			% pawn_name
+		)
+	else:
+		animationResource = load(animation_resource_path) as SpriteFrames
+
+		if animationResource == null:
+			push_error(
+				"Impossible de charger SpriteFrames pour %s : %s"
+				% [
+					pawn_name,
+					animation_resource_path
+				]
+			)
 
 	
 
@@ -200,43 +220,40 @@ func _update_pawn_texture() -> void:
 			% pawn_name
 		)
 		return
-
-	if fullBodyAnimation == null:
-		push_error(
-			"SpriteFrames introuvable pour %s"
-			% pawn_name
-		)
+	if animationResource == null:
+		push_error("SpriteFrame introuvable pour %s"
+		% pawn_name
+		)	
 		return
 
-	animated_sprite.sprite_frames = fullBodyAnimation
+	animated_sprite.sprite_frames = animationResource
 
-	var animations := fullBodyAnimation.get_animation_names()
+	var animation_name: StringName
 
-	if animations.is_empty():
+
+	if team_id == 1:
+		animation_name = &"idleHome"
+	else:
+		animation_name = &"idleAway"	
+
+	if not animationResource.has_animation(animation_name):
 		push_error(
-			"Aucune animation disponible pour %s"
-			% pawn_name
+			"Animation %s introuvable pour %s"
+			% [
+				animation_name,
+				pawn_name
+			]
 		)
 		return
-
-	var animation_name: StringName = animations[0]
 
 	animated_sprite.play(animation_name)
-
-	var frame_count: int = fullBodyAnimation.get_frame_count(
-		animation_name
-	)
-
-	if frame_count > 0:
-		animated_sprite.frame = randi_range(
-			0,
-			frame_count - 1
-		)
 
 	if sprite != null:
 		sprite.visible = false
 
-	animated_sprite.visible = true
+	animated_sprite.visible = true			
+
+	
 	
 	
 func pick_up_puck(pawn) -> void:

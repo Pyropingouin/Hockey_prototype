@@ -83,7 +83,7 @@ func prepare_player(player_data: Dictionary) -> Dictionary:
 	)
 
 	var animation_path: String = player.get(
-		"fullBodyAnimation_path",
+		"animationResourcePath",
 		""
 	)
 
