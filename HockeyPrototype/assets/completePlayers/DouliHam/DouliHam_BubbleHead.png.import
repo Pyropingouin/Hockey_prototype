@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5qylaik8tryv"
-path="res://.godot/imported/JacquesCelere_BubbleHead.png-87e86fa7f5c128884d248db60f41ddde.ctex"
+uid="uid://ls2im3ig4yb5"
+path="res://.godot/imported/DouliHam_BubbleHead.png-bb285cb36f0b2542c7105f90dea6347c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/JacquesCelere_BubbleHead.png"
-dest_files=["res://.godot/imported/JacquesCelere_BubbleHead.png-87e86fa7f5c128884d248db60f41ddde.ctex"]
+source_file="res://assets/completePlayers/DouliHam/DouliHam_BubbleHead.png"
+dest_files=["res://.godot/imported/DouliHam_BubbleHead.png-bb285cb36f0b2542c7105f90dea6347c.ctex"]
 
 [params]
 

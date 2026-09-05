@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp5kygueet5tr"
-path="res://.godot/imported/VaclavAntropov_BubbleHead.png-00d3a05a3c04dc206880e575d7bb773b.ctex"
+uid="uid://nmwqqp2ntppt"
+path="res://.godot/imported/OliVomicheck_BubbleHead.png-edd23a7f0fe1e048e1856c97b374ec60.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/VaclavAntropov_BubbleHead.png"
-dest_files=["res://.godot/imported/VaclavAntropov_BubbleHead.png-00d3a05a3c04dc206880e575d7bb773b.ctex"]
+source_file="res://assets/completePlayers/OliVomicheck/OliVomicheck_BubbleHead.png"
+dest_files=["res://.godot/imported/OliVomicheck_BubbleHead.png-edd23a7f0fe1e048e1856c97b374ec60.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0fsmlpvg0202"
-path="res://.godot/imported/GuiGagnon_BubbleHead.png-f262cd30f6f0f58f1454665b77b61f32.ctex"
+uid="uid://bnr3357r332yu"
+path="res://.godot/imported/JSP_BubbleHead.png-bc58a307d5f04abdf55a0d2544bddba1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/GuiGagnon_BubbleHead.png"
-dest_files=["res://.godot/imported/GuiGagnon_BubbleHead.png-f262cd30f6f0f58f1454665b77b61f32.ctex"]
+source_file="res://assets/completePlayers/JesusSynjePehtlassen/JSP_BubbleHead.png"
+dest_files=["res://.godot/imported/JSP_BubbleHead.png-bc58a307d5f04abdf55a0d2544bddba1.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clv4w36akbxj"
-path="res://.godot/imported/JeanFrancoisMacedoine_BubbleHead.png-c01922f62e630f5f36ba6e994ddd7840.ctex"
+uid="uid://cke7mmnlcl087"
+path="res://.godot/imported/SteeveDog_BubbleHead.png-6e54813555d15418b6af3d45df8cd25f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/JeanFrancoisMacedoine_BubbleHead.png"
-dest_files=["res://.godot/imported/JeanFrancoisMacedoine_BubbleHead.png-c01922f62e630f5f36ba6e994ddd7840.ctex"]
+source_file="res://assets/completePlayers/SteeveDog/SteeveDog_BubbleHead.png"
+dest_files=["res://.godot/imported/SteeveDog_BubbleHead.png-6e54813555d15418b6af3d45df8cd25f.ctex"]
 
 [params]
 

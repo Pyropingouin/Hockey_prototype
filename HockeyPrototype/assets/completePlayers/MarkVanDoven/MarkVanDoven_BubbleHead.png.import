@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cke7mmnlcl087"
-path="res://.godot/imported/SteeveDog_BubbleHead.png-c7724d212ea86c65f0823d7ef3f46bb4.ctex"
+uid="uid://dxmoaf1a80duk"
+path="res://.godot/imported/MarkVanDoven_BubbleHead.png-bd34e613fe21a94bdf2b8a27e313811e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/SteeveDog_BubbleHead.png"
-dest_files=["res://.godot/imported/SteeveDog_BubbleHead.png-c7724d212ea86c65f0823d7ef3f46bb4.ctex"]
+source_file="res://assets/completePlayers/MarkVanDoven/MarkVanDoven_BubbleHead.png"
+dest_files=["res://.godot/imported/MarkVanDoven_BubbleHead.png-bd34e613fe21a94bdf2b8a27e313811e.ctex"]
 
 [params]
 

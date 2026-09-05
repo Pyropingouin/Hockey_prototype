@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2gmov1xa7c58"
-path="res://.godot/imported/GarenGaspacini_BubbleHead.png-09a01d0f4a25943537061c89f7cc0ac3.ctex"
+uid="uid://dmogal142230i"
+path="res://.godot/imported/GordonMickey_BubbleHead.png-76df0f2a28df2365dfcad2e94edec112.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/GarenGaspacini_BubbleHead.png"
-dest_files=["res://.godot/imported/GarenGaspacini_BubbleHead.png-09a01d0f4a25943537061c89f7cc0ac3.ctex"]
+source_file="res://assets/completePlayers/GordonMickey/GordonMickey_BubbleHead.png"
+dest_files=["res://.godot/imported/GordonMickey_BubbleHead.png-76df0f2a28df2365dfcad2e94edec112.ctex"]
 
 [params]
 

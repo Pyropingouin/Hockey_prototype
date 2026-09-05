@@ -73,20 +73,11 @@ func load_players() -> Array:
 func prepare_player(player_data: Dictionary) -> Dictionary:
 	var player := player_data.duplicate(true)
 
-	var image_path: String = player.get(
-		"image_path",
-		""
-	)
+	var image_path: String = player.get("image_path", "")
+	var bubblehead_path: String = player.get("bubblehead_path", "")
+	var animation_path: String = player.get("animationResourcePath", "")
 
-	var bubblehead_path: String = player.get(
-		"bubblehead_path",
-		""
-	)
 
-	var animation_path: String = player.get(
-		"animationResourcePath",
-		""
-	)
 
 	if not image_path.is_empty():
 		player["image"] = load(image_path)
@@ -98,7 +89,7 @@ func prepare_player(player_data: Dictionary) -> Dictionary:
 		var animation_resource = load(animation_path)
 
 		if animation_resource is SpriteFrames:
-			player["fullBodyAnimation"] = animation_resource
+			player["animationResource"] = animation_resource
 		else:
 			push_error(
 				"L'animation de %s n'est pas un SpriteFrames : %s"

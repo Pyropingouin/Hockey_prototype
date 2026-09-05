@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcoocynh2mg6c"
-path="res://.godot/imported/MeterPacloud_BubbleHead.png-d996df94c0eb634aeb181068dfffff6a.ctex"
+uid="uid://b5qylaik8tryv"
+path="res://.godot/imported/JacquesCelere_BubbleHead.png-f3604ac64ea95036127f85e9c922d689.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/MeterPacloud_BubbleHead.png"
-dest_files=["res://.godot/imported/MeterPacloud_BubbleHead.png-d996df94c0eb634aeb181068dfffff6a.ctex"]
+source_file="res://assets/completePlayers/JacquesCelere/JacquesCelere_BubbleHead.png"
+dest_files=["res://.godot/imported/JacquesCelere_BubbleHead.png-f3604ac64ea95036127f85e9c922d689.ctex"]
 
 [params]
 

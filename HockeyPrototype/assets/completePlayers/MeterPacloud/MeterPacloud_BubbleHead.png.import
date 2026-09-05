@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dclkonpyi7s6s"
-path="res://.godot/imported/GlorpThorpe_BubbleHead.png-d93b9948a8fa2aa2322c1781930cf312.ctex"
+uid="uid://dcoocynh2mg6c"
+path="res://.godot/imported/MeterPacloud_BubbleHead.png-8a0e0b6d7b9aad0c16df0dc265c89f20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/GlorpThorpe_BubbleHead.png"
-dest_files=["res://.godot/imported/GlorpThorpe_BubbleHead.png-d93b9948a8fa2aa2322c1781930cf312.ctex"]
+source_file="res://assets/completePlayers/MeterPacloud/MeterPacloud_BubbleHead.png"
+dest_files=["res://.godot/imported/MeterPacloud_BubbleHead.png-8a0e0b6d7b9aad0c16df0dc265c89f20.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmogal142230i"
-path="res://.godot/imported/GordonMickey_BubbleHead.png-d11d7fbca69912da7e4888128b9a5961.ctex"
+uid="uid://dclkonpyi7s6s"
+path="res://.godot/imported/GlorpThorpe_BubbleHead.png-e5a555ce4a8c6b936d8b7e4be6ce4ca0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/GordonMickey_BubbleHead.png"
-dest_files=["res://.godot/imported/GordonMickey_BubbleHead.png-d11d7fbca69912da7e4888128b9a5961.ctex"]
+source_file="res://assets/completePlayers/GlorpThorpe/GlorpThorpe_BubbleHead.png"
+dest_files=["res://.godot/imported/GlorpThorpe_BubbleHead.png-e5a555ce4a8c6b936d8b7e4be6ce4ca0.ctex"]
 
 [params]
 

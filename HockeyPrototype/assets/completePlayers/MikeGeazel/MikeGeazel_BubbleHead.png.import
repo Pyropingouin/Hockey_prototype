@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtr63yv1vcwo5"
-path="res://.godot/imported/ZoranDewFingers_BubbleHead.png-fff8292a1d3b225574f43f19b2135933.ctex"
+uid="uid://dwbtcrftbj0p3"
+path="res://.godot/imported/MikeGeazel_BubbleHead.png-df9e9843d9df11355f7aefd28a459698.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png"
-dest_files=["res://.godot/imported/ZoranDewFingers_BubbleHead.png-fff8292a1d3b225574f43f19b2135933.ctex"]
+source_file="res://assets/completePlayers/MikeGeazel/MikeGeazel_BubbleHead.png"
+dest_files=["res://.godot/imported/MikeGeazel_BubbleHead.png-df9e9843d9df11355f7aefd28a459698.ctex"]
 
 [params]
 

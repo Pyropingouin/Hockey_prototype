@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqo21qdbxicew"
-path="res://.godot/imported/WaleDeise_BubbleHead.png-0541e886b1e244bb48287f80186bc2ba.ctex"
+uid="uid://cp5kygueet5tr"
+path="res://.godot/imported/VaclavAntropov_BubbleHead.png-53d2423d287d2046ffadbb1e2ffbfa7c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/WaleDeise_BubbleHead.png"
-dest_files=["res://.godot/imported/WaleDeise_BubbleHead.png-0541e886b1e244bb48287f80186bc2ba.ctex"]
+source_file="res://assets/completePlayers/VaclavAntropov/VaclavAntropov_BubbleHead.png"
+dest_files=["res://.godot/imported/VaclavAntropov_BubbleHead.png-53d2423d287d2046ffadbb1e2ffbfa7c.ctex"]
 
 [params]
 

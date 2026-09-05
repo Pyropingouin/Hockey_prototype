@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwbtcrftbj0p3"
-path="res://.godot/imported/MikeGeazel_BubbleHead.png-ff229a1f3da7d21807922ba6eaa11a01.ctex"
+uid="uid://xf3ulgovp6hl"
+path="res://.godot/imported/CarloMonferato_BubbleHead.png-b29fe0ec0f6c9e68e7af79aea52f90be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/MikeGeazel_BubbleHead.png"
-dest_files=["res://.godot/imported/MikeGeazel_BubbleHead.png-ff229a1f3da7d21807922ba6eaa11a01.ctex"]
+source_file="res://assets/completePlayers/CarloMonferato/CarloMonferato_BubbleHead.png"
+dest_files=["res://.godot/imported/CarloMonferato_BubbleHead.png-b29fe0ec0f6c9e68e7af79aea52f90be.ctex"]
 
 [params]
 

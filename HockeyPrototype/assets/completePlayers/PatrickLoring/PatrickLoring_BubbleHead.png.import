@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c15j143j7raw3"
-path="res://.godot/imported/JoshSoup_BubbleHead.png-bab025c97819403b9b3e9baeb59dea5c.ctex"
+uid="uid://yhk2hytovsk0"
+path="res://.godot/imported/PatrickLoring_BubbleHead.png-e5a59b4899ce7bf7fd02a34983c58428.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/JoshSoup_BubbleHead.png"
-dest_files=["res://.godot/imported/JoshSoup_BubbleHead.png-bab025c97819403b9b3e9baeb59dea5c.ctex"]
+source_file="res://assets/completePlayers/PatrickLoring/PatrickLoring_BubbleHead.png"
+dest_files=["res://.godot/imported/PatrickLoring_BubbleHead.png-e5a59b4899ce7bf7fd02a34983c58428.ctex"]
 
 [params]
 

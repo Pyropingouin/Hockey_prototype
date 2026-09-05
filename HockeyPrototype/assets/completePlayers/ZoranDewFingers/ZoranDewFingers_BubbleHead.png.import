@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnr3357r332yu"
-path="res://.godot/imported/JSP_BubbleHead.png-d2f03d34bd79b080d075bb3a5691c89c.ctex"
+uid="uid://dtr63yv1vcwo5"
+path="res://.godot/imported/ZoranDewFingers_BubbleHead.png-5ab03dd141c61fe12dd0e9dba9b3f890.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/JSP_BubbleHead.png"
-dest_files=["res://.godot/imported/JSP_BubbleHead.png-d2f03d34bd79b080d075bb3a5691c89c.ctex"]
+source_file="res://assets/completePlayers/ZoranDewFingers/ZoranDewFingers_BubbleHead.png"
+dest_files=["res://.godot/imported/ZoranDewFingers_BubbleHead.png-5ab03dd141c61fe12dd0e9dba9b3f890.ctex"]
 
 [params]
 

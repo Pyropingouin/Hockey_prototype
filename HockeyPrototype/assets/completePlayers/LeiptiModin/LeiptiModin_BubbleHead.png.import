@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ls2im3ig4yb5"
-path="res://.godot/imported/DouliHam_BubbleHead.png-13339b946d20db1542854436acac65de.ctex"
+uid="uid://cy26qghqcg2uj"
+path="res://.godot/imported/LeiptiModin_BubbleHead.png-56d8dcec48f9be7f92636bcf9d712421.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/DouliHam_BubbleHead.png"
-dest_files=["res://.godot/imported/DouliHam_BubbleHead.png-13339b946d20db1542854436acac65de.ctex"]
+source_file="res://assets/completePlayers/LeiptiModin/LeiptiModin_BubbleHead.png"
+dest_files=["res://.godot/imported/LeiptiModin_BubbleHead.png-56d8dcec48f9be7f92636bcf9d712421.ctex"]
 
 [params]
 

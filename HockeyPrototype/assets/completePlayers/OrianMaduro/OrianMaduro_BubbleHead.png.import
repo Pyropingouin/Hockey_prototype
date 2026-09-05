@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cunidbuhqus3w"
-path="res://.godot/imported/OrianMaduro_BubbleHead.png-bc04e677f2d9d83d5bc6adfd7634a460.ctex"
+path="res://.godot/imported/OrianMaduro_BubbleHead.png-2ae6f80b114f923465aaca4f11889096.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/OrianMaduro_BubbleHead.png"
-dest_files=["res://.godot/imported/OrianMaduro_BubbleHead.png-bc04e677f2d9d83d5bc6adfd7634a460.ctex"]
+source_file="res://assets/completePlayers/OrianMaduro/OrianMaduro_BubbleHead.png"
+dest_files=["res://.godot/imported/OrianMaduro_BubbleHead.png-2ae6f80b114f923465aaca4f11889096.ctex"]
 
 [params]
 

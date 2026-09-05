@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nmwqqp2ntppt"
-path="res://.godot/imported/OliVomicheck_BubbleHead.png-e17e7df74bd001aa556884fa354c763f.ctex"
+uid="uid://clv4w36akbxj"
+path="res://.godot/imported/JeanFrancoisMacedoine_BubbleHead.png-dcdcf483d0ea4b6b09d2ff317bb4c872.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/OliVomicheck_BubbleHead.png"
-dest_files=["res://.godot/imported/OliVomicheck_BubbleHead.png-e17e7df74bd001aa556884fa354c763f.ctex"]
+source_file="res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoine_BubbleHead.png"
+dest_files=["res://.godot/imported/JeanFrancoisMacedoine_BubbleHead.png-dcdcf483d0ea4b6b09d2ff317bb4c872.ctex"]
 
 [params]
 

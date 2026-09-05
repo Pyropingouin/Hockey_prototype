@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvm2debt5kubm"
-path="res://.godot/imported/JohnSmith_BubbleHead.png-683f54d32f8c36cf081092d67b7b2201.ctex"
+uid="uid://drpxkq5jk7mfw"
+path="res://.godot/imported/VincentPalady_BubbleHead.png-4426b13c4902648c5bf4f038b152c9af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/JohnSmith_BubbleHead.png"
-dest_files=["res://.godot/imported/JohnSmith_BubbleHead.png-683f54d32f8c36cf081092d67b7b2201.ctex"]
+source_file="res://assets/completePlayers/VincentPalady/VincentPalady_BubbleHead.png"
+dest_files=["res://.godot/imported/VincentPalady_BubbleHead.png-4426b13c4902648c5bf4f038b152c9af.ctex"]
 
 [params]
 
