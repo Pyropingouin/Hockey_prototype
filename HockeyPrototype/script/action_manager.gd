@@ -150,7 +150,9 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 	if not shooter.has_method("_shoot"):
 		return false
 
-	shooter.play_second_shoot_animation()
+	await shooter.play_second_shoot_animation_and_wait()
+
+	
 	shooter._shoot(target_cell)
 	
 
@@ -427,7 +429,7 @@ func ai_attempt_shoot(
 	chosen_ai_pawn: Node2D
 ) -> bool:
 
-	return attempt_shoot(
+	return await attempt_shoot(
 		chosen_ai_pawn,
 		target_cell
 	)

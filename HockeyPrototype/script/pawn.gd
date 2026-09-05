@@ -36,10 +36,10 @@ var _hasPuck: bool = false
 enum AnimationState {
 	IDLE,
 	MOVE,
-	SHOOT,
 	FIRST_SHOOT,
 	SECOND_SHOOT,
-	PASS,
+	FIRST_PASS,
+	SECOND_PASS,
 	HIT
 }		
 
@@ -294,8 +294,15 @@ func _on_animation_finished() -> void:
 		AnimationState.SECOND_SHOOT:
 			play_idle_animation()
 
-		AnimationState.PASS:
+		AnimationState.FIRST_PASS:
+			# Ne rien faire.
+			# On reste sur la dernière frame,
+			# bâton levé.
+			pass
+
+		AnimationState.SECOND_PASS:
 			play_idle_animation()
+	
 
 		AnimationState.HIT:
 			play_idle_animation()
@@ -322,26 +329,56 @@ func play_idle_animation() -> void:
 
 
 func play_first_shoot_animation() -> void:
-
-	print("FIRST SHOT")
-
 	animation_state = AnimationState.FIRST_SHOOT
-	play_animation("shotFirstPart")
 
-func play_second_shoot_animation() -> void:
-	animation_state = AnimationState.SECOND_SHOOT
-	play_animation("shotSecondPart")
-
-
-
-
-func play_pass_animation() -> void:
-	animation_state = AnimationState.PASS
 	if team_id == 1:
-		play_animation("passHome")
+		play_animation("shotFirstHome")
 
 	else:
-		play_animation("passAway")	
+		play_animation("shotFirstHome")	
+
+
+	
+	play_animation("shotFirstPart")
+
+func play_second_shoot_animation_and_wait() -> void:
+	animation_state = AnimationState.SECOND_SHOOT
+
+	if team_id == 1:
+		play_animation("shotSecondHome")
+
+	else:
+		play_animation("shotSecondHome")	
+	
+
+	await animated_sprite.animation_finished
+
+
+
+
+### P_T JUSTE JOUER SHOT
+func play_first_pass_animation() -> void:
+	animation_state = AnimationState.FIRST_PASS
+	if team_id == 1:
+		play_animation("passFirstHome")
+
+	else:
+		play_animation("passFirstHome")	
+
+
+
+
+
+func play_second_pass_animation() -> void:
+	animation_state = AnimationState.SECOND_PASS
+	if team_id == 1:
+		play_animation("passSecondHome")
+
+	else:
+		play_animation("passSecondHome")	
+
+
+
 
 
 func play_hit_animation() -> void:
@@ -351,6 +388,8 @@ func play_hit_animation() -> void:
 
 	else:
 		play_animation("hitAway")	
+
+
 
 
 

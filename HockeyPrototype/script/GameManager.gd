@@ -222,12 +222,18 @@ func ai_turn() -> void:
 
 
 func _cancel_action_mode() -> void:
+
+	action_pawn.play_idle_animation()
+
+
 	action_mode = ActionMode.NONE
 	action_pawn = null
 
 	IceMapLayer.clear_highlight()
 	IceMapLayer.clear_shot_preview()
 	IceMapLayer.clear_pass_preview()
+
+
 
 	_refresh_action_buttons()
 
@@ -356,7 +362,7 @@ func _do_shoot(target_cell: Vector2i) -> void:
 
 
 	var shoot_successful: bool = \
-		ActionManager.attempt_shoot(
+		await ActionManager.attempt_shoot(
 			action_pawn,
 			target_cell
 		)
@@ -718,4 +724,3 @@ func _refresh_al_player_energy() -> void:
 			continue
 
 		player.regenAllEnergy()
-
