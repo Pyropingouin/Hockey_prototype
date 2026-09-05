@@ -247,9 +247,9 @@ func attempt_pass(
 	if not passer.has_method("_pass"):
 		return false
 
-
+	
+	await passer.play_second_pass_animation_and_wait()
 	passer._pass(pass_target.current_cell)
-	passer.play_pass_animation()
 
 	GameManager.update_action_counter(1)
 
@@ -331,8 +331,9 @@ func attempt_hit(
 	if not hitter.has_method("_hit"):
 		return false
 
-
+	await hitter.play_second_hit_animation_and_wait()
 	hitter._hit(hit_target.current_cell)
+	
 
 	hitter.spendEnergy(HIT_ENERGY_COST)
 
@@ -399,6 +400,43 @@ func start_shoot(shooter: Node2D) -> bool:
 	return true
 
 
+func start_pass(passer: Node2D) -> bool:
+
+	if passer == null:
+		return false
+
+	if not passer.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Impossible de préparer le tir : le joueur n'a pas la puck."
+		)
+		return false
+
+	passer.play_first_pass_animation()
+
+	return true
+
+
+func start_hit(hitter: Node2D) -> bool:
+
+	if hitter == null:
+		return false
+
+	# if not hitter.hasPuck:
+	# 	DebugLogger.log(
+	# 		DebugLogger.DebugType.ACTION_MANAGER,
+	# 		"Impossible de préparer le tir : le joueur n'a pas la puck."
+	# 	)
+	# 	return false
+
+	hitter.play_first_hit_animation()
+
+	return true
+
+
+
+
+
 ####
 ###
 ## AI ACTIONS
@@ -440,7 +478,7 @@ func ai_attempt_pass(
 	pass_target: Node2D
 ) -> bool:
 
-	return attempt_pass(
+	return await attempt_pass(
 		chosen_ai_pawn,
 		pass_target
 	)
@@ -455,7 +493,7 @@ func ai_attempt_hit(
 		IceMapLayer.get_pawn_on_cell(target_cell)
 
 
-	return attempt_hit(
+	return await attempt_hit(
 		chosen_ai_pawn,
 		hit_target
 	)

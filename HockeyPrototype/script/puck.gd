@@ -25,9 +25,6 @@ signal puck_rebounded(new_cell: Vector2i)
 func _ready():
 	add_to_group("puck")
 
-func _process(_delta: float) -> void:
-	pass
-	
 
 func get_current_cell() -> Vector2i:
 	return current_cell

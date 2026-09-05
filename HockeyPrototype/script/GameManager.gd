@@ -223,8 +223,8 @@ func ai_turn() -> void:
 
 func _cancel_action_mode() -> void:
 
-	action_pawn.play_idle_animation()
-
+	if action_pawn != null:
+		action_pawn.play_idle_animation()
 
 	action_mode = ActionMode.NONE
 	action_pawn = null
@@ -328,6 +328,7 @@ func _start_action_pass() -> void:
 
 	IceMapLayer.clear_pass_preview()
 	_refresh_action_buttons()
+	ActionManager.start_pass(action_pawn)
 	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, ActionManager.PASS_RANGE)
 
 
@@ -351,6 +352,7 @@ func _start_action_hit() -> void:
 	action_origin_cell = selected_pawn.current_cell
 
 	_refresh_action_buttons()
+	ActionManager.start_hit(action_pawn)
 	IceMapLayer.highlight_hit_targets(action_origin_cell, action_pawn)
 
 
@@ -388,7 +390,7 @@ func _do_pass(target_cell: Vector2i) -> void:
 
 
 	var pass_successful: bool = \
-		ActionManager.attempt_pass(
+		await ActionManager.attempt_pass(
 			action_pawn,
 			pass_target
 		)
@@ -414,7 +416,7 @@ func _do_hit(target_cell: Vector2i) -> void:
 
 
 	var hit_successful: bool = \
-		ActionManager.attempt_hit(
+		await ActionManager.attempt_hit(
 			action_pawn,
 			hit_target
 		)

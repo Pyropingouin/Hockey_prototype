@@ -40,7 +40,8 @@ enum AnimationState {
 	SECOND_SHOOT,
 	FIRST_PASS,
 	SECOND_PASS,
-	HIT
+	FIRST_HIT,
+	SECOND_HIT
 }		
 
 
@@ -135,21 +136,6 @@ func _ready() -> void:
 
 	play_idle_animation()
 
-func _process(delta: float) -> void:
-	pass
-	## REMETTRE SI ON VEUT DE LA COULEUR SUR SELECTED PAWN
-	# if _is_selected_pawn:
-	# 	hue += delta * 0.5
-
-	# 	if hue > 1.0:
-	# 		hue -= 1.0
-
-	# 	animated_sprite.modulate = Color.from_hsv(
-	# 		hue,
-	# 		1.0,
-	# 		1.0,
-	# 		1.0
-	# 	)	
 
 func get_current_cell() -> Vector2i:
 	return current_cell
@@ -304,8 +290,14 @@ func _on_animation_finished() -> void:
 			play_idle_animation()
 	
 
-		AnimationState.HIT:
+		AnimationState.FIRST_HIT:
+			# Ne rien faire.
+			pass
+
+		AnimationState.SECOND_HIT:
 			play_idle_animation()
+
+
 
 
 
@@ -369,7 +361,7 @@ func play_first_pass_animation() -> void:
 
 
 
-func play_second_pass_animation() -> void:
+func play_second_pass_animation_and_wait() -> void:
 	animation_state = AnimationState.SECOND_PASS
 	if team_id == 1:
 		play_animation("passSecondHome")
@@ -377,17 +369,28 @@ func play_second_pass_animation() -> void:
 	else:
 		play_animation("passSecondHome")	
 
+	await animated_sprite.animation_finished
 
 
 
-
-func play_hit_animation() -> void:
-	animation_state = AnimationState.HIT
+func play_first_hit_animation() -> void:
+	animation_state = AnimationState.FIRST_HIT
 	if team_id == 1:
-		play_animation("hitHome")
+		play_animation("hitFirst")
 
 	else:
-		play_animation("hitAway")	
+		play_animation("hitFirst")	
+
+
+func play_second_hit_animation_and_wait() -> void:
+	animation_state = AnimationState.SECOND_HIT
+	if team_id == 1:
+		play_animation("hitSecond")
+
+	else:
+		play_animation("hitSecond")	
+
+	await animated_sprite.animation_finished
 
 
 
