@@ -36,6 +36,7 @@ shape = SubResource("CapsuleShape2D_w6ftl")
 debug_color = Color(0.9409436, 0.13380575, 0.5131118, 0.41960785)
 
 [node name="EnergyBar" type="ProgressBar" parent="."]
+visible = false
 offset_left = -48.0
 offset_right = 49.0
 offset_bottom = 27.0

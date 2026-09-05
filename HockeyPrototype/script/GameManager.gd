@@ -297,6 +297,8 @@ func _start_action_shoot() -> void:
 			action_pawn
 		]
 	)
+
+	ActionManager.start_shoot(action_pawn)
 	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn, ActionManager.SHOOT_RANGE)
 
 func _start_action_pass() -> void:

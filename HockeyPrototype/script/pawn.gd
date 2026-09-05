@@ -37,6 +37,8 @@ enum AnimationState {
 	IDLE,
 	MOVE,
 	SHOOT,
+	FIRST_SHOOT,
+	SECOND_SHOOT,
 	PASS,
 	HIT
 }		
@@ -282,10 +284,21 @@ func play_animation(animation_name: StringName) -> void:
 
 func _on_animation_finished() -> void:
 	match animation_state:
-		AnimationState.SHOOT, \
-		AnimationState.PASS, \
+
+		AnimationState.FIRST_SHOOT:
+			# Ne rien faire.
+			# On reste sur la dernière frame,
+			# bâton levé.
+			pass
+
+		AnimationState.SECOND_SHOOT:
+			play_idle_animation()
+
+		AnimationState.PASS:
+			play_idle_animation()
+
 		AnimationState.HIT:
-			play_idle_animation()	
+			play_idle_animation()
 
 
 
@@ -307,13 +320,18 @@ func play_idle_animation() -> void:
 		animated_sprite.frame = randi_range(0, frame_count - 1)
 
 
-func play_shoot_animation() -> void:
-	animation_state = AnimationState.SHOOT
-	if team_id == 1:
-		play_animation("shotHome")
 
-	else:
-		play_animation("shotAway")	
+func play_first_shoot_animation() -> void:
+
+	print("FIRST SHOT")
+
+	animation_state = AnimationState.FIRST_SHOOT
+	play_animation("shotFirstPart")
+
+func play_second_shoot_animation() -> void:
+	animation_state = AnimationState.SECOND_SHOOT
+	play_animation("shotSecondPart")
+
 
 
 

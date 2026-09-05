@@ -48,6 +48,7 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 
 
 func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
+	
 
 	DebugLogger.log(
 		DebugLogger.DebugType.ACTION_MANAGER,
@@ -57,6 +58,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		]
 	)
 
+	
 	if shooter == null:
 		return false
 
@@ -148,9 +150,9 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 	if not shooter.has_method("_shoot"):
 		return false
 
-
+	shooter.play_second_shoot_animation()
 	shooter._shoot(target_cell)
-	shooter.play_shoot_animation()
+	
 
 	GameManager.update_action_counter(1)
 
@@ -373,6 +375,26 @@ func is_in_pass_range(
 
 	return distance > 0 and distance <= PASS_RANGE
 
+
+
+
+
+
+func start_shoot(shooter: Node2D) -> bool:
+
+	if shooter == null:
+		return false
+
+	if not shooter.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Impossible de préparer le tir : le joueur n'a pas la puck."
+		)
+		return false
+
+	shooter.play_first_shoot_animation()
+
+	return true
 
 
 ####
