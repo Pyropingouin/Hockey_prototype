@@ -292,11 +292,19 @@ func _on_animation_finished() -> void:
 func play_idle_animation() -> void:
 	animation_state = AnimationState.IDLE
 
-	if team_id == 1:
-		play_animation("idleHome")
+	var idle_animation: StringName
 
+	if team_id == 1:
+		idle_animation = &"idleHome"
 	else:
-		play_animation("idleAway")	
+		idle_animation = &"idleAway"
+
+	play_animation(idle_animation)
+
+	var frame_count := animated_sprite.sprite_frames.get_frame_count(idle_animation)
+
+	if frame_count > 0:
+		animated_sprite.frame = randi_range(0, frame_count - 1)
 
 
 func play_shoot_animation() -> void:
