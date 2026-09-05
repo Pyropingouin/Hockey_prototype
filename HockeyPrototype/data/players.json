@@ -16,6 +16,21 @@
   },
   {
     "id": 2.0,
+    "pawn_name": "Al Macdonald",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/AaronWhite_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/AlMacdonald/AllMacdonaldAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 3.0,
+      "strength": 6.0,
+      "reflex": 4.0,
+      "health": 5.0,
+      "maxEnergy": 3.0
+    }
+  },
+  {
+    "id": 3.0,
     "pawn_name": "Carlo Monferato",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/CarloMonferato_BubbleHead.png",
@@ -30,7 +45,7 @@
     }
   },
   {
-    "id": 5.0,
+    "id": 4.0,
     "pawn_name": "Doug Dog",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/DougDog_BubbleHead.png",
@@ -45,7 +60,7 @@
     }
   },
   {
-    "id": 6.0,
+    "id": 5.0,
     "pawn_name": "Douli Ham",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/DouliHam_BubbleHead.png",
@@ -60,7 +75,7 @@
     }
   },
   {
-    "id": 7.0,
+    "id": 6.0,
     "pawn_name": "Garen Gaspacini",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/GarenGaspacini_BubbleHead.png",
@@ -75,7 +90,7 @@
     }
   },
   {
-    "id": 8.0,
+    "id": 7.0,
     "pawn_name": "Glorp Thorpe",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/GlorpThorpe_BubbleHead.png",
@@ -90,7 +105,7 @@
     }
   },
   {
-    "id": 9.0,
+    "id": 8.0,
     "pawn_name": "Gordon Mickey",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/GordonMickey_BubbleHead.png",
@@ -105,7 +120,7 @@
     }
   },
   {
-    "id": 10.0,
+    "id": 9.0,
     "pawn_name": "Gui Gagnon",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/GuiGagnon_BubbleHead.png",
@@ -119,9 +134,8 @@
       "maxEnergy": 3.0
     }
   },
-
   {
-    "id": 12.0,
+    "id": 10.0,
     "pawn_name": "Jacques Celere",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/JacquesCelere_BubbleHead.png",
@@ -136,7 +150,7 @@
     }
   },
   {
-    "id": 13.0,
+    "id": 11.0,
     "pawn_name": "Jean-Francois Macedoine",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/JeanFrancoisMacedoine_BubbleHead.png",
@@ -151,7 +165,22 @@
     }
   },
   {
-    "id": 14.0,
+    "id": 12.0,
+    "pawn_name": "Jésus-Synje Pethlässen",
+    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "bubblehead_path": "res://assets/Bubble_head/JSP_BubbleHead.png",
+    "animationResourcePath": "res://assets/completePlayers/JesusSynjePehtlassen/JesusSynjePehtlassenAnimationResource.tres",
+    "default_animation": "idleHome",
+    "stats": {
+      "move_range": 5.0,
+      "strength": 3.0,
+      "reflex": 6.0,
+      "health": 4.0,
+      "maxEnergy": 3.0
+    }
+  },
+  {
+    "id": 13.0,
     "pawn_name": "John Smith",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/JohnSmith_BubbleHead.png",
@@ -166,7 +195,7 @@
     }
   },
   {
-    "id": 15.0,
+    "id": 14.0,
     "pawn_name": "Josh Soup",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/JoshSoup_BubbleHead.png",
@@ -181,23 +210,7 @@
     }
   },
   {
-    "id": 16.0,
-    "pawn_name": "Jésus-Synje Pethlässen",
-    "image_path": "res://assets/FullBody/DougDogAway.png",
-    "bubblehead_path": "res://assets/Bubble_head/JSP_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/JesusSynjePehtlassen/JesusSynjePehtlassenAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-
-  {
-    "id": 18.0,
+    "id": 15.0,
     "pawn_name": "Leipti Modin",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/LeiptiModin_BubbleHead.png",
@@ -212,7 +225,7 @@
     }
   },
   {
-    "id": 19.0,
+    "id": 16.0,
     "pawn_name": "Mark VanDoven",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/MarkVanDoven_BubbleHead.png",
@@ -227,7 +240,7 @@
     }
   },
   {
-    "id": 20.0,
+    "id": 17.0,
     "pawn_name": "Meter Pacloud",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/MeterPacloud_BubbleHead.png",
@@ -242,7 +255,7 @@
     }
   },
   {
-    "id": 21.0,
+    "id": 18.0,
     "pawn_name": "Mike Geazel",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/MikeGeazel_BubbleHead.png",
@@ -257,7 +270,7 @@
     }
   },
   {
-    "id": 22.0,
+    "id": 19.0,
     "pawn_name": "Oli Vomicheck",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/OliVomicheck_BubbleHead.png",
@@ -272,7 +285,7 @@
     }
   },
   {
-    "id": 23.0,
+    "id": 20.0,
     "pawn_name": "Orian Maduro",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/OrianMaduro_BubbleHead.png",
@@ -287,7 +300,7 @@
     }
   },
   {
-    "id": 24.0,
+    "id": 21.0,
     "pawn_name": "Patrick Loring",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/PatrickLoring_BubbleHead.png",
@@ -302,7 +315,7 @@
     }
   },
   {
-    "id": 25.0,
+    "id": 22.0,
     "pawn_name": "Steeve Dog",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/SteeveDog_BubbleHead.png",
@@ -317,7 +330,7 @@
     }
   },
   {
-    "id": 26.0,
+    "id": 23.0,
     "pawn_name": "Vaclav Antropov",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/VaclavAntropov_BubbleHead.png",
@@ -332,7 +345,7 @@
     }
   },
   {
-    "id": 27.0,
+    "id": 24.0,
     "pawn_name": "Vincent Palady",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/VincentPalady_BubbleHead.png",
@@ -348,7 +361,7 @@
   },
 
   {
-    "id": 29.0,
+    "id": 25.0,
     "pawn_name": "Wale Deise",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/WaleDeise_BubbleHead.png",
@@ -363,7 +376,7 @@
     }
   },
   {
-    "id": 30.0,
+    "id": 26.0,
     "pawn_name": "Zoran Dew-Fingers",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/ZoranDewFingers_BubbleHead.png",

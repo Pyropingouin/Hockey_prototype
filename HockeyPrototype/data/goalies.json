@@ -1,6 +1,6 @@
 [
   {
-    "id": 3.0,
+    "id": 100.0,
     "pawn_name": "Dan Demers",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/DanDemers_BubbleHead.png",
@@ -15,7 +15,7 @@
     }
   },
   {
-    "id": 4.0,
+    "id": 101.0,
     "pawn_name": "Donald Monroe",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/DonaldMonroe_BubbleHead.png",
@@ -31,7 +31,7 @@
   },
 
   {
-    "id": 28.0,
+    "id": 102.0,
     "pawn_name": "Voznan Wojcik",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/VoznanWojcik_BubbleHead.png",
@@ -47,7 +47,7 @@
   },
 
   {
-    "id": 17.0,
+    "id": 103.0,
     "pawn_name": "Larry Stone",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/LarryStone_BubbleHead.png",
@@ -63,7 +63,7 @@
   },
 
   {
-    "id": 11.0,
+    "id": 104.0,
     "pawn_name": "Henry Ducker",
     "image_path": "res://assets/FullBody/DougDogAway.png",
     "bubblehead_path": "res://assets/Bubble_head/HenryDucker_BubbleHead.png",

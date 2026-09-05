@@ -33,6 +33,16 @@ var _hasPuck: bool = false
 		_update_puck_control_color()
 
 
+enum AnimationState {
+	IDLE,
+	MOVE,
+	SHOOT,
+	PASS,
+	HIT
+}		
+
+
+var animation_state: AnimationState = AnimationState.IDLE
 var animationResource: SpriteFrames
 var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
@@ -118,6 +128,10 @@ func _ready() -> void:
 	GameManager.pawn_selected.connect(_on_pawn_selected)
 
 	_update_pawn_texture()
+
+	animated_sprite.animation_finished.connect(_on_animation_finished)
+
+	play_idle_animation()
 
 func _process(delta: float) -> void:
 	pass
@@ -253,7 +267,67 @@ func _update_pawn_texture() -> void:
 
 	animated_sprite.visible = true			
 
-	
+
+
+func play_animation(animation_name: StringName) -> void:
+	if not animated_sprite.sprite_frames.has_animation(animation_name):
+		push_warning(
+			"Animation '%s' inexistante pour %s"
+			% [animation_name, pawn_name]
+		)
+		return
+
+	animated_sprite.play(animation_name)	
+
+
+func _on_animation_finished() -> void:
+	match animation_state:
+		AnimationState.SHOOT, \
+		AnimationState.PASS, \
+		AnimationState.HIT:
+			play_idle_animation()	
+
+
+
+func play_idle_animation() -> void:
+	animation_state = AnimationState.IDLE
+
+	if team_id == 1:
+		play_animation("idleHome")
+
+	else:
+		play_animation("idleAway")	
+
+
+func play_shoot_animation() -> void:
+	animation_state = AnimationState.SHOOT
+	if team_id == 1:
+		play_animation("shotHome")
+
+	else:
+		play_animation("shotAway")	
+
+
+
+func play_pass_animation() -> void:
+	animation_state = AnimationState.PASS
+	if team_id == 1:
+		play_animation("passHome")
+
+	else:
+		play_animation("passAway")	
+
+
+func play_hit_animation() -> void:
+	animation_state = AnimationState.HIT
+	if team_id == 1:
+		play_animation("hitHome")
+
+	else:
+		play_animation("hitAway")	
+
+
+
 	
 	
 func pick_up_puck(pawn) -> void:

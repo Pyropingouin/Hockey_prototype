@@ -150,6 +150,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 
 	shooter._shoot(target_cell)
+	shooter.play_shoot_animation()
 
 	GameManager.update_action_counter(1)
 
@@ -244,6 +245,7 @@ func attempt_pass(
 
 
 	passer._pass(pass_target.current_cell)
+	passer.play_pass_animation()
 
 	GameManager.update_action_counter(1)
 

@@ -23,7 +23,8 @@ func _ready() -> void:
 	
 
 
-	set_random_quickplay_teams()
+	# set_random_quickplay_teams()
+	set_TEST_quickplay_teams()
 	set_default_player_goalie()
 	set_default_opposing_goalie()		
 
@@ -133,6 +134,30 @@ func set_random_quickplay_teams() -> void:
 		players[4],
 		players[5]
 	]	
+
+
+
+
+func set_TEST_quickplay_teams() -> void:
+	var players: Array = load_players()
+
+	if players.size() < 6:
+		push_error(
+			"Il faut au moins 6 joueurs pour le Quick Play"
+		)
+		return
+
+	player_team_selected_players = [
+		players[0],
+		players[1],
+		players[2]
+	]
+
+	opposing_team_selected_players = [
+		players[3],
+		players[4],
+		players[5]
+	]		
 
 
 

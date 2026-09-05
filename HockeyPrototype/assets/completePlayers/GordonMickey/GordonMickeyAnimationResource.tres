@@ -360,7 +360,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hitAway",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -395,7 +395,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hitHome",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -479,7 +479,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"passAway",
-"speed": 8.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -505,7 +505,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"passHome",
-"speed": 8.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -555,7 +555,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"shotAway",
-"speed": 8.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -602,5 +602,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"shotHome",
-"speed": 8.0
+"speed": 14.0
 }]
