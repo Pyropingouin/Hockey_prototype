@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcrg2igq5wk3x"
-path="res://.godot/imported/DougDog_PatinAway_animation.png-d3bb337b7adb672a2f9da2f16277d8ad.ctex"
+uid="uid://bsrk17oftjkr"
+path="res://.godot/imported/HenryDucker_BubbleHead.png-b9ec7b45b3aa95f972c6ae1f9f50c4ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/FullBody/DougDog_PatinAway_animation.png"
-dest_files=["res://.godot/imported/DougDog_PatinAway_animation.png-d3bb337b7adb672a2f9da2f16277d8ad.ctex"]
+source_file="res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png"
+dest_files=["res://.godot/imported/HenryDucker_BubbleHead.png-b9ec7b45b3aa95f972c6ae1f9f50c4ad.ctex"]
 
 [params]
 

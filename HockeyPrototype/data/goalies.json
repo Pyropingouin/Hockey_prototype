@@ -2,8 +2,8 @@
   {
     "id": 100.0,
     "pawn_name": "Dan Demers",
-    "image_path": "res://assets/FullBody/DougDogAway.png",
-    "bubblehead_path": "res://assets/Bubble_head/DanDemers_BubbleHead.png",
+    "image_path": "res://assets/completePlayers/_goalie/DanDemers/DanDemers.png",
+    "bubblehead_path": "res://assets/completePlayers/_goalie/DanDemers/DanDemers_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
     "stats": {
@@ -17,9 +17,9 @@
   {
     "id": 101.0,
     "pawn_name": "Donald Monroe",
-    "image_path": "res://assets/FullBody/DougDogAway.png",
+    "image_path": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe.png",
     "bubblehead_path": "res://assets/Bubble_head/DonaldMonroe_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+    "animationResourcePath": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe_BubbleHead.png",
     "default_animation": "idleHome",
     "stats": {
       "move_range": 5.0,
@@ -29,12 +29,11 @@
       "maxEnergy": 3.0
     }
   },
-
   {
     "id": 102.0,
-    "pawn_name": "Voznan Wojcik",
-    "image_path": "res://assets/FullBody/DougDogAway.png",
-    "bubblehead_path": "res://assets/Bubble_head/VoznanWojcik_BubbleHead.png",
+    "pawn_name": "Henry Ducker",
+    "image_path": "res://assets/completePlayers/_goalie/HenryDucker/HenryDucker.png",
+    "bubblehead_path": "res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
     "stats": {
@@ -45,12 +44,11 @@
       "maxEnergy": 3.0
     }
   },
-
   {
     "id": 103.0,
-    "pawn_name": "Larry Stone",
-    "image_path": "res://assets/FullBody/DougDogAway.png",
-    "bubblehead_path": "res://assets/Bubble_head/LarryStone_BubbleHead.png",
+    "pawn_name": "Marvin Doo",
+    "image_path": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDoo.png",
+    "bubblehead_path": "res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
     "stats": {
@@ -64,9 +62,9 @@
 
   {
     "id": 104.0,
-    "pawn_name": "Henry Ducker",
-    "image_path": "res://assets/FullBody/DougDogAway.png",
-    "bubblehead_path": "res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+    "pawn_name": "Voznan Wojcik",
+    "image_path": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik.png",
+    "bubblehead_path": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
     "stats": {

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hhk6khdgx1eq"
-path="res://.godot/imported/DougDogAway.png-8c91f10626d501cb3cfd57a4de5bca4f.ctex"
+uid="uid://78ju315t87bp"
+path="res://.godot/imported/VoznanWojcik_BubbleHead.png-4b5107ca5b82d76393e4d0c302f185e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/FullBody/DougDogAway.png"
-dest_files=["res://.godot/imported/DougDogAway.png-8c91f10626d501cb3cfd57a4de5bca4f.ctex"]
+source_file="res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik_BubbleHead.png"
+dest_files=["res://.godot/imported/VoznanWojcik_BubbleHead.png-4b5107ca5b82d76393e4d0c302f185e8.ctex"]
 
 [params]
 

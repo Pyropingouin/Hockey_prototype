@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckitveq3h1dcq"
-path="res://.godot/imported/JSPMinifullplayerTest.png-5a0d964e1d0f219e63b1ae8a6f553e1c.ctex"
+uid="uid://crsarr27tted8"
+path="res://.godot/imported/DonaldMonroe_BubbleHead.png-04a6ce2b39b905c89725eaede49f2796.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/JSPMinifullplayerTest.png"
-dest_files=["res://.godot/imported/JSPMinifullplayerTest.png-5a0d964e1d0f219e63b1ae8a6f553e1c.ctex"]
+source_file="res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe_BubbleHead.png"
+dest_files=["res://.godot/imported/DonaldMonroe_BubbleHead.png-04a6ce2b39b905c89725eaede49f2796.ctex"]
 
 [params]
 

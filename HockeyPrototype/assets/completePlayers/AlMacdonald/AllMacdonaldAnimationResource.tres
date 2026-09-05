@@ -358,7 +358,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_plpnf")
 }],
-"loop": true,
+"loop": false,
 "name": &"hitAway",
 "speed": 10.0
 }, {
@@ -393,7 +393,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7ew55")
 }],
-"loop": true,
+"loop": false,
 "name": &"hitHome",
 "speed": 10.0
 }, {

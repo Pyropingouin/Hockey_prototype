@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkgfesd5dn234"
-path="res://.godot/imported/JSPfullplayerTest.png-b56933cfa70992db69eb5ad8828e2c2f.ctex"
+uid="uid://4l6v3ykpbgnh"
+path="res://.godot/imported/DonaldMonroe.png-8392174e8b46148d8f70f8e3693cd951.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/JSPfullplayerTest.png"
-dest_files=["res://.godot/imported/JSPfullplayerTest.png-b56933cfa70992db69eb5ad8828e2c2f.ctex"]
+source_file="res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe.png"
+dest_files=["res://.godot/imported/DonaldMonroe.png-8392174e8b46148d8f70f8e3693cd951.ctex"]
 
 [params]
 

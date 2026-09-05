@@ -140,14 +140,14 @@ func set_TEST_quickplay_teams() -> void:
 
 	player_team_selected_players = [
 		players[0],
-		players[1],
-		players[2]
+		players[2],
+		players[3]
 	]
 
 	opposing_team_selected_players = [
-		players[3],
 		players[4],
-		players[5]
+		players[5],
+		players[6]
 	]		
 
 
@@ -155,9 +155,9 @@ func set_TEST_quickplay_teams() -> void:
 func set_default_player_goalie() -> void:
 	player_team_goalie = create_goalie(
 		100,
-		"Glove Johnson",
-		"res://assets/personnage/HenryDucker.png",
-		"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+		"Henry Ducker",
+		"res://assets/completePlayers/_goalie/HenryDucker/HenryDucker.png",
+		"res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png",
 		8
 	)
 
@@ -165,9 +165,9 @@ func set_default_player_goalie() -> void:
 func set_default_opposing_goalie() -> void:
 	opposing_team_goalie = create_goalie(
 		101,
-		"Blocko",
-		"res://assets/personnage/HenryDucker.png",
-		"res://assets/Bubble_head/HenryDucker_BubbleHead.png",
+		"Voznan Wojcik",
+		"res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik.png",
+		"res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik_BubbleHead.png",
 		8
 	)
 

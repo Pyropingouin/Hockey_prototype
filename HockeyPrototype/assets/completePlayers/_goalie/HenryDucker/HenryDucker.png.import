@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2xydn1yo1f8n"
-path="res://.godot/imported/CARLOMONFERATOFULLPLAYERHOME.png-b7dc60e55055db05c984903e6df71138.ctex"
+uid="uid://bjufx6jbts7yg"
+path="res://.godot/imported/HenryDucker.png-d9850d8e42cea6b987254306247df7da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/CARLOMONFERATOFULLPLAYERHOME.png"
-dest_files=["res://.godot/imported/CARLOMONFERATOFULLPLAYERHOME.png-b7dc60e55055db05c984903e6df71138.ctex"]
+source_file="res://assets/completePlayers/_goalie/HenryDucker/HenryDucker.png"
+dest_files=["res://.godot/imported/HenryDucker.png-d9850d8e42cea6b987254306247df7da.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crsarr27tted8"
-path="res://.godot/imported/DonaldMonroe_BubbleHead.png-a38068a7d4269d7d4a60d5f01e1f5d64.ctex"
+uid="uid://cp5a7kehkrjgh"
+path="res://.godot/imported/DanDemers.png-b111f2a0443d037dc5032b09e1f9aa70.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/DonaldMonroe_BubbleHead.png"
-dest_files=["res://.godot/imported/DonaldMonroe_BubbleHead.png-a38068a7d4269d7d4a60d5f01e1f5d64.ctex"]
+source_file="res://assets/completePlayers/_goalie/DanDemers/DanDemers.png"
+dest_files=["res://.godot/imported/DanDemers.png-b111f2a0443d037dc5032b09e1f9aa70.ctex"]
 
 [params]
 

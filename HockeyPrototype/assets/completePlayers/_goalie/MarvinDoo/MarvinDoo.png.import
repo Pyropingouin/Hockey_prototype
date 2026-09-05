@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsrk17oftjkr"
-path="res://.godot/imported/HenryDucker_BubbleHead.png-f383dafdfdaf1eed22a4be19c22ba22e.ctex"
+uid="uid://e6agoujw7rkr"
+path="res://.godot/imported/MarvinDoo.png-df497ad65c78c92e6800cbdf8be51263.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bubble_head/HenryDucker_BubbleHead.png"
-dest_files=["res://.godot/imported/HenryDucker_BubbleHead.png-f383dafdfdaf1eed22a4be19c22ba22e.ctex"]
+source_file="res://assets/completePlayers/_goalie/MarvinDoo/MarvinDoo.png"
+dest_files=["res://.godot/imported/MarvinDoo.png-df497ad65c78c92e6800cbdf8be51263.ctex"]
 
 [params]
 

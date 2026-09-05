@@ -358,7 +358,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k6awy")
 }],
-"loop": true,
+"loop": false,
 "name": &"hitAway",
 "speed": 10.0
 }, {
@@ -393,7 +393,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1sf3t")
 }],
-"loop": true,
+"loop": false,
 "name": &"hitHome",
 "speed": 10.0
 }, {
@@ -477,7 +477,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wan4l")
 }],
-"loop": true,
+"loop": false,
 "name": &"passAway",
 "speed": 7.0
 }, {
@@ -503,7 +503,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wymu6")
 }],
-"loop": true,
+"loop": false,
 "name": &"passHome",
 "speed": 7.0
 }, {
@@ -553,7 +553,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sqhrw")
 }],
-"loop": true,
+"loop": false,
 "name": &"shotAway",
 "speed": 15.0
 }, {
@@ -600,7 +600,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jtdmj")
 }],
-"loop": true,
+"loop": false,
 "name": &"shotHome",
 "speed": 14.0
 }]

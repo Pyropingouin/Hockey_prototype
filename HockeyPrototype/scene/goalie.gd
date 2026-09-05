@@ -27,7 +27,6 @@ func setup(
 
 	save_power = goalie_data["save_power"]
 
-	fullBodyTexture = goalie_data["image"]
 	bubbleHeadTexture = goalie_data["bubblehead"]
 
 	var goalie_sprite := get_node_or_null("Sprite2D") as Sprite2D
