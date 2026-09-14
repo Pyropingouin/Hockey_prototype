@@ -327,7 +327,7 @@ func play_first_shoot_animation() -> void:
 		play_animation("shotFirstHome")
 
 	else:
-		play_animation("shotFirstHome")	
+		play_animation("shotFirstAway")	
 
 
 	
@@ -340,7 +340,7 @@ func play_second_shoot_animation_and_wait() -> void:
 		play_animation("shotSecondHome")
 
 	else:
-		play_animation("shotSecondHome")	
+		play_animation("shotSecondAway")	
 	
 
 	await animated_sprite.animation_finished
@@ -349,46 +349,49 @@ func play_second_shoot_animation_and_wait() -> void:
 
 
 ### P_T JUSTE JOUER SHOT
-func play_first_pass_animation() -> void:
+func play_pass_animation_and_wait() -> void:
 	animation_state = AnimationState.FIRST_PASS
 	if team_id == 1:
-		play_animation("passFirstHome")
+		play_animation("passHome")
 
 	else:
-		play_animation("passFirstHome")	
+		play_animation("passAway")	
 
 
-
-
-
-func play_second_pass_animation_and_wait() -> void:
-	animation_state = AnimationState.SECOND_PASS
-	if team_id == 1:
-		play_animation("passSecondHome")
-
-	else:
-		play_animation("passSecondHome")	
 
 	await animated_sprite.animation_finished
+
+
+
+
+# func play_second_pass_animation_and_wait() -> void:
+# 	animation_state = AnimationState.SECOND_PASS
+# 	if team_id == 1:
+# 		play_animation("passSecondHome")
+
+# 	else:
+# 		play_animation("passSecondHome")	
+
+# 	await animated_sprite.animation_finished
 
 
 
 func play_first_hit_animation() -> void:
 	animation_state = AnimationState.FIRST_HIT
 	if team_id == 1:
-		play_animation("hitFirst")
+		play_animation("hitFirstHome")
 
 	else:
-		play_animation("hitFirst")	
+		play_animation("hitFirstAway")	
 
 
 func play_second_hit_animation_and_wait() -> void:
 	animation_state = AnimationState.SECOND_HIT
 	if team_id == 1:
-		play_animation("hitSecond")
+		play_animation("hitSecondHome")
 
 	else:
-		play_animation("hitSecond")	
+		play_animation("hitSecondAway")	
 
 	await animated_sprite.animation_finished
 

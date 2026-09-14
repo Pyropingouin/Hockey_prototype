@@ -248,7 +248,7 @@ func attempt_pass(
 		return false
 
 	
-	await passer.play_second_pass_animation_and_wait()
+	await passer.play_pass_animation_and_wait()
 	passer._pass(pass_target.current_cell)
 
 	GameManager.update_action_counter(1)
@@ -412,7 +412,7 @@ func start_pass(passer: Node2D) -> bool:
 		)
 		return false
 
-	passer.play_first_pass_animation()
+
 
 	return true
 
