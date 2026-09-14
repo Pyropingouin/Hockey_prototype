@@ -65,7 +65,7 @@ func turn_inside_ai() -> void:
 			)
 		
 
-			var is_shoot_successful: bool = ActionManager.ai_attempt_shoot(RIGHT_NET_POSITION, ai_pawn_puck_carrier)
+			var is_shoot_successful: bool = await ActionManager.ai_attempt_shoot(RIGHT_NET_POSITION, ai_pawn_puck_carrier)
 
 			# Le tir a réussi : on recommence la boucle pour la prochaine action.
 			if is_shoot_successful:
@@ -92,7 +92,7 @@ func turn_inside_ai() -> void:
 				if pass_target_pawn == null:
 					break
 
-				is_pass_successful = ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn)
+				is_pass_successful = await ActionManager.ai_attempt_pass(ai_pawn_puck_carrier, pass_target_pawn)
 
 				if is_pass_successful:
 					break
@@ -151,7 +151,7 @@ func turn_inside_ai() -> void:
 					)	
 				
 
-				var is_hit_successful: bool = ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
+				var is_hit_successful: bool = await ActionManager.ai_attempt_hit(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
 
 				if not is_hit_successful:
 
