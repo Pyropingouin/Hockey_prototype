@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4w8puleoknd4"
-path="res://.godot/imported/Tileexterieur.png-9730343f391997f4e71d7848dc679273.ctex"
+uid="uid://dhhr21l4hr2rj"
+path="res://.godot/imported/HexagoneBACK.png-0b070b7371d6daaba875a3b42893dfc1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tile/Tileexterieur.png"
-dest_files=["res://.godot/imported/Tileexterieur.png-9730343f391997f4e71d7848dc679273.ctex"]
+source_file="res://assets/TileHexago/HexagoneBACK.png"
+dest_files=["res://.godot/imported/HexagoneBACK.png-0b070b7371d6daaba875a3b42893dfc1.ctex"]
 
 [params]
 

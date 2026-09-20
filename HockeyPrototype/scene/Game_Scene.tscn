@@ -37,7 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="24_yj4y7"]
 [ext_resource type="Texture2D" uid="uid://dglisgk3c8fg2" path="res://assets/TileHexago/bandecoin2.png" id="25_h6gsk"]
 [ext_resource type="Texture2D" uid="uid://bcx3y0pe8d3h7" path="res://assets/Hit_pressed.png" id="25_xlqbc"]
-[ext_resource type="Texture2D" uid="uid://cdx7okqleofhp" path="res://assets/TileHexago/BehindGoalie.png" id="26_0nkqg"]
+[ext_resource type="Texture2D" uid="uid://dhhr21l4hr2rj" path="res://assets/TileHexago/HexagoneBACK.png" id="26_0nkqg"]
 [ext_resource type="Texture2D" uid="uid://dxscqd7fdme7f" path="res://assets/TileHexago/bandecoin3.png" id="26_l7nrv"]
 [ext_resource type="Texture2D" uid="uid://dsm8bcj0nwxbj" path="res://assets/TileHexago/BUTMID_Home.png" id="26_o4n2k"]
 [ext_resource type="Texture2D" uid="uid://db5lqnrmkc2dc" path="res://assets/TileHexago/bandecoin4.png" id="27_2wcpk"]
