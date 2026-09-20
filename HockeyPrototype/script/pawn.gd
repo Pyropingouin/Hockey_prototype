@@ -38,8 +38,7 @@ enum AnimationState {
 	MOVE,
 	FIRST_SHOOT,
 	SECOND_SHOOT,
-	FIRST_PASS,
-	SECOND_PASS,
+	PASS,
 	FIRST_HIT,
 	SECOND_HIT
 }		
@@ -280,13 +279,9 @@ func _on_animation_finished() -> void:
 		AnimationState.SECOND_SHOOT:
 			play_idle_animation()
 
-		AnimationState.FIRST_PASS:
-			# Ne rien faire.
-			# On reste sur la dernière frame,
-			# bâton levé.
-			pass
+		
 
-		AnimationState.SECOND_PASS:
+		AnimationState.PASS:
 			play_idle_animation()
 	
 
@@ -331,7 +326,7 @@ func play_first_shoot_animation() -> void:
 
 
 	
-	play_animation("shotFirstPart")
+	
 
 func play_second_shoot_animation_and_wait() -> void:
 	animation_state = AnimationState.SECOND_SHOOT
@@ -350,7 +345,7 @@ func play_second_shoot_animation_and_wait() -> void:
 
 ### P_T JUSTE JOUER SHOT
 func play_pass_animation_and_wait() -> void:
-	animation_state = AnimationState.FIRST_PASS
+	animation_state = AnimationState.PASS
 	if team_id == 1:
 		play_animation("passHome")
 
@@ -361,18 +356,6 @@ func play_pass_animation_and_wait() -> void:
 
 	await animated_sprite.animation_finished
 
-
-
-
-# func play_second_pass_animation_and_wait() -> void:
-# 	animation_state = AnimationState.SECOND_PASS
-# 	if team_id == 1:
-# 		play_animation("passSecondHome")
-
-# 	else:
-# 		play_animation("passSecondHome")	
-
-# 	await animated_sprite.animation_finished
 
 
 

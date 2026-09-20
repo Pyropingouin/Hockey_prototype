@@ -114,6 +114,8 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 			return false
 
 
+		await shooter.play_second_shoot_animation_and_wait()
+
 		var goal_scored: bool = \
 			GameManager._resolve_shot_against_goalie(
 				shooter,
@@ -412,7 +414,7 @@ func start_pass(passer: Node2D) -> bool:
 		)
 		return false
 
-
+	passer.play_pass_animation_and_wait()
 
 	return true
 
