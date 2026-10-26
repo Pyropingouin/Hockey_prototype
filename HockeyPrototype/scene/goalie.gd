@@ -11,6 +11,11 @@ var start_cell: Vector2i
 var fullBodyTexture: Texture2D
 var bubbleHeadTexture: Texture2D
 
+var net_position: Vector2i
+var front_position: Vector2i
+var up_position: Vector2i
+var down_position: Vector2i
+
 @onready var sprite: Sprite2D = $Sprite2D
 
 
@@ -80,8 +85,11 @@ func attempt_save(shooter_reflex: int) -> bool:
 	return save_successful
 
 
-	
-
+func set_goalie_positions(positions: Dictionary) -> void:
+	net_position = positions["net"]
+	front_position = positions["front"]
+	up_position = positions["up"]
+	down_position = positions["down"]
 
 
 func reset_board() -> void:

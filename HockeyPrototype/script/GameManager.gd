@@ -24,8 +24,17 @@ var action_mode: ActionMode = ActionMode.NONE
 const max_action_counter: int = 4
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
 const GOALIE_SCENE := preload("res://scene/goalie.tscn")
+
 const RIGHT_NET_POSITION = Vector2i(7, 0)
+const RIGHT_NET_FRONT_POSITION = Vector2i(6, 0)
+const RIGHT_NET_UP_POSITION = Vector2i(6, -1)
+const RIGHT_NET_DOWN_POSITION = Vector2i(6, 1)
+
 const LEFT_NET_POSITION = Vector2i(-3, 0)
+const LEFT_NET_FRONT_POSITION = Vector2i(-2, 0)
+const LEFT_NET_UP_POSITION = Vector2i(-3, -1)
+const LEFT_NET_DOWN_POSITION = Vector2i(-3, 1)
+
 
 
 const SPENT_ENERGY_AMOUNT_TEMPO = 1
@@ -567,31 +576,50 @@ func spawn_teams_from_draft() -> void:
 
 	spawn_goalie(
 		GameData.player_team_goalie,
-		1,
-		Vector2i(RIGHT_NET_POSITION)
+		1
 	)
 
 	spawn_goalie(
 		GameData.opposing_team_goalie,
-		2,
-		Vector2i(LEFT_NET_POSITION)
+		2
 	)	
 
 
 func spawn_goalie(
 	goalie_data: Dictionary,
 	team_id: int,
-	start_cell: Vector2i
 ) -> void:
 	var goalie: Goalie = GOALIE_SCENE.instantiate()
 
 	# Le goalie entre d'abord dans l'arbre.
 	players_container.add_child(goalie)
 
-	# Les variables @onready sont maintenant disponibles.
-	goalie.setup(goalie_data, team_id, start_cell)
+	var goalie_positions: Dictionary
 
-	IceMapLayer.place_pawn_on_cell(goalie, start_cell)
+	if team_id == 1:
+		goalie_positions = {
+			"net": RIGHT_NET_POSITION,
+			"front": RIGHT_NET_FRONT_POSITION,
+			"up": RIGHT_NET_UP_POSITION,
+			"down": RIGHT_NET_DOWN_POSITION
+		}
+	else:
+		goalie_positions = {
+			"net": LEFT_NET_POSITION,
+			"front": LEFT_NET_FRONT_POSITION,
+			"up": LEFT_NET_UP_POSITION,
+			"down": LEFT_NET_DOWN_POSITION
+		}
+
+
+
+
+	# Les variables @onready sont maintenant disponibles.
+	goalie.set_goalie_positions(goalie_positions)
+	goalie.setup(goalie_data, team_id, goalie.front_position)
+
+
+	IceMapLayer.place_pawn_on_cell(goalie, goalie.front_position)
 
 func reset_board():
 	
