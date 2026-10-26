@@ -83,10 +83,10 @@ func _ready() -> void:
 		
 		DebugLogger.log(
 			DebugLogger.DebugType.ICE_MAP_LAYER,
-			"Initialisation de %s | Current cell: %s | Start cell: %s" % [
+			"Initialisation de %s | Current cell: %s" % [
 				p.name,
 				p.current_cell,
-				p.start_cell
+		
 			]
 		)
 		

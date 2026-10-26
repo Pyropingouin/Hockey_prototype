@@ -633,6 +633,12 @@ func reset_board():
 
 func update_action_counter(action_cost: int):
 	active_team_action_counter += action_cost
+
+	for player in players_container.get_children():
+		if player is Goalie:
+			player.move_goalie_prototype()
+
+	
 	
 func _end_turn():
 	action_mode = ActionMode.NONE

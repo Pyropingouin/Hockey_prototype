@@ -6,10 +6,12 @@ var team_id: int
 var save_power: int
 
 var current_cell: Vector2i
-var start_cell: Vector2i
+var move_range: int = 1
+
 
 var fullBodyTexture: Texture2D
 var bubbleHeadTexture: Texture2D
+
 
 var net_position: Vector2i
 var front_position: Vector2i
@@ -27,7 +29,6 @@ func setup(
 	goalie_name = goalie_data["goalie_name"]
 	team_id = new_team_id
 
-	start_cell = new_start_cell
 	current_cell = new_start_cell
 
 	save_power = goalie_data["save_power"]
@@ -93,10 +94,38 @@ func set_goalie_positions(positions: Dictionary) -> void:
 
 
 func reset_board() -> void:
-	current_cell = start_cell
+	current_cell = front_position
 
 	var ice_map_layer = get_node("../../IceMapLayer")
-	ice_map_layer.place_pawn_on_cell(self, start_cell)
+	ice_map_layer.place_pawn_on_cell(self, current_cell)
 
 func get_current_cell() -> Vector2i:
 	return current_cell
+
+
+
+func move_goalie_prototype() -> void:
+	var roll = randi_range(1,3)
+	var target_cell: Vector2i
+
+	
+	if roll == 1:
+		target_cell = front_position
+
+	elif roll == 2:
+		target_cell = up_position
+
+	else:
+		target_cell = down_position
+
+	if current_cell == target_cell:
+		return	
+		
+	
+	var ice_map_layer = get_node("../../IceMapLayer")
+
+	if ice_map_layer.can_move_pawn_to(self, current_cell, target_cell):
+		ice_map_layer.apply_move(self, current_cell, target_cell)	
+	
+
+	
