@@ -86,7 +86,6 @@ func _ready() -> void:
 			"Initialisation de %s | Current cell: %s" % [
 				p.name,
 				p.current_cell,
-		
 			]
 		)
 		
@@ -187,6 +186,11 @@ func place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 func apply_move(pawn: Node2D, origin: Vector2i, target: Vector2i) -> void:
 	pawn.current_cell = target
 	place_pawn_on_cell(pawn, target)
+
+	if puck.carrier == pawn:
+		puck.update_puck_cell(target)
+
+
 	update_occupancy()
 	_check_for_puck_on_ice(target, pawn)
 	

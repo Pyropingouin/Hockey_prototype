@@ -5,6 +5,27 @@ var goalie_name: String
 var team_id: int
 var save_power: int
 
+
+var _hasPuck: bool = false
+var flash_tween: Tween
+
+var hasPuck: bool:
+	get:
+		return _hasPuck
+	set(value):
+		if _hasPuck == value:
+			return
+
+		_hasPuck = value
+
+		if not is_node_ready():
+			return
+
+		if _hasPuck:
+			start_red_flash()
+		else:
+			stop_red_flash()
+
 var current_cell: Vector2i
 var move_range: int = 1
 
@@ -19,6 +40,10 @@ var up_position: Vector2i
 var down_position: Vector2i
 
 @onready var sprite: Sprite2D = $Sprite2D
+
+func _ready() -> void:
+	if hasPuck:
+		start_red_flash()
 
 
 func setup(
@@ -42,6 +67,19 @@ func setup(
 		return
 
 	goalie_sprite.texture = bubbleHeadTexture
+
+
+
+func pick_up_puck(pawn: Node2D) -> void:
+	if pawn != self:
+		return
+
+	hasPuck = true
+
+	DebugLogger.log(
+		DebugLogger.DebugType.GOALIE,
+		"%s récupère la puck" % goalie_name
+	)	
 
 
 func attempt_save(shooter_reflex: int) -> bool:
@@ -107,6 +145,9 @@ func get_current_cell() -> Vector2i:
 func move_goalie_prototype() -> void:
 	var roll = randi_range(1,3)
 	var target_cell: Vector2i
+	var ice_map_layer = get_node("../../IceMapLayer")
+
+	print(goalie_name, "roll: ", roll)
 
 	
 	if roll == 1:
@@ -119,13 +160,43 @@ func move_goalie_prototype() -> void:
 		target_cell = down_position
 
 	if current_cell == target_cell:
-		return	
-		
-	
-	var ice_map_layer = get_node("../../IceMapLayer")
+		return
 
 	if ice_map_layer.can_move_pawn_to(self, current_cell, target_cell):
-		ice_map_layer.apply_move(self, current_cell, target_cell)	
+		ice_map_layer.apply_move(self, current_cell, target_cell)
+
 	
 
 	
+
+#### TEMPORAIRE
+
+func start_red_flash() -> void:
+	if flash_tween:
+		flash_tween.kill()
+
+	sprite.modulate = Color.WHITE
+
+	flash_tween = create_tween()
+	flash_tween.set_loops()
+
+	flash_tween.tween_property(
+		sprite,
+		"modulate",
+		Color.RED,
+		0.35
+	)
+
+	flash_tween.tween_property(
+		sprite,
+		"modulate",
+		Color.WHITE,
+		0.35
+	)
+
+
+func stop_red_flash() -> void:
+	if flash_tween:
+		flash_tween.kill()
+
+	sprite.modulate = Color.WHITE

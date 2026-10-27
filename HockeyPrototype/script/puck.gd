@@ -15,9 +15,11 @@ extends CharacterBody2D
 
 var current_cell = start_cell
 var reset_puck_position: Vector2i = Vector2i(2, 0)
+var carrier: Node2D = null
 
 signal goal_scored(goal_type)
 signal puck_rebounded(new_cell: Vector2i)
+signal puck_moved(new_cell: Vector2i)
 
 @export var team_id: int = 0
 
@@ -31,26 +33,32 @@ func get_current_cell() -> Vector2i:
 
 
 func _on_ice_map_layer_puck_is_picked_up(pawn: Variant) -> void:
+	carrier = pawn
 	isPickedUp = true
 	sprite.visible = false
+
+	update_puck_cell(pawn.current_cell)
+
+	if carrier is Goalie:
+		print("Le gardien possède la puck")
 
 
 
 func _on_pawn_hold_puck_is_moving(pawn_position: Vector2i) -> void:
-	current_cell = pawn_position
+	update_puck_cell(pawn_position)
+	print("PAWN MOVING")
 
 func _on_pawn_shooting_puck(newShootPosition) -> void:
 	
 	DebugLogger.log(
 					DebugLogger.DebugType.PUCK,
 					"IN PUCK SHOOT: %s" % newShootPosition
-					)	
+					)
+
+	release_puck()					
 	
 	
-	current_cell = newShootPosition
-	isPickedUp = false
-	## TODO modifier avec un getter/setter sur isPickedUp
-	sprite.visible = true
+	update_puck_cell(newShootPosition)
 
 	# S'il y a but
 	_is_goal(current_cell)
@@ -68,12 +76,9 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 					)	
 	
 
+	release_puck()
+	update_puck_cell(newPassPosition)
 	
-	current_cell = newPassPosition
-	isPickedUp = false
-		## TODO modifier avec un getter/setter sur isPickedUp
-	sprite.visible = true
-
 
 	# S'il y a but
 	_is_goal(current_cell)
@@ -89,10 +94,9 @@ func _on_pawn_dropping_puck(newDropPosition) -> void:
 					"IN PUCK DROP: %s" % newDropPosition
 					)	
 
-	current_cell = newDropPosition
+	update_puck_cell(newDropPosition)
 
-	isPickedUp = false
-	sprite.visible = true
+	release_puck()
 
 	ice_map.place_puck_on_cell(self, current_cell)
 
@@ -125,11 +129,12 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 				)	
 
 
-	isPickedUp = false
-	current_cell = new_cell
+	release_puck()
+	
+	update_puck_cell(new_cell)
 
 	
-	sprite.visible = true
+
 
 	ice_map.place_puck_on_cell(
 		self,
@@ -149,6 +154,24 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 
 
 	puck_rebounded.emit(new_cell)
+
+
+
+func update_puck_cell(new_cell: Vector2i) -> void:
+	if current_cell == new_cell:
+		return
+
+	current_cell = new_cell
+	puck_moved.emit(current_cell)	
+
+
+func release_puck() -> void:
+	if is_instance_valid(carrier):
+		carrier.hasPuck = false
+
+	carrier = null
+	isPickedUp = false
+	sprite.visible = true	
 		
 
 func reset_board():
@@ -156,13 +179,10 @@ func reset_board():
 	DebugLogger.log(
 				DebugLogger.DebugType.PUCK,
 				"puck reset board"
-				)		
+				)
 
-
-	current_cell = reset_puck_position
-
-	
-	sprite.visible = true
+	release_puck()		
+	update_puck_cell(reset_puck_position)
 
 	ice_map.place_puck_on_cell(self, reset_puck_position)
-	isPickedUp = false
+	

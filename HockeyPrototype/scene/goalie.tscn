@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ca3x08syoc1xy"]
 
 [ext_resource type="Texture2D" uid="uid://b138rdbratgkd" path="res://assets/Hit.png" id="1_j8wbc"]
-[ext_resource type="Script" uid="uid://8j6v2e8mreki" path="res://scene/goalie.gd" id="1_lupdt"]
+[ext_resource type="Script" uid="uid://pvr5v4vag6cj" path="res://script/goalie.gd" id="1_lupdt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j8wbc"]
 radius = 60.133186

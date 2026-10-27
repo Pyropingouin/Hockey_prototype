@@ -179,6 +179,7 @@ func _ready() -> void:
 	active_team_changed.connect(regenActionEconomy)
 	active_team_changed.emit(_active_team)
 	puck.goal_scored.connect(_on_goal_scored)
+	puck.puck_moved.connect(_on_puck_moved)
 	
 	# Connexions des boutons UI
 	shoot_button.pressed.connect(_start_action_shoot)
@@ -465,7 +466,8 @@ func _resolve_shot_against_goalie(
 	)
 
 	if save_successful:
-		_rebound_puck_around_goalie(goalie)
+		# _rebound_puck_around_goalie(goalie)
+		_goalie_catches_puck(goalie)
 		return false
 
 	_score_goal_against_goalie(goalie)
@@ -514,6 +516,26 @@ func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 	IceMapLayer.update_occupancy()
 
 
+func _goalie_catches_puck(goalie: Goalie) -> void:
+
+	DebugLogger.log(
+		DebugLogger.DebugType.GAME_MANAGER,
+		"%s conserve la puck après son arrêt" % goalie.goalie_name
+	)
+
+	# Libérer l'ancien propriétaire
+	puck.release_puck()
+
+	# Donner la possession au gardien
+	goalie.pick_up_puck(goalie)
+	puck._on_ice_map_layer_puck_is_picked_up(goalie)
+
+	# Synchroniser la position logique
+	puck.update_puck_cell(goalie.current_cell)
+
+	IceMapLayer.update_occupancy()
+
+
 
 func spawn_teams_from_draft() -> void:
 	for child in players_container.get_children():
@@ -544,6 +566,10 @@ func spawn_teams_from_draft() -> void:
 	for i in range(GameData.player_team_selected_players.size()):
 		var player_data: Dictionary = GameData.player_team_selected_players[i]
 		var pawn = PAWN_SCENE.instantiate()
+
+		# À remettre si iceMapLayer n'est pas capable de connecter avant
+		# if not IceMapLayer.puck_is_picked_up.is_connected(pawn.pick_up_puck):
+		# 	IceMapLayer.puck_is_picked_up.connect(pawn.pick_up_puck)
 
 		var start_cell: Vector2i = home_start_cells[i]
 
@@ -591,6 +617,10 @@ func spawn_goalie(
 ) -> void:
 	var goalie: Goalie = GOALIE_SCENE.instantiate()
 
+	# À remettre si iceMapLayer n'est pas capable de connecter avant
+	# if not IceMapLayer.puck_is_picked_up.is_connected(goalie.pick_up_puck):
+	# 	IceMapLayer.puck_is_picked_up.connect(goalie.pick_up_puck)
+
 	# Le goalie entre d'abord dans l'arbre.
 	players_container.add_child(goalie)
 
@@ -634,10 +664,7 @@ func reset_board():
 func update_action_counter(action_cost: int):
 	active_team_action_counter += action_cost
 
-	for player in players_container.get_children():
-		if player is Goalie:
-			player.move_goalie_prototype()
-
+	
 	
 	
 func _end_turn():
@@ -669,6 +696,12 @@ func _on_goal_scored(goal_type):
 	GoalOverlay.show()
 	_refresh_al_player_energy()
 	_refresh_action_buttons()
+
+
+func _on_puck_moved(_new_cell: Vector2i) -> void:
+	for player in players_container.get_children():
+		if player is Goalie:
+			player.move_goalie_prototype()	
 
 func _on_continue_button_pressed() -> void:
 	GoalOverlay.hide()
