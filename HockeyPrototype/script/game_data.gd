@@ -1,6 +1,7 @@
 extends Node
 
 const PLAYER_JSON_PATH := "res://data/players.json"
+const GOALIE_JSON_PATH := "res://data/goalies.json"
 
 var player_team_selected_players: Array = []
 var opposing_team_selected_players: Array = []
@@ -26,7 +27,8 @@ func _ready() -> void:
 	# set_random_quickplay_teams()
 	set_random_quickplay_teams()
 	set_default_player_goalie()
-	set_default_opposing_goalie()		
+	set_default_opposing_goalie()
+
 
 
 
@@ -102,6 +104,50 @@ func prepare_player(player_data: Dictionary) -> Dictionary:
 	return player
 
 
+	
+func load_goalies() -> Array:
+	if not FileAccess.file_exists(GOALIE_JSON_PATH):
+		push_error("Goalies.json introuvable : %s" % GOALIE_JSON_PATH)
+		return []
+
+	var file := FileAccess.open(GOALIE_JSON_PATH, FileAccess.READ)
+
+	if file == null:
+		push_error("Impossible d'ouvrir Goalies.json")
+		return []
+
+
+
+	var goalies = JSON.parse_string(file.get_as_text())
+
+	if not goalies is Array:
+		push_error("Goalies.json doit contenir un Array")
+		return []
+
+	var prepared_goalies: Array = []
+
+	for goalie_data in goalies:
+		if goalie_data is Dictionary:
+			prepared_goalies.append(prepare_goalie(goalie_data))
+
+	return prepared_goalies			
+
+
+
+func prepare_goalie(goalie_data: Dictionary) -> Dictionary:
+	var goalie: Dictionary = goalie_data.duplicate(true)
+
+	
+	goalie["save_power"] = int(goalie.get("stats", {}).get("reflex", 0))
+
+	var bubblehead_path: String = goalie.get("bubblehead_path", "")
+
+	if not bubblehead_path.is_empty():
+		goalie["bubblehead"] = load(bubblehead_path)
+
+	return goalie	
+
+
 
 func set_random_quickplay_teams() -> void:
 	var players: Array = load_players()
@@ -153,37 +199,23 @@ func set_random_quickplay_teams() -> void:
 
 
 func set_default_player_goalie() -> void:
-	player_team_goalie = create_goalie(
-		100,
-		"Henry Ducker",
-		"res://assets/completePlayers/_goalie/HenryDucker/HenryDucker.png",
-		"res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png",
-		8
-	)
+	var goalies: Array = load_goalies()
+	
+	for goalie in goalies:
+		if int(goalie["id"]) == 102:
+			player_team_goalie = goalie
+			return
+
+	push_error("Gardien HOME introuvable.")		
+	
 
 
 func set_default_opposing_goalie() -> void:
-	opposing_team_goalie = create_goalie(
-		101,
-		"Voznan Wojcik",
-		"res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik.png",
-		"res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik_BubbleHead.png",
-		8
-	)
+	var goalies: Array = load_goalies()
+	
+	for goalie in goalies:
+		if int(goalie["id"]) == 104:
+			opposing_team_goalie = goalie
+			return
 
-
-
-func create_goalie(
-	id: int,
-	goalie_name: String,
-	image_path: String,
-	bubblehead_path: String,
-	save_power: int
-) -> Dictionary:
-	return {
-		"id": id,
-		"goalie_name": goalie_name,
-		"save_power": save_power,
-		"image": load(image_path),
-		"bubblehead": load(bubblehead_path)
-	}
+	push_error("Gardien AWAY introuvable.")		

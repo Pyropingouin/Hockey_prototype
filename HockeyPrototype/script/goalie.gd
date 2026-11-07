@@ -32,6 +32,7 @@ var move_range: int = 1
 
 var fullBodyTexture: Texture2D
 var bubbleHeadTexture: Texture2D
+var goalie_textures: Dictionary = {}
 
 
 var net_position: Vector2i
@@ -48,27 +49,20 @@ func _ready() -> void:
 	pass
 
 
-func setup(
-	goalie_data: Dictionary,
-	new_team_id: int,
-	new_start_cell: Vector2i
-) -> void:
+func setup(goalie_data: Dictionary, new_team_id: int, new_start_cell: Vector2i) -> void:
 	goalie_name = goalie_data["goalie_name"]
 	team_id = new_team_id
-
 	current_cell = new_start_cell
-
 	save_power = goalie_data["save_power"]
 
-	bubbleHeadTexture = goalie_data["bubblehead"]
 
-	var goalie_sprite := get_node_or_null("Sprite2D") as Sprite2D
+	var sprite_paths: Dictionary = goalie_data.get("goalie_sprites", {})
 
-	if goalie_sprite == null:
-		push_error("Le nœud Sprite2D est introuvable dans goalie.tscn.")
-		return
+	for key in sprite_paths:
+		goalie_textures[key] = load(sprite_paths[key])
 
-	goalie_sprite.texture = bubbleHeadTexture
+	sprite = get_node("Sprite2D") as Sprite2D
+	update_goalie_sprite("MID")
 
 
 
@@ -174,8 +168,20 @@ func move_goalie_prototype(puck_cell) -> void:
 
 	if ice_map_layer.can_move_pawn_to(self, current_cell, target_cell):
 		ice_map_layer.apply_move(self, current_cell, target_cell)
+		update_goalie_sprite(puck_zone)
 
 	
+
+func update_goalie_sprite(zone: String) -> void:
+	var side: String = "home" if team_id == 1 else "away"
+	var texture_key: String = side + "_" + zone.to_lower()
+
+	if not goalie_textures.has(texture_key):
+		push_warning("Texture de gardien introuvable : " + texture_key)
+		return
+
+	sprite.texture = goalie_textures[texture_key]
+	sprite.flip_h = team_id == 1		
 
 	
 

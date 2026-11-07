@@ -628,6 +628,8 @@ func spawn_goalie(
 
 	# Le goalie entre d'abord dans l'arbre.
 	players_container.add_child(goalie)
+	goalie.request_ready()
+	goalie._ready()
 
 	var goalie_positions: Dictionary
 

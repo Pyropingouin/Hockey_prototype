@@ -1,11 +1,19 @@
 [
   {
     "id": 100.0,
-    "pawn_name": "Dan Demers",
+    "goalie_name": "Dan Demers",
     "image_path": "res://assets/completePlayers/_goalie/DanDemers/DanDemers.png",
     "bubblehead_path": "res://assets/completePlayers/_goalie/DanDemers/DanDemers_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
+    "goalie_sprites": {
+      "home_top": "res://assets/completePlayers/_goalie/DanDemers/DanDemersHomeTop.png",
+      "home_mid": "res://assets/completePlayers/_goalie/DanDemers/DanDemersHomeMid.png",
+      "home_bot": "res://assets/completePlayers/_goalie/DanDemers/DanDemersHomeBot.png",
+      "away_top": "res://assets/completePlayers/_goalie/DanDemers/DanDemersAwayTop.png",
+      "away_mid": "res://assets/completePlayers/_goalie/DanDemers/DanDemersAwayMid.png",
+      "away_bot": "res://assets/completePlayers/_goalie/DanDemers/DanDemersAwayBot.png"
+    },
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
@@ -16,11 +24,19 @@
   },
   {
     "id": 101.0,
-    "pawn_name": "Donald Monroe",
+    "goalie_name": "Donald Monroe",
     "image_path": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe.png",
-    "bubblehead_path": "res://assets/Bubble_head/DonaldMonroe_BubbleHead.png",
+    "bubblehead_path": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroe_BubbleHead.png",
     "default_animation": "idleHome",
+    "goalie_sprites": {
+      "home_top": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeHomeTop.png",
+      "home_mid": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeHomeMid.png",
+      "home_bot": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeHomeBot.png",
+      "away_top": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeAwayTop.png",
+      "away_mid": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeAwayMid.png",
+      "away_bot": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeAwayBot.png"
+    },
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
@@ -31,11 +47,19 @@
   },
   {
     "id": 102.0,
-    "pawn_name": "Henry Ducker",
+    "goalie_name": "Henry Ducker",
     "image_path": "res://assets/completePlayers/_goalie/HenryDucker/HenryDucker.png",
     "bubblehead_path": "res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
+    "goalie_sprites": {
+      "home_top": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerHomeTop.png",
+      "home_mid": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerHomeMid.png",
+      "home_bot": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerHomeBot.png",
+      "away_top": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerAwayTop.png",
+      "away_mid": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerAwayMid.png",
+      "away_bot": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerAwayBot.png"
+    },
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
@@ -46,11 +70,19 @@
   },
   {
     "id": 103.0,
-    "pawn_name": "Marvin Doo",
+    "goalie_name": "Marvin Doo",
     "image_path": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDoo.png",
     "bubblehead_path": "res://assets/completePlayers/_goalie/HenryDucker/HenryDucker_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
+    "goalie_sprites": {
+      "home_top": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooHomeTop.png",
+      "home_mid": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooHomeMid.png",
+      "home_bot": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooHomeBot.png",
+      "away_top": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooAwayTop.png",
+      "away_mid": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooAwayMid.png",
+      "away_bot": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooAwayBot.png"
+    },
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
@@ -59,14 +91,21 @@
       "maxEnergy": 3.0
     }
   },
-
   {
     "id": 104.0,
-    "pawn_name": "Voznan Wojcik",
+    "goalie_name": "Voznan Wojcik",
     "image_path": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik.png",
     "bubblehead_path": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcik_BubbleHead.png",
     "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
     "default_animation": "idleHome",
+    "goalie_sprites": {
+      "home_top": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikHomeTop.png",
+      "home_mid": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikHomeMid.png",
+      "home_bot": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikHomeBot.png",
+      "away_top": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikAwayTop.png",
+      "away_mid": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikAwayMid.png",
+      "away_bot": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikAwayBot.png"
+    },
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,

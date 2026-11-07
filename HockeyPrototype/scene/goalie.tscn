@@ -10,11 +10,12 @@ radius = 60.133186
 script = ExtResource("1_lupdt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-4.000004, -4.000004)
+position = Vector2(1, -54)
 scale = Vector2(0.475, 0.475)
 texture = ExtResource("1_j8wbc")
 
 [node name="HoverArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea"]
+position = Vector2(1, -54)
 shape = SubResource("CircleShape2D_j8wbc")
