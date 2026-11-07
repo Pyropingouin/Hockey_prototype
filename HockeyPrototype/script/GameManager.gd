@@ -25,6 +25,9 @@ const max_action_counter: int = 4
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
 const GOALIE_SCENE := preload("res://scene/goalie.tscn")
 
+
+
+## à retirer ou modifier, parce qu'aussi présent dans GameManager et IceMapLayer
 const RIGHT_NET_POSITION = Vector2i(7, 0)
 const RIGHT_NET_FRONT_POSITION = Vector2i(6, 0)
 const RIGHT_NET_UP_POSITION = Vector2i(6, -1)
@@ -450,7 +453,7 @@ func _update_action_buttons_visual() -> void:
 func _resolve_shot_against_goalie(
 	shooter: Node2D,
 	goalie: Goalie
-) -> bool:
+) -> void:
 	DebugLogger.log(
 		DebugLogger.DebugType.GAME_MANAGER,
 		"%s tire sur %s" % [
@@ -468,10 +471,10 @@ func _resolve_shot_against_goalie(
 	if save_successful:
 		# _rebound_puck_around_goalie(goalie)
 		_goalie_catches_puck(goalie)
-		return false
 
-	_score_goal_against_goalie(goalie)
-	return true
+	else:
+		_rebound_puck_around_goalie(goalie)
+
 
 
 

@@ -2,6 +2,20 @@ extends TileMapLayer
 
 var action_pawn: Node2D = null
 
+
+## à retirer ou modifier, parce qu'aussi présent dans GameManager et IceMapLayer
+
+const RIGHT_NET_POSITION = Vector2i(7, 0)
+const RIGHT_NET_FRONT_POSITION = Vector2i(6, 0)
+const RIGHT_NET_UP_POSITION = Vector2i(6, -1)
+const RIGHT_NET_DOWN_POSITION = Vector2i(6, 1)
+
+const LEFT_NET_POSITION = Vector2i(-3, 0)
+const LEFT_NET_FRONT_POSITION = Vector2i(-2, 0)
+const LEFT_NET_UP_POSITION = Vector2i(-3, -1)
+const LEFT_NET_DOWN_POSITION = Vector2i(-3, 1)
+
+
 class CellState extends RefCounted:
 	var blocked: bool = false
 	var is_occupied: bool = false
@@ -405,7 +419,8 @@ func _compute_shoot_targets(
 		if distance > max_range:
 			continue
 
-		if not is_path_clear(origin, cell):
+		var is_goal: bool = get_goal_type(cell) in ["home", "away"]
+		if not is_path_clear(origin, cell, is_goal):
 			continue
 
 		var character_on_target: Node2D = get_pawn_on_cell(cell)
@@ -888,7 +903,8 @@ func get_cells_on_line(
 
 func is_path_clear(
 	origin: Vector2i,
-	target: Vector2i
+	target: Vector2i,  
+	ignore_goalie: bool = false
 ) -> bool:
 
 	# Depuis derrière le but, impossible de viser directement
@@ -913,8 +929,13 @@ func is_path_clear(
 		if map_data.has(cell) and map_data[cell].blocked:
 			return false
 
-		# Les personnages bloquent aussi la trajectoire.
-		if get_pawn_on_cell(cell) != null:
+		# Les personnages bloquent aussi la trajectoire, SAUF Goalie
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn != null:
+			if ignore_goalie and pawn is Goalie:
+				continue
+
 			return false
 
 	return true

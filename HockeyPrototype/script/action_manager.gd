@@ -71,6 +71,9 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 
 	var origin_cell: Vector2i = shooter.current_cell
+	var goal_type: String = IceMapLayer.get_goal_type(target_cell)
+	var is_goal: bool = goal_type in ["home", "away"]
+	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
 
 	if not is_in_shoot_range(
@@ -86,7 +89,8 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 	if not IceMapLayer.is_path_clear(
 		origin_cell,
-		target_cell
+		target_cell,
+		is_goal
 	):
 		DebugLogger.log(
 			DebugLogger.DebugType.ACTION_MANAGER,
@@ -95,14 +99,15 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		return false
 
 
-	var target_character: Node2D = \
-		IceMapLayer.get_pawn_on_cell(target_cell)
 
+
+	
 
 	#
 	# GOALIE
 	#
 	if target_character is Goalie:
+		
 
 		var target_goalie: Goalie = target_character
 
@@ -116,21 +121,53 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 		await shooter.play_second_shoot_animation_and_wait()
 
-		var goal_scored: bool = \
-			GameManager._resolve_shot_against_goalie(
-				shooter,
-				target_goalie
-			)
-
-
-		# Si arrêt du goalie, l'action compte normalement.
-		if not goal_scored:
-			GameManager.update_action_counter(1)
-
-
+	
+		GameManager._resolve_shot_against_goalie(shooter,target_goalie)
+		GameManager.update_action_counter(1)
 		IceMapLayer.update_occupancy()
+		return false
 
-		return true
+
+
+	
+	if goal_type in ["home", "away"]:
+
+	
+		var trajectory: Array[Vector2i] = IceMapLayer.get_cells_on_line(origin_cell,target_cell)
+		var target_goalie: Goalie = null
+
+		for cell in trajectory:
+
+			var pawn: Node2D = IceMapLayer.get_pawn_on_cell(cell)
+
+			if pawn is Goalie:
+				target_goalie = pawn
+				break
+
+		if target_goalie != null:
+
+			## PROBLEME PARCE QUE SI LE GOAL SAVE OU PAS, ON NE VÉRIFIE PAS APRÈS
+			GameManager._resolve_shot_against_goalie(shooter, target_goalie)		
+
+		else:
+			GameManager._on_goal_scored(goal_type)
+			IceMapLayer.update_occupancy()
+			return true
+	
+
+	
+
+
+
+
+	IceMapLayer.update_occupancy()
+
+	return true
+
+
+
+	###FCT si on tire sur la case but
+	## Vérifier que le goalie est ou non dans la trajectoire	
 
 
 	#
