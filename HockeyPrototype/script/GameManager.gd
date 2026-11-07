@@ -703,10 +703,10 @@ func _on_goal_scored(goal_type):
 	_refresh_action_buttons()
 
 
-func _on_puck_moved(_new_cell: Vector2i) -> void:
+func _on_puck_moved(new_cell: Vector2i) -> void:
 	for player in players_container.get_children():
 		if player is Goalie:
-			player.move_goalie_prototype()	
+			player.move_goalie_prototype(new_cell)	
 
 func _on_continue_button_pressed() -> void:
 	GoalOverlay.hide()

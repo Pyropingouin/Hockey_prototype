@@ -6,25 +6,25 @@ var team_id: int
 var save_power: int
 
 
-var _hasPuck: bool = false
+# var _hasPuck: bool = false
 var flash_tween: Tween
 
-var hasPuck: bool:
-	get:
-		return _hasPuck
-	set(value):
-		if _hasPuck == value:
-			return
+# var hasPuck: bool:
+# 	get:
+# 		return _hasPuck
+# 	set(value):
+# 		if _hasPuck == value:
+# 			return
 
-		_hasPuck = value
+# 		_hasPuck = value
 
-		if not is_node_ready():
-			return
+# 		if not is_node_ready():
+# 			return
 
-		if _hasPuck:
-			start_red_flash()
-		else:
-			stop_red_flash()
+# 		if _hasPuck:
+# 			start_red_flash()
+# 		else:
+# 			stop_red_flash()
 
 var current_cell: Vector2i
 var move_range: int = 1
@@ -42,8 +42,10 @@ var down_position: Vector2i
 @onready var sprite: Sprite2D = $Sprite2D
 
 func _ready() -> void:
-	if hasPuck:
-		start_red_flash()
+	# if hasPuck:
+	# 	start_red_flash()
+
+	pass
 
 
 func setup(
@@ -70,16 +72,16 @@ func setup(
 
 
 
-func pick_up_puck(pawn: Node2D) -> void:
-	if pawn != self:
-		return
+# func pick_up_puck(pawn: Node2D) -> void:
+# 	if pawn != self:
+# 		return
 
-	hasPuck = true
+# 	hasPuck = true
 
-	DebugLogger.log(
-		DebugLogger.DebugType.GOALIE,
-		"%s récupère la puck" % goalie_name
-	)	
+# 	DebugLogger.log(
+# 		DebugLogger.DebugType.GOALIE,
+# 		"%s récupère la puck" % goalie_name
+# 	)	
 
 
 func attempt_save(shooter_reflex: int) -> bool:
@@ -142,22 +144,30 @@ func get_current_cell() -> Vector2i:
 
 
 
-func move_goalie_prototype() -> void:
+func move_goalie_prototype(puck_cell) -> void:
 	var roll = randi_range(1,3)
 	var target_cell: Vector2i
 	var ice_map_layer = get_node("../../IceMapLayer")
+	var puck_zone = ice_map_layer.get_iceRink_zone(puck_cell)
+
+	print("PUCK ZONE", puck_zone)
+	
 
 	print(goalie_name, "roll: ", roll)
 
 	
-	if roll == 1:
+	if puck_zone == "MID":
 		target_cell = front_position
 
-	elif roll == 2:
+	elif puck_zone == "TOP":
 		target_cell = up_position
 
-	else:
+	elif puck_zone == "BOT":
 		target_cell = down_position
+
+	else:
+		target_cell = current_cell
+
 
 	if current_cell == target_cell:
 		return
@@ -169,34 +179,34 @@ func move_goalie_prototype() -> void:
 
 	
 
-#### TEMPORAIRE
+# #### TEMPORAIRE
 
-func start_red_flash() -> void:
-	if flash_tween:
-		flash_tween.kill()
+# func start_red_flash() -> void:
+# 	if flash_tween:
+# 		flash_tween.kill()
 
-	sprite.modulate = Color.WHITE
+# 	sprite.modulate = Color.WHITE
 
-	flash_tween = create_tween()
-	flash_tween.set_loops()
+# 	flash_tween = create_tween()
+# 	flash_tween.set_loops()
 
-	flash_tween.tween_property(
-		sprite,
-		"modulate",
-		Color.RED,
-		0.35
-	)
+# 	flash_tween.tween_property(
+# 		sprite,
+# 		"modulate",
+# 		Color.RED,
+# 		0.35
+# 	)
 
-	flash_tween.tween_property(
-		sprite,
-		"modulate",
-		Color.WHITE,
-		0.35
-	)
+# 	flash_tween.tween_property(
+# 		sprite,
+# 		"modulate",
+# 		Color.WHITE,
+# 		0.35
+# 	)
 
 
-func stop_red_flash() -> void:
-	if flash_tween:
-		flash_tween.kill()
+# func stop_red_flash() -> void:
+# 	if flash_tween:
+# 		flash_tween.kill()
 
-	sprite.modulate = Color.WHITE
+# 	sprite.modulate = Color.WHITE

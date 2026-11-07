@@ -901,6 +901,25 @@ func get_cells_on_line(
 	return cells
 
 
+func get_iceRink_zone(cell: Vector2i) -> String:
+
+	
+
+	if cell.y >= -5 and cell.y <= -2:
+		return "TOP"
+
+	if cell.y >= -1 and cell.y <= 1:
+		return "MID"	
+	if cell.y >= 2 and cell.y <= 5:
+		return "BOT"
+
+	return ""	
+
+
+
+
+
+
 func is_path_clear(
 	origin: Vector2i,
 	target: Vector2i,  
