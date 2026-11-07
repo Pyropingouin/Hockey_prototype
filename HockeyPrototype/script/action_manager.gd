@@ -122,7 +122,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		await shooter.play_second_shoot_animation_and_wait()
 
 	
-		GameManager._resolve_shot_against_goalie(shooter,target_goalie)
+		GameManager._rebound_puck_around_goalie(target_goalie)
 		GameManager.update_action_counter(1)
 		IceMapLayer.update_occupancy()
 		return false
@@ -146,28 +146,16 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 		if target_goalie != null:
 
-			## PROBLEME PARCE QUE SI LE GOAL SAVE OU PAS, ON NE VÉRIFIE PAS APRÈS
-			GameManager._resolve_shot_against_goalie(shooter, target_goalie)		
+			if GameManager._resolve_shot_against_goalie(shooter, target_goalie, goal_type):
+				GameManager.update_action_counter(1)
+				IceMapLayer.update_occupancy()
+				return false		
 
 		else:
 			GameManager._on_goal_scored(goal_type)
 			IceMapLayer.update_occupancy()
 			return true
-	
-
-	
-
-
-
-
-	IceMapLayer.update_occupancy()
-
-	return true
-
-
-
-	###FCT si on tire sur la case but
-	## Vérifier que le goalie est ou non dans la trajectoire	
+		
 
 
 	#

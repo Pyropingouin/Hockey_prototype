@@ -452,8 +452,9 @@ func _update_action_buttons_visual() -> void:
 
 func _resolve_shot_against_goalie(
 	shooter: Node2D,
-	goalie: Goalie
-) -> void:
+	goalie: Goalie,
+	goal_type: String
+) -> bool:
 	DebugLogger.log(
 		DebugLogger.DebugType.GAME_MANAGER,
 		"%s tire sur %s" % [
@@ -469,22 +470,23 @@ func _resolve_shot_against_goalie(
 	)
 
 	if save_successful:
-		# _rebound_puck_around_goalie(goalie)
-		_goalie_catches_puck(goalie)
-
-	else:
 		_rebound_puck_around_goalie(goalie)
+		return true
 
-
-
-
-func _score_goal_against_goalie(goalie: Goalie) -> void:
-	if goalie.team_id == 1:
-		# Le filet de l'équipe humaine a été atteint.
-		_on_goal_scored("home")
 	else:
-		# Le filet de l'équipe AI a été atteint.
-		_on_goal_scored("away")
+		_on_goal_scored(goal_type)
+		return false
+
+
+
+
+# func _score_goal_against_goalie(goalie: Goalie) -> void:
+# 	if goalie.team_id == 1:
+# 		# Le filet de l'équipe humaine a été atteint.
+# 		_on_goal_scored("home")
+# 	else:
+# 		# Le filet de l'équipe AI a été atteint.
+# 		_on_goal_scored("away")
 
 
 func _rebound_puck_around_goalie(goalie: Goalie) -> void:
@@ -519,24 +521,24 @@ func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 	IceMapLayer.update_occupancy()
 
 
-func _goalie_catches_puck(goalie: Goalie) -> void:
+# func _goalie_catches_puck(goalie: Goalie) -> void:
 
-	DebugLogger.log(
-		DebugLogger.DebugType.GAME_MANAGER,
-		"%s conserve la puck après son arrêt" % goalie.goalie_name
-	)
+# 	DebugLogger.log(
+# 		DebugLogger.DebugType.GAME_MANAGER,
+# 		"%s conserve la puck après son arrêt" % goalie.goalie_name
+# 	)
 
-	# Libérer l'ancien propriétaire
-	puck.release_puck()
+# 	# Libérer l'ancien propriétaire
+# 	puck.release_puck()
 
-	# Donner la possession au gardien
-	goalie.pick_up_puck(goalie)
-	puck._on_ice_map_layer_puck_is_picked_up(goalie)
+# 	# Donner la possession au gardien
+# 	goalie.pick_up_puck(goalie)
+# 	puck._on_ice_map_layer_puck_is_picked_up(goalie)
 
-	# Synchroniser la position logique
-	puck.update_puck_cell(goalie.current_cell)
+# 	# Synchroniser la position logique
+# 	puck.update_puck_cell(goalie.current_cell)
 
-	IceMapLayer.update_occupancy()
+# 	IceMapLayer.update_occupancy()
 
 
 
