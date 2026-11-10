@@ -15,8 +15,8 @@ extends CharacterBody2D
 #DEBUG FOR TEAMS
 @onready var hover_area: Area2D = $HoverArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var energy_bar: ProgressBar = $EnergyBar
-@onready var energy_label: Label = $EnergyBar/EnergyLabel
+@onready var energy_bar: PanelContainer = $EnergyBar
+
 
 
 @onready var GameManager = $"../../GameManager"
@@ -57,22 +57,11 @@ var _current_energy: int = 0
 var current_energy: int:
 	get:
 		return _current_energy
-
 	set(value):
-		_current_energy = clampi(
-			value,
-			0,
-			maxEnergy
-		)
+		_current_energy = clampi(value, 0, maxEnergy)
 
 		if is_instance_valid(energy_bar):
-			energy_bar.value = _current_energy
-
-		if is_instance_valid(energy_label):
-			energy_label.text = "%d/%d" % [
-				_current_energy,
-				maxEnergy
-			]
+			energy_bar.update_energy(_current_energy)
 
 
 @export var start_cell: Vector2i:
@@ -633,13 +622,8 @@ func spendEnergy(spentEnergyAmount: int) -> bool:
 func initialize_energy() -> void:
 	current_energy = maxEnergy
 
-	if not is_instance_valid(energy_bar):
-		return
-
-	energy_bar.min_value = 0
-	energy_bar.max_value = maxEnergy
-	energy_bar.step = 1
-	energy_bar.value = current_energy
+	if is_instance_valid(energy_bar):
+		energy_bar.update_energy(current_energy)
 
 
 

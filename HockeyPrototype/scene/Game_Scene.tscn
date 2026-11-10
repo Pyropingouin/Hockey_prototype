@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=81 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://script/GameManager.gd" id="1_84jve"]
 [ext_resource type="Script" uid="uid://ev8hg70yht7f" path="res://script/input_controller.gd" id="1_o4n2k"]
@@ -43,6 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://db5lqnrmkc2dc" path="res://assets/TileHexago/bandecoin4.png" id="27_2wcpk"]
 [ext_resource type="Texture2D" uid="uid://cwvcnk2p28x11" path="res://assets/TileHexago/bandecoin5.png" id="28_uyuwg"]
 [ext_resource type="Texture2D" uid="uid://bcsfdsgqaasr" path="res://assets/TileHexago/bandecoin6.png" id="29_uxxho"]
+[ext_resource type="Texture2D" uid="uid://bv0n2bcmn6nps" path="res://PlaceHolderAIScore.png" id="39_qvvq8"]
 [ext_resource type="PackedScene" uid="uid://ccvn2h6me8tk6" path="res://scene/player_card_display.tscn" id="41_rsjqm"]
 [ext_resource type="PackedScene" uid="uid://3fy2awg3rh18" path="res://scene/Pause_Menu.tscn" id="42_o4n2k"]
 
@@ -555,6 +556,7 @@ metadata/_edit_use_anchors_ = true
 visible = false
 
 [node name="GoalPanel" type="Panel" parent="GoalOverlay"]
+modulate = Color(0.7581918, 0.7581918, 0.7581917, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -562,7 +564,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jrd6n")
 
+[node name="GoalImage" type="TextureRect" parent="GoalOverlay/GoalPanel"]
+layout_mode = 0
+offset_left = 444.0
+offset_top = 124.0
+offset_right = 1492.0
+offset_bottom = 651.0
+texture = ExtResource("39_qvvq8")
+expand_mode = 1
+
 [node name="GoalLabel" type="Label" parent="GoalOverlay/GoalPanel"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -585,10 +597,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -33.0
-offset_top = 55.0
+offset_left = -68.0
+offset_top = -55.0
 offset_right = 50.0
-offset_bottom = 86.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Continue "
