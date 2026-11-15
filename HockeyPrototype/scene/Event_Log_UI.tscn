@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://220uhqycvpb2"]
+
+[ext_resource type="Script" uid="uid://dn8rl1op4bj01" path="res://script/event_log_ui.gd" id="1_bvwnx"]
+
+[node name="EventLogUI" type="CanvasLayer"]
+script = ExtResource("1_bvwnx")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="LogPanel" type="PanelContainer" parent="Control"]
+custom_minimum_size = Vector2(350, 200)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -350.0
+grow_horizontal = 0
+grow_vertical = 0
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/LogPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/LogPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Control/LogPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LogText" type="RichTextLabel" parent="Control/LogPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=4 uid="uid://dqh2m1tcbosaq"]
+[gd_scene load_steps=82 format=4 uid="uid://dqh2m1tcbosaq"]
 
 [ext_resource type="Script" uid="uid://cidhkgxhabtvw" path="res://script/GameManager.gd" id="1_84jve"]
 [ext_resource type="Script" uid="uid://ev8hg70yht7f" path="res://script/input_controller.gd" id="1_o4n2k"]
@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://bv0n2bcmn6nps" path="res://PlaceHolderAIScore.png" id="39_qvvq8"]
 [ext_resource type="PackedScene" uid="uid://ccvn2h6me8tk6" path="res://scene/player_card_display.tscn" id="41_rsjqm"]
 [ext_resource type="PackedScene" uid="uid://3fy2awg3rh18" path="res://scene/Pause_Menu.tscn" id="42_o4n2k"]
+[ext_resource type="PackedScene" uid="uid://220uhqycvpb2" path="res://scene/Event_Log_Ui.tscn" id="47_8ntsr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4n2k"]
 texture = ExtResource("2_8ms0i")
@@ -452,6 +453,8 @@ script = ExtResource("2_le55p")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("3_yjwkp")
+
+[node name="EventLogUI" parent="." instance=ExtResource("47_8ntsr")]
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_84jve")

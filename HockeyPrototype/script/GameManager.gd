@@ -19,7 +19,6 @@ enum ActionMode { NONE, SHOOT, PASS, HIT }
 var game_state: GameState = GameState.PLAYING
 var action_mode: ActionMode = ActionMode.NONE
 
-@onready var ActionManager = $"../ActionManager"
 
 const max_action_counter: int = 4
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
@@ -153,6 +152,8 @@ var selected_pawn: Node2D:
 @onready var pause_menu: Node = $"../PauseMenuOverlay/PauseMenu"
 @onready var current_team_card_display = $"../PlayerCardOverlay/Current_Team_Player_Card_Display"
 @onready var opposing_team_card_display = $"../PlayerCardOverlay/Opposing_Team_Player_Card_Display"
+@onready var ActionManager = $"../ActionManager"
+@onready var event_log: CanvasLayer = $"../EventLogUI"
 
 
 var action_pawn: Node2D = null
@@ -167,6 +168,11 @@ signal active_team_action_counter_changed(active_team_action_counter: int)
 
 func _ready() -> void:
 
+	
+	event_log.add_log("Début du match !", Color.YELLOW)
+	event_log.add_log("Le joueur récupère la rondelle.")
+	event_log.add_log("Le joueur tente un tir !", Color.ORANGE)
+	event_log.add_log("BUT !", Color.GREEN)
 
 	DebugLogger.log(
 		DebugLogger.DebugType.GAME_MANAGER,
