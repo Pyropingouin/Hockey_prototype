@@ -1,393 +1,530 @@
-[
-  {
-    "id": 1.0,
-    "pawn_name": "Aaron White",
-    "image_path": "res://assets/completePlayers/AaronWhite/AaronWhite.png",
-    "bubblehead_path": "res://assets/completePlayers/AaronWhite/AaronWhite_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 4.0,
-      "strength": 4.0,
-      "reflex": 5.0,
-      "health": 6.0,
-      "maxEnergy": 3.0
+{
+  "archetypes": [
+    {
+      "id": "sniper",
+      "name": "Sniper",
+      "description": "Spécialiste des tirs précis",
+      "stats_range": {
+        "move_range": {
+          "min": 4,
+          "max": 6
+        },
+        "strength": {
+          "min": 3,
+          "max": 4
+        },
+        "reflex": {
+          "min": 6,
+          "max": 8
+        },
+        "health": {
+          "min": 5,
+          "max": 5
+        },
+        "maxEnergy": {
+          "min": 3,
+          "max": 3
+        }
+      }
+    },
+    {
+      "id": "goon",
+      "name": "Goon",
+      "description": "Attaquant puissant et physique",
+      "stats_range": {
+        "move_range": {
+          "min": 3,
+          "max": 4
+        },
+        "strength": {
+          "min": 6,
+          "max": 8
+        },
+        "reflex": {
+          "min": 4,
+          "max": 6
+        },
+        "health": {
+          "min": 5,
+          "max": 5
+        },
+        "maxEnergy": {
+          "min": 3,
+          "max": 3
+        }
+      }
+    },
+    {
+      "id": "playmaker",
+      "name": "Playmaker",
+      "description": "Spécialiste des passes et interceptions",
+      "stats_range": {
+        "move_range": {
+          "min": 4,
+          "max": 5
+        },
+        "strength": {
+          "min": 4,
+          "max": 5
+        },
+        "reflex": {
+          "min": 5,
+          "max": 6
+        },
+        "health": {
+          "min": 5,
+          "max": 5
+        },
+        "maxEnergy": {
+          "min": 3,
+          "max": 3
+        }
+      }
+    },
+    {
+      "id": "speedster",
+      "name": "Speedster",
+      "description": "Joueur rapide et mobile",
+      "stats_range": {
+        "move_range": {
+          "min": 6,
+          "max": 8
+        },
+        "strength": {
+          "min": 2,
+          "max": 4
+        },
+        "reflex": {
+          "min": 4,
+          "max": 6
+        },
+        "health": {
+          "min": 5,
+          "max": 5
+        },
+        "maxEnergy": {
+          "min": 3,
+          "max": 3
+        }
+      }
     }
-  },
-  {
-    "id": 2.0,
-    "pawn_name": "Al Macdonald",
-    "image_path": "res://assets/completePlayers/DougDog/DougDog.png",
-    "bubblehead_path": "res://assets/completePlayers/AaronWhite/AaronWhite_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/AlMacdonald/AllMacdonaldAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 3.0,
-      "strength": 6.0,
-      "reflex": 4.0,
-      "health": 5.0,
-      "maxEnergy": 3.0
+  ],
+  "players": [
+    {
+      "id": 1.0,
+      "pawn_name": "Aaron White",
+      "image_path": "res://assets/completePlayers/AaronWhite/AaronWhite.png",
+      "bubblehead_path": "res://assets/completePlayers/AaronWhite/AaronWhite_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/AaronWhite/AaronWhiteAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 5.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 2.0,
+      "pawn_name": "Al Macdonald",
+      "image_path": "res://assets/completePlayers/DougDog/DougDog.png",
+      "bubblehead_path": "res://assets/completePlayers/AaronWhite/AaronWhite_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/AlMacdonald/AllMacdonaldAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "goon",
+      "stats": {
+        "move_range": 3.0,
+        "strength": 8.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 3.0,
+      "pawn_name": "Carlo Monferato",
+      "image_path": "res://assets/completePlayers/CarloMonferato/CarloMonferato.png",
+      "bubblehead_path": "res://assets/completePlayers/CarloMonferato/CarloMonferato_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/CarloMonferato/CarloMonferatoAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "goon",
+      "stats": {
+        "move_range": 3.0,
+        "strength": 6.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 4.0,
+      "pawn_name": "Doug Dog",
+      "image_path": "res://assets/completePlayers/DougDog/DougDog.png",
+      "bubblehead_path": "res://assets/completePlayers/DougDog/DougDog_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/DougDog/DougDogAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 6.0,
+        "strength": 3.0,
+        "reflex": 8.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 5.0,
+      "pawn_name": "Douli Ham",
+      "image_path": "res://assets/completePlayers/DouliHam/DouliHam.png",
+      "bubblehead_path": "res://assets/completePlayers/DouliHam/DouliHam_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/DouliHam/DouliHamAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 4.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 6.0,
+      "pawn_name": "Garen Gaspacini",
+      "image_path": "res://assets/completePlayers/GarenGaspacini/GarenGaspacini.png",
+      "bubblehead_path": "res://assets/completePlayers/GarenGaspacini/GarenGaspacini_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/GarenGaspacini/GarenGaspaciniAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 6.0,
+        "strength": 2.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 7.0,
+      "pawn_name": "Glorp Thorpe",
+      "image_path": "res://assets/completePlayers/GlorpThorpe/GlorpThorpe.png",
+      "bubblehead_path": "res://assets/completePlayers/GlorpThorpe/GlorpThorpe_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/GlorpThorpe/GlorpThorpeAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 4.0,
+        "strength": 4.0,
+        "reflex": 7.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 8.0,
+      "pawn_name": "Gordon Mickey",
+      "image_path": "res://assets/completePlayers/GordonMickey/GordonMickey.png",
+      "bubblehead_path": "res://assets/completePlayers/GordonMickey/GordonMickey_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/GordonMickey/GordonMickeyAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 4.0,
+        "strength": 5.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 9.0,
+      "pawn_name": "Gui Gagnon",
+      "image_path": "res://assets/completePlayers/GuiGagnon/GuiGagnon.png",
+      "bubblehead_path": "res://assets/completePlayers/GuiGagnon/GuiGagnon_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/GuiGagnon/GuiGagnonAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 8.0,
+        "strength": 3.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 10.0,
+      "pawn_name": "Jacques Celere",
+      "image_path": "res://assets/completePlayers/JacquesCelere/JacquesCelere.png",
+      "bubblehead_path": "res://assets/completePlayers/JacquesCelere/JacquesCelere_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/JacquesCelere/JacquesCelereAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 8.0,
+        "strength": 2.0,
+        "reflex": 4.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 11.0,
+      "pawn_name": "Jean-Francois Macedoine",
+      "image_path": "res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoine.png",
+      "bubblehead_path": "res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoine_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoineAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 3.0,
+        "reflex": 8.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 12.0,
+      "pawn_name": "Jésus-Synje Pethlässen",
+      "image_path": "res://assets/completePlayers/JesusSynjePehtlassen/JSP.png",
+      "bubblehead_path": "res://assets/completePlayers/JesusSynjePehtlassen/JSP_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/JesusSynjePehtlassen/JesusSynjePehtlassenAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "goon",
+      "stats": {
+        "move_range": 4.0,
+        "strength": 8.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 13.0,
+      "pawn_name": "John Smith",
+      "image_path": "res://assets/completePlayers/JohnSmith/JohnSmith.png",
+      "bubblehead_path": "res://assets/completePlayers/JohnSmith/JohnSmith_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/JohnSmith/JohnSmithAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 4.0,
+        "strength": 4.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 14.0,
+      "pawn_name": "Josh Soup",
+      "image_path": "res://assets/completePlayers/JoshSoup/JoshSoup.png",
+      "bubblehead_path": "res://assets/completePlayers/JoshSoup/JoshSoup_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/JoshSoup/JoshSoupAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 6.0,
+        "strength": 3.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 15.0,
+      "pawn_name": "Leipti Modin",
+      "image_path": "res://assets/completePlayers/GarenGaspacini/GarenGaspacini.png",
+      "bubblehead_path": "res://assets/completePlayers/LeiptiModin/LeiptiModin_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/LeiptiModin/LeiptiModinAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 6.0,
+        "strength": 4.0,
+        "reflex": 8.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 16.0,
+      "pawn_name": "Mark VanDoven",
+      "image_path": "res://assets/completePlayers/MarkVanDoven/MarkVanDoven.png",
+      "bubblehead_path": "res://assets/completePlayers/MarkVanDoven/MarkVanDoven_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/MarkVanDoven/MarkVanDovenAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 4.0,
+        "strength": 4.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 17.0,
+      "pawn_name": "Meter Pacloud",
+      "image_path": "res://assets/completePlayers/MeterPacloud/MeterPacloud.png",
+      "bubblehead_path": "res://assets/completePlayers/MeterPacloud/MeterPacloud_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/MeterPacloud/MeterPacloudAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 8.0,
+        "strength": 3.0,
+        "reflex": 4.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 18.0,
+      "pawn_name": "Mike Geazel",
+      "image_path": "res://assets/completePlayers/MikeGeazel/MikeGeazel.png",
+      "bubblehead_path": "res://assets/completePlayers/MikeGeazel/MikeGeazel_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/MikeGeazel/MikeGeazelAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 6.0,
+        "strength": 4.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 19.0,
+      "pawn_name": "Oli Vomicheck",
+      "image_path": "res://assets/completePlayers/OliVomicheck/OliVomicheck.png",
+      "bubblehead_path": "res://assets/completePlayers/OliVomicheck/OliVomicheck_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/OliVomicheck/OliVomicheckAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 4.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 20.0,
+      "pawn_name": "Orian Maduro",
+      "image_path": "res://assets/completePlayers/OrianMaduro/OrianMaduro.png",
+      "bubblehead_path": "res://assets/completePlayers/OrianMaduro/OrianMaduro_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/OrianMaduro/OrianMaduroAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 8.0,
+        "strength": 4.0,
+        "reflex": 4.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 21.0,
+      "pawn_name": "Patrick Loring",
+      "image_path": "res://assets/completePlayers/PatrickLoring/PatrickLoring.png",
+      "bubblehead_path": "res://assets/completePlayers/PatrickLoring/PatrickLoring_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/PatrickLoring/PatrickLoringAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 3.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 22.0,
+      "pawn_name": "Steeve Dog",
+      "image_path": "res://assets/completePlayers/SteeveDog/SteeveDog.png",
+      "bubblehead_path": "res://assets/completePlayers/SteeveDog/SteeveDog_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/SteeveDog/SteeveDogAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 4.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 23.0,
+      "pawn_name": "Vaclav Antropov",
+      "image_path": "res://assets/completePlayers/VaclavAntropov/VaclavAntropov.png",
+      "bubblehead_path": "res://assets/completePlayers/VaclavAntropov/VaclavAntropov_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/VaclavAntropov/VaclavAntropovAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 8.0,
+        "strength": 3.0,
+        "reflex": 4.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 24.0,
+      "pawn_name": "Vincent Palady",
+      "image_path": "res://assets/completePlayers/VincentPalady/VincentPalady.png",
+      "bubblehead_path": "res://assets/completePlayers/VincentPalady/VincentPalady_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/VincentPalady/VincentPaladyAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "sniper",
+      "stats": {
+        "move_range": 6.0,
+        "strength": 4.0,
+        "reflex": 7.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 25.0,
+      "pawn_name": "Wale Deise",
+      "image_path": "res://assets/completePlayers/WaleDeise/WaleDeise.png",
+      "bubblehead_path": "res://assets/completePlayers/WaleDeise/WaleDeise_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/WaleDeise/WaleDeiseAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "playmaker",
+      "stats": {
+        "move_range": 5.0,
+        "strength": 5.0,
+        "reflex": 5.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
+    },
+    {
+      "id": 26.0,
+      "pawn_name": "Zoran Dew-Fingers",
+      "image_path": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingers.png",
+      "bubblehead_path": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingers_BubbleHead.png",
+      "animationResourcePath": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingersAnimationResource.tres",
+      "default_animation": "idleHome",
+      "archetype": "speedster",
+      "stats": {
+        "move_range": 8.0,
+        "strength": 2.0,
+        "reflex": 6.0,
+        "health": 5.0,
+        "maxEnergy": 3.0
+      }
     }
-  },
-  {
-    "id": 3.0,
-    "pawn_name": "Carlo Monferato",
-    "image_path": "res://assets/completePlayers/CarloMonferato/CarloMonferato.png",
-    "bubblehead_path": "res://assets/completePlayers/CarloMonferato/CarloMonferato_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/CarloMonferato/CarloMonferatoAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 3.0,
-      "strength": 6.0,
-      "reflex": 4.0,
-      "health": 5.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 4.0,
-    "pawn_name": "Doug Dog",
-    "image_path": "res://assets/completePlayers/DougDog/DougDog.png",
-    "bubblehead_path": "res://assets/completePlayers/DougDog/DougDog_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/DougDog/DougDogAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 5.0,
-    "pawn_name": "Douli Ham",
-    "image_path": "res://assets/completePlayers/DouliHam/DouliHam.png",
-    "bubblehead_path": "res://assets/completePlayers/DouliHam/DouliHam_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/DouliHam/DouliHamAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 6.0,
-    "pawn_name": "Garen Gaspacini",
-    "image_path": "res://assets/completePlayers/GarenGaspacini/GarenGaspacini.png",
-    "bubblehead_path": "res://assets/completePlayers/GarenGaspacini/GarenGaspacini_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/GarenGaspacini/GarenGaspaciniAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 7.0,
-    "pawn_name": "Glorp Thorpe",
-    "image_path": "res://assets/completePlayers/GlorpThorpe/GlorpThorpe.png",
-    "bubblehead_path": "res://assets/completePlayers/GlorpThorpe/GlorpThorpe_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/GlorpThorpe/GlorpThorpeAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 8.0,
-    "pawn_name": "Gordon Mickey",
-    "image_path": "res://assets/completePlayers/GordonMickey/GordonMickey.png",
-    "bubblehead_path": "res://assets/completePlayers/GordonMickey/GordonMickey_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/GordonMickey/GordonMickeyAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 9.0,
-    "pawn_name": "Gui Gagnon",
-    "image_path": "res://assets/completePlayers/GuiGagnon/GuiGagnon.png",
-    "bubblehead_path": "res://assets/completePlayers/GuiGagnon/GuiGagnon_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/GuiGagnon/GuiGagnonAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 10.0,
-    "pawn_name": "Jacques Celere",
-    "image_path": "res://assets/completePlayers/JacquesCelere/JacquesCelere.png",
-    "bubblehead_path": "res://assets/completePlayers/JacquesCelere/JacquesCelere_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/JacquesCelere/JacquesCelereAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 11.0,
-    "pawn_name": "Jean-Francois Macedoine",
-    "image_path": "res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoine.png",
-    "bubblehead_path": "res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoine_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/JeanFrancoisMacedoine/JeanFrancoisMacedoineAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 12.0,
-    "pawn_name": "Jésus-Synje Pethlässen",
-    "image_path": "res://assets/completePlayers/JesusSynjePehtlassen/JSP.png",
-    "bubblehead_path": "res://assets/completePlayers/JesusSynjePehtlassen/JSP_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/JesusSynjePehtlassen/JesusSynjePehtlassenAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 13.0,
-    "pawn_name": "John Smith",
-    "image_path": "res://assets/completePlayers/JohnSmith/JohnSmith.png",
-    "bubblehead_path": "res://assets/completePlayers/JohnSmith/JohnSmith_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/JohnSmith/JohnSmithAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 14.0,
-    "pawn_name": "Josh Soup",
-    "image_path": "res://assets/completePlayers/JoshSoup/JoshSoup.png",
-    "bubblehead_path": "res://assets/completePlayers/JoshSoup/JoshSoup_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/JoshSoup/JoshSoupAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 15.0,
-    "pawn_name": "Leipti Modin",
-    "image_path": "res://assets/completePlayers/GarenGaspacini/GarenGaspacini.png",
-    "bubblehead_path": "res://assets/completePlayers/LeiptiModin/LeiptiModin_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/LeiptiModin/LeiptiModinAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 16.0,
-    "pawn_name": "Mark VanDoven",
-    "image_path": "res://assets/completePlayers/MarkVanDoven/MarkVanDoven.png",
-    "bubblehead_path": "res://assets/completePlayers/MarkVanDoven/MarkVanDoven_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/MarkVanDoven/MarkVanDovenAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 17.0,
-    "pawn_name": "Meter Pacloud",
-    "image_path": "res://assets/completePlayers/MeterPacloud/MeterPacloud.png",
-    "bubblehead_path": "res://assets/completePlayers/MeterPacloud/MeterPacloud_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/MeterPacloud/MeterPacloudAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 18.0,
-    "pawn_name": "Mike Geazel",
-    "image_path": "res://assets/completePlayers/MikeGeazel/MikeGeazel.png",
-    "bubblehead_path": "res://assets/completePlayers/MikeGeazel/MikeGeazel_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/MikeGeazel/MikeGeazelAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 19.0,
-    "pawn_name": "Oli Vomicheck",
-    "image_path": "res://assets/completePlayers/OliVomicheck/OliVomicheck.png",
-    "bubblehead_path": "res://assets/completePlayers/OliVomicheck/OliVomicheck_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/OliVomicheck/OliVomicheckAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 20.0,
-    "pawn_name": "Orian Maduro",
-    "image_path": "res://assets/completePlayers/OrianMaduro/OrianMaduro.png",
-    "bubblehead_path": "res://assets/completePlayers/OrianMaduro/OrianMaduro_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/OrianMaduro/OrianMaduroAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 21.0,
-    "pawn_name": "Patrick Loring",
-    "image_path": "res://assets/completePlayers/PatrickLoring/PatrickLoring.png",
-    "bubblehead_path": "res://assets/completePlayers/PatrickLoring/PatrickLoring_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/PatrickLoring/PatrickLoringAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 22.0,
-    "pawn_name": "Steeve Dog",
-    "image_path": "res://assets/completePlayers/SteeveDog/SteeveDog.png",
-    "bubblehead_path": "res://assets/completePlayers/SteeveDog/SteeveDog_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/SteeveDog/SteeveDogAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 23.0,
-    "pawn_name": "Vaclav Antropov",
-    "image_path": "res://assets/completePlayers/VaclavAntropov/VaclavAntropov.png",
-    "bubblehead_path": "res://assets/completePlayers/VaclavAntropov/VaclavAntropov_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/VaclavAntropov/VaclavAntropovAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 24.0,
-    "pawn_name": "Vincent Palady",
-    "image_path": "res://assets/completePlayers/VincentPalady/VincentPalady.png",
-    "bubblehead_path": "res://assets/completePlayers/VincentPalady/VincentPalady_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/VincentPalady/VincentPaladyAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-
-  {
-    "id": 25.0,
-    "pawn_name": "Wale Deise",
-    "image_path": "res://assets/completePlayers/WaleDeise/WaleDeise.png",
-    "bubblehead_path": "res://assets/completePlayers/WaleDeise/WaleDeise_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/WaleDeise/WaleDeiseAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  },
-  {
-    "id": 26.0,
-    "pawn_name": "Zoran Dew-Fingers",
-    "image_path": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingers.png",
-    "bubblehead_path": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingers_BubbleHead.png",
-    "animationResourcePath": "res://assets/completePlayers/ZoranDewFingers/ZoranDewFingersAnimationResource.tres",
-    "default_animation": "idleHome",
-    "stats": {
-      "move_range": 5.0,
-      "strength": 3.0,
-      "reflex": 6.0,
-      "health": 4.0,
-      "maxEnergy": 3.0
-    }
-  }
-]
+  ]
+}

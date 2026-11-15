@@ -17,7 +17,7 @@
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
-      "reflex": 6.0,
+      "reflex": 9.0,
       "health": 4.0,
       "maxEnergy": 3.0
     }
@@ -40,7 +40,7 @@
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
-      "reflex": 6.0,
+      "reflex": 9.0,
       "health": 4.0,
       "maxEnergy": 3.0
     }
@@ -63,7 +63,7 @@
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
-      "reflex": 6.0,
+      "reflex": 9.0,
       "health": 4.0,
       "maxEnergy": 3.0
     }
@@ -86,7 +86,7 @@
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
-      "reflex": 6.0,
+      "reflex": 9.0,
       "health": 4.0,
       "maxEnergy": 3.0
     }
@@ -109,7 +109,7 @@
     "stats": {
       "move_range": 5.0,
       "strength": 3.0,
-      "reflex": 6.0,
+      "reflex": 9.0,
       "health": 4.0,
       "maxEnergy": 3.0
     }

@@ -5,6 +5,7 @@ const GOALIE_JSON_PATH := "res://data/goalies.json"
 
 var player_team_selected_players: Array = []
 var opposing_team_selected_players: Array = []
+var archetypes: Array = []
 
 var player_team_goalie: Dictionary = {}
 var opposing_team_goalie: Dictionary = {}
@@ -32,43 +33,42 @@ func _ready() -> void:
 
 
 
+
 func load_players() -> Array:
 	if not FileAccess.file_exists(PLAYER_JSON_PATH):
-		push_error(
-			"Player.json introuvable : %s"
-			% PLAYER_JSON_PATH
-		)
+		push_error("Players.json introuvable : %s" % PLAYER_JSON_PATH)
 		return []
 
-	var file := FileAccess.open(
-		PLAYER_JSON_PATH,
-		FileAccess.READ
-	)
+	var file := FileAccess.open(PLAYER_JSON_PATH, FileAccess.READ)
 
 	if file == null:
-		push_error("Impossible d'ouvrir Player.json")
+		push_error("Impossible d'ouvrir Players.json")
 		return []
 
 	var json_text := file.get_as_text()
-	var players = JSON.parse_string(json_text)
+	var data = JSON.parse_string(json_text)
 
-	if players == null:
-		push_error("Erreur lors de la lecture de Player.json")
+	if not data is Dictionary:
+		push_error("Players.json doit contenir un Dictionary")
 		return []
 
-	if not players is Array:
-		push_error("Player.json doit contenir un Array")
+	var players = data.get("players", [])
+	var loaded_archetypes = data.get("archetypes", [])
+
+	if not players is Array or not loaded_archetypes is Array:
+		push_error("Players.json : players et archetypes doivent être des Array")
 		return []
+
+	archetypes = loaded_archetypes
 
 	var prepared_players: Array = []
 
 	for player_data in players:
 		if player_data is Dictionary:
-			prepared_players.append(
-				prepare_player(player_data)
-			)
+			prepared_players.append(prepare_player(player_data))
 
-	return prepared_players	
+	return prepared_players
+
 
 
 
@@ -219,3 +219,11 @@ func set_default_opposing_goalie() -> void:
 			return
 
 	push_error("Gardien AWAY introuvable.")		
+
+
+func get_archetype(archetype_id: String) -> Dictionary:
+	for archetype in archetypes:
+		if archetype.get("id", "") == archetype_id:
+			return archetype
+
+	return {}
