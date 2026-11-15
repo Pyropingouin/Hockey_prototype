@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameData="*res://script/game_data.gd"
 DebugLogger="*res://script/debug_logger.gd"
+EventBus="*res://script/event_bus.gd"
 
 [display]
 

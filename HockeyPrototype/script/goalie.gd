@@ -42,6 +42,7 @@ var down_position: Vector2i
 
 @onready var sprite: Sprite2D = $Sprite2D
 
+
 func _ready() -> void:
 	# if hasPuck:
 	# 	start_red_flash()
@@ -82,6 +83,8 @@ func attempt_save(shooter_reflex: int) -> bool:
 	var save_difference: int = save_power - shooter_reflex
 
 
+	EventBus.send_log("%s | Save Power: %s | Réflexe: %s | Différence: %s" % [goalie_name, save_power, shooter_reflex, save_difference], Color.CYAN)
+
 	
 	DebugLogger.log(
 	DebugLogger.DebugType.GOALIE,
@@ -95,14 +98,14 @@ func attempt_save(shooter_reflex: int) -> bool:
 
 	# Le goalie n'a aucune chance si son save_power
 	# n'est pas supérieur au reflex du tireur.
-	if save_difference < 1:
-		return false
+	# if save_difference < 1:
+		
+	# 	return false
 
 	var save_chance: float = min(
-		float(save_difference) * 0.20,
+		float(save_difference+1) * 0.20,
 		0.90
 	)
-
 	var random_roll: float = randf()
 	var save_successful: bool = random_roll < save_chance
 
@@ -114,7 +117,12 @@ func attempt_save(shooter_reflex: int) -> bool:
 		random_roll,
 		save_successful
 		]
-	)		
+	)
+
+
+		
+
+		# EventBus.send_log("%s laisse passer le tir !" % goalie_name, Color.ORANGE_RED)		
 
 
 	return save_successful

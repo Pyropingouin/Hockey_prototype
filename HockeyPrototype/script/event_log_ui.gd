@@ -7,6 +7,9 @@ const MAX_LOGS: int = 50
 
 var logs: Array[Dictionary] = []
 
+func _ready() -> void:
+	EventBus.event_logged.connect(add_log)
+
 func add_log(message: String, color: Color = Color.WHITE) -> void:
 	logs.append({
 		"message": message,

@@ -19,6 +19,7 @@ extends CharacterBody2D
 
 
 
+
 @onready var GameManager = $"../../GameManager"
 @onready var IceMapLayer = $"../../IceMapLayer"
 # --- hasPuck avec setter ---

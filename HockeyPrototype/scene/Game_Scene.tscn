@@ -496,62 +496,62 @@ uv = PackedVector2Array(-101.5, -29.5)
 position = Vector2(1, 5)
 
 [node name="EndTurnButton" type="Button" parent="."]
-offset_left = 1684.0
-offset_top = 977.0
-offset_right = 1908.0
-offset_bottom = 1042.0
+offset_left = 1340.0
+offset_top = 764.0
+offset_right = 1564.0
+offset_bottom = 829.0
 text = "End Turn"
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="."]
-offset_left = 1486.0
-offset_top = 883.0
-offset_right = 1620.0
-offset_bottom = 924.0
+offset_left = 1340.0
+offset_top = 834.0
+offset_right = 1474.0
+offset_bottom = 875.0
 text = "Tour de l'équipe :"
 horizontal_alignment = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="ActiveTeamLabel" type="Label" parent="."]
-offset_left = 1638.0
-offset_top = 883.0
-offset_right = 1684.0
-offset_bottom = 913.0
+offset_left = 1492.0
+offset_top = 834.0
+offset_right = 1538.0
+offset_bottom = 864.0
 text = "1"
 metadata/_edit_use_anchors_ = true
 
 [node name="HomeTeamLabel" type="Label" parent="."]
-offset_left = 1242.0
+offset_left = 986.0
 offset_top = 834.0
-offset_right = 1324.0
+offset_right = 1068.0
 offset_bottom = 883.0
 text = "Home :
 "
 metadata/_edit_use_anchors_ = true
 
 [node name="AwayTeamLabel" type="Label" parent="."]
-offset_left = 1364.0
-offset_top = 834.0
-offset_right = 1446.0
-offset_bottom = 909.0
+offset_left = 986.0
+offset_top = 857.0
+offset_right = 1068.0
+offset_bottom = 932.0
 text = "Away :
 
 "
 metadata/_edit_use_anchors_ = true
 
 [node name="HomeTeamScoreLabel" type="Label" parent="."]
-offset_left = 1324.0
+offset_left = 1084.0
 offset_top = 834.0
-offset_right = 1364.0
+offset_right = 1124.0
 offset_bottom = 857.0
 text = "0"
 metadata/_edit_use_anchors_ = true
 
 [node name="AwayTeamScoreLabel" type="Label" parent="."]
-offset_left = 1446.0
-offset_top = 834.0
-offset_right = 1486.0
-offset_bottom = 857.0
+offset_left = 1084.0
+offset_top = 857.0
+offset_right = 1124.0
+offset_bottom = 880.0
 text = "0"
 metadata/_edit_use_anchors_ = true
 
@@ -609,10 +609,10 @@ grow_vertical = 2
 text = "Continue "
 
 [node name="ActionCounterLabel" type="Label" parent="."]
-offset_left = 1486.0
-offset_top = 909.0
-offset_right = 1649.0
-offset_bottom = 965.0
+offset_left = 1340.0
+offset_top = 857.0
+offset_right = 1503.0
+offset_bottom = 913.0
 text = "action counter = 1 / 4"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -629,28 +629,28 @@ text = "Cancel Button"
 metadata/_edit_use_anchors_ = true
 
 [node name="ShootButton" type="TextureButton" parent="ActionButtonOverlay"]
-offset_left = 1010.0
-offset_top = 924.0
-offset_right = 1170.0
-offset_bottom = 1084.0
+offset_left = 1068.0
+offset_top = 932.0
+offset_right = 1228.0
+offset_bottom = 1092.0
 texture_normal = ExtResource("21_w6c7q")
 script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
 
 [node name="PassButton" type="TextureButton" parent="ActionButtonOverlay"]
-offset_left = 1174.0
-offset_top = 924.0
-offset_right = 1334.0
-offset_bottom = 1084.0
+offset_left = 1228.0
+offset_top = 932.0
+offset_right = 1388.0
+offset_bottom = 1092.0
 texture_normal = ExtResource("23_mjiv6")
 script = ExtResource("22_p4wsm")
 metadata/_edit_use_anchors_ = true
 
 [node name="HitButton" type="TextureButton" parent="ActionButtonOverlay"]
-offset_left = 1334.0
-offset_top = 924.0
-offset_right = 1494.0
-offset_bottom = 1084.0
+offset_left = 1404.0
+offset_top = 932.0
+offset_right = 1564.0
+offset_bottom = 1092.0
 texture_normal = ExtResource("24_yj4y7")
 texture_pressed = ExtResource("25_xlqbc")
 script = ExtResource("22_p4wsm")

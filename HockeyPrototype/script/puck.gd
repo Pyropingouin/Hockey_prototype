@@ -33,14 +33,18 @@ func get_current_cell() -> Vector2i:
 
 
 func _on_ice_map_layer_puck_is_picked_up(pawn: Variant) -> void:
+	if pawn is Goalie:
+		return
+
+	if not is_instance_valid(pawn):
+		return	
+
 	carrier = pawn
 	isPickedUp = true
 	sprite.visible = false
 
 	update_puck_cell(pawn.current_cell)
 
-	if carrier is Goalie:
-		print("Le gardien possède la puck")
 
 
 
@@ -166,7 +170,7 @@ func update_puck_cell(new_cell: Vector2i) -> void:
 
 
 func release_puck() -> void:
-	if is_instance_valid(carrier):
+	if is_instance_valid(carrier) and carrier is not Goalie:
 		carrier.hasPuck = false
 
 	carrier = null

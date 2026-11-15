@@ -505,6 +505,10 @@ func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 		)
 	)
 
+	# Empêcher la rondelle de rebondir dans les filets
+	empty_cells.erase(RIGHT_NET_POSITION)
+	empty_cells.erase(LEFT_NET_POSITION)
+
 	if empty_cells.is_empty():
 		DebugLogger.log(
 			DebugLogger.DebugType.GAME_MANAGER,
