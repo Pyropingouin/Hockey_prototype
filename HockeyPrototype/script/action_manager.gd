@@ -191,10 +191,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 
 
-func attempt_pass(
-	passer: Node2D,
-	pass_target: Node2D
-) -> bool:
+func attempt_pass(passer: Node2D, pass_target: Node2D) -> bool:
 
 	DebugLogger.log(
 		DebugLogger.DebugType.ACTION_MANAGER,
@@ -260,7 +257,7 @@ func attempt_pass(
 		return false
 
 
-	if not IceMapLayer.is_path_clear(
+	if not IceMapLayer.is_pass_path_clear(
 		passer.current_cell,
 		pass_target.current_cell
 	):
@@ -274,14 +271,24 @@ func attempt_pass(
 	if not passer.has_method("_pass"):
 		return false
 
+
+	var interceptor: Node2D = IceMapLayer.get_pass_interceptor(passer.current_cell, pass_target.current_cell, passer.team_id)
+	var destination_cell: Vector2i = pass_target.current_cell
+
+	if interceptor != null:
+		destination_cell = interceptor.current_cell	
+
 	
 	await passer.play_pass_animation_and_wait()
-	passer._pass(pass_target.current_cell)
+	passer._pass(destination_cell)
 
-	GameManager.update_action_counter(1)
+	if interceptor != null:
+		GameManager.on_pass_intercepted(interceptor, passer)
 
 	IceMapLayer.update_occupancy()
 
+
+	
 	return true	
 
 

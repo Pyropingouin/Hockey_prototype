@@ -469,10 +469,7 @@ func _compute_pass_range(
 			continue
 
 		# La trajectoire doit être libre
-		if not is_path_clear(
-			origin,
-			cell
-		):
+		if not is_pass_path_clear(origin,cell):
 			continue
 
 		range_cells.append(cell)
@@ -520,11 +517,7 @@ func highlight_pass_targets(
 		)
 			
 			
-func _compute_pass_targets(
-	origin: Vector2i,
-	max_range: int,
-	passing_pawn: Node2D
-) -> Array[Vector2i]:
+func _compute_pass_targets(origin: Vector2i, max_range: int, passing_pawn: Node2D) -> Array[Vector2i]:
 
 	var targets: Array[Vector2i] = []
 
@@ -554,10 +547,7 @@ func _compute_pass_targets(
 		if distance > max_range:
 			continue
 
-		if not is_path_clear(
-			origin,
-			pawn.current_cell
-		):
+		if not is_pass_path_clear(origin, pawn.current_cell):
 			continue
 
 		targets.append(pawn.current_cell)
@@ -954,6 +944,63 @@ func is_path_clear(
 			return false
 
 	return true
+
+
+func is_pass_path_clear(origin: Vector2i, target: Vector2i)	-> bool:
+	if _is_behind_goal(origin) and _is_goal_cell(target):
+		return false
+
+
+	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
+
+	for cell in trajectory: 
+		if cell == origin or cell == target:
+			continue
+
+		if not map_data.has(cell):
+			return false
+
+		if _is_goal_cell(cell):
+			return false
+
+		if map_data[cell].blocked:
+			return false
+
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn is Goalie:
+			return false
+
+	return true				
+
+
+
+func get_pass_interceptor(origin: Vector2i, target: Vector2i, team_id: int) -> Node2D:
+	
+	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
+
+	for cell in trajectory: 
+		if cell == origin or cell == target:
+			continue
+
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn == null:
+			continue
+
+		if pawn is Goalie:
+			continue
+
+		if pawn.team_id != team_id:
+			return pawn
+
+
+
+	return null		
+				
+
+
+		
 
 
 func _get_pass_highlight_alt(

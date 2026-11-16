@@ -404,24 +404,25 @@ func _do_pass(target_cell: Vector2i) -> void:
 		return
 
 
-	var pass_target: Node2D = \
-		IceMapLayer.get_pawn_on_cell(target_cell)
+	var pass_target: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+	var passer: Node2D = action_pawn
 
 
-	var pass_successful: bool = \
-		await ActionManager.attempt_pass(
-			action_pawn,
-			pass_target
-		)
+	var pass_executed: bool = await ActionManager.attempt_pass(passer, pass_target)
 
 
-	if not pass_successful:
+	if not pass_executed:
 		return
 
 
 	selected_pawn = null
-
 	_cancel_action_mode()
+
+	print("Actions avant la passe : ", active_team_action_counter)
+	print("Équipe active : ", active_team)
+
+	update_action_counter(1)
+	_refresh_action_buttons()
 
 func _do_hit(target_cell: Vector2i) -> void:
 
@@ -719,6 +720,14 @@ func _on_puck_moved(new_cell: Vector2i) -> void:
 	for player in players_container.get_children():
 		if player is Goalie:
 			player.move_goalie_prototype(new_cell)	
+
+
+
+func on_pass_intercepted(interceptor: Node2D, passer: Node2D) -> void:
+	DebugLogger.log(DebugLogger.DebugType.GAME_MANAGER, "INTERCEPTION : %s intercepte la passe de %s" % [interceptor.pawn_name, passer.pawn_name])
+
+	event_log.add_log("%s intercepte la passe de %s !" % [interceptor.pawn_name, passer.pawn_name], Color.ORANGE)
+
 
 func _on_continue_button_pressed() -> void:
 	GoalOverlay.hide()
