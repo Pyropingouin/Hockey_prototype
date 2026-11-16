@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
-@export var health: int = 2
+@export var technique: int = 2
 @export var team_id: int = 0
 @export var maxEnergy: int = 0
 
@@ -144,7 +144,7 @@ func setup(
 	move_range = int(stats.get("move_range", move_range))
 	strength = int(stats.get("strength", strength))
 	reflex = int(stats.get("reflex", reflex))
-	health = int(stats.get("health", health))
+	technique = int(stats.get("technique", technique))
 	maxEnergy =int(stats.get("maxEnergy", maxEnergy))
 
 	fullBodyTexture = player_data.get("image", null)
@@ -185,12 +185,12 @@ func setup(
 
 	DebugLogger.log(
 		DebugLogger.DebugType.PAWN,
-		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Health: %s  | maxEnergy: %s|  Sprite trouvé:  %s   " % [
+		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Technique: %s  | maxEnergy: %s|  Sprite trouvé:  %s   " % [
 			pawn_name,
 			move_range,
 			strength,
 			reflex,
-			health,
+			technique,
 			maxEnergy,
 			sprite != null
 		]

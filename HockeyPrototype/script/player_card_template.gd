@@ -6,7 +6,7 @@ extends Control
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
-@export var health: int = 98
+@export var technique: int = 98
 # @export var bubbleHeadTexture: Texture2D
 # @export var fullBodyTexture: Texture2D
 
@@ -15,7 +15,7 @@ extends Control
 @onready var pawn_move_range_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/SpeedArea/SpeedLabel
 @onready var pawn_strength_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/ReflexArea/ReflexLabel
 @onready var pawn_reflex_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/StrengthArea/StrengthLabel
-@onready var pawn_health_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/HitArea/HitLabel
+@onready var pawn_technique_label: Label = $VBoxCardContainer/BottomArea/BottomAreaGridContainer/HitArea/HitLabel
 
 
 signal card_clicked(player: Dictionary)
@@ -54,7 +54,7 @@ func setup(player: Dictionary) -> void:
 	pawn_move_range_label.text = "Speed %s" % stats["move_range"]
 	pawn_strength_label.text = "Strength %s" % stats["strength"]
 	pawn_reflex_label.text = "Reflex %s" % stats["reflex"]
-	pawn_health_label.text = "Health %s" % stats["health"]
+	pawn_technique_label.text = "Technique %s" % stats["technique"]
 
 
 func _on_click_card_button_pressed() -> void:

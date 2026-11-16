@@ -766,8 +766,8 @@ func _update_current_team_card_display() -> void:
 	current_team_card_display.pawn_reflex_label.text = \
 		"Reflex: " + str(selected_pawn.reflex)
 
-	current_team_card_display.pawn_health_label.text = \
-		"Health: " + str(selected_pawn.health)
+	current_team_card_display.pawn_technique_label.text = \
+		"Technique: " + str(selected_pawn.technique)
 
 
 func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
@@ -786,8 +786,8 @@ func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
 	opposing_team_card_display.pawn_reflex_label.text = \
 		"Reflex: " + str(hovered_pawn.reflex)
 
-	opposing_team_card_display.pawn_health_label.text = \
-		"Health: " + str(hovered_pawn.health)		
+	opposing_team_card_display.pawn_technique_label.text = \
+		"Technique: " + str(hovered_pawn.technique)		
 
 
 func regenActionEconomy(current_active_team: int) -> void:
