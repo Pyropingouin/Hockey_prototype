@@ -237,7 +237,7 @@ func place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 	puck_node.global_position = to_global(local_pos)
 	
 	var pawn_on_cell := get_pawn_on_cell(cell)
-	if pawn_on_cell != null and puck.isPickedUp == false:
+	if pawn_on_cell != null and not pawn_on_cell is Goalie and not puck.isPickedUp:
 		emit_signal("puck_is_picked_up", pawn_on_cell)
 		puck.isPickedUp = true
 		if map_data.has(cell):
