@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://cs1ifg4x25gp7"]
+
+[ext_resource type="Script" uid="uid://dk5j8xad5ee5d" path="res://script/energy_bar.gd" id="1_1qw3v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwijy"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.14117648, 0.19215687, 0.23137255, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k61cg"]
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="EnergyBar" type="PanelContainer"]
+z_index = 3
+offset_right = 16.0
+offset_bottom = 46.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hwijy")
+script = ExtResource("1_1qw3v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Energy1" type="Panel" parent="VBoxContainer"]
+modulate = Color(0.29524395, 0.7670938, 0.4423701, 1)
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k61cg")
+
+[node name="Energy2" type="Panel" parent="VBoxContainer"]
+modulate = Color(0.29524395, 0.7670938, 0.4423701, 1)
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k61cg")
+
+[node name="Energy3" type="Panel" parent="VBoxContainer"]
+modulate = Color(0.29524395, 0.7670938, 0.4423701, 1)
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k61cg")

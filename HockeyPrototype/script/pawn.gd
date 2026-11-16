@@ -2,17 +2,22 @@ extends CharacterBody2D
 
 @export var bubbleHeadTexture: Texture2D
 @export var fullBodyTexture: Texture2D
-@export var fullBodyAnimation: SpriteFrames
+
 @export var pawn_name: String
 @export var move_range: int = 2
 @export var strength: int = 2
 @export var reflex: int = 3
-@export var health: int = 2
+@export var technique: int = 2
 @export var team_id: int = 0
+@export var maxEnergy: int = 0
+
 @onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 #DEBUG FOR TEAMS
 @onready var hover_area: Area2D = $HoverArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var energy_bar: PanelContainer = $EnergyBar
+
+
 
 
 @onready var GameManager = $"../../GameManager"
@@ -29,13 +34,35 @@ var _hasPuck: bool = false
 		_update_puck_control_color()
 
 
+enum AnimationState {
+	IDLE,
+	MOVE,
+	FIRST_SHOOT,
+	SECOND_SHOOT,
+	PASS,
+	FIRST_HIT,
+	SECOND_HIT
+}		
 
+
+var animation_state: AnimationState = AnimationState.IDLE
+var animationResource: SpriteFrames
 var _start_cell: Vector2i = Vector2i.ZERO
 var _is_selected_pawn = false
 var hue: float = 0.0
 var puck_color_tween: Tween
+var energy_bar_original_position 
 
+var _current_energy: int = 0
 
+var current_energy: int:
+	get:
+		return _current_energy
+	set(value):
+		_current_energy = clampi(value, 0, maxEnergy)
+
+		if is_instance_valid(energy_bar):
+			energy_bar.update_energy(_current_energy)
 
 
 @export var start_cell: Vector2i:
@@ -57,6 +84,14 @@ var current_cell: Vector2i:
 		_current_cell = value
 		_on_current_cell_changed()
 
+
+#Higher = Stronger
+const NO_ENERGY_STRENGH := 15.0
+#Lower = Faster
+const NO_ENERGY_SPEED := 0.04	
+const SPEND_ENERGY_STRENGH := 1
+const SPEND_ENERGY_SPEED := 0.04	
+
 signal hold_puck_is_moving
 signal shooting_puck
 signal passing_puck
@@ -70,6 +105,9 @@ signal hovering_pawn(pawn: Node2D)
 
 func _ready() -> void:
 	current_cell = start_cell
+	current_energy = maxEnergy
+	energy_bar_original_position = energy_bar.position 
+	initialize_energy()
 
 	hover_area.mouse_entered.connect(_on_hover_area_mouse_entered)
 	hover_area.mouse_exited.connect(_on_hover_area_mouse_exited)
@@ -83,21 +121,10 @@ func _ready() -> void:
 
 	_update_pawn_texture()
 
-func _process(delta: float) -> void:
-	pass
-	## REMETTRE SI ON VEUT DE LA COULEUR SUR SELECTED PAWN
-	# if _is_selected_pawn:
-	# 	hue += delta * 0.5
+	animated_sprite.animation_finished.connect(_on_animation_finished)
 
-	# 	if hue > 1.0:
-	# 		hue -= 1.0
+	play_idle_animation()
 
-	# 	animated_sprite.modulate = Color.from_hsv(
-	# 		hue,
-	# 		1.0,
-	# 		1.0,
-	# 		1.0
-	# 	)	
 
 func get_current_cell() -> Vector2i:
 	return current_cell
@@ -117,11 +144,34 @@ func setup(
 	move_range = int(stats.get("move_range", move_range))
 	strength = int(stats.get("strength", strength))
 	reflex = int(stats.get("reflex", reflex))
-	health = int(stats.get("health", health))
+	technique = int(stats.get("technique", technique))
+	maxEnergy =int(stats.get("maxEnergy", maxEnergy))
 
 	fullBodyTexture = player_data.get("image", null)
 	bubbleHeadTexture = player_data.get("bubblehead", null)
-	fullBodyAnimation = player_data.get("fullBodyAnimation", null)
+	var animation_resource_path: String = player_data.get(
+	"animationResourcePath",
+    ""
+)
+
+	if animation_resource_path.is_empty():
+		push_error(
+			"Aucune animationResourcePath pour %s"
+			% pawn_name
+		)
+	else:
+		animationResource = load(animation_resource_path) as SpriteFrames
+
+		if animationResource == null:
+			push_error(
+				"Impossible de charger SpriteFrames pour %s : %s"
+				% [
+					pawn_name,
+					animation_resource_path
+				]
+			)
+
+	
 
 	
 	team_id = pawn_team_id
@@ -130,16 +180,18 @@ func setup(
 	# setup() peut être appelé avant ou après _ready()
 	if is_node_ready():
 		_update_pawn_texture()
+		initialize_energy()
 
 
 	DebugLogger.log(
 		DebugLogger.DebugType.PAWN,
-		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Health: %s  |  Sprite trouvé:  %s   " % [
+		"--- PAWN SETUP --- | Nom:  %s | Speed:  %s | Strength:  %s | Reflex:  %s | Technique: %s  | maxEnergy: %s|  Sprite trouvé:  %s   " % [
 			pawn_name,
 			move_range,
 			strength,
 			reflex,
-			health,
+			technique,
+			maxEnergy,
 			sprite != null
 		]
 	)			
@@ -159,43 +211,167 @@ func _update_pawn_texture() -> void:
 			% pawn_name
 		)
 		return
-
-	if fullBodyAnimation == null:
-		push_error(
-			"SpriteFrames introuvable pour %s"
-			% pawn_name
-		)
+	if animationResource == null:
+		push_error("SpriteFrame introuvable pour %s"
+		% pawn_name
+		)	
 		return
 
-	animated_sprite.sprite_frames = fullBodyAnimation
+	animated_sprite.sprite_frames = animationResource
 
-	var animations := fullBodyAnimation.get_animation_names()
+	var animation_name: StringName
 
-	if animations.is_empty():
+
+	if team_id == 1:
+		animation_name = &"idleHome"
+	else:
+		animation_name = &"idleAway"	
+
+	if not animationResource.has_animation(animation_name):
 		push_error(
-			"Aucune animation disponible pour %s"
-			% pawn_name
+			"Animation %s introuvable pour %s"
+			% [
+				animation_name,
+				pawn_name
+			]
 		)
 		return
-
-	var animation_name: StringName = animations[0]
 
 	animated_sprite.play(animation_name)
-
-	var frame_count: int = fullBodyAnimation.get_frame_count(
-		animation_name
-	)
-
-	if frame_count > 0:
-		animated_sprite.frame = randi_range(
-			0,
-			frame_count - 1
-		)
 
 	if sprite != null:
 		sprite.visible = false
 
-	animated_sprite.visible = true
+	animated_sprite.visible = true			
+
+
+
+func play_animation(animation_name: StringName) -> void:
+	if not animated_sprite.sprite_frames.has_animation(animation_name):
+		push_warning(
+			"Animation '%s' inexistante pour %s"
+			% [animation_name, pawn_name]
+		)
+		return
+
+	animated_sprite.play(animation_name)	
+
+
+func _on_animation_finished() -> void:
+	match animation_state:
+
+		AnimationState.FIRST_SHOOT:
+			# Ne rien faire.
+			# On reste sur la dernière frame,
+			# bâton levé.
+			pass
+
+		AnimationState.SECOND_SHOOT:
+			play_idle_animation()
+
+		
+
+		AnimationState.PASS:
+			play_idle_animation()
+	
+
+		AnimationState.FIRST_HIT:
+			# Ne rien faire.
+			pass
+
+		AnimationState.SECOND_HIT:
+			play_idle_animation()
+
+
+
+
+
+func play_idle_animation() -> void:
+	animation_state = AnimationState.IDLE
+
+	var idle_animation: StringName
+
+	if team_id == 1:
+		idle_animation = &"idleHome"
+	else:
+		idle_animation = &"idleAway"
+
+	play_animation(idle_animation)
+
+	var frame_count := animated_sprite.sprite_frames.get_frame_count(idle_animation)
+
+	if frame_count > 0:
+		animated_sprite.frame = randi_range(0, frame_count - 1)
+
+
+
+func play_first_shoot_animation() -> void:
+	animation_state = AnimationState.FIRST_SHOOT
+
+	if team_id == 1:
+		play_animation("shotFirstHome")
+
+	else:
+		play_animation("shotFirstAway")	
+
+
+	
+	
+
+func play_second_shoot_animation_and_wait() -> void:
+	animation_state = AnimationState.SECOND_SHOOT
+
+	if team_id == 1:
+		play_animation("shotSecondHome")
+
+	else:
+		play_animation("shotSecondAway")	
+	
+
+	await animated_sprite.animation_finished
+
+
+
+
+### P_T JUSTE JOUER SHOT
+func play_pass_animation_and_wait() -> void:
+	animation_state = AnimationState.PASS
+	if team_id == 1:
+		play_animation("passHome")
+
+	else:
+		play_animation("passAway")	
+
+
+
+	await animated_sprite.animation_finished
+
+
+
+
+func play_first_hit_animation() -> void:
+	animation_state = AnimationState.FIRST_HIT
+	if team_id == 1:
+		play_animation("hitFirstHome")
+
+	else:
+		play_animation("hitFirstAway")	
+
+
+func play_second_hit_animation_and_wait() -> void:
+	animation_state = AnimationState.SECOND_HIT
+	if team_id == 1:
+		play_animation("hitSecondHome")
+
+	else:
+		play_animation("hitSecondAway")	
+
+	await animated_sprite.animation_finished
+
+
+
+
+
 	
 	
 func pick_up_puck(pawn) -> void:
@@ -396,6 +572,62 @@ func _on_hover_area_mouse_entered() -> void:
 func _on_hover_area_mouse_exited() -> void:
 
 	hovering_pawn.emit(null)			
+
+
+func regenEnergy() -> void:
+
+	DebugLogger.log(
+		DebugLogger.DebugType.PAWN,
+		"Name: %s | current_energy : %s | maxEnergy : %s" % [
+			pawn_name,
+			current_energy,
+			maxEnergy
+		]
+	)	
+
+	current_energy += randi_range(1,2)
+
+	if current_energy > maxEnergy:
+		current_energy = maxEnergy
+
+
+func regenAllEnergy() -> void:
+	current_energy = maxEnergy
+
+
+func canSpendEnergy(energyAmount) -> bool:
+	 
+	if energyAmount > current_energy:
+		shake_energy_bar(NO_ENERGY_STRENGH, NO_ENERGY_SPEED)
+		return false
+
+	else:
+		return true	
+
+
+func spendEnergy(spentEnergyAmount: int) -> bool:
+
+	if  current_energy < 0:
+		current_energy = 0
+
+	if current_energy < spentEnergyAmount:
+		print("not enough energy")
+		return false
+
+
+	shake_energy_bar(SPEND_ENERGY_STRENGH, SPEND_ENERGY_SPEED)
+	current_energy -= spentEnergyAmount
+	return true
+
+
+func initialize_energy() -> void:
+	current_energy = maxEnergy
+
+	if is_instance_valid(energy_bar):
+		energy_bar.update_energy(current_energy)
+
+
+
 		
 func _connect_to_other_pawns() -> void:
 	var container = get_parent() #PlayerContainer
@@ -431,3 +663,44 @@ func _auto_connect_to_puck() -> void:
 	# dropping_puck -> puck
 	if has_signal("dropping_puck") and puck.has_method("_on_pawn_dropping_puck"):
 		connect("dropping_puck", Callable(puck, "_on_pawn_dropping_puck"))	
+
+
+func shake_energy_bar(shake_strength, shake_speed) -> void:
+	var original_position = energy_bar_original_position
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(-shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(-shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position + Vector2(shake_strength, 0),
+		shake_speed
+	)
+
+	tween.tween_property(
+		energy_bar,
+		"position",
+		original_position,
+		shake_speed
+	)

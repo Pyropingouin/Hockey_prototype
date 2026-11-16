@@ -2,6 +2,20 @@ extends TileMapLayer
 
 var action_pawn: Node2D = null
 
+
+## à retirer ou modifier, parce qu'aussi présent dans GameManager et IceMapLayer
+
+const RIGHT_NET_POSITION = Vector2i(7, 0)
+const RIGHT_NET_FRONT_POSITION = Vector2i(6, 0)
+const RIGHT_NET_UP_POSITION = Vector2i(6, -1)
+const RIGHT_NET_DOWN_POSITION = Vector2i(6, 1)
+
+const LEFT_NET_POSITION = Vector2i(-3, 0)
+const LEFT_NET_FRONT_POSITION = Vector2i(-2, 0)
+const LEFT_NET_UP_POSITION = Vector2i(-3, -1)
+const LEFT_NET_DOWN_POSITION = Vector2i(-3, 1)
+
+
 class CellState extends RefCounted:
 	var blocked: bool = false
 	var is_occupied: bool = false
@@ -24,10 +38,12 @@ class CellState extends RefCounted:
 
 var pawns: Array = []
 var map_data: Dictionary = {} # Dictionary<Vector2i, CellState>
+var current_shoot_targets: Array[Vector2i] = []
 
 
 const ALT_NORMAL := 0
 const ALT_BLOCKED := 1
+const ALT_PASS_TARGET := 2
 const FLIP_H := 4096
 const FLIP_V := 8192
 const LAYER_TYPE := 0
@@ -45,7 +61,9 @@ signal puck_is_picked_up(pawn)
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var GameManager = $"../GameManager"
 @onready var shot_preview: Line2D = $ShotPreview
-@onready var arrow_head: Polygon2D = $ShotPreview/ArrowHead
+@onready var shot_arrow_head: Polygon2D = $ShotPreview/ShotArrowHead
+@onready var pass_preview: Line2D = $PassPreview
+@onready var pass_arrow_head: Polygon2D = $PassPreview/PassArrowHead
 
 
 func _ready() -> void:
@@ -79,10 +97,9 @@ func _ready() -> void:
 		
 		DebugLogger.log(
 			DebugLogger.DebugType.ICE_MAP_LAYER,
-			"Initialisation de %s | Current cell: %s | Start cell: %s" % [
+			"Initialisation de %s | Current cell: %s" % [
 				p.name,
 				p.current_cell,
-				p.start_cell
 			]
 		)
 		
@@ -183,6 +200,11 @@ func place_pawn_on_cell(pawn: Node2D, cell: Vector2i) -> void:
 func apply_move(pawn: Node2D, origin: Vector2i, target: Vector2i) -> void:
 	pawn.current_cell = target
 	place_pawn_on_cell(pawn, target)
+
+	if puck.carrier == pawn:
+		puck.update_puck_cell(target)
+
+
 	update_occupancy()
 	_check_for_puck_on_ice(target, pawn)
 	
@@ -354,7 +376,7 @@ func highlight_shoot_targets(
 ) -> void:
 	var shoot_range: int = range
 
-	var targets := _compute_shoot_targets(
+	current_shoot_targets = _compute_shoot_targets(
 		origin,
 		shoot_range,
 		received_pawn
@@ -363,7 +385,7 @@ func highlight_shoot_targets(
 	for cell in map_data.keys():
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
-		var is_target := targets.has(cell)
+		var is_target := current_shoot_targets.has(cell)
 
 		set_cell(
 			cell,
@@ -397,7 +419,8 @@ func _compute_shoot_targets(
 		if distance > max_range:
 			continue
 
-		if not is_path_clear(origin, cell):
+		var is_goal: bool = get_goal_type(cell) in ["home", "away"]
+		if not is_path_clear(origin, cell, is_goal):
 			continue
 
 		var character_on_target: Node2D = get_pawn_on_cell(cell)
@@ -419,34 +442,80 @@ func _compute_shoot_targets(
 	return targets
 	
 
+func _compute_pass_range(
+	origin: Vector2i,
+	max_range: int
+) -> Array[Vector2i]:
+
+	var range_cells: Array[Vector2i] = []
+
+	for cell in map_data.keys():
+
+		if cell == origin:
+			continue
+
+		if map_data[cell].blocked:
+			continue
+
+		var distance: int = get_hex_distance(
+			origin,
+			cell
+		)
+
+		if distance == -1:
+			continue
+
+		if distance > max_range:
+			continue
+
+		# La trajectoire doit être libre
+		if not is_path_clear(
+			origin,
+			cell
+		):
+			continue
+
+		range_cells.append(cell)
+
+	return range_cells
+
 func highlight_pass_targets(
 	origin: Vector2i,
 	received_pawn: Node2D,
-	range
+	range: int
 ) -> void:
+
 	var pass_range: int = range
 
+	# Toutes les cases où une passe peut théoriquement aller
+	var range_cells := _compute_pass_range(
+		origin,
+		pass_range
+	)
+
+	# Seulement les vrais receveurs possibles
 	var targets := _compute_pass_targets(
 		origin,
 		pass_range,
 		received_pawn
 	)
 
-	
-
 	for cell in map_data.keys():
+
 		var src_id := get_cell_source_id(cell)
 		var atlas_coords := get_cell_atlas_coords(cell)
+
+		var is_in_range := range_cells.has(cell)
 		var is_target := targets.has(cell)
 
-		
 		set_cell(
 			cell,
 			src_id,
 			atlas_coords,
-			_get_highlight_alt(
+			_get_pass_highlight_alt(
 				map_data[cell].base_alt_id,
-				not is_target
+				is_in_range,
+				is_target
 			)
 		)
 			
@@ -456,13 +525,19 @@ func _compute_pass_targets(
 	max_range: int,
 	passing_pawn: Node2D
 ) -> Array[Vector2i]:
+
 	var targets: Array[Vector2i] = []
 
 	for pawn in pawns:
+
 		if not is_instance_valid(pawn):
 			continue
 
 		if pawn == passing_pawn:
+			continue
+
+		# Un goalie ne peut jamais recevoir une passe
+		if pawn is Goalie:
 			continue
 
 		if pawn.team_id != passing_pawn.team_id:
@@ -548,17 +623,12 @@ func show_shot_preview(
 	max_range: int,
 	shooting_pawn: Node2D
 ) -> void:
-	var valid_targets := _compute_shoot_targets(
-		origin_cell,
-		max_range,
-		shooting_pawn
-	)
 
-	if not valid_targets.has(target_cell):
+	if not current_shoot_targets.has(target_cell):
 		clear_shot_preview()
 		return
 
-	_draw_trajectory_preview(
+	_draw_shot_trajectory_preview(
 		origin_cell,
 		target_cell
 	)
@@ -566,7 +636,13 @@ func show_shot_preview(
 func clear_shot_preview() -> void:
 	shot_preview.clear_points()
 	shot_preview.visible = false
-	arrow_head.visible = false
+	shot_arrow_head.visible = false
+
+
+func clear_pass_preview() -> void:
+	pass_preview.clear_points()
+	pass_preview.visible = false
+	pass_arrow_head.visible = false	
 
 
 func show_pass_preview(
@@ -582,19 +658,16 @@ func show_pass_preview(
 	)
 
 	if not valid_targets.has(target_cell):
-		clear_shot_preview()
+		clear_pass_preview()
 		return
 
-	_draw_trajectory_preview(
+	_draw_pass_trajectory_preview(
 		origin_cell,
 		target_cell
 	)	
 
-func _compute_shot_path(origin_cell, target_cell, max_range):
-	pass
 
-
-func _draw_trajectory_preview(
+func _draw_shot_trajectory_preview(
 	origin_cell: Vector2i,
 	target_cell: Vector2i
 ) -> void:
@@ -616,11 +689,40 @@ func _draw_trajectory_preview(
 	shot_preview.add_point(origin_pos)
 	shot_preview.add_point(line_end)
 
-	arrow_head.position = target_pos
-	arrow_head.rotation = direction.angle()
+	shot_arrow_head.position = target_pos
+	shot_arrow_head.rotation = direction.angle()
 
 	shot_preview.visible = true
-	arrow_head.visible = true	
+	shot_arrow_head.visible = true	
+
+
+func _draw_pass_trajectory_preview(
+	origin_cell: Vector2i,
+	target_cell: Vector2i
+) -> void:
+	var origin_pos: Vector2 = map_to_local(origin_cell)
+	var target_pos: Vector2 = map_to_local(target_cell)
+
+	var direction: Vector2 = (
+		target_pos - origin_pos
+	).normalized()
+
+	var arrow_length := 18.0
+
+	var line_end: Vector2 = (
+		target_pos
+		- direction * arrow_length
+	)
+
+	pass_preview.clear_points()
+	pass_preview.add_point(origin_pos)
+	pass_preview.add_point(line_end)
+
+	pass_arrow_head.position = target_pos
+	pass_arrow_head.rotation = direction.angle()
+
+	pass_preview.visible = true
+	pass_arrow_head.visible = true		
 
 
 ### Algo Breadth-First Search (BFS)
@@ -799,9 +901,25 @@ func get_cells_on_line(
 	return cells
 
 
+func get_iceRink_zone(cell: Vector2i) -> String:
+
+
+	if cell.y >= -5 and cell.y <= -2:
+		return "TOP"
+
+	if cell.y >= -1 and cell.y <= 1:
+		return "MID"	
+
+	if cell.y >= 2 and cell.y <= 5:
+		return "BOT"
+
+	return ""	
+
+
 func is_path_clear(
 	origin: Vector2i,
-	target: Vector2i
+	target: Vector2i,  
+	ignore_goalie: bool = false
 ) -> bool:
 
 	# Depuis derrière le but, impossible de viser directement
@@ -826,11 +944,33 @@ func is_path_clear(
 		if map_data.has(cell) and map_data[cell].blocked:
 			return false
 
-		# Les personnages bloquent aussi la trajectoire.
-		if get_pawn_on_cell(cell) != null:
+		# Les personnages bloquent aussi la trajectoire, SAUF Goalie
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn != null:
+			if ignore_goalie and pawn is Goalie:
+				continue
+
 			return false
 
 	return true
+
+
+func _get_pass_highlight_alt(
+	base_alt: int,
+	is_in_range: bool,
+	is_target: bool
+) -> int:
+
+	var flip_flags := base_alt & (FLIP_H | FLIP_V)
+
+	if is_target:
+		return ALT_PASS_TARGET | flip_flags
+
+	if is_in_range:
+		return ALT_NORMAL | flip_flags
+
+	return ALT_BLOCKED | flip_flags	
 
 
 ### DEBUG

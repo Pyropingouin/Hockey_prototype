@@ -19,14 +19,28 @@ enum ActionMode { NONE, SHOOT, PASS, HIT }
 var game_state: GameState = GameState.PLAYING
 var action_mode: ActionMode = ActionMode.NONE
 
+
 const max_action_counter: int = 4
 const PAWN_SCENE := preload("res://scene/pawn.tscn")
 const GOALIE_SCENE := preload("res://scene/goalie.tscn")
-const RIGHT_NET_POSITION = Vector2i(7, 0)
-const LEFT_NET_POSITION = Vector2i(-3, 0)
 
-const SHOOT_RANGE_TEMPO = 3
-const PASS_RANGE_TEMPO = 3
+
+
+## à retirer ou modifier, parce qu'aussi présent dans GameManager et IceMapLayer
+const RIGHT_NET_POSITION = Vector2i(7, 0)
+const RIGHT_NET_FRONT_POSITION = Vector2i(6, 0)
+const RIGHT_NET_UP_POSITION = Vector2i(6, -1)
+const RIGHT_NET_DOWN_POSITION = Vector2i(6, 1)
+
+const LEFT_NET_POSITION = Vector2i(-3, 0)
+const LEFT_NET_FRONT_POSITION = Vector2i(-2, 0)
+const LEFT_NET_UP_POSITION = Vector2i(-3, -1)
+const LEFT_NET_DOWN_POSITION = Vector2i(-3, 1)
+
+
+
+const SPENT_ENERGY_AMOUNT_TEMPO = 1
+const HIT_ENERGY_COST = 1
 
 
 var _active_team_action_counter: int = 0
@@ -138,6 +152,8 @@ var selected_pawn: Node2D:
 @onready var pause_menu: Node = $"../PauseMenuOverlay/PauseMenu"
 @onready var current_team_card_display = $"../PlayerCardOverlay/Current_Team_Player_Card_Display"
 @onready var opposing_team_card_display = $"../PlayerCardOverlay/Opposing_Team_Player_Card_Display"
+@onready var ActionManager = $"../ActionManager"
+@onready var event_log: CanvasLayer = $"../EventLogUI"
 
 
 var action_pawn: Node2D = null
@@ -152,6 +168,11 @@ signal active_team_action_counter_changed(active_team_action_counter: int)
 
 func _ready() -> void:
 
+	
+	event_log.add_log("Début du match !", Color.YELLOW)
+	event_log.add_log("Le joueur récupère la rondelle.")
+	event_log.add_log("Le joueur tente un tir !", Color.ORANGE)
+	event_log.add_log("BUT !", Color.GREEN)
 
 	DebugLogger.log(
 		DebugLogger.DebugType.GAME_MANAGER,
@@ -164,10 +185,11 @@ func _ready() -> void:
 	spawn_teams_from_draft()
 
 
-	
+	active_team_changed.connect(regenActionEconomy)
 	active_team_changed.emit(_active_team)
 	puck.goal_scored.connect(_on_goal_scored)
-
+	puck.puck_moved.connect(_on_puck_moved)
+	
 	# Connexions des boutons UI
 	shoot_button.pressed.connect(_start_action_shoot)
 	pass_button.pressed.connect(_start_action_pass)
@@ -219,11 +241,18 @@ func ai_turn() -> void:
 
 
 func _cancel_action_mode() -> void:
+
+	if action_pawn != null:
+		action_pawn.play_idle_animation()
+
 	action_mode = ActionMode.NONE
 	action_pawn = null
 
 	IceMapLayer.clear_highlight()
 	IceMapLayer.clear_shot_preview()
+	IceMapLayer.clear_pass_preview()
+
+
 
 	_refresh_action_buttons()
 
@@ -293,7 +322,9 @@ func _start_action_shoot() -> void:
 			action_pawn
 		]
 	)
-	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn, SHOOT_RANGE_TEMPO)
+
+	ActionManager.start_shoot(action_pawn)
+	IceMapLayer.highlight_shoot_targets(action_origin_cell, action_pawn, ActionManager.SHOOT_RANGE)
 
 func _start_action_pass() -> void:
 	if selected_pawn == null:
@@ -314,8 +345,10 @@ func _start_action_pass() -> void:
 	action_pawn = selected_pawn
 	action_origin_cell = selected_pawn.current_cell
 
+	IceMapLayer.clear_pass_preview()
 	_refresh_action_buttons()
-	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, PASS_RANGE_TEMPO)
+	ActionManager.start_pass(action_pawn)
+	IceMapLayer.highlight_pass_targets(action_origin_cell, action_pawn, ActionManager.PASS_RANGE)
 
 
 func _start_action_hit() -> void:
@@ -338,210 +371,83 @@ func _start_action_hit() -> void:
 	action_origin_cell = selected_pawn.current_cell
 
 	_refresh_action_buttons()
+	ActionManager.start_hit(action_pawn)
 	IceMapLayer.highlight_hit_targets(action_origin_cell, action_pawn)
 
 
 func _do_shoot(target_cell: Vector2i) -> void:
-	DebugLogger.log(
-		DebugLogger.DebugType.GAME_MANAGER,
-		"Exécution de _do_shoot() | Cible : %s" % target_cell
-	)
 
-
-	if action_pawn == null or not action_pawn.hasPuck:
+	if action_pawn == null:
 		_cancel_action_mode()
 		return
 
-	action_origin_cell = action_pawn.current_cell
 
-	if not _is_in_shoot_range(
-		action_origin_cell,
-		target_cell,
-		action_pawn
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Tir refusé : cible hors de portée."
-		)
-		_cancel_action_mode()
-		return
-
-	if not IceMapLayer.is_path_clear(
-		action_origin_cell,
-		target_cell
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Tir refusé : un joueur bloque la trajectoire."
-		)
-		return
-
-	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
-
-	DebugLogger.log(
-		DebugLogger.DebugType.GAME_MANAGER,
-		"Cible trouvée sur la case %s : %s" % [
-			target_cell,
-			target_character
-		]
-	)
-
-	if target_character is Goalie:
-		var target_goalie: Goalie = target_character
-
-		if target_goalie.team_id == action_pawn.team_id:
-			DebugLogger.log(
-				DebugLogger.DebugType.GAME_MANAGER,
-				"Tir refusé : impossible de tirer sur son propre goalie."
-			)
-			return
-
-		var goal_scored: bool = _resolve_shot_against_goalie(
+	var shoot_successful: bool = \
+		await ActionManager.attempt_shoot(
 			action_pawn,
-			target_goalie
+			target_cell
 		)
 
-		selected_pawn = null
 
-		# On compte une action seulement si le goalie a fait l'arrêt.
-		# Lors d'un but, la partie passe directement en GOAL_PAUSE.
-		if not goal_scored:
-			update_action_counter(1)	
-
-		IceMapLayer.update_occupancy()
-		_cancel_action_mode()
+	if not shoot_successful:
 		return
 
-	if target_character != null:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Tir refusé : la case ciblée est occupée par %s." % target_character
-		)
-		return	
-		
 
-	if action_pawn.has_method("_shoot"):
-		action_pawn._shoot(target_cell)
-		selected_pawn = null
+	selected_pawn = null
 
-	update_action_counter(1)
-	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 
 func _do_pass(target_cell: Vector2i) -> void:
-	if action_pawn == null or not action_pawn.hasPuck:
+
+	if action_pawn == null:
 		_cancel_action_mode()
 		return
 
-	action_origin_cell = action_pawn.current_cell
 
-	if not _is_in_pass_range(action_origin_cell, target_cell, action_pawn):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusée : cible hors de portée."
+	var pass_target: Node2D = \
+		IceMapLayer.get_pawn_on_cell(target_cell)
+
+
+	var pass_successful: bool = \
+		await ActionManager.attempt_pass(
+			action_pawn,
+			pass_target
 		)
-		_cancel_action_mode()
+
+
+	if not pass_successful:
 		return
 
-	if not IceMapLayer.is_path_clear(
-		action_origin_cell,
-		target_cell
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusé : un joueur bloque la trajectoire."
-		)
-		return
-	
 
-	var receiver: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+	selected_pawn = null
 
-	if receiver == null:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusée : aucun pawn sur la case visée."
-		)
-		return
-
-	if receiver == action_pawn:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Passe refusée : un pawn ne peut pas se passer à lui-même."
-		)
-		return
-
-	if action_pawn.has_method("_pass"):
-		action_pawn._pass(target_cell)
-		selected_pawn = null	
-
-	update_action_counter(1)
-	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
 
 func _do_hit(target_cell: Vector2i) -> void:
-	if action_pawn == null or action_pawn.hasPuck:
+
+	if action_pawn == null:
 		_cancel_action_mode()
 		return
 
-	var hitTarget: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
 
-	if hitTarget == null:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Plaquage refusé : aucun pawn sur la case visée."
+	var hit_target: Node2D = \
+		IceMapLayer.get_pawn_on_cell(target_cell)
+
+
+	var hit_successful: bool = \
+		await ActionManager.attempt_hit(
+			action_pawn,
+			hit_target
 		)
+
+
+	if not hit_successful:
 		return
 
-	if hitTarget == action_pawn:
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"Plaquage refusé : un pawn ne peut pas se plaquer lui-même."
-		)
-		return
 
-	if IceMapLayer.get_hex_distance(action_pawn.current_cell, target_cell) > 1:
-		return
+	selected_pawn = null
 
-	if action_pawn.has_method("_hit"):
-		action_pawn._hit(target_cell)
-
-
-
-
-	update_action_counter(1)
-	IceMapLayer.update_occupancy()
 	_cancel_action_mode()
-
-func _is_in_shoot_range(
-	origin_cell: Vector2i,
-	target_cell: Vector2i,
-	received_pawn: Node2D
-) -> bool:
-	var shoot_range: int = SHOOT_RANGE_TEMPO
-
-	var distance: int = IceMapLayer.get_hex_distance(
-		origin_cell,
-		target_cell
-	)
-
-	return distance > 0 and distance <= shoot_range
-
-
-
-
-func _is_in_pass_range(
-	origin_cell: Vector2i,
-	target_cell: Vector2i,
-	received_pawn: Node2D
-) -> bool:
-	var shoot_range: int = PASS_RANGE_TEMPO
-
-	var distance: int = IceMapLayer.get_hex_distance(
-		origin_cell,
-		target_cell
-	)
-
-	return distance > 0 and distance <= shoot_range	
 
 
 func _update_action_buttons_visual() -> void:
@@ -552,7 +458,8 @@ func _update_action_buttons_visual() -> void:
 
 func _resolve_shot_against_goalie(
 	shooter: Node2D,
-	goalie: Goalie
+	goalie: Goalie,
+	goal_type: String
 ) -> bool:
 	DebugLogger.log(
 		DebugLogger.DebugType.GAME_MANAGER,
@@ -570,20 +477,22 @@ func _resolve_shot_against_goalie(
 
 	if save_successful:
 		_rebound_puck_around_goalie(goalie)
+		return true
+
+	else:
+		_on_goal_scored(goal_type)
 		return false
 
-	_score_goal_against_goalie(goalie)
-	return true
 
 
 
-func _score_goal_against_goalie(goalie: Goalie) -> void:
-	if goalie.team_id == 1:
-		# Le filet de l'équipe humaine a été atteint.
-		_on_goal_scored("home")
-	else:
-		# Le filet de l'équipe AI a été atteint.
-		_on_goal_scored("away")
+# func _score_goal_against_goalie(goalie: Goalie) -> void:
+# 	if goalie.team_id == 1:
+# 		# Le filet de l'équipe humaine a été atteint.
+# 		_on_goal_scored("home")
+# 	else:
+# 		# Le filet de l'équipe AI a été atteint.
+# 		_on_goal_scored("away")
 
 
 func _rebound_puck_around_goalie(goalie: Goalie) -> void:
@@ -595,6 +504,10 @@ func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 			goalie.current_cell
 		)
 	)
+
+	# Empêcher la rondelle de rebondir dans les filets
+	empty_cells.erase(RIGHT_NET_POSITION)
+	empty_cells.erase(LEFT_NET_POSITION)
 
 	if empty_cells.is_empty():
 		DebugLogger.log(
@@ -616,6 +529,26 @@ func _rebound_puck_around_goalie(goalie: Goalie) -> void:
 	puck.rebound_to_cell(rebound_cell)
 
 	IceMapLayer.update_occupancy()
+
+
+# func _goalie_catches_puck(goalie: Goalie) -> void:
+
+# 	DebugLogger.log(
+# 		DebugLogger.DebugType.GAME_MANAGER,
+# 		"%s conserve la puck après son arrêt" % goalie.goalie_name
+# 	)
+
+# 	# Libérer l'ancien propriétaire
+# 	puck.release_puck()
+
+# 	# Donner la possession au gardien
+# 	goalie.pick_up_puck(goalie)
+# 	puck._on_ice_map_layer_puck_is_picked_up(goalie)
+
+# 	# Synchroniser la position logique
+# 	puck.update_puck_cell(goalie.current_cell)
+
+# 	IceMapLayer.update_occupancy()
 
 
 
@@ -649,6 +582,10 @@ func spawn_teams_from_draft() -> void:
 		var player_data: Dictionary = GameData.player_team_selected_players[i]
 		var pawn = PAWN_SCENE.instantiate()
 
+		# À remettre si iceMapLayer n'est pas capable de connecter avant
+		# if not IceMapLayer.puck_is_picked_up.is_connected(pawn.pick_up_puck):
+		# 	IceMapLayer.puck_is_picked_up.connect(pawn.pick_up_puck)
+
 		var start_cell: Vector2i = home_start_cells[i]
 
 		# Donne d'abord les données au Pawn.
@@ -680,31 +617,56 @@ func spawn_teams_from_draft() -> void:
 
 	spawn_goalie(
 		GameData.player_team_goalie,
-		1,
-		Vector2i(RIGHT_NET_POSITION)
+		1
 	)
 
 	spawn_goalie(
 		GameData.opposing_team_goalie,
-		2,
-		Vector2i(LEFT_NET_POSITION)
+		2
 	)	
 
 
 func spawn_goalie(
 	goalie_data: Dictionary,
 	team_id: int,
-	start_cell: Vector2i
 ) -> void:
 	var goalie: Goalie = GOALIE_SCENE.instantiate()
 
+	# À remettre si iceMapLayer n'est pas capable de connecter avant
+	# if not IceMapLayer.puck_is_picked_up.is_connected(goalie.pick_up_puck):
+	# 	IceMapLayer.puck_is_picked_up.connect(goalie.pick_up_puck)
+
 	# Le goalie entre d'abord dans l'arbre.
 	players_container.add_child(goalie)
+	goalie.request_ready()
+	goalie._ready()
+
+	var goalie_positions: Dictionary
+
+	if team_id == 1:
+		goalie_positions = {
+			"net": RIGHT_NET_POSITION,
+			"front": RIGHT_NET_FRONT_POSITION,
+			"up": RIGHT_NET_UP_POSITION,
+			"down": RIGHT_NET_DOWN_POSITION
+		}
+	else:
+		goalie_positions = {
+			"net": LEFT_NET_POSITION,
+			"front": LEFT_NET_FRONT_POSITION,
+			"up": LEFT_NET_UP_POSITION,
+			"down": LEFT_NET_DOWN_POSITION
+		}
+
+
+
 
 	# Les variables @onready sont maintenant disponibles.
-	goalie.setup(goalie_data, team_id, start_cell)
+	goalie.set_goalie_positions(goalie_positions)
+	goalie.setup(goalie_data, team_id, goalie.front_position)
 
-	IceMapLayer.place_pawn_on_cell(goalie, start_cell)
+
+	IceMapLayer.place_pawn_on_cell(goalie, goalie.front_position)
 
 func reset_board():
 	
@@ -718,6 +680,9 @@ func reset_board():
 
 func update_action_counter(action_cost: int):
 	active_team_action_counter += action_cost
+
+	
+	
 	
 func _end_turn():
 	action_mode = ActionMode.NONE
@@ -746,7 +711,14 @@ func _on_goal_scored(goal_type):
 
 	game_state = GameState.GOAL_PAUSE
 	GoalOverlay.show()
+	_refresh_al_player_energy()
 	_refresh_action_buttons()
+
+
+func _on_puck_moved(new_cell: Vector2i) -> void:
+	for player in players_container.get_children():
+		if player is Goalie:
+			player.move_goalie_prototype(new_cell)	
 
 func _on_continue_button_pressed() -> void:
 	GoalOverlay.hide()
@@ -794,8 +766,8 @@ func _update_current_team_card_display() -> void:
 	current_team_card_display.pawn_reflex_label.text = \
 		"Reflex: " + str(selected_pawn.reflex)
 
-	current_team_card_display.pawn_health_label.text = \
-		"Health: " + str(selected_pawn.health)
+	current_team_card_display.pawn_technique_label.text = \
+		"Technique: " + str(selected_pawn.technique)
 
 
 func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
@@ -814,5 +786,27 @@ func _update_opposing_team_card_display(hovered_pawn: Node2D) -> void:
 	opposing_team_card_display.pawn_reflex_label.text = \
 		"Reflex: " + str(hovered_pawn.reflex)
 
-	opposing_team_card_display.pawn_health_label.text = \
-		"Health: " + str(hovered_pawn.health)		
+	opposing_team_card_display.pawn_technique_label.text = \
+		"Technique: " + str(hovered_pawn.technique)		
+
+
+func regenActionEconomy(current_active_team: int) -> void:
+	for player in players_container.get_children():
+
+		if player.team_id != current_active_team:
+			continue
+
+		if not player.has_method("regenEnergy"):
+			continue
+
+		player.regenEnergy()
+
+func _refresh_al_player_energy() -> void:
+
+	for player in players_container.get_children():
+
+		
+		if not player.has_method("regenAllEnergy"):
+			continue
+
+		player.regenAllEnergy()

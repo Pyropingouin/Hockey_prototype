@@ -4,6 +4,14 @@ extends Node
 @onready var IceMapLayer = $"../IceMapLayer"
 
 
+
+
+const MOVE_ENERGY_COST: int = 1
+const HIT_ENERGY_COST: int = 1
+const SHOOT_RANGE: int = 3
+const PASS_RANGE: int = 5
+
+
 ####
 ###
 ## HUMAN ACTIONS
@@ -22,12 +30,436 @@ func attempt_move(pawn: Node2D, starting_cell: Vector2i, destination_cell: Vecto
 		IceMapLayer.reset_move(pawn, starting_cell)
 		return
 
+	if not pawn.canSpendEnergy(MOVE_ENERGY_COST):
+		IceMapLayer.reset_move(pawn, starting_cell)
+		return
+
 	if not IceMapLayer.can_move_pawn_to(pawn, starting_cell, destination_cell):
 		IceMapLayer.reset_move(pawn, starting_cell)
 		return
 
+
+
 	IceMapLayer.apply_move(pawn, starting_cell, destination_cell)
+	pawn.spendEnergy(MOVE_ENERGY_COST)
 	GameManager.update_action_counter(1)
+
+
+
+
+func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
+	
+
+	DebugLogger.log(
+		DebugLogger.DebugType.ACTION_MANAGER,
+		"attempt_shoot | shooter: %s | target: %s" % [
+			shooter,
+			target_cell
+		]
+	)
+
+	
+	if shooter == null:
+		return false
+
+	if not shooter.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Tir refusé : le joueur ne possède pas la puck."
+		)
+		return false
+
+
+	var origin_cell: Vector2i = shooter.current_cell
+	var goal_type: String = IceMapLayer.get_goal_type(target_cell)
+	var is_goal: bool = goal_type in ["home", "away"]
+	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+
+
+	if not is_in_shoot_range(
+		origin_cell,
+		target_cell
+	):
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Tir refusé : cible hors de portée."
+		)
+		return false
+
+
+	if not IceMapLayer.is_path_clear(
+		origin_cell,
+		target_cell,
+		is_goal
+	):
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Tir refusé : trajectoire bloquée."
+		)
+		return false
+
+
+
+
+	
+
+	#
+	# GOALIE
+	#
+	if target_character is Goalie:
+		
+
+		var target_goalie: Goalie = target_character
+
+		if target_goalie.team_id == shooter.team_id:
+			DebugLogger.log(
+				DebugLogger.DebugType.ACTION_MANAGER,
+				"Tir refusé : impossible de tirer sur son propre goalie."
+			)
+			return false
+
+
+		await shooter.play_second_shoot_animation_and_wait()
+
+	
+		GameManager._rebound_puck_around_goalie(target_goalie)
+		GameManager.update_action_counter(1)
+		IceMapLayer.update_occupancy()
+		return false
+
+
+
+	
+	if goal_type in ["home", "away"]:
+
+	
+		var trajectory: Array[Vector2i] = IceMapLayer.get_cells_on_line(origin_cell,target_cell)
+		var target_goalie: Goalie = null
+
+		for cell in trajectory:
+
+			var pawn: Node2D = IceMapLayer.get_pawn_on_cell(cell)
+
+			if pawn is Goalie:
+				target_goalie = pawn
+				break
+
+		if target_goalie != null:
+
+			if GameManager._resolve_shot_against_goalie(shooter, target_goalie, goal_type):
+				GameManager.update_action_counter(1)
+				IceMapLayer.update_occupancy()
+				return false		
+
+		else:
+			GameManager._on_goal_scored(goal_type)
+			IceMapLayer.update_occupancy()
+			return true
+		
+
+
+	#
+	# AUTRE JOUEUR
+	#
+	if target_character != null:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Tir refusé : case occupée par %s." \
+			% target_character
+		)
+
+		return false
+
+
+	#
+	# TIR NORMAL
+	#
+	if not shooter.has_method("_shoot"):
+		return false
+
+	await shooter.play_second_shoot_animation_and_wait()
+
+	
+	shooter._shoot(target_cell)
+	
+
+	GameManager.update_action_counter(1)
+
+	IceMapLayer.update_occupancy()
+
+	return true
+
+
+
+func attempt_pass(
+	passer: Node2D,
+	pass_target: Node2D
+) -> bool:
+
+	DebugLogger.log(
+		DebugLogger.DebugType.ACTION_MANAGER,
+		"attempt_pass | passer: %s | target: %s" % [
+			passer,
+			pass_target
+		]
+	)
+
+
+	if passer == null:
+		return false
+
+
+	if pass_target == null:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : aucune cible."
+		)
+		return false
+
+
+	if passer == pass_target:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : impossible de se passer à soi-même."
+		)
+		return false
+
+
+	if not passer.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : le joueur ne possède pas la puck."
+		)
+		return false
+
+
+	# Empêcher une passe à l'adversaire.
+	if passer.team_id != pass_target.team_id:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : la cible appartient à l'autre équipe."
+		)
+		return false
+
+	if pass_target is Goalie:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : impossible de passer au goalie."
+		)
+		return false	
+
+
+	if not is_in_pass_range(
+		passer.current_cell,
+		pass_target.current_cell
+	):
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : cible hors de portée."
+		)
+		return false
+
+
+	if not IceMapLayer.is_path_clear(
+		passer.current_cell,
+		pass_target.current_cell
+	):
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Passe refusée : trajectoire bloquée."
+		)
+		return false
+
+
+	if not passer.has_method("_pass"):
+		return false
+
+	
+	await passer.play_pass_animation_and_wait()
+	passer._pass(pass_target.current_cell)
+
+	GameManager.update_action_counter(1)
+
+	IceMapLayer.update_occupancy()
+
+	return true	
+
+
+
+func attempt_hit(
+	hitter: Node2D,
+	hit_target: Node2D
+) -> bool:
+
+	DebugLogger.log(
+		DebugLogger.DebugType.ACTION_MANAGER,
+		"attempt_hit | hitter: %s | target: %s" % [
+			hitter,
+			hit_target
+		]
+	)
+
+
+	if hitter == null:
+		return false
+
+
+	if hitter.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Plaquage refusé : le joueur possède la puck."
+		)
+		return false
+
+
+	if hit_target == null:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Plaquage refusé : aucune cible."
+		)
+		return false
+
+
+	if hit_target == hitter:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Plaquage refusé : impossible de se plaquer soi-même."
+		)
+		return false
+
+
+	if hitter.team_id == hit_target.team_id:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Plaquage refusé : impossible de plaquer un coéquipier."
+		)
+		return false
+
+
+	if IceMapLayer.get_hex_distance(
+		hitter.current_cell,
+		hit_target.current_cell
+	) > 1:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Plaquage refusé : cible trop loin."
+		)
+		return false
+
+
+	if not hitter.canSpendEnergy(HIT_ENERGY_COST):
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Plaquage refusé : énergie insuffisante."
+		)
+		return false
+
+
+	if not hitter.has_method("_hit"):
+		return false
+
+	await hitter.play_second_hit_animation_and_wait()
+	hitter._hit(hit_target.current_cell)
+	
+
+	hitter.spendEnergy(HIT_ENERGY_COST)
+
+	GameManager.update_action_counter(1)
+
+	IceMapLayer.update_occupancy()
+
+	return true	
+
+
+
+
+
+####
+###
+## HELPERS
+###
+####
+
+func is_in_shoot_range(
+	origin_cell: Vector2i,
+	target_cell: Vector2i
+) -> bool:
+
+	var distance: int = IceMapLayer.get_hex_distance(
+		origin_cell,
+		target_cell
+	)
+
+	return distance > 0 and distance <= SHOOT_RANGE
+
+
+func is_in_pass_range(
+	origin_cell: Vector2i,
+	target_cell: Vector2i
+) -> bool:
+
+	var distance: int = IceMapLayer.get_hex_distance(
+		origin_cell,
+		target_cell
+	)
+
+	return distance > 0 and distance <= PASS_RANGE
+
+
+
+
+
+
+func start_shoot(shooter: Node2D) -> bool:
+
+	if shooter == null:
+		return false
+
+	if not shooter.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Impossible de préparer le tir : le joueur n'a pas la puck."
+		)
+		return false
+
+	shooter.play_first_shoot_animation()
+
+	return true
+
+
+func start_pass(passer: Node2D) -> bool:
+
+	if passer == null:
+		return false
+
+	if not passer.hasPuck:
+		DebugLogger.log(
+			DebugLogger.DebugType.ACTION_MANAGER,
+			"Impossible de préparer le tir : le joueur n'a pas la puck."
+		)
+		return false
+
+	passer.play_pass_animation_and_wait()
+
+	return true
+
+
+func start_hit(hitter: Node2D) -> bool:
+
+	if hitter == null:
+		return false
+
+	# if not hitter.hasPuck:
+	# 	DebugLogger.log(
+	# 		DebugLogger.DebugType.ACTION_MANAGER,
+	# 		"Impossible de préparer le tir : le joueur n'a pas la puck."
+	# 	)
+	# 	return false
+
+	hitter.play_first_hit_animation()
+
+	return true
+
 
 
 
@@ -46,197 +478,49 @@ func ai_attempt_move(chosen_ai_pawn: Node2D, starting_cell: Vector2i, destinatio
 		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
 		return false
 
+	if not chosen_ai_pawn.canSpendEnergy(MOVE_ENERGY_COST):
+		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
+		return false
+
 	IceMapLayer.apply_move(chosen_ai_pawn, starting_cell, destination_cell)
+	chosen_ai_pawn.spendEnergy(MOVE_ENERGY_COST)
 	GameManager.update_action_counter(1)
 
 	return true
 
 
-func ai_attempt_shoot(target_cell: Vector2i, chosen_ai_pawn: Node2D) -> bool:
+func ai_attempt_shoot(
+	target_cell: Vector2i,
+	chosen_ai_pawn: Node2D
+) -> bool:
 
-	DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"ai attempt shoot"
-					)	
-
-	if chosen_ai_pawn == null:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"chosen_ai_pawn == null"
-					)	
-
-		return false
-
-	if not chosen_ai_pawn.hasPuck:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"not chosen_ai_pawn.hasPuck"
-					)	
-		
-		return false
-
-	var action_origin_cell: Vector2i = chosen_ai_pawn.current_cell
-
-	if not GameManager._is_in_shoot_range(action_origin_cell, target_cell, chosen_ai_pawn):
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"AI not in shoot range"
-					)	
-		
-		return false
-
-	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
-
-	if target_character is Goalie:
-		var target_goalie: Goalie = target_character
-
-		if target_goalie.team_id == chosen_ai_pawn.team_id:
-
-			DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"AI Tir refusé : impossible de tirer sur son propre goalie."
-					)	
-			return false
-
-		
-		var goal_scored: bool = GameManager._resolve_shot_against_goalie(
+	return await attempt_shoot(
 		chosen_ai_pawn,
-		target_goalie
-		)
-
-		if not goal_scored:
-			GameManager.update_action_counter(1)
-			return true	
-
-	if target_character != null:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"AI Tir refusé : la case ciblée est occupée. /n  AI  TARGET CHARACTER FOR SHOOT: %s" % target_character 
-					)	
-
-		return false		
+		target_cell
+	)
 
 
-	if not IceMapLayer.is_path_clear(action_origin_cell, target_cell):
+func ai_attempt_pass(
+	chosen_ai_pawn: Node2D,
+	pass_target: Node2D
+) -> bool:
 
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"AI not in shoot path clear"
-					)	
-		return false
-
-	if IceMapLayer.get_pawn_on_cell(target_cell) != null:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"IceMapLayer.get_pawn_on_cell(target_cell) != null"
-					)	
-		return false
-
-	if not chosen_ai_pawn.has_method("_shoot"):
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"not chosen_ai_pawn.has_method(_shoot)"
-					)	
-		
-		return false
-
-	
-		
-
-	chosen_ai_pawn._shoot(target_cell)
-
-	GameManager.update_action_counter(1)
-	IceMapLayer.update_occupancy()
-
-	return true
+	return await attempt_pass(
+		chosen_ai_pawn,
+		pass_target
+	)
 
 
-func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D, ai_player_array: Array = []) -> bool:
-	if pass_target == null:
-		return false
-	if pass_target == chosen_ai_pawn:
-		return false 	
+func ai_attempt_hit(
+	chosen_ai_pawn: Node2D,
+	target_cell: Vector2i
+) -> bool:
 
-	if chosen_ai_pawn == null:
-		return false
-
-	if not chosen_ai_pawn.hasPuck:
-		return false
-
-	if not chosen_ai_pawn.has_method("_pass"):
-		return false
-
-	if not GameManager._is_in_pass_range(chosen_ai_pawn.current_cell, pass_target.current_cell, chosen_ai_pawn):
-		return false
-
-	
-	if not IceMapLayer.is_path_clear(chosen_ai_pawn.current_cell, pass_target.current_cell):
-		return false	
-	
-	if not ai_player_array.has(pass_target):
-		return false
+	var hit_target: Node2D = \
+		IceMapLayer.get_pawn_on_cell(target_cell)
 
 
-
-
-	chosen_ai_pawn._pass(pass_target.current_cell)
-
-	GameManager.update_action_counter(1)
-	IceMapLayer.update_occupancy()
-
-	return true	
-
-
-func ai_attempt_hit(chosen_ai_pawn: Node2D, target_cell: Vector2i) -> bool:
-	if chosen_ai_pawn == null:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"pas de chosen ai"
-					)	
-		return false
-
-	if chosen_ai_pawn.hasPuck:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"Le chosen ai possède la puck"
-					)	
-		return false
-
-	var hit_target: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
-
-	if hit_target == null:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"hit target == null"
-					)	
-		return false
-
-	if hit_target == chosen_ai_pawn:
-
-		DebugLogger.log(
-					DebugLogger.DebugType.ACTION_MANAGER,
-					"hit target == son propre chosen ai"
-					)	
-		return false
-
-	if IceMapLayer.get_hex_distance(chosen_ai_pawn.current_cell, hit_target.current_cell) > 1:
-		return false
-
-	if not chosen_ai_pawn.has_method("_hit"):
-		return false
-
-	chosen_ai_pawn._hit(target_cell)
-
-	GameManager.update_action_counter(1)
-	IceMapLayer.update_occupancy()
-
-	return true
+	return await attempt_hit(
+		chosen_ai_pawn,
+		hit_target
+	)
