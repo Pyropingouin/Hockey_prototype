@@ -17,9 +17,9 @@
           "min": 6,
           "max": 8
         },
-        "health": {
-          "min": 5,
-          "max": 5
+        "technique": {
+          "min": 4,
+          "max": 6
         },
         "maxEnergy": {
           "min": 3,
@@ -33,8 +33,8 @@
       "description": "Attaquant puissant et physique",
       "stats_range": {
         "move_range": {
-          "min": 3,
-          "max": 4
+          "min": 4,
+          "max": 5
         },
         "strength": {
           "min": 6,
@@ -44,9 +44,9 @@
           "min": 4,
           "max": 6
         },
-        "health": {
-          "min": 5,
-          "max": 5
+        "technique": {
+          "min": 3,
+          "max": 4
         },
         "maxEnergy": {
           "min": 3,
@@ -64,16 +64,16 @@
           "max": 5
         },
         "strength": {
-          "min": 4,
-          "max": 5
+          "min": 3,
+          "max": 4
         },
         "reflex": {
           "min": 5,
           "max": 6
         },
-        "health": {
-          "min": 5,
-          "max": 5
+        "technique": {
+          "min": 6,
+          "max": 8
         },
         "maxEnergy": {
           "min": 3,
@@ -91,14 +91,14 @@
           "max": 8
         },
         "strength": {
-          "min": 2,
+          "min": 3,
           "max": 4
         },
         "reflex": {
           "min": 4,
           "max": 6
         },
-        "health": {
+        "technique": {
           "min": 5,
           "max": 5
         },
@@ -119,11 +119,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 5.0,
-        "strength": 5.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 7,
+        "maxEnergy": 3
       }
     },
     {
@@ -135,11 +135,11 @@
       "default_animation": "idleHome",
       "archetype": "goon",
       "stats": {
-        "move_range": 3.0,
-        "strength": 8.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 8,
+        "reflex": 5,
+        "technique": 3,
+        "maxEnergy": 3
       }
     },
     {
@@ -151,11 +151,11 @@
       "default_animation": "idleHome",
       "archetype": "goon",
       "stats": {
-        "move_range": 3.0,
-        "strength": 6.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 6,
+        "reflex": 5,
+        "technique": 4,
+        "maxEnergy": 3
       }
     },
     {
@@ -167,11 +167,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 6.0,
-        "strength": 3.0,
-        "reflex": 8.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 4,
+        "reflex": 6,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -183,11 +183,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 5.0,
-        "strength": 4.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 4,
+        "reflex": 5,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -199,11 +199,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 6.0,
-        "strength": 2.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 6,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -215,11 +215,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 4.0,
-        "strength": 4.0,
-        "reflex": 7.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 3,
+        "reflex": 7,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -231,11 +231,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 4.0,
-        "strength": 5.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 4,
+        "reflex": 5,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -247,11 +247,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 8.0,
-        "strength": 3.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 7,
+        "strength": 4,
+        "reflex": 4,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -263,11 +263,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 8.0,
-        "strength": 2.0,
-        "reflex": 4.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 8,
+        "strength": 4,
+        "reflex": 4,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -279,11 +279,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 5.0,
-        "strength": 3.0,
-        "reflex": 8.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 4,
+        "reflex": 8,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -295,11 +295,11 @@
       "default_animation": "idleHome",
       "archetype": "goon",
       "stats": {
-        "move_range": 4.0,
-        "strength": 8.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 6,
+        "reflex": 4,
+        "technique": 3,
+        "maxEnergy": 3
       }
     },
     {
@@ -311,11 +311,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 4.0,
-        "strength": 4.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 8,
+        "maxEnergy": 3
       }
     },
     {
@@ -327,11 +327,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 6.0,
-        "strength": 3.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 7,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -343,11 +343,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 6.0,
-        "strength": 4.0,
-        "reflex": 8.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 4,
+        "reflex": 6,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -359,11 +359,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 4.0,
-        "strength": 4.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 8,
+        "maxEnergy": 3
       }
     },
     {
@@ -375,11 +375,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 8.0,
-        "strength": 3.0,
-        "reflex": 4.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 7,
+        "strength": 3,
+        "reflex": 6,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -391,11 +391,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 6.0,
-        "strength": 4.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 6,
+        "strength": 3,
+        "reflex": 6,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -407,11 +407,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 5.0,
-        "strength": 4.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 4,
+        "strength": 4,
+        "reflex": 5,
+        "technique": 8,
+        "maxEnergy": 3
       }
     },
     {
@@ -423,11 +423,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 8.0,
-        "strength": 4.0,
-        "reflex": 4.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 7,
+        "strength": 4,
+        "reflex": 5,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -439,11 +439,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 5.0,
-        "strength": 3.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 6,
+        "strength": 3,
+        "reflex": 7,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -455,11 +455,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 5.0,
-        "strength": 4.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 7,
+        "maxEnergy": 3
       }
     },
     {
@@ -471,11 +471,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 8.0,
-        "strength": 3.0,
-        "reflex": 4.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 7,
+        "strength": 3,
+        "reflex": 5,
+        "technique": 5,
+        "maxEnergy": 3
       }
     },
     {
@@ -487,11 +487,11 @@
       "default_animation": "idleHome",
       "archetype": "sniper",
       "stats": {
-        "move_range": 6.0,
-        "strength": 4.0,
-        "reflex": 7.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 4,
+        "reflex": 7,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -503,11 +503,11 @@
       "default_animation": "idleHome",
       "archetype": "playmaker",
       "stats": {
-        "move_range": 5.0,
-        "strength": 5.0,
-        "reflex": 5.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 5,
+        "strength": 3,
+        "reflex": 6,
+        "technique": 6,
+        "maxEnergy": 3
       }
     },
     {
@@ -519,11 +519,11 @@
       "default_animation": "idleHome",
       "archetype": "speedster",
       "stats": {
-        "move_range": 8.0,
-        "strength": 2.0,
-        "reflex": 6.0,
-        "health": 5.0,
-        "maxEnergy": 3.0
+        "move_range": 7,
+        "strength": 4,
+        "reflex": 4,
+        "technique": 5,
+        "maxEnergy": 3
       }
     }
   ]
