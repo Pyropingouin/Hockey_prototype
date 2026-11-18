@@ -87,17 +87,35 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		return false
 
 
-	if not IceMapLayer.is_path_clear(
-		origin_cell,
-		target_cell,
-		is_goal
-	):
+	if not IceMapLayer.is_shot_path_clear(origin_cell, target_cell, is_goal):
+
 		DebugLogger.log(
 			DebugLogger.DebugType.ACTION_MANAGER,
 			"Tir refusé : trajectoire bloquée."
 		)
+
 		return false
 
+
+	#
+	# INTERCEPTION DU TIR
+	#
+	var interceptor: Node2D = IceMapLayer.get_shot_interceptor(origin_cell, target_cell, shooter.team_id)
+
+	if interceptor != null:
+		if not shooter.has_method("_shoot"):
+			return false
+
+		await shooter.play_second_shoot_animation_and_wait()
+
+		shooter._shoot(interceptor.current_cell)
+
+		IceMapLayer.update_occupancy()
+
+		GameManager.on_shot_intercepted(interceptor, shooter)
+		GameManager.update_action_counter(1)
+
+		return true
 
 
 

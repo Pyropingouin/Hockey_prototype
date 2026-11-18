@@ -729,6 +729,13 @@ func on_pass_intercepted(interceptor: Node2D, passer: Node2D) -> void:
 	event_log.add_log("%s intercepte la passe de %s !" % [interceptor.pawn_name, passer.pawn_name], Color.ORANGE)
 
 
+func on_shot_intercepted(interceptor: Node2D, shooter: Node2D) -> void:
+	DebugLogger.log(DebugLogger.DebugType.GAME_MANAGER, "TIR INTERCEPTÉ : %s intercepte le tir de %s" % [interceptor.pawn_name, shooter.pawn_name])
+
+	event_log.add_log("%s intercepte le tir de %s !" % [interceptor.pawn_name, shooter.pawn_name], Color.ORANGE)
+
+
+
 func _on_continue_button_pressed() -> void:
 	GoalOverlay.hide()
 	reset_board()

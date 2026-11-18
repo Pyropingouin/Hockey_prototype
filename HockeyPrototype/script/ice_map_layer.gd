@@ -239,7 +239,6 @@ func place_puck_on_cell(puck_node: Node2D, cell: Vector2i) -> void:
 	var pawn_on_cell := get_pawn_on_cell(cell)
 	if pawn_on_cell != null and not pawn_on_cell is Goalie and not puck.isPickedUp:
 		emit_signal("puck_is_picked_up", pawn_on_cell)
-		puck.isPickedUp = true
 		if map_data.has(cell):
 			map_data[cell].is_puck_here = false
 		
@@ -420,7 +419,7 @@ func _compute_shoot_targets(
 			continue
 
 		var is_goal: bool = get_goal_type(cell) in ["home", "away"]
-		if not is_path_clear(origin, cell, is_goal):
+		if not is_shot_path_clear(origin, cell, is_goal):
 			continue
 
 		var character_on_target: Node2D = get_pawn_on_cell(cell)
@@ -971,7 +970,35 @@ func is_pass_path_clear(origin: Vector2i, target: Vector2i)	-> bool:
 		if pawn is Goalie:
 			return false
 
-	return true				
+	return true		
+
+
+func is_shot_path_clear(origin: Vector2i, target: Vector2i, ignore_goalie: bool = false) -> bool:
+	
+	if _is_behind_goal(origin) and _is_goal_cell(target):
+		return false
+
+	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
+
+	for cell in trajectory: 
+		if cell == origin or cell == target:
+			continue
+
+		if not map_data.has(cell):
+			return false
+
+		if _is_goal_cell(cell):
+			return false
+
+		if map_data[cell].blocked:
+			return false
+
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn is Goalie and not ignore_goalie:
+			return false
+
+	return true			
 
 
 
@@ -997,6 +1024,30 @@ func get_pass_interceptor(origin: Vector2i, target: Vector2i, team_id: int) -> N
 
 
 	return null		
+
+
+
+func get_shot_interceptor(origin: Vector2i, target: Vector2i, team_id: int) -> Node2D:
+	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
+
+	for cell in trajectory:
+		if cell == origin or cell == target:
+			continue
+
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn == null:
+			continue
+
+		# Un gardien est traité par le système d'arrêts.
+		if pawn is Goalie:
+			return null
+
+		if pawn.team_id != team_id:
+			return pawn
+
+	return null
+
 				
 
 
