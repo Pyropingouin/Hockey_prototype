@@ -46,7 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://bv0n2bcmn6nps" path="res://PlaceHolderAIScore.png" id="39_qvvq8"]
 [ext_resource type="PackedScene" uid="uid://ccvn2h6me8tk6" path="res://scene/player_card_display.tscn" id="41_rsjqm"]
 [ext_resource type="PackedScene" uid="uid://3fy2awg3rh18" path="res://scene/Pause_Menu.tscn" id="42_o4n2k"]
-[ext_resource type="PackedScene" uid="uid://220uhqycvpb2" path="res://scene/Event_Log_Ui.tscn" id="47_8ntsr"]
+[ext_resource type="PackedScene" uid="uid://220uhqycvpb2" path="res://scene/Event_Log_UI.tscn" id="47_8ntsr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o4n2k"]
 texture = ExtResource("2_8ms0i")
@@ -489,6 +489,9 @@ default_color = Color(0.0034774467, 0.47564203, 0.79988575, 1)
 color = Color(0.003921569, 0.4745098, 0.8, 1)
 polygon = PackedVector2Array(18, 0, -12, -10, -12, 10)
 uv = PackedVector2Array(-101.5, -29.5)
+
+[node name="InterceptionMarkers" type="Node2D" parent="IceMapLayer"]
+z_index = 20
 
 [node name="PlayersContainer" type="Node" parent="."]
 

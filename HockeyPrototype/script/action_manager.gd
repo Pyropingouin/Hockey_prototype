@@ -398,10 +398,17 @@ func get_interception_chance(attacker: Node2D, interceptor: Node2D) -> float:
 	var difference: int = interceptor.technique - attacker.reflex
 	var chance: float = 0.25 + float(difference) * 0.07
 
-	return clampf(chance, 0.05, 0.85)	
+	return clampf(chance, 0.05, 0.85)
 
 
+func get_total_interception_chance(attacker: Node2D, interceptors: Array[Node2D]) -> float:
+	var chance_no_interception: float = 1.0
 
+	for interceptor in interceptors:
+		var chance: float = get_interception_chance(attacker, interceptor)
+		chance_no_interception *= 1.0 - chance
+
+	return 1.0 - chance_no_interception
 
 
 

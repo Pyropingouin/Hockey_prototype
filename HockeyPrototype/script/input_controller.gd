@@ -205,30 +205,31 @@ func _handle_action_click(global_pos: Vector2) -> void:
 		ActionMode.HIT:
 			GameManager._do_hit(target_cell)
 
-func _update_shoot_preview(global_pos: Vector2) -> void:
-	if GameManager.action_pawn == null:
-		IceMapLayer.clear_shot_preview()
-		return
+# func _update_shoot_preview(global_pos: Vector2) -> void:
+# 	if GameManager.action_pawn == null:
+# 		IceMapLayer.clear_shot_preview()
+# 		return
 
-	var target_cell: Vector2i = \
-		IceMapLayer.cell_from_global_pos(global_pos)
+# 	var target_cell: Vector2i = \
+# 		IceMapLayer.cell_from_global_pos(global_pos)
 
-	var origin_cell: Vector2i = \
-		GameManager.action_pawn.current_cell
+# 	var origin_cell: Vector2i = \
+# 		GameManager.action_pawn.current_cell
 
-	var max_range: int = \
-		GameManager.action_pawn.move_range * 2
+# 	var max_range: int = \
+# 		GameManager.action_pawn.move_range * 2
 
-	IceMapLayer.show_shot_preview(
-		origin_cell,
-		target_cell,
-		max_range,
-		GameManager.action_pawn
-	)
+# 	IceMapLayer.show_shot_preview(
+# 		origin_cell,
+# 		target_cell,
+# 		max_range,
+# 		GameManager.action_pawn
+	# )
 
 func _update_action_preview(global_pos: Vector2) -> void:
 	if GameManager.action_pawn == null:
 		IceMapLayer.clear_shot_preview()
+		IceMapLayer.clear_pass_preview()
 		return
 
 	var pawn: Node2D = GameManager.action_pawn
@@ -238,8 +239,6 @@ func _update_action_preview(global_pos: Vector2) -> void:
 	var target_cell: Vector2i = IceMapLayer.cell_from_global_pos(
 		global_pos
 	)
-
-	var max_range: int = pawn.move_range * 2
 
 	match GameManager.action_mode:
 		ActionMode.SHOOT:

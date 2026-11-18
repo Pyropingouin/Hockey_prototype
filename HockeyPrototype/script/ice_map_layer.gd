@@ -60,10 +60,12 @@ signal puck_is_picked_up(pawn)
 @onready var ts: TileSet = tile_set
 @onready var cost_overlay: Node2D = $CostOverlay
 @onready var GameManager = $"../GameManager"
+@onready var ActionManager = $"../ActionManager"
 @onready var shot_preview: Line2D = $ShotPreview
 @onready var shot_arrow_head: Polygon2D = $ShotPreview/ShotArrowHead
 @onready var pass_preview: Line2D = $PassPreview
 @onready var pass_arrow_head: Polygon2D = $PassPreview/PassArrowHead
+@onready var interception_markers: Node2D = $InterceptionMarkers
 
 
 func _ready() -> void:
@@ -606,54 +608,53 @@ func get_usable_surrounding_cells(origin: Vector2i) -> Array[Vector2i]:
 
 	return usable_cells
 
-func show_shot_preview(
-	origin_cell: Vector2i,
-	target_cell: Vector2i,
-	max_range: int,
-	shooting_pawn: Node2D
-) -> void:
 
-	if not current_shoot_targets.has(target_cell):
+
+func show_shot_preview(origin_cell: Vector2i, target_cell: Vector2i, max_range: int, shooting_pawn: Node2D) -> void:
+	if shooting_pawn == null or not current_shoot_targets.has(target_cell):
 		clear_shot_preview()
 		return
 
-	_draw_shot_trajectory_preview(
-		origin_cell,
-		target_cell
-	)
+	_draw_shot_trajectory_preview(origin_cell, target_cell)
+
+	var interceptors: Array[Node2D] = get_shot_interceptors(origin_cell, target_cell, shooting_pawn.team_id)
+
+	update_interception_preview(shooting_pawn, interceptors, shot_preview, shot_arrow_head)
+
+
 
 func clear_shot_preview() -> void:
 	shot_preview.clear_points()
 	shot_preview.visible = false
 	shot_arrow_head.visible = false
+	clear_interception_markers()
 
 
 func clear_pass_preview() -> void:
 	pass_preview.clear_points()
 	pass_preview.visible = false
-	pass_arrow_head.visible = false	
+	pass_arrow_head.visible = false
+	clear_interception_markers()	
 
 
-func show_pass_preview(
-	origin_cell: Vector2i,
-	target_cell: Vector2i,
-	max_range: int,
-	passing_pawn: Node2D
-) -> void:
-	var valid_targets := _compute_pass_targets(
-		origin_cell,
-		max_range,
-		passing_pawn
-	)
+
+func show_pass_preview(origin_cell: Vector2i, target_cell: Vector2i, max_range: int, passing_pawn: Node2D) -> void:
+	if passing_pawn == null:
+		clear_pass_preview()
+		return
+
+	var valid_targets: Array[Vector2i] = _compute_pass_targets(origin_cell, max_range, passing_pawn)
 
 	if not valid_targets.has(target_cell):
 		clear_pass_preview()
 		return
 
-	_draw_pass_trajectory_preview(
-		origin_cell,
-		target_cell
-	)	
+	_draw_pass_trajectory_preview(origin_cell, target_cell)
+
+	var interceptors: Array[Node2D] = get_pass_interceptors(origin_cell, target_cell, passing_pawn.team_id)
+
+	update_interception_preview(passing_pawn, interceptors, pass_preview, pass_arrow_head)
+
 
 
 func _draw_shot_trajectory_preview(
@@ -1071,6 +1072,64 @@ func _get_pass_highlight_alt(
 		return ALT_NORMAL | flip_flags
 
 	return ALT_BLOCKED | flip_flags	
+
+
+
+
+func get_interception_risk_color(chance: float) -> Color:
+	if chance <= 0.20:
+		return Color("#2fb56a")
+
+	if chance <= 0.44:
+		return Color("#e2ae32")
+
+	return Color("#d95a52")
+
+
+func clear_interception_markers() -> void:
+	for marker in interception_markers.get_children():
+		marker.hide()
+		marker.queue_free()
+
+
+func update_interception_preview(attacker: Node2D, interceptors: Array[Node2D], preview_line: Line2D, arrow_head: Polygon2D) -> void:
+	clear_interception_markers()
+
+	var total_chance: float = ActionManager.get_total_interception_chance(attacker, interceptors)
+	var trajectory_color: Color = get_interception_risk_color(total_chance)
+
+	preview_line.default_color = trajectory_color
+	arrow_head.color = trajectory_color
+
+	for interceptor in interceptors:
+		var chance: float = ActionManager.get_interception_chance(attacker, interceptor)
+		var marker_color: Color = get_interception_risk_color(chance)
+		var cell_position: Vector2 = map_to_local(interceptor.current_cell)
+
+		# Cercle autour du défenseur.
+		var circle: Line2D = Line2D.new()
+		circle.width = 3.0
+		circle.default_color = marker_color
+		circle.position = cell_position
+
+		for i in range(17):
+			var angle: float = TAU * float(i) / 16.0
+			circle.add_point(Vector2(cos(angle), sin(angle)) * 20.0)
+
+		interception_markers.add_child(circle)
+
+		# Pourcentage au-dessus du défenseur.
+		var percentage: Label = Label.new()
+		percentage.text = "%.0f%%" % (chance * 100.0)
+		percentage.add_theme_font_size_override("font_size", 15)
+		percentage.add_theme_color_override("font_color", marker_color)
+		percentage.add_theme_color_override("font_outline_color", Color.BLACK)
+		percentage.add_theme_constant_override("outline_size", 4)
+
+		interception_markers.add_child(percentage)
+		percentage.position = cell_position + Vector2(-percentage.get_combined_minimum_size().x / 2.0, -43.0)
+
+
 
 
 ### DEBUG

@@ -826,3 +826,16 @@ func _refresh_al_player_energy() -> void:
 			continue
 
 		player.regenAllEnergy()
+
+
+
+func update_action_preview(target_cell: Vector2i) -> void:
+	if action_pawn == null:
+		return
+
+	match action_mode:
+		ActionMode.SHOOT:
+			IceMapLayer.show_shot_preview(action_origin_cell, target_cell, ActionManager.SHOOT_RANGE, action_pawn)
+
+		ActionMode.PASS:
+			IceMapLayer.show_pass_preview(action_origin_cell, target_cell, ActionManager.PASS_RANGE, action_pawn)
