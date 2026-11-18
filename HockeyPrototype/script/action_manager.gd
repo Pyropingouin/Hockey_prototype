@@ -97,25 +97,31 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		return false
 
 
+	
 	#
 	# INTERCEPTION DU TIR
 	#
-	var interceptor: Node2D = IceMapLayer.get_shot_interceptor(origin_cell, target_cell, shooter.team_id)
+	var interceptors: Array[Node2D] = IceMapLayer.get_shot_interceptors(origin_cell, target_cell, shooter.team_id)
 
-	if interceptor != null:
-		if not shooter.has_method("_shoot"):
-			return false
+	for interceptor in interceptors:
+		var chance: float = get_interception_chance(shooter, interceptor)
+		var roll: float = randf()
 
-		await shooter.play_second_shoot_animation_and_wait()
+		DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "Interception : %s | Chance : %.1f%% | Jet : %.3f" % [interceptor.pawn_name, chance * 100.0, roll])
 
-		shooter._shoot(interceptor.current_cell)
+		if roll < chance:
+			await shooter.play_second_shoot_animation_and_wait()
 
-		IceMapLayer.update_occupancy()
+			shooter._shoot(interceptor.current_cell)
 
-		GameManager.on_shot_intercepted(interceptor, shooter)
-		GameManager.update_action_counter(1)
+			IceMapLayer.update_occupancy()
+			GameManager.on_shot_intercepted(interceptor, shooter)
+			GameManager.update_action_counter(1)
 
-		return true
+			return true
+
+		DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "%s rate son interception." % interceptor.pawn_name)
+
 
 
 
@@ -209,105 +215,62 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 
 
+
 func attempt_pass(passer: Node2D, pass_target: Node2D) -> bool:
-
-	DebugLogger.log(
-		DebugLogger.DebugType.ACTION_MANAGER,
-		"attempt_pass | passer: %s | target: %s" % [
-			passer,
-			pass_target
-		]
-	)
-
-
-	if passer == null:
+	if passer == null or pass_target == null:
 		return false
-
-
-	if pass_target == null:
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : aucune cible."
-		)
-		return false
-
 
 	if passer == pass_target:
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : impossible de se passer à soi-même."
-		)
 		return false
-
 
 	if not passer.hasPuck:
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : le joueur ne possède pas la puck."
-		)
 		return false
 
-
-	# Empêcher une passe à l'adversaire.
 	if passer.team_id != pass_target.team_id:
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : la cible appartient à l'autre équipe."
-		)
 		return false
 
 	if pass_target is Goalie:
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : impossible de passer au goalie."
-		)
-		return false	
-
-
-	if not is_in_pass_range(
-		passer.current_cell,
-		pass_target.current_cell
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : cible hors de portée."
-		)
 		return false
 
-
-	if not IceMapLayer.is_pass_path_clear(
-		passer.current_cell,
-		pass_target.current_cell
-	):
-		DebugLogger.log(
-			DebugLogger.DebugType.ACTION_MANAGER,
-			"Passe refusée : trajectoire bloquée."
-		)
+	if not is_in_pass_range(passer.current_cell, pass_target.current_cell):
 		return false
 
+	if not IceMapLayer.is_pass_path_clear(passer.current_cell, pass_target.current_cell):
+		return false
 
 	if not passer.has_method("_pass"):
 		return false
 
-
-	var interceptor: Node2D = IceMapLayer.get_pass_interceptor(passer.current_cell, pass_target.current_cell, passer.team_id)
+	#
+	# INTERCEPTION
+	#
+	var interceptors: Array[Node2D] = IceMapLayer.get_pass_interceptors(passer.current_cell, pass_target.current_cell, passer.team_id)
 	var destination_cell: Vector2i = pass_target.current_cell
+	var successful_interceptor: Node2D = null
 
-	if interceptor != null:
-		destination_cell = interceptor.current_cell	
+	for interceptor in interceptors:
+		var chance: float = get_interception_chance(passer, interceptor)
+		var roll: float = randf()
 
-	
+		DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "Interception de passe : %s | Chance : %.1f%% | Jet : %.3f" % [interceptor.pawn_name, chance * 100.0, roll])
+
+		if roll < chance:
+			successful_interceptor = interceptor
+			destination_cell = interceptor.current_cell
+			break
+
+	#
+	# EXÉCUTION DE LA PASSE
+	#
 	await passer.play_pass_animation_and_wait()
 	passer._pass(destination_cell)
 
-	if interceptor != null:
-		GameManager.on_pass_intercepted(interceptor, passer)
+	if successful_interceptor != null:
+		GameManager.on_pass_intercepted(successful_interceptor, passer)
 
 	IceMapLayer.update_occupancy()
 
-
-	
-	return true	
+	return true
 
 
 
@@ -429,6 +392,13 @@ func is_in_pass_range(
 	)
 
 	return distance > 0 and distance <= PASS_RANGE
+
+
+func get_interception_chance(attacker: Node2D, interceptor: Node2D) -> float:
+	var difference: int = interceptor.technique - attacker.reflex
+	var chance: float = 0.25 + float(difference) * 0.07
+
+	return clampf(chance, 0.05, 0.85)	
 
 
 

@@ -1002,32 +1002,9 @@ func is_shot_path_clear(origin: Vector2i, target: Vector2i, ignore_goalie: bool 
 
 
 
-func get_pass_interceptor(origin: Vector2i, target: Vector2i, team_id: int) -> Node2D:
-	
-	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
 
-	for cell in trajectory: 
-		if cell == origin or cell == target:
-			continue
-
-		var pawn: Node2D = get_pawn_on_cell(cell)
-
-		if pawn == null:
-			continue
-
-		if pawn is Goalie:
-			continue
-
-		if pawn.team_id != team_id:
-			return pawn
-
-
-
-	return null		
-
-
-
-func get_shot_interceptor(origin: Vector2i, target: Vector2i, team_id: int) -> Node2D:
+func get_pass_interceptors(origin: Vector2i, target: Vector2i, team_id: int) -> Array[Node2D]:
+	var interceptors: Array[Node2D] = []
 	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
 
 	for cell in trajectory:
@@ -1039,14 +1016,39 @@ func get_shot_interceptor(origin: Vector2i, target: Vector2i, team_id: int) -> N
 		if pawn == null:
 			continue
 
-		# Un gardien est traité par le système d'arrêts.
 		if pawn is Goalie:
-			return null
+			break
 
 		if pawn.team_id != team_id:
-			return pawn
+			interceptors.append(pawn)
 
-	return null
+	return interceptors
+
+
+
+
+
+func get_shot_interceptors(origin: Vector2i, target: Vector2i, team_id: int) -> Array[Node2D]:
+	var interceptors: Array[Node2D] = []
+	var trajectory: Array[Vector2i] = get_cells_on_line(origin, target)
+
+	for cell in trajectory:
+		if cell == origin or cell == target:
+			continue
+
+		var pawn: Node2D = get_pawn_on_cell(cell)
+
+		if pawn == null:
+			continue
+
+		if pawn is Goalie:
+			break
+
+		if pawn.team_id != team_id:
+			interceptors.append(pawn)
+
+	return interceptors
+
 
 				
 
