@@ -457,11 +457,7 @@ func _update_action_buttons_visual() -> void:
 	hit_button.update_visual()
 
 
-func _resolve_shot_against_goalie(
-	shooter: Node2D,
-	goalie: Goalie,
-	goal_type: String
-) -> bool:
+func _resolve_shot_against_goalie(shooter: Node2D, goalie: Goalie, goal_type: String, distance_penalty: float) -> bool:
 	DebugLogger.log(
 		DebugLogger.DebugType.GAME_MANAGER,
 		"%s tire sur %s" % [
@@ -472,9 +468,7 @@ func _resolve_shot_against_goalie(
 
 	shooter.hasPuck = false
 
-	var save_successful: bool = goalie.attempt_save(
-		shooter.reflex
-	)
+	var save_successful: bool = goalie.attempt_save(shooter.reflex, distance_penalty)
 
 	if save_successful:
 		_rebound_puck_around_goalie(goalie)

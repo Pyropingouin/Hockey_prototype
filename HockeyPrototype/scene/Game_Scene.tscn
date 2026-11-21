@@ -480,6 +480,12 @@ color = Color(0.8352941, 0, 0, 1)
 polygon = PackedVector2Array(18, 0, -12, -10, -12, 10)
 uv = PackedVector2Array(-101.5, -29.5)
 
+[node name="ShotPenaltyLabel" type="Label" parent="IceMapLayer"]
+visible = false
+z_index = 20
+offset_right = 40.0
+offset_bottom = 23.0
+
 [node name="PassPreview" type="Line2D" parent="IceMapLayer"]
 visible = false
 width = 6.0

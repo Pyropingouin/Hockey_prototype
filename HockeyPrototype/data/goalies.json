@@ -15,7 +15,7 @@
       "away_bot": "res://assets/completePlayers/_goalie/DanDemers/DanDemersAwayBot.png"
     },
     "stats": {
-      "reflex": 5.0,
+      "reflex": 8.0,
       "save_power": 9.0
     }
   },
@@ -35,7 +35,7 @@
       "away_bot": "res://assets/completePlayers/_goalie/DonaldMonroe/DonaldMonroeAwayBot.png"
     },
     "stats": {
-      "reflex": 5.0,
+      "reflex": 8.0,
       "save_power": 9.0
     }
   },
@@ -55,7 +55,7 @@
       "away_bot": "res://assets/completePlayers/_goalie/HenryDucker/HenryDuckerAwayBot.png"
     },
     "stats": {
-      "reflex": 5.0,
+      "reflex": 8.0,
       "save_power": 9.0
     }
   },
@@ -75,7 +75,7 @@
       "away_bot": "res://assets/completePlayers/_goalie/MarvinDoo/MarvinDooAwayBot.png"
     },
     "stats": {
-      "reflex": 5.0,
+      "reflex": 8.0,
       "save_power": 9.0
     }
   },
@@ -95,7 +95,7 @@
       "away_bot": "res://assets/completePlayers/_goalie/VoznanWojcik/VoznanWojcikAwayBot.png"
     },
     "stats": {
-      "reflex": 5.0,
+      "reflex": 8.0,
       "save_power": 9.0
     }
   }

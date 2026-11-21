@@ -8,7 +8,7 @@ extends Node
 
 const MOVE_ENERGY_COST: int = 1
 const HIT_ENERGY_COST: int = 1
-const SHOOT_RANGE: int = 3
+const SHOOT_RANGE: int = 4
 const PASS_RANGE: int = 5
 
 
@@ -74,6 +74,10 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 	var goal_type: String = IceMapLayer.get_goal_type(target_cell)
 	var is_goal: bool = goal_type in ["home", "away"]
 	var target_character: Node2D = IceMapLayer.get_pawn_on_cell(target_cell)
+
+	var distance: int = get_shot_distance(shooter, target_cell)
+	var distance_penalty: float = get_shot_distance_penalty(distance)
+	
 
 
 	if not is_in_shoot_range(
@@ -170,7 +174,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 		if target_goalie != null:
 
-			if GameManager._resolve_shot_against_goalie(shooter, target_goalie, goal_type):
+			if GameManager._resolve_shot_against_goalie(shooter, target_goalie, goal_type, distance_penalty):
 				GameManager.update_action_counter(1)
 				IceMapLayer.update_occupancy()
 				return false		
@@ -409,6 +413,14 @@ func get_total_interception_chance(attacker: Node2D, interceptors: Array[Node2D]
 		chance_no_interception *= 1.0 - chance
 
 	return 1.0 - chance_no_interception
+
+
+func get_shot_distance(shooter: Node2D, target_cell: Vector2i) -> int:
+	return IceMapLayer.get_hex_distance(shooter.current_cell, target_cell)	
+
+
+func get_shot_distance_penalty(distance: int) -> float:
+	return clampf(float(distance - 2) * 0.10, 0.0, 0.90)	
 
 
 

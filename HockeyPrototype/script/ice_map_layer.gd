@@ -63,6 +63,7 @@ signal puck_is_picked_up(pawn)
 @onready var ActionManager = $"../ActionManager"
 @onready var shot_preview: Line2D = $ShotPreview
 @onready var shot_arrow_head: Polygon2D = $ShotPreview/ShotArrowHead
+@onready var shot_penalty_label: Label = $ShotPenaltyLabel
 @onready var pass_preview: Line2D = $PassPreview
 @onready var pass_arrow_head: Polygon2D = $PassPreview/PassArrowHead
 @onready var interception_markers: Node2D = $InterceptionMarkers
@@ -615,6 +616,12 @@ func show_shot_preview(origin_cell: Vector2i, target_cell: Vector2i, max_range: 
 		clear_shot_preview()
 		return
 
+	var distance: int = get_hex_distance(origin_cell, target_cell)
+	var penalty: float = get_node("../ActionManager").get_shot_distance_penalty(distance)
+
+	update_shot_penalty_visual(penalty)
+	update_shot_penalty_label(penalty)	
+
 	_draw_shot_trajectory_preview(origin_cell, target_cell)
 
 	var interceptors: Array[Node2D] = get_shot_interceptors(origin_cell, target_cell, shooting_pawn.team_id)
@@ -628,6 +635,7 @@ func clear_shot_preview() -> void:
 	shot_preview.visible = false
 	shot_arrow_head.visible = false
 	clear_interception_markers()
+	shot_penalty_label.hide()
 
 
 func clear_pass_preview() -> void:
@@ -1128,6 +1136,40 @@ func update_interception_preview(attacker: Node2D, interceptors: Array[Node2D], 
 
 		interception_markers.add_child(percentage)
 		percentage.position = cell_position + Vector2(-percentage.get_combined_minimum_size().x / 2.0, -43.0)
+
+func update_shot_penalty_visual(penalty: float) -> void:
+	var preview_color: Color = Color.GREEN
+
+	if penalty >= 0.20:
+		preview_color = Color.RED
+	elif penalty >= 0.10:
+		preview_color = Color.YELLOW
+
+	shot_preview.default_color = preview_color
+	shot_arrow_head.color = preview_color
+
+	shot_penalty_label.visible = penalty > 0.0
+	shot_penalty_label.text = "-%.0f%%" % (penalty * 100.0)
+	shot_penalty_label.add_theme_color_override("font_color", preview_color)
+
+func update_shot_penalty_label(penalty: float) -> void:
+	if penalty <= 0.0 or shot_preview.get_point_count() < 2:
+		shot_penalty_label.hide()
+		return
+
+	var start_pos: Vector2 = shot_preview.get_point_position(0)
+	var end_pos: Vector2 = shot_preview.get_point_position(shot_preview.get_point_count() - 1)
+	var middle_pos: Vector2 = (start_pos + end_pos) / 2.0
+
+	shot_penalty_label.text = "-%.0f%%" % (penalty * 100.0)
+	shot_penalty_label.show()
+
+	# Convertir les coordonnées locales de la ligne vers celles du Label
+	var middle_global: Vector2 = shot_preview.to_global(middle_pos)
+	var middle_local: Vector2 = shot_penalty_label.get_parent().to_local(middle_global)
+
+	# Centrer le texte sur la flèche
+	shot_penalty_label.position = middle_local - shot_penalty_label.size / 2.0			
 
 
 

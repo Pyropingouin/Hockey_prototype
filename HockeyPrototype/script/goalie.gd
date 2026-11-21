@@ -40,8 +40,8 @@ var net_position: Vector2i
 var front_position: Vector2i
 var up_position: Vector2i
 var down_position: Vector2i
-const MOVE_ODD = 0.9
-const MOVE_ODD_AFTER_PASS = 0.6
+const MOVE_ODD = 1
+const MOVE_ODD_AFTER_PASS = 0.8
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -70,7 +70,7 @@ func setup(goalie_data: Dictionary, new_team_id: int, new_start_cell: Vector2i) 
 
 
 
-func attempt_save(shooter_reflex: int) -> bool:
+func attempt_save(shooter_reflex: int, distance_penalty: float) -> bool:
 	var save_difference: int = save_power - shooter_reflex
 
 
@@ -93,10 +93,7 @@ func attempt_save(shooter_reflex: int) -> bool:
 		
 	# 	return false
 
-	var save_chance: float = min(
-		float(save_difference+1) * 0.20,
-		0.90
-	)
+	var save_chance: float = clampf(float(save_difference + 1) * 0.20 + distance_penalty, 0.05, 0.90)
 	var random_roll: float = randf()
 	var save_successful: bool = random_roll < save_chance
 
@@ -139,10 +136,7 @@ func move_goalie_prototype(puck_cell: Vector2i, type_of_move: String = "normal")
 	var ice_map_layer = get_node("../../IceMapLayer")
 	var puck_zone = ice_map_layer.get_iceRink_zone(puck_cell)
 
-	print("PUCK ZONE", puck_zone)
-	
 
-	
 	if puck_zone == "MID":
 		target_cell = front_position
 
