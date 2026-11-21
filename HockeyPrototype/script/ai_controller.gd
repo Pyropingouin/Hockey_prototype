@@ -392,4 +392,4 @@ func choosing_pass_target(ai_pawn_puck_carrier: Node2D, removable_pawn_array: Ar
 			best_dist = current_dist
 			best_pawn = ai_pawn
 
-		return best_pawn
+	return best_pawn

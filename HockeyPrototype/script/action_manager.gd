@@ -524,15 +524,13 @@ func ai_attempt_shoot(
 	)
 
 
-func ai_attempt_pass(
-	chosen_ai_pawn: Node2D,
-	pass_target: Node2D
-) -> bool:
+func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D) -> bool:
+	var success: bool = await attempt_pass(chosen_ai_pawn, pass_target)
 
-	return await attempt_pass(
-		chosen_ai_pawn,
-		pass_target
-	)
+	if success:
+		GameManager.update_action_counter(1)
+
+	return success
 
 
 func ai_attempt_hit(
