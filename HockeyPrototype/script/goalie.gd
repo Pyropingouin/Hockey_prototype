@@ -126,6 +126,8 @@ func reset_board() -> void:
 	var ice_map_layer = get_node("../../IceMapLayer")
 	ice_map_layer.place_pawn_on_cell(self, current_cell)
 
+	update_goalie_sprite("MID")
+
 func get_current_cell() -> Vector2i:
 	return current_cell
 

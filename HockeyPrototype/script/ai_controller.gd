@@ -35,6 +35,9 @@ func turn_inside_ai() -> void:
 	while GameManager.active_team == 2 and GameManager.active_team_action_counter < GameManager.max_action_counter and GameManager.game_state != GameManager.GameState.GOAL_PAUSE:
 		await get_tree().create_timer(AI_ACTION_DELAY).timeout
 
+		if GameManager.active_team != 2 or GameManager.game_state != GameManager.GameState.PLAYING:
+			break
+
 		var puck_position = puck.current_cell
 		var is_puck_held = puck.isPickedUp
 

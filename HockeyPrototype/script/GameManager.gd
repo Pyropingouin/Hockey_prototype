@@ -205,19 +205,16 @@ func _ready() -> void:
 	_refresh_action_buttons()
 
 func _on_end_turn_button_pressed() -> void:
+	active_team_action_counter = 0
+
 	if active_team == 1:
 		active_team = 2
 	else:
 		active_team = 1
 
+	activeTeamLabel.text = str(active_team)
 
 	if active_team == 2:
-
-		DebugLogger.log(
-			DebugLogger.DebugType.GAME_MANAGER,
-			"L'équipe active est maintenant : %s" % active_team
-		)
-
 		ai_turn()
 
 	activeTeamLabel.text = str(active_team)
@@ -673,9 +670,10 @@ func reset_board():
 
 	puck.reset_board()		
 
-func update_action_counter(action_cost: int):
-	active_team_action_counter += action_cost
+func update_action_counter(action_cost: int) -> void:
+	
 
+	active_team_action_counter += action_cost
 	
 	
 	
