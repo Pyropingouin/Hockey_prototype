@@ -138,7 +138,8 @@ func prepare_goalie(goalie_data: Dictionary) -> Dictionary:
 	var goalie: Dictionary = goalie_data.duplicate(true)
 
 	
-	goalie["save_power"] = int(goalie.get("stats", {}).get("reflex", 0))
+	goalie["save_power"] = int(goalie.get("stats", {}).get("save_power", 0))
+	goalie["reflex"] = int(goalie.get("stats", {}).get("reflex", 0))
 
 	var bubblehead_path: String = goalie.get("bubblehead_path", "")
 
