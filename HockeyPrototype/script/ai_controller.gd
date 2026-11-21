@@ -13,6 +13,7 @@ var chosen_ai_pawn = null
 const RIGHT_NET_POSITION = Vector2i(7, 0)
 const LEFT_NET_POSITION = Vector2i(-3, 0)
 const AGGRESSIVITY_LEVEL: int = 2
+const AI_ACTION_DELAY: float = 1
 
 
 func turn_inside_ai() -> void:
@@ -32,14 +33,14 @@ func turn_inside_ai() -> void:
 			human_player_pawn_list.append(pawn)
 
 	while GameManager.active_team == 2 and GameManager.active_team_action_counter < GameManager.max_action_counter and GameManager.game_state != GameManager.GameState.GOAL_PAUSE:
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(AI_ACTION_DELAY).timeout
 
 		var puck_position = puck.current_cell
 		var is_puck_held = puck.isPickedUp
 
 		# Si la puck est libre, on fonce dessus.
 		if not is_puck_held:
-			move_ai_toward_free_puck(puck_position)
+			await move_ai_toward_free_puck(puck_position)
 			continue
 
 		var ai_pawn_puck_carrier = null
@@ -104,7 +105,7 @@ func turn_inside_ai() -> void:
 				continue
 
 			# Le tir et toutes les passes ont échoué.
-			move_ai_toward_target(ai_player_pawn_list.pick_random(),RIGHT_NET_POSITION)
+			await  move_ai_toward_target(ai_player_pawn_list.pick_random(),RIGHT_NET_POSITION)
 			continue
 
 		# Si la puck est détenue par un joueur humain.
@@ -164,10 +165,10 @@ func turn_inside_ai() -> void:
 					move_ai_random()
 
 			elif temporary_distance_to_target <= AGGRESSIVITY_LEVEL:
-				move_ai_toward_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
+				await move_ai_toward_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell)
 
 			else:
-				move_ai_closer_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell, chosen_ai_pawn.move_range)
+				await move_ai_closer_target(chosen_ai_pawn, human_pawn_puck_carrier.current_cell, chosen_ai_pawn.move_range)
 
 			continue
 
@@ -199,7 +200,7 @@ func move_ai_random() -> void:
 )					
 
 
-	ActionManager.ai_attempt_move(selected_ai_pawn, selected_ai_pawn.current_cell, destination_cell)
+	await ActionManager.ai_attempt_move(selected_ai_pawn, selected_ai_pawn.current_cell, destination_cell)
 
 
 func move_ai_toward_free_puck(puck_position) -> void:
@@ -213,7 +214,7 @@ func move_ai_toward_free_puck(puck_position) -> void:
 	chosen_ai_pawn = calculate_distance(puck_position)
 
 	#faire bouger le joueur
-	var is_move_successful = ActionManager.ai_attempt_move(chosen_ai_pawn, chosen_ai_pawn.current_cell, puck_position)
+	var is_move_successful = await ActionManager.ai_attempt_move(chosen_ai_pawn, chosen_ai_pawn.current_cell, puck_position)
 
 	if (is_move_successful == false):
 		move_ai_random()
@@ -278,7 +279,7 @@ func move_ai_toward_target(ai_pawn: Node2D, target_cell: Vector2i) -> void:
 		return
 
 	
-	var is_move_successful = ActionManager.ai_attempt_move(ai_pawn, ai_pawn.current_cell, best_cell)
+	var is_move_successful = await ActionManager.ai_attempt_move(ai_pawn, ai_pawn.current_cell, best_cell)
 
 	if (is_move_successful == false):
 		move_ai_random()
@@ -338,7 +339,7 @@ func move_ai_closer_target(
 	)
 
 
-	var is_move_successful = ActionManager.ai_attempt_move(ai_pawn, start_cell, destination_cell)
+	var is_move_successful = await ActionManager.ai_attempt_move(ai_pawn, start_cell, destination_cell)
 
 	if (is_move_successful == false):
 		move_ai_random()

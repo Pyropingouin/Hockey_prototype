@@ -5,7 +5,6 @@ extends Node
 
 
 
-
 const MOVE_ENERGY_COST: int = 1
 const HIT_ENERGY_COST: int = 1
 const SHOOT_RANGE: int = 4
@@ -496,6 +495,17 @@ func ai_attempt_move(chosen_ai_pawn: Node2D, starting_cell: Vector2i, destinatio
 		IceMapLayer.reset_move(chosen_ai_pawn, starting_cell)
 		return false
 
+	# Calculer la position visuelle de destination
+	var destination_global: Vector2 = IceMapLayer.to_global(IceMapLayer.map_to_local(destination_cell))
+
+	# Animer le déplacement
+	var tween: Tween = create_tween()
+	tween.tween_property(chosen_ai_pawn, "global_position", destination_global, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	# Attendre que le déplacement soit terminé
+	await tween.finished
+
+	# Appliquer le déplacement logique
 	IceMapLayer.apply_move(chosen_ai_pawn, starting_cell, destination_cell)
 	chosen_ai_pawn.spendEnergy(MOVE_ENERGY_COST)
 	GameManager.update_action_counter(1)
