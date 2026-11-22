@@ -143,7 +143,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 				DebugLogger.DebugType.ACTION_MANAGER,
 				"Tir refusé : impossible de tirer sur son propre goalie."
 			)
-			return false
+			return true
 
 
 		await shooter.play_second_shoot_animation_and_wait()
@@ -152,7 +152,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		GameManager._rebound_puck_around_goalie(target_goalie)
 		GameManager.update_action_counter(1)
 		IceMapLayer.update_occupancy()
-		return false
+		return true
 
 
 
@@ -173,10 +173,10 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 		if target_goalie != null:
 
-			if GameManager._resolve_shot_against_goalie(shooter, target_goalie, goal_type, distance_penalty):
-				GameManager.update_action_counter(1)
-				IceMapLayer.update_occupancy()
-				return false		
+			GameManager._resolve_shot_against_goalie(shooter, target_goalie, goal_type, distance_penalty)
+			GameManager.update_action_counter(1)
+			IceMapLayer.update_occupancy()
+			return true		
 
 		else:
 			GameManager._on_goal_scored(goal_type)

@@ -143,29 +143,29 @@ func move_goalie_prototype(puck_cell: Vector2i, type_of_move: String = "normal")
 	if type_of_move == "passing":
 		move_success_rate = MOVE_ODD_AFTER_PASS * reflex
 
+		var roll: float = randf_range(0.0, 10.0)
+		var move_success: bool = roll <= clampf(move_success_rate, 1.0, 9.0)
+
+		DebugLogger.log(
+		DebugLogger.DebugType.GOALIE,
+		"%s | Reflex: %s | Move Success Rate: %.2f | Roll: %.2f | Move Success: %s" % [
+			goalie_name,
+			reflex,
+			move_success_rate,
+			roll,
+			move_success
+		]
+	)
+
+		if move_success:
+			if ice_map_layer.can_move_pawn_to(self, current_cell, target_cell):
+				ice_map_layer.apply_move(self, current_cell, target_cell)
+				update_goalie_sprite(puck_zone)
 	else:
-		move_success_rate = MOVE_ODD * reflex	
-
-	var roll: float = randf_range(0.0, 10.0)
-	var move_success: bool = roll <= clampf(move_success_rate, 1.0, 9.0)
-
-	DebugLogger.log(
-	DebugLogger.DebugType.GOALIE,
-	"%s | Reflex: %s | Move Success Rate: %.2f | Roll: %.2f | Move Success: %s" % [
-		goalie_name,
-		reflex,
-		move_success_rate,
-		roll,
-		move_success
-	]
-)
-
-
-
-	if move_success:
 		if ice_map_layer.can_move_pawn_to(self, current_cell, target_cell):
-			ice_map_layer.apply_move(self, current_cell, target_cell)
-			update_goalie_sprite(puck_zone)
+				ice_map_layer.apply_move(self, current_cell, target_cell)
+				update_goalie_sprite(puck_zone)
+
 
 	
 

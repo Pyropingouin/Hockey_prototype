@@ -723,6 +723,7 @@ func goalies_take_turn(action_type: String) -> void:
 
 			if not puck.isPickedUp and player.current_cell == puck.current_cell:
 				_rebound_puck_around_goalie(player)				
+				
 
 func _resolve_goalie_puck_overlap(goalie: Goalie) -> void:
 	if not is_instance_valid(goalie):
