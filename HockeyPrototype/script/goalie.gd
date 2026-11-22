@@ -120,6 +120,10 @@ func move_goalie_prototype(puck_cell: Vector2i, type_of_move: String = "normal")
 	var ice_map_layer = get_node("../../IceMapLayer")
 	var puck_zone = ice_map_layer.get_iceRink_zone(puck_cell)
 
+	print("target_cell", target_cell)
+	print("current_cell",current_cell)
+	print("type_of_move ", type_of_move)
+
 
 	if puck_zone == "MID":
 		target_cell = front_position
@@ -134,14 +138,24 @@ func move_goalie_prototype(puck_cell: Vector2i, type_of_move: String = "normal")
 		target_cell = current_cell
 
 
+	print("GOALIE: ", goalie_name)
+	print("PUCK ZONE: ", puck_zone)
+	print("CURRENT CELL: ", current_cell)
+	print("TARGET CELL: ", target_cell)
+	print("TYPE: ", type_of_move)
+
 	if current_cell == target_cell:
+		print("RETURN : Gardien déjà à destination")
 		return
+
+	print("DÉPLACEMENT À CALCULER")
 
 
 	var move_success_rate: float
 	
 	if type_of_move == "passing":
 		move_success_rate = MOVE_ODD_AFTER_PASS * reflex
+		print("PASSING")
 
 		var roll: float = randf_range(0.0, 10.0)
 		var move_success: bool = roll <= clampf(move_success_rate, 1.0, 9.0)

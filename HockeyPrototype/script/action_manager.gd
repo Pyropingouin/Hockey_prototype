@@ -265,8 +265,15 @@ func attempt_pass(passer: Node2D, pass_target: Node2D) -> bool:
 	#
 	# EXÉCUTION DE LA PASSE
 	#
+	DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "AVANT animation passe")
+
 	await passer.play_pass_animation_and_wait()
+
+	DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "APRÈS animation passe")
+
 	passer._pass(destination_cell)
+
+	# await GameManager.puck.puck_animation_finished
 
 	if successful_interceptor != null:
 		GameManager.on_pass_intercepted(successful_interceptor, passer)
@@ -452,7 +459,7 @@ func start_pass(passer: Node2D) -> bool:
 		)
 		return false
 
-	passer.play_pass_animation_and_wait()
+	
 
 	return true
 
@@ -528,7 +535,7 @@ func ai_attempt_pass(chosen_ai_pawn: Node2D, pass_target: Node2D) -> bool:
 	var success: bool = await attempt_pass(chosen_ai_pawn, pass_target)
 
 	if success:
-		GameManager.update_action_counter(1)
+		GameManager.update_action_counter(1,"passing")
 
 	return success
 

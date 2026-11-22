@@ -22,7 +22,7 @@ var enabled_types: Dictionary = {
 	DebugType.PAWN: true,
 	DebugType.AI: false,
 	DebugType.SETUP: false,
-	DebugType.PUCK: false,
+	DebugType.PUCK: true,
 	DebugType.GOALIE: true,
 	DebugType.DRAFT: false,
 	DebugType.ACTION_MANAGER: false,

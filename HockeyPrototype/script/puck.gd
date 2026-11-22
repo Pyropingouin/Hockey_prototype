@@ -20,6 +20,7 @@ var carrier: Node2D = null
 signal goal_scored(goal_type)
 signal puck_rebounded(new_cell: Vector2i)
 signal puck_moved(new_cell: Vector2i)
+signal puck_animation_finished
 
 @export var team_id: int = 0
 
@@ -59,7 +60,8 @@ func _on_pawn_shooting_puck(newShootPosition) -> void:
 					"IN PUCK SHOOT: %s" % newShootPosition
 					)
 
-	release_puck()					
+	release_puck()
+	# await animate_puck_movement(current_cell, newShootPosition, 0.15)					
 	
 	
 	update_puck_cell(newShootPosition)
@@ -81,6 +83,9 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 	
 
 	release_puck()
+
+	# await animate_puck_movement(current_cell, newPassPosition)
+
 	update_puck_cell(newPassPosition)
 	
 
@@ -88,6 +93,7 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 	_is_goal(current_cell)
 		
 	ice_map.place_puck_on_cell(self, current_cell)
+	puck_animation_finished.emit()
 
 
 func _on_pawn_dropping_puck(newDropPosition) -> void:
@@ -135,6 +141,7 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 
 
 	release_puck()
+	# await animate_puck_movement(current_cell, new_cell)
 	
 	update_puck_cell(new_cell)
 
@@ -191,3 +198,13 @@ func reset_board():
 
 	ice_map.place_puck_on_cell(self, reset_puck_position)
 	
+func animate_puck_movement(from_cell: Vector2i, to_cell: Vector2i, duration: float = 0.25) -> void:
+	var start_position: Vector2 = ice_map.to_global(ice_map.map_to_local(from_cell))
+	var target_position: Vector2 = ice_map.to_global(ice_map.map_to_local(to_cell))
+
+	global_position = start_position
+
+	var tween: Tween = create_tween()
+	tween.tween_property(self, "global_position", target_position, duration).set_trans(Tween.TRANS_LINEAR)
+
+	await tween.finished

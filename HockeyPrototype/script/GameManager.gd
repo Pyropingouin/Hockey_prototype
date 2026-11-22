@@ -671,7 +671,10 @@ func reset_board():
 	puck.reset_board()		
 
 func update_action_counter(action_cost: int, action_type: String = "normal") -> void:
+	print("UPDATE")
+
 	if game_state == GameState.PLAYING:
+		print("PLAING")
 		goalies_take_turn(action_type)
 
 	active_team_action_counter += action_cost
@@ -717,13 +720,16 @@ func _on_puck_moved(new_cell: Vector2i) -> void:
 
 
 func goalies_take_turn(action_type: String) -> void:
+	print("goalies_take_turn")
 	for player in players_container.get_children():
 		if player is Goalie:
+			print("move_goalie_prototype")
+			
 			player.move_goalie_prototype(puck.current_cell, action_type)
 
 			if not puck.isPickedUp and player.current_cell == puck.current_cell:
 				_rebound_puck_around_goalie(player)				
-				
+
 
 func _resolve_goalie_puck_overlap(goalie: Goalie) -> void:
 	if not is_instance_valid(goalie):
