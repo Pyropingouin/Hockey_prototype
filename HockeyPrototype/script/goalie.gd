@@ -6,26 +6,8 @@ var team_id: int
 var save_power: int
 var reflex: int
 
-
-# var _hasPuck: bool = false
 var flash_tween: Tween
 
-# var hasPuck: bool:
-# 	get:
-# 		return _hasPuck
-# 	set(value):
-# 		if _hasPuck == value:
-# 			return
-
-# 		_hasPuck = value
-
-# 		if not is_node_ready():
-# 			return
-
-# 		if _hasPuck:
-# 			start_red_flash()
-# 		else:
-# 			stop_red_flash()
 
 var current_cell: Vector2i
 var move_range: int = 1
@@ -199,35 +181,3 @@ func update_goalie_sprite(zone: String) -> void:
 	sprite.flip_h = team_id == 1		
 
 	
-
-# #### TEMPORAIRE
-
-# func start_red_flash() -> void:
-# 	if flash_tween:
-# 		flash_tween.kill()
-
-# 	sprite.modulate = Color.WHITE
-
-# 	flash_tween = create_tween()
-# 	flash_tween.set_loops()
-
-# 	flash_tween.tween_property(
-# 		sprite,
-# 		"modulate",
-# 		Color.RED,
-# 		0.35
-# 	)
-
-# 	flash_tween.tween_property(
-# 		sprite,
-# 		"modulate",
-# 		Color.WHITE,
-# 		0.35
-# 	)
-
-
-# func stop_red_flash() -> void:
-# 	if flash_tween:
-# 		flash_tween.kill()
-
-# 	sprite.modulate = Color.WHITE

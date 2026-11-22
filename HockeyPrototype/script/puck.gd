@@ -19,7 +19,7 @@ var carrier: Node2D = null
 
 signal goal_scored(goal_type)
 signal puck_rebounded(new_cell: Vector2i)
-signal puck_moved(new_cell: Vector2i, type_of_move: String)
+signal puck_moved(new_cell: Vector2i)
 
 @export var team_id: int = 0
 
@@ -81,7 +81,7 @@ func _on_pawn_passing_puck(newPassPosition) -> void:
 	
 
 	release_puck()
-	update_puck_cell(newPassPosition, "passing")
+	update_puck_cell(newPassPosition)
 	
 
 	# S'il y a but
@@ -98,9 +98,10 @@ func _on_pawn_dropping_puck(newDropPosition) -> void:
 					"IN PUCK DROP: %s" % newDropPosition
 					)	
 
-	update_puck_cell(newDropPosition)
+	
 
 	release_puck()
+	update_puck_cell(newDropPosition)
 
 	ice_map.place_puck_on_cell(self, current_cell)
 
@@ -161,12 +162,12 @@ func rebound_to_cell(new_cell: Vector2i) -> void:
 
 
 
-func update_puck_cell(new_cell: Vector2i, type_of_move: String = "normal") -> void:
+func update_puck_cell(new_cell: Vector2i) -> void:
 	if current_cell == new_cell:
 		return
 
 	current_cell = new_cell
-	puck_moved.emit(current_cell, type_of_move)	
+	puck_moved.emit(current_cell)
 
 
 func release_puck() -> void:

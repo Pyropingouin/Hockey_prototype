@@ -418,7 +418,7 @@ func _do_pass(target_cell: Vector2i) -> void:
 	print("Actions avant la passe : ", active_team_action_counter)
 	print("Équipe active : ", active_team)
 
-	update_action_counter(1)
+	update_action_counter(1, "passing")
 	_refresh_action_buttons()
 
 func _do_hit(target_cell: Vector2i) -> void:
@@ -670,8 +670,9 @@ func reset_board():
 
 	puck.reset_board()		
 
-func update_action_counter(action_cost: int) -> void:
-	
+func update_action_counter(action_cost: int, action_type: String = "normal") -> void:
+	if game_state == GameState.PLAYING:
+		goalies_take_turn(action_type)
 
 	active_team_action_counter += action_cost
 	
@@ -708,10 +709,32 @@ func _on_goal_scored(goal_type):
 	_refresh_action_buttons()
 
 
-func _on_puck_moved(new_cell: Vector2i, type_of_move: String) -> void:
+func _on_puck_moved(new_cell: Vector2i) -> void:
 	for player in players_container.get_children():
 		if player is Goalie:
-			player.move_goalie_prototype(new_cell, type_of_move)	
+			if not puck.isPickedUp and player.current_cell == new_cell:
+				call_deferred("_resolve_goalie_puck_overlap", player)
+
+
+func goalies_take_turn(action_type: String) -> void:
+	for player in players_container.get_children():
+		if player is Goalie:
+			player.move_goalie_prototype(puck.current_cell, action_type)
+
+			if not puck.isPickedUp and player.current_cell == puck.current_cell:
+				_rebound_puck_around_goalie(player)				
+
+func _resolve_goalie_puck_overlap(goalie: Goalie) -> void:
+	if not is_instance_valid(goalie):
+		return
+
+	if puck.isPickedUp:
+		return
+
+	if goalie.current_cell != puck.current_cell:
+		return
+
+	_rebound_puck_around_goalie(goalie)		
 
 
 

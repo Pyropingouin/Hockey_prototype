@@ -502,6 +502,7 @@ z_index = 20
 [node name="PlayersContainer" type="Node" parent="."]
 
 [node name="Puck" parent="." instance=ExtResource("20_a1gg8")]
+z_index = 30
 position = Vector2(1, 5)
 
 [node name="EndTurnButton" type="Button" parent="."]
