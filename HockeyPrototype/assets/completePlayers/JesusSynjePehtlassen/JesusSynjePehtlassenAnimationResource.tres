@@ -398,7 +398,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8wox2")
 }],
-"loop": true,
+"loop": false,
 "name": &"hitHome",
 "speed": 8.0
 }, {
