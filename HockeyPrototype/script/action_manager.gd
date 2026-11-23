@@ -114,6 +114,7 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 
 		if roll < chance:
 			await shooter.play_second_shoot_animation_and_wait()
+			await GameManager.puck.animate_puck_movement(origin_cell, interceptor.current_cell, 0.15)
 
 			shooter._shoot(interceptor.current_cell)
 
@@ -143,10 +144,11 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 				DebugLogger.DebugType.ACTION_MANAGER,
 				"Tir refusé : impossible de tirer sur son propre goalie."
 			)
-			return true
+			return false
 
 
 		await shooter.play_second_shoot_animation_and_wait()
+		await GameManager.puck.animate_puck_movement(origin_cell, target_goalie.current_cell, 0.15)
 
 	
 		GameManager._rebound_puck_around_goalie(target_goalie)
@@ -170,6 +172,19 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 			if pawn is Goalie:
 				target_goalie = pawn
 				break
+
+		var animation_target: Vector2i = target_goalie.current_cell if target_goalie != null else target_cell
+
+	
+
+		await shooter.play_second_shoot_animation_and_wait()
+
+
+
+		await GameManager.puck.animate_puck_movement(origin_cell, animation_target, 0.15)
+
+	
+
 
 		if target_goalie != null:
 
@@ -205,6 +220,8 @@ func attempt_shoot(shooter: Node2D, target_cell: Vector2i) -> bool:
 		return false
 
 	await shooter.play_second_shoot_animation_and_wait()
+	await GameManager.puck.animate_puck_movement(origin_cell, target_cell, 0.15)
+	
 
 	
 	shooter._shoot(target_cell)
@@ -267,13 +284,24 @@ func attempt_pass(passer: Node2D, pass_target: Node2D) -> bool:
 	#
 	DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "AVANT animation passe")
 
+	
+
 	await passer.play_pass_animation_and_wait()
+
+
+
+	await GameManager.puck.animate_puck_movement(passer.current_cell, destination_cell)
+
+
+
+	passer._pass(destination_cell)
+
+
 
 	DebugLogger.log(DebugLogger.DebugType.ACTION_MANAGER, "APRÈS animation passe")
 
 	passer._pass(destination_cell)
 
-	# await GameManager.puck.puck_animation_finished
 
 	if successful_interceptor != null:
 		GameManager.on_pass_intercepted(successful_interceptor, passer)

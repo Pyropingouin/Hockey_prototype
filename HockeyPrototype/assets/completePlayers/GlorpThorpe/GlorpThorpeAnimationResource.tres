@@ -584,7 +584,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_khswe")
 }],
-"loop": true,
+"loop": false,
 "name": &"shotSecondAway",
 "speed": 30.0
 }, {
@@ -613,7 +613,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bp05j")
 }],
-"loop": true,
+"loop": false,
 "name": &"shotSecondHome",
 "speed": 30.0
 }]

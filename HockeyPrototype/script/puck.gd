@@ -203,6 +203,7 @@ func animate_puck_movement(from_cell: Vector2i, to_cell: Vector2i, duration: flo
 	var target_position: Vector2 = ice_map.to_global(ice_map.map_to_local(to_cell))
 
 	global_position = start_position
+	sprite.visible = true
 
 	var tween: Tween = create_tween()
 	tween.tween_property(self, "global_position", target_position, duration).set_trans(Tween.TRANS_LINEAR)

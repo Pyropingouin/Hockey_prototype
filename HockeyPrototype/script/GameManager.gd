@@ -415,8 +415,7 @@ func _do_pass(target_cell: Vector2i) -> void:
 	selected_pawn = null
 	_cancel_action_mode()
 
-	print("Actions avant la passe : ", active_team_action_counter)
-	print("Équipe active : ", active_team)
+	
 
 	update_action_counter(1, "passing")
 	_refresh_action_buttons()
@@ -671,10 +670,10 @@ func reset_board():
 	puck.reset_board()		
 
 func update_action_counter(action_cost: int, action_type: String = "normal") -> void:
-	print("UPDATE")
+	
 
 	if game_state == GameState.PLAYING:
-		print("PLAING")
+		
 		goalies_take_turn(action_type)
 
 	active_team_action_counter += action_cost
@@ -720,10 +719,10 @@ func _on_puck_moved(new_cell: Vector2i) -> void:
 
 
 func goalies_take_turn(action_type: String) -> void:
-	print("goalies_take_turn")
+	
 	for player in players_container.get_children():
 		if player is Goalie:
-			print("move_goalie_prototype")
+			
 			
 			player.move_goalie_prototype(puck.current_cell, action_type)
 
