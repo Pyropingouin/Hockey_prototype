@@ -9,6 +9,7 @@ const MOVE_ENERGY_COST: int = 1
 const HIT_ENERGY_COST: int = 1
 const SHOOT_RANGE: int = 4
 const PASS_RANGE: int = 5
+const DEFAULT_HIT_CHANCE = 0.65
 
 
 ####
@@ -384,17 +385,36 @@ func attempt_hit(
 	if not hitter.has_method("_hit"):
 		return false
 
+	var hit_chance: float = get_hit_success_chance(hitter, hit_target)
+	var hit_roll: float = randf()
+	var hit_success: bool = hit_roll < hit_chance
+
+	DebugLogger.log(
+	DebugLogger.DebugType.ACTION_MANAGER,
+	"HIT | %s (Force: %s) vs %s (Force: %s) | Chance: %.0f%% | Roll: %.3f | Réussite: %s" % [
+		hitter.pawn_name,
+		hitter.strength,
+		hit_target.pawn_name,
+		hit_target.strength,
+		hit_chance * 100.0,
+		hit_roll,
+		hit_success
+	]
+)
+
 	await hitter.play_second_hit_animation_and_wait()
-	hitter._hit(hit_target.current_cell)
-	
+
+	if hit_success:
+		hitter._hit(hit_target.current_cell)
+	else:
+		EventBus.send_log("%s rate son plaquage contre %s !" % [hitter.pawn_name, hit_target.pawn_name], Color.ORANGE)
 
 	hitter.spendEnergy(HIT_ENERGY_COST)
 
 	GameManager.update_action_counter(1)
-
 	IceMapLayer.update_occupancy()
 
-	return true	
+	return true
 
 
 
@@ -447,6 +467,12 @@ func get_total_interception_chance(attacker: Node2D, interceptors: Array[Node2D]
 		chance_no_interception *= 1.0 - chance
 
 	return 1.0 - chance_no_interception
+
+func get_hit_success_chance(hitter: Node2D, target: Node2D) -> float:
+	var strength_difference: int = hitter.strength - target.strength
+	var chance: float = DEFAULT_HIT_CHANCE + float(strength_difference) * 0.10
+
+	return clampf(chance, 0.10, 0.90)	
 
 
 func get_shot_distance(shooter: Node2D, target_cell: Vector2i) -> int:
